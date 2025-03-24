@@ -13,7 +13,6 @@ const teams = [
   { id: 9, name: 'Lucknow Super Giants', short: "LSG", matches: 0, won: 0, lost: 0, tied: 0, nr: 0, point: 0, nrr: 0.0 },
   { id: 10, name: 'Gujarat Titans', short: "GT", matches: 0, won: 0, lost: 0, tied: 0, nr: 0, point: 0, nrr: 0.0 }
 ];
-
 const players = [
   { id: 1, name: "Player 1", short: "P1", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 2, name: "Player 2", short: "P2", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
@@ -27,7 +26,6 @@ const players = [
   { id: 10, name: "Player 10", short: "P10", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 11, name: "Player 11", short: "P11", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
 
-
   { id: 12, name: "Player 1", short: "P1", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 13, name: "Player 2", short: "P2", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 14, name: "Player 3", short: "P3", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
@@ -39,7 +37,6 @@ const players = [
   { id: 20, name: "Player 9", short: "P9", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 21, name: "Player 10", short: "P10", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 22, name: "Player 11", short: "P11", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
-
 
   { id: 23, name: "Player 1", short: "P1", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 24, name: "Player 2", short: "P2", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
@@ -53,7 +50,6 @@ const players = [
   { id: 32, name: "Player 10", short: "P10", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 33, name: "Player 11", short: "P11", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
 
-
   { id: 34, name: "Player 1", short: "P1", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 35, name: "Player 2", short: "P2", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 36, name: "Player 3", short: "P3", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
@@ -65,7 +61,6 @@ const players = [
   { id: 42, name: "Player 9", short: "P9", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 43, name: "Player 10", short: "P10", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 44, name: "Player 11", short: "P11", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
-
 
   { id: 45, name: "Player 1", short: "P1", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 46, name: "Player 2", short: "P2", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
@@ -79,7 +74,6 @@ const players = [
   { id: 54, name: "Player 10", short: "P10", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 55, name: "Player 11", short: "P11", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
 
-
   { id: 56, name: "Player 1", short: "P1", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 57, name: "Player 2", short: "P2", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 58, name: "Player 3", short: "P3", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
@@ -91,7 +85,6 @@ const players = [
   { id: 64, name: "Player 9", short: "P9", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 65, name: "Player 10", short: "P10", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 66, name: "Player 11", short: "P11", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
-
 
   { id: 67, name: "Player 1", short: "P1", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 68, name: "Player 2", short: "P2", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
@@ -105,7 +98,6 @@ const players = [
   { id: 76, name: "Player 10", short: "P10", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 77, name: "Player 11", short: "P11", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
 
-
   { id: 78, name: "Player 1", short: "P1", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 79, name: "Player 2", short: "P2", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 80, name: "Player 3", short: "P3", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
@@ -117,7 +109,6 @@ const players = [
   { id: 86, name: "Player 9", short: "P9", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 87, name: "Player 10", short: "P10", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 88, name: "Player 11", short: "P11", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
-
 
   { id: 89, name: "Player 1", short: "P1", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 90, name: "Player 2", short: "P2", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
@@ -131,7 +122,6 @@ const players = [
   { id: 98, name: "Player 10", short: "P10", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 99, name: "Player 11", short: "P11", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
 
-
   { id: 100, name: "Player 1", short: "P1", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 101, name: "Player 2", short: "P2", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 102, name: "Player 3", short: "P3", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
@@ -144,7 +134,6 @@ const players = [
   { id: 109, name: "Player 10", short: "P10", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false },
   { id: 110, name: "Player 11", short: "P11", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false }
 ];
-
 const venue = [
   { id: 1, name: "Mumbai" },
   { id: 2, name: "Chennai" },
@@ -157,29 +146,23 @@ const venue = [
   { id: 9, name: "Lucknow" },
   { id: 10, name: "Gujarat" }
 ];
-
 const schedule = [
-  { id: 1, team1: 4, team2: 3,status:false, venue: 4 },
-  { id: 2, team1: 8, team2: 7,status:false, venue: 8 },
-  { id: 3, team1: 1, team2: 2,status:false, venue: 2 },
-  { id: 4, team1: 5, team2: 9,status:false, venue: 5 },
-  { id: 5, team1: 10, team2: 6,status:false, venue: 10 },
-  { id: 6, team1: 7, team2: 4,status:false, venue: 7 },
-  { id: 7, team1: 8, team2: 9,status:false, venue: 8 },
-  { id: 8, team1: 2, team2: 3,status:false, venue: 2 },
-  { id: 9, team1: 2, team2: 3,status:false, venue: 2 }
+  { id: 1, team1: 4, team2: 3, status: false, venue: 4 },
+  { id: 2, team1: 8, team2: 7, status: false, venue: 8 },
+  { id: 3, team1: 1, team2: 2, status: false, venue: 2 },
+  { id: 4, team1: 5, team2: 9, status: false, venue: 5 },
+  { id: 5, team1: 10, team2: 6, status: false, venue: 10 },
+  { id: 6, team1: 7, team2: 4, status: false, venue: 7 },
+  { id: 7, team1: 8, team2: 9, status: false, venue: 8 },
+  { id: 8, team1: 2, team2: 3, status: false, venue: 2 },
+  { id: 9, team1: 2, team2: 3, status: false, venue: 2 }
 ];
-
-
-
 function TeamSelection() {
   const navigate = useNavigate();
   const [selectedTeam, setSelectedTeam] = useState(1);
   useEffect(() => {
     document.title = "IPL 2025 - Select Your Team"
   }, []);
-
-
   const cricketData = {
     selectedTeam: selectedTeam,
     teams: teams,
@@ -187,8 +170,7 @@ function TeamSelection() {
     venue: venue,
     schedule: schedule
   };
-
-  const handleNext = () => {
+  function handleNext() {
     localStorage.setItem('status', true);
     localStorage.setItem('cricketData', JSON.stringify(cricketData));
     const storedData = JSON.parse(localStorage.getItem('cricketData'));
@@ -197,30 +179,17 @@ function TeamSelection() {
     console.log(storedTeams);
     console.log(storedPlayers);
     navigate('/schedule');
-  };
+  }
   return (
     <div className="container mt-5">
       <h2 className="text-center mb-4">Select Your Team</h2>
       <Form>
-        {teams.map(team => (
-          <Form.Check
-            key={team.id}
-            type="radio"
-            id={`team-${team.id}`}
-            label={team.name}
-            name="teamSelection"
-            checked={selectedTeam === team.id}
-            onChange={() => setSelectedTeam(team.id)}
-          />
-        ))}
+        {teams.map(team => (<Form.Check key={team.id} type="radio" id={`team-${team.id}`} label={team.name} name="teamSelection" checked={selectedTeam === team.id} onChange={() => setSelectedTeam(team.id)} />))}
       </Form>
       <div className="text-center mt-4">
-        <Button variant="primary" onClick={handleNext}>
-          Next
-        </Button>
+        <Button variant="primary" onClick={handleNext}>Next</Button>
       </div>
     </div>
   );
 };
-
 export default TeamSelection;

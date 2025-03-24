@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './components/Home';
@@ -13,8 +12,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/team-selection" element={<TeamSelection />} />
         <Route path="/schedule" element={<Schedule />} />
-        <Route path="/toss/:matchId" element={<Toss/>} />
-        <Route path="/match/:matchId" element={<Match/>} />
+        <Route path="/toss/:matchId" element={<Toss />} />
+        <Route path="/match/:matchId" element={<Match />} />
       </Routes>
     </Router>
   );
