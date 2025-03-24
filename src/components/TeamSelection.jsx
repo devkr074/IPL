@@ -135,16 +135,16 @@ const players = [
   { id: 110, name: "Player 11", short: "P11", role_id: 1, batting_rating: 9, bowling_rating: 0, matches: 0, innings: 0, runs: 0, balls: 0, fours: 0, sixes: 0, strike_rate: 0.0, half_century: 0, century: 0, batting_avg: 0.0, overs: 0, runs_given: 0, wickets: 0, maiden: 0, bowl_avg: 0, bowl_strike_rate: 0, eco: 0, four_fers: 0, five_fers: 0, captain: false, wk: false }
 ];
 const venue = [
-  { id: 1, name: "Mumbai" },
-  { id: 2, name: "Chennai" },
-  { id: 3, name: "Banglore" },
-  { id: 4, name: "Kolkata" },
-  { id: 5, name: "Delhi" },
-  { id: 6, name: "Punjab" },
-  { id: 7, name: "Rajasthan" },
-  { id: 8, name: "Hyderabad" },
-  { id: 9, name: "Lucknow" },
-  { id: 10, name: "Gujarat" }
+  { id: 1, name: "Wankhede Stadium" },
+  { id: 2, name: "MA Chidambaram Stadium" },
+  { id: 3, name: "M.Chinnaswamy Stadium" },
+  { id: 4, name: "Eden Gardens" },
+  { id: 5, name: "Arun Jaitley Stadium" },
+  { id: 6, name: "Himachal Pradesh Cricket Association Stadium" },
+  { id: 7, name: "Sawai Mansingh Stadium" },
+  { id: 8, name: "Rajiv Gandhi International Stadium" },
+  { id: 9, name: "Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium" },
+  { id: 10, name: "Narendra Modi Stadium" }
 ];
 const schedule = [
   { id: 1, team1: 4, team2: 3, status: false, venue: 4 },
@@ -155,7 +155,58 @@ const schedule = [
   { id: 6, team1: 7, team2: 4, status: false, venue: 7 },
   { id: 7, team1: 8, team2: 9, status: false, venue: 8 },
   { id: 8, team1: 2, team2: 3, status: false, venue: 2 },
-  { id: 9, team1: 2, team2: 3, status: false, venue: 2 }
+  { id: 9, team1: 10, team2: 1, status: false, venue: 10 },
+  { id: 10, team1: 5, team2: 8, status: false, venue: 5 },
+  { id: 11, team1: 7, team2: 2, status: false, venue: 7 },
+  { id: 12, team1: 1, team2: 4, status: false, venue: 1 },
+  { id: 13, team1: 9, team2: 6, status: false, venue: 9 },
+  { id: 14, team1: 3, team2: 10, status: false, venue: 3 },
+  { id: 15, team1: 4, team2: 8, status: false, venue: 4 },
+  { id: 16, team1: 9, team2: 1, status: false, venue: 9 },
+  { id: 17, team1: 2, team2: 5, status: false, venue: 2 },
+  { id: 18, team1: 6, team2: 7, status: false, venue: 6 },
+  { id: 19, team1: 4, team2: 9, status: false, venue: 4 },
+  { id: 20, team1: 8, team2: 10, status: false, venue: 8 },
+  { id: 21, team1: 1, team2: 3, status: false, venue: 1 },
+  { id: 22, team1: 6, team2: 2, status: false, venue: 6 },
+  { id: 23, team1: 10, team2: 7, status: false, venue: 10 },
+  { id: 24, team1: 3, team2: 5, status: false, venue: 3 },
+  { id: 25, team1: 2, team2: 4, status: false, venue: 2 },
+  { id: 26, team1: 9, team2: 10, status: false, venue: 9 },
+  { id: 27, team1: 8, team2: 6, status: false, venue: 8 },
+  { id: 28, team1: 7, team2: 3, status: false, venue: 7 },
+  { id: 29, team1: 5, team2: 1, status: false, venue: 5 },
+  { id: 30, team1: 9, team2: 2, status: false, venue: 9 },
+  { id: 31, team1: 6, team2: 4, status: false, venue: 6 },
+  { id: 32, team1: 5, team2: 7, status: false, venue: 5 },
+  { id: 33, team1: 1, team2: 8, status: false, venue: 1 },
+  { id: 34, team1: 3, team2: 6, status: false, venue: 3 },
+  { id: 35, team1: 10, team2: 5, status: false, venue: 10 },
+  { id: 36, team1: 7, team2: 9, status: false, venue: 7 },
+  { id: 37, team1: 6, team2: 3, status: false, venue: 6 },
+  { id: 38, team1: 1, team2: 2, status: false, venue: 1 },
+  { id: 39, team1: 4, team2: 10, status: false, venue: 4 },
+  { id: 40, team1: 9, team2: 5, status: false, venue: 9 },
+  { id: 41, team1: 8, team2: 1, status: false, venue: 8 },
+  { id: 42, team1: 3, team2: 7, status: false, venue: 3 },
+  { id: 43, team1: 2, team2: 8, status: false, venue: 2 },
+  { id: 44, team1: 4, team2: 6, status: false, venue: 4 },
+  //MI--1
+//CSK--2
+//RCB--3
+//KKR--4
+//DC--5
+//PBKS--6
+//RR--7
+//SRH--8
+//LSG--9
+//GT--10
+  { id: 45, team1: 1, team2: 9, status: false, venue: 1 },
+  { id: 46, team1: 5, team2: 3, status: false, venue: 5 },
+  { id: 47, team1: 7, team2: 10, status: false, venue: 7 },
+  { id: 48, team1: 5, team2: 4, status: false, venue: 5 },
+  { id: 49, team1: 2, team2: 6, status: false, venue: 2 },
+  { id: 50, team1: 7, team2: 1, status: false, venue: 7 },
 ];
 function TeamSelection() {
   const navigate = useNavigate();
