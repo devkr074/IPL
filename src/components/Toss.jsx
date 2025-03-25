@@ -1,40 +1,64 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Button, Card, Alert } from 'react-bootstrap';
 
-const Toss = () => {
+function Toss() {
   const { matchId } = useParams();
+  const navigate = useNavigate();
   const [match, setMatch] = useState(null);
+  const [teams, setTeams] = useState([]);
+  const [venues, setVenues] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [tossChoice, setTossChoice] = useState('');
   const [tossResult, setTossResult] = useState('');
   const [tossWonBy, setTossWonBy] = useState('');
   const [decision, setDecision] = useState('');
-  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const storedMatch = JSON.parse(localStorage.getItem('schedule')).find(m => m.id === parseInt(matchId));
-    const storedTeam = JSON.parse(localStorage.getItem('selectedTeam'));
-    document.title="IPL 2025 - Toss Match 1";
-    if (storedMatch) setMatch(storedMatch);
-    if (storedTeam) setSelectedTeam(storedTeam);
-  }, [matchId]);
+    const loadData = () => {
+      try {
+        const storedData = JSON.parse(localStorage.getItem('cricketData'));
+        if (!storedData) throw new Error('No tournament data found');
+        
+        const currentMatch = storedData.schedule.find(m => m.id === parseInt(matchId));
+        if (!currentMatch) throw new Error('Match not found');
+        
+        setMatch(currentMatch);
+        setTeams(storedData.teams);
+        setVenues(storedData.venues);
+        setSelectedTeam(storedData.selectedTeam);
+        setIsLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setIsLoading(false);
+        navigate('/');
+      }
+    };
+
+    loadData();
+
+    // Handle back button to redirect home
+    const handleBackButton = (e) => {
+      e.preventDefault();
+      navigate('/');
+    };
+
+    window.history.pushState(null, '', window.location.pathname);
+    window.addEventListener('popstate', handleBackButton);
+
+    return () => {
+      window.removeEventListener('popstate', handleBackButton);
+    };
+  }, [matchId, navigate]);
 
   const getTeamName = (id) => {
-    const teams = [
-      { id: 1, name: 'Mumbai Indians' },
-      { id: 2, name: 'Chennai Super Kings' },
-      { id: 3, name: 'Royal Challengers Bangalore' },
-      { id: 4, name: 'Kolkata Knight Riders' },
-      { id: 5, name: 'Delhi Capitals' },
-      { id: 6, name: 'Punjab Kings' },
-      { id: 7, name: 'Rajasthan Royals' },
-      { id: 8, name: 'Sunrisers Hyderabad' },
-      { id: 9, name: 'Lucknow Super Giants' },
-      { id: 10, name: 'Gujarat Titans' }
-    ];
-    
-    return teams.find(team => team.id === id)?.name || '';
+    return teams.find(team => team.id === id)?.name || 'Team';
+  };
+
+  const getVenueName = (id) => {
+    return venues.find(venue => venue.id === id)?.name || 'Venue';
   };
 
   const flipCoin = () => {
@@ -45,87 +69,148 @@ const Toss = () => {
       setTossWonBy('user');
     } else {
       setTossWonBy('opponent');
-      // Simulate opponent's decision (50-50 chance)
-      setDecision(Math.random() < 0.5 ? 'bat' : 'bowl');
+      // Simulate opponent's decision (60% chance to bat first)
+      setDecision(Math.random() < 0.6 ? 'bat' : 'bowl');
     }
   };
 
   const handleNext = () => {
-    // Save toss result to match data
-    const updatedSchedule = JSON.parse(localStorage.getItem('schedule')).map(m => {
-      if (m.id === match.id) {
-        return {
-          ...m,
-          toss: {
-            wonBy: tossWonBy === 'user' ? selectedTeam : (selectedTeam === match.team1 ? match.team2 : match.team1),
-            decision: tossWonBy === 'user' ? decision : (decision === 'bat' ? 'bowl' : 'bat')
-          }
-        };
-      }
-      return m;
-    });
-    
-    localStorage.setItem('schedule', JSON.stringify(updatedSchedule));
-    navigate(`/match/${matchId}`);
+    try {
+      // Update match data in localStorage
+      const storedData = JSON.parse(localStorage.getItem('cricketData'));
+      const updatedSchedule = storedData.schedule.map(m => {
+        if (m.id === match.id) {
+          return {
+            ...m,
+            toss: {
+              wonBy: tossWonBy === 'user' ? selectedTeam : 
+                    (selectedTeam === match.team1 ? match.team2 : match.team1),
+              decision: tossWonBy === 'user' ? decision : 
+                      (decision === 'bat' ? 'bowl' : 'bat'),
+              timestamp: new Date().toISOString()
+            },
+            status: 'toss-completed'
+          };
+        }
+        return m;
+      });
+
+      // Save updated data
+      localStorage.setItem('cricketData', JSON.stringify({
+        ...storedData,
+        schedule: updatedSchedule
+      }));
+
+      navigate(`/match/${matchId}`);
+    } catch (err) {
+      setError('Failed to save toss result');
+      console.error(err);
+    }
   };
 
-  if (!match || !selectedTeam) return <div>Loading...</div>;
+  if (isLoading) return <div className="container text-center py-5">Loading toss data...</div>;
+  if (error) return <Alert variant="danger" className="container mt-4">{error}</Alert>;
+  if (!match || !selectedTeam) return null;
 
-  const isUserBattingFirst = tossWonBy === 'user' ? decision === 'bat' : decision === 'bowl';
+  const userTeamName = getTeamName(selectedTeam);
+  const opponentTeamId = selectedTeam === match.team1 ? match.team2 : match.team1;
+  const opponentTeamName = getTeamName(opponentTeamId);
+  const venueName = getVenueName(match.venue);
 
   return (
-    <div className="container mt-4 text-center">
-      <h3>Toss Time!</h3>
-      <p>{getTeamName(selectedTeam)} vs {getTeamName(selectedTeam === match.team1 ? match.team2 : match.team1)}</p>
-      <p>Venue: {match.venue}</p>
-      
-      {!tossResult ? (
-        <div>
-          <p>Choose Heads or Tails:</p>
-          <Button variant="outline-primary" className="m-2" onClick={() => setTossChoice('heads')}>
-            Heads
-          </Button>
-          <Button variant="outline-secondary" className="m-2" onClick={() => setTossChoice('tails')}>
-            Tails
-          </Button>
+    <div className="container mt-4">
+      <Card className="text-center">
+        <Card.Header as="h3">Toss Time!</Card.Header>
+        <Card.Body>
+          <Card.Title>
+            {userTeamName} vs {opponentTeamName}
+          </Card.Title>
+          <Card.Text className="text-muted">Venue: {venueName}</Card.Text>
           
-          {tossChoice && (
-            <div className="mt-3">
-              <Button variant="info" onClick={flipCoin}>
-                Flip the Coin
-              </Button>
-            </div>
-          )}
-        </div>
-      ) : (
-        <div>
-          <p>Coin landed on: {tossResult}</p>
-          
-          {tossWonBy === 'user' ? (
-            <div>
-              <p>You won the toss! Choose to bat or bowl:</p>
-              <Button variant="success" className="m-2" onClick={() => setDecision('bat')}>
-                Bat First
-              </Button>
-              <Button variant="danger" className="m-2" onClick={() => setDecision('bowl')}>
-                Bowl First
-              </Button>
+          {!tossResult ? (
+            <div className="toss-choice-section">
+              <h5 className="mb-4">Choose Heads or Tails:</h5>
+              <div className="d-flex justify-content-center gap-3 mb-4">
+                <Button 
+                  variant={tossChoice === 'heads' ? 'primary' : 'outline-primary'}
+                  onClick={() => setTossChoice('heads')}
+                  size="lg"
+                >
+                  Heads
+                </Button>
+                <Button 
+                  variant={tossChoice === 'tails' ? 'primary' : 'outline-primary'}
+                  onClick={() => setTossChoice('tails')}
+                  size="lg"
+                >
+                  Tails
+                </Button>
+              </div>
+              
+              {tossChoice && (
+                <Button 
+                  variant="info" 
+                  onClick={flipCoin}
+                  size="lg"
+                >
+                  Flip the Coin
+                </Button>
+              )}
             </div>
           ) : (
-            <p>Opponent won the toss and chose to {decision === 'bat' ? 'bat first' : 'bowl first'}</p>
-          )}
-          
-          {decision && (
-            <div className="mt-3">
-              <Button variant="primary" onClick={handleNext}>
-                Start Match
-              </Button>
+            <div className="toss-result-section">
+              <div className="mb-4 p-3 bg-light rounded">
+                <h4>Coin landed on: <span className="text-uppercase fw-bold">{tossResult}</span></h4>
+              </div>
+              
+              {tossWonBy === 'user' ? (
+                <div className="decision-section">
+                  <h5 className="mb-3">You won the toss!</h5>
+                  <p className="mb-4">Choose to bat or bowl first:</p>
+                  <div className="d-flex justify-content-center gap-3 mb-4">
+                    <Button 
+                      variant={decision === 'bat' ? 'success' : 'outline-success'}
+                      onClick={() => setDecision('bat')}
+                      size="lg"
+                    >
+                      Bat First
+                    </Button>
+                    <Button 
+                      variant={decision === 'bowl' ? 'danger' : 'outline-danger'}
+                      onClick={() => setDecision('bowl')}
+                      size="lg"
+                    >
+                      Bowl First
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <div className="opponent-decision mb-4">
+                  <h5>{opponentTeamName} won the toss!</h5>
+                  <p className="lead">
+                    They chose to <strong>{decision === 'bat' ? 'bat first' : 'bowl first'}</strong>
+                  </p>
+                </div>
+              )}
+              
+              {decision && (
+                <Button 
+                  variant="primary" 
+                  onClick={handleNext}
+                  size="lg"
+                >
+                  Start Match
+                </Button>
+              )}
             </div>
           )}
-        </div>
-      )}
+        </Card.Body>
+        <Card.Footer className="text-muted">
+          Match #{match.id} • {new Date().toLocaleDateString()}
+        </Card.Footer>
+      </Card>
     </div>
   );
-};
+}
 
 export default Toss;
