@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Form, Row, Col } from 'react-bootstrap';
 
 import { FaArrowRight } from 'react-icons/fa';
-import './TeamSelection.css'; // Create this CSS file for custom styles
+import './TeamSelection.module.css'; // Create this CSS file for custom styles
 const teams = [
   { id: 1, name: 'Mumbai Indians', short: "MI", matches: 0, won: 0, lost: 0, tied: 0, nr: 0, point: 0, nrr: 0.0 },
   { id: 2, name: 'Chennai Super Kings', short: "CSK", matches: 0, won: 0, lost: 0, tied: 0, nr: 0, point: 0, nrr: 0.0 },
