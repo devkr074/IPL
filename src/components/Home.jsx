@@ -1,33 +1,32 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
+import style from './Home.module.css';
+import teams from '../assets/teams.png';
 function Home() {
     const navigate = useNavigate();
     const [status, setStatus] = useState(false);
     useEffect(() => {
         const getStatus = localStorage.getItem('status') || false;
-        setStatus(getStatus);
-        document.title = "IPL 2025 - Home"
-    }, []);
-    function handleStartNewTournament() {
-        if (localStorage.getItem('status') || false) {
-            const shouldReset = window.confirm('A game is already in progress. Do you want to reset and start a new game?');
-            if (shouldReset) {
-                localStorage.clear();
-            } else {
-                return;
-            }
+        if (getStatus) {
+            navigate('/schedule');
         }
+        document.title = "IPL - Home";
+    }, []);
+    function handleStartTournament() {
+        // if (localStorage.getItem('status') || false) {
+        //     const shouldReset = window.confirm('A game is already in progress. Do you want to reset and start a new game?');
+        //     if (shouldReset) {
+        //         localStorage.clear();
+        //     } else {
+        //         return;
+        //     }
+        // }
         navigate('/team-selection');
     }
-    function handleResumeTournament() {
-        navigate('/schedule')
-    }
     return (
-        <div className="container text-center mt-5">
-            <h1>IPL 2025</h1>
-            <Button variant="primary" className="m-3" onClick={handleStartNewTournament}>Start New Tournament</Button>
-            {status && (<Button variant="success" className="m-3" onClick={handleResumeTournament}>Resume Tournament</Button>)}
+        <div className={style.homeContainer}>
+            <img className={style.teamPlayerImage} src={teams} alt="All Teams Player" />
+            <button className={style.startBtn} onClick={handleStartTournament}>Start Tournament</button>
         </div>
     );
 }

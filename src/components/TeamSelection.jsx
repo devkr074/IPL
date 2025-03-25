@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Row, Col } from 'react-bootstrap';
+
+import { FaArrowRight } from 'react-icons/fa';
+import './TeamSelection.css'; // Create this CSS file for custom styles
 const teams = [
   { id: 1, name: 'Mumbai Indians', short: "MI", matches: 0, won: 0, lost: 0, tied: 0, nr: 0, point: 0, nrr: 0.0 },
   { id: 2, name: 'Chennai Super Kings', short: "CSK", matches: 0, won: 0, lost: 0, tied: 0, nr: 0, point: 0, nrr: 0.0 },
   { id: 3, name: 'Royal Challengers Bangalore', short: "RCB", matches: 0, won: 0, lost: 0, tied: 0, nr: 0, point: 0, nrr: 0.0 },
   { id: 4, name: 'Kolkata Knight Riders', short: "KKR", matches: 0, won: 0, lost: 0, tied: 0, nr: 0, point: 0, nrr: 0.0 },
   { id: 5, name: 'Delhi Capitals', short: "DC", matches: 0, won: 0, lost: 0, tied: 0, nr: 0, point: 0, nrr: 0.0 },
-  { id: 6, name: 'Punjab Kings', short: "PKB", matches: 0, won: 0, lost: 0, tied: 0, nr: 0, point: 0, nrr: 0.0 },
+  { id: 6, name: 'Punjab Kings', short: "PBKS", matches: 0, won: 0, lost: 0, tied: 0, nr: 0, point: 0, nrr: 0.0 },
   { id: 7, name: 'Rajasthan Royals', short: "RR", matches: 0, won: 0, lost: 0, tied: 0, nr: 0, point: 0, nrr: 0.0 },
   { id: 8, name: 'Sunrisers Hyderabad', short: "SRH", matches: 0, won: 0, lost: 0, tied: 0, nr: 0, point: 0, nrr: 0.0 },
   { id: 9, name: 'Lucknow Super Giants', short: "LSG", matches: 0, won: 0, lost: 0, tied: 0, nr: 0, point: 0, nrr: 0.0 },
@@ -218,12 +221,17 @@ const schedule = [
   { id: 69, team1: 10, team2: 2, status: false, venue: 10 },
   { id: 70, team1: 9, team2: 8, status: false, venue: 9 }
 ];
+
+// ... (keep all your existing data arrays)
+
 function TeamSelection() {
   const navigate = useNavigate();
   const [selectedTeam, setSelectedTeam] = useState(1);
+
   useEffect(() => {
-    document.title = "IPL 2025 - Select Your Team"
+    document.title = "IPL 2025 - Select Your Team";
   }, []);
+
   const cricketData = {
     selectedTeam: selectedTeam,
     teams: teams,
@@ -231,26 +239,73 @@ function TeamSelection() {
     venues: venues,
     schedule: schedule
   };
+
   function handleNext() {
     localStorage.setItem('status', true);
     localStorage.setItem('cricketData', JSON.stringify(cricketData));
-    const storedData = JSON.parse(localStorage.getItem('cricketData'));
-    const storedTeams = storedData.teams;
-    const storedPlayers = storedData.players;
-    console.log(storedTeams);
-    console.log(storedPlayers);
     navigate('/schedule');
   }
+
+  // Team logos mapping - replace with actual image paths or URLs
+  const teamLogos = {
+    1: "https://upload.wikimedia.org/wikipedia/en/thumb/c/cd/Mumbai_Indians_Logo.svg/1200px-Mumbai_Indians_Logo.svg.png",
+    2: "https://upload.wikimedia.org/wikipedia/en/thumb/2/2b/Chennai_Super_Kings_Logo.svg/1200px-Chennai_Super_Kings_Logo.svg.png",
+    3: "https://upload.wikimedia.org/wikipedia/en/thumb/d/d4/Royal_Challengers_Bengaluru_Logo.svg/1200px-Royal_Challengers_Bengaluru_Logo.svg.png",
+    4: "https://upload.wikimedia.org/wikipedia/en/thumb/4/4c/Kolkata_Knight_Riders_Logo.svg/1200px-Kolkata_Knight_Riders_Logo.svg.png",
+    5: "https://upload.wikimedia.org/wikipedia/en/thumb/2/2f/Delhi_Capitals.svg/1200px-Delhi_Capitals.svg.png",
+    6: "https://upload.wikimedia.org/wikipedia/en/thumb/d/d4/Punjab_Kings_Logo.svg/1200px-Punjab_Kings_Logo.svg.png",
+    7: "https://1000logos.net/wp-content/uploads/2024/03/Rajasthan-Royals-Logo.png",
+    8: "https://upload.wikimedia.org/wikipedia/en/thumb/5/51/Sunrisers_Hyderabad_Logo.svg/1200px-Sunrisers_Hyderabad_Logo.svg.png",
+    9: "https://upload.wikimedia.org/wikipedia/en/thumb/a/a9/Lucknow_Super_Giants_IPL_Logo.svg/1200px-Lucknow_Super_Giants_IPL_Logo.svg.png",
+    10: "https://upload.wikimedia.org/wikipedia/en/thumb/0/09/Gujarat_Titans_Logo.svg/1200px-Gujarat_Titans_Logo.svg.png"
+  };
+  const firstRowTeams = teams.slice(0, 5);
+  const secondRowTeams = teams.slice(5, 10);
   return (
     <div className="container mt-5">
-      <h2 className="text-center mb-4">Select Your Team</h2>
-      <Form>
-        {teams.map(team => (<Form.Check key={team.id} type="radio" id={`team-${team.id}`} label={team.name} name="teamSelection" checked={selectedTeam === team.id} onChange={() => setSelectedTeam(team.id)} />))}
-      </Form>
-      <div className="text-center mt-4">
-        <Button variant="primary" onClick={handleNext}>Next</Button>
+
+      <Row className="justify-content-center pt-5 mb-4">
+        {firstRowTeams.map(team => (
+          <Col key={team.id} xs={6} sm={4} md={3} lg={2} className="mb-4">
+            <div
+              className={`team-card ${selectedTeam === team.id ? 'selected' : ''}`}
+              onClick={() => setSelectedTeam(team.id)}
+            >
+              <img
+                src={teamLogos[team.id]}
+                alt={team.name}
+                className="img-fluid team-logo"
+              />
+              <div className="team-name">{team.short}</div>
+            </div>
+          </Col>
+        ))}
+      </Row>
+
+      {/* Second row with remaining 5 teams */}
+      <Row className="justify-content-center">
+        {secondRowTeams.map(team => (
+          <Col key={team.id} xs={6} sm={4} md={3} lg={2} className="mb-4">
+            <div
+              className={`team-card ${selectedTeam === team.id ? 'selected' : ''}`}
+              onClick={() => setSelectedTeam(team.id)}
+            >
+              <img
+                src={teamLogos[team.id]}
+                alt={team.name}
+                className="img-fluid team-logo"
+              />
+              <div className="team-name">{team.short}</div>
+            </div>
+          </Col>
+        ))}
+      </Row>
+
+      <div className="pe-5 next_button_container mt-4">
+        <Button className='me-5 p-3 rounded-circle' onClick={handleNext}><FaArrowRight className='d-flex justify-content-center align-items-center' size={24} /></Button>
       </div>
     </div>
   );
 };
+
 export default TeamSelection;
