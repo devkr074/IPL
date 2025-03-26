@@ -1,7 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import vid from '../assets/videoplayback.mp4'
-import styles from './TeamSelection.module.css';
 const teams = [
   { id: 1, name: 'Mumbai Indians', short: "MI", matches: 0, won: 0, lost: 0, tied: 0, nr: 0, point: 0, nrr: 0.0 },
   { id: 2, name: 'Chennai Super Kings', short: "CSK", matches: 0, won: 0, lost: 0, tied: 0, nr: 0, point: 0, nrr: 0.0 },
@@ -226,7 +224,7 @@ const schedule = [
 
 // ... (keep all your existing data arrays)
 
-function TeamSelection() {
+function Teams() {
   const navigate = useNavigate();
   const [selectedTeam, setSelectedTeam] = useState(1);
   const videoRef = useRef(null);
@@ -303,7 +301,7 @@ function TeamSelection() {
   return (
     <div className={styles.container}>
       
-      <div className={styles.videoContainer}>
+      {/* <div className={styles.videoContainer}>
         <video
           ref={videoRef}
           className={styles.videoBackground}
@@ -316,7 +314,7 @@ function TeamSelection() {
           Your browser does not support HTML5 video.
         </video>
         <div className={styles.videoOverlay}></div>
-      </div>
+      </div> */}
 
       <div className={styles.teamsRow}>
         {firstRowTeams.map(team => (
@@ -382,4 +380,4 @@ function TeamSelection() {
   );
 };
 
-export default TeamSelection;
+export default Teams;

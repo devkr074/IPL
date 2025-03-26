@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import style from './Home.module.css';
-import teams from '../assets/teams.png';
 function Home() {
     const navigate = useNavigate();
     const [status, setStatus] = useState(false);
@@ -25,7 +23,7 @@ function Home() {
     }
     return (
         <div className={style.homeContainer}>
-            <img className={style.teamPlayerImage} src={teams} alt="All Teams Player" />
+            {/* <img className={style.teamPlayerImage} src={teams} alt="All Teams Player" /> */}
             <button className={style.startBtn} onClick={handleStartTournament}>Start Tournament</button>
         </div>
     );
