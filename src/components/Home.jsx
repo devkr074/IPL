@@ -10,7 +10,7 @@ function Home() {
         if (getStatus) {
             navigate('/schedule');
         }
-        document.title = "IPL - Home";
+        document.title = "IPL - Indian Premier League";
     }, []);
     function handleStartTournament() {
         // if (localStorage.getItem('status') || false) {

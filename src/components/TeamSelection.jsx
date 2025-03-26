@@ -1,9 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Form, Row, Col } from 'react-bootstrap';
-
-import { FaArrowRight } from 'react-icons/fa';
-import './TeamSelection.module.css'; // Create this CSS file for custom styles
+import vid from '../assets/videoplayback.mp4'
+import styles from './TeamSelection.module.css';
 const teams = [
   { id: 1, name: 'Mumbai Indians', short: "MI", matches: 0, won: 0, lost: 0, tied: 0, nr: 0, point: 0, nrr: 0.0 },
   { id: 2, name: 'Chennai Super Kings', short: "CSK", matches: 0, won: 0, lost: 0, tied: 0, nr: 0, point: 0, nrr: 0.0 },
@@ -224,12 +222,21 @@ const schedule = [
 
 // ... (keep all your existing data arrays)
 
+
+
+// ... (keep all your existing data arrays)
+
 function TeamSelection() {
   const navigate = useNavigate();
   const [selectedTeam, setSelectedTeam] = useState(1);
-
+  const videoRef = useRef(null);
   useEffect(() => {
-    document.title = "IPL 2025 - Select Your Team";
+    document.title = "IPL - Select Team";
+    if (videoRef.current) {
+      videoRef.current.addEventListener('ended', () => {
+        videoRef.current.play();
+      });
+    }
   }, []);
 
   const cricketData = {
@@ -246,63 +253,130 @@ function TeamSelection() {
     navigate('/schedule');
   }
 
-  // Team logos mapping - replace with actual image paths or URLs
-  const teamLogos = {
-    1: "https://upload.wikimedia.org/wikipedia/en/thumb/c/cd/Mumbai_Indians_Logo.svg/1200px-Mumbai_Indians_Logo.svg.png",
-    2: "https://upload.wikimedia.org/wikipedia/en/thumb/2/2b/Chennai_Super_Kings_Logo.svg/1200px-Chennai_Super_Kings_Logo.svg.png",
-    3: "https://upload.wikimedia.org/wikipedia/en/thumb/d/d4/Royal_Challengers_Bengaluru_Logo.svg/1200px-Royal_Challengers_Bengaluru_Logo.svg.png",
-    4: "https://upload.wikimedia.org/wikipedia/en/thumb/4/4c/Kolkata_Knight_Riders_Logo.svg/1200px-Kolkata_Knight_Riders_Logo.svg.png",
-    5: "https://upload.wikimedia.org/wikipedia/en/thumb/2/2f/Delhi_Capitals.svg/1200px-Delhi_Capitals.svg.png",
-    6: "https://upload.wikimedia.org/wikipedia/en/thumb/d/d4/Punjab_Kings_Logo.svg/1200px-Punjab_Kings_Logo.svg.png",
-    7: "https://1000logos.net/wp-content/uploads/2024/03/Rajasthan-Royals-Logo.png",
-    8: "https://upload.wikimedia.org/wikipedia/en/thumb/5/51/Sunrisers_Hyderabad_Logo.svg/1200px-Sunrisers_Hyderabad_Logo.svg.png",
-    9: "https://upload.wikimedia.org/wikipedia/en/thumb/a/a9/Lucknow_Super_Giants_IPL_Logo.svg/1200px-Lucknow_Super_Giants_IPL_Logo.svg.png",
-    10: "https://upload.wikimedia.org/wikipedia/en/thumb/0/09/Gujarat_Titans_Logo.svg/1200px-Gujarat_Titans_Logo.svg.png"
+  // Team logos and colors mapping
+  const teamData = {
+    1: { 
+      logo: "https://upload.wikimedia.org/wikipedia/en/thumb/c/cd/Mumbai_Indians_Logo.svg/1200px-Mumbai_Indians_Logo.svg.png",
+      color: "#004ba0" // Mumbai Indians blue
+    },
+    2: { 
+      logo: "https://upload.wikimedia.org/wikipedia/en/thumb/2/2b/Chennai_Super_Kings_Logo.svg/1200px-Chennai_Super_Kings_Logo.svg.png",
+      color: "yellow" // CSK yellow
+    },
+    3: { 
+      logo: "https://upload.wikimedia.org/wikipedia/en/thumb/d/d4/Royal_Challengers_Bengaluru_Logo.svg/1200px-Royal_Challengers_Bengaluru_Logo.svg.png",
+      color: "#ec1c24" // RCB red
+    },
+    4: { 
+      logo: "https://upload.wikimedia.org/wikipedia/en/thumb/4/4c/Kolkata_Knight_Riders_Logo.svg/1200px-Kolkata_Knight_Riders_Logo.svg.png",
+      color: "#3a225d" // KKR purple
+    },
+    5: { 
+      logo: "https://upload.wikimedia.org/wikipedia/en/thumb/2/2f/Delhi_Capitals.svg/1200px-Delhi_Capitals.svg.png",
+      color: "rgb(40, 41, 104)" // DC blue
+    },
+    6: { 
+      logo: "https://upload.wikimedia.org/wikipedia/en/thumb/d/d4/Punjab_Kings_Logo.svg/1200px-Punjab_Kings_Logo.svg.png",
+      color: "#aa4545" // PBKS red
+    },
+    7: { 
+      logo: "https://upload.wikimedia.org/wikipedia/hi/thumb/6/60/Rajasthan_Royals_Logo.svg/1200px-Rajasthan_Royals_Logo.svg.png",
+      color: "rgb(230, 6, 147)" // RR blue
+    },
+    8: { 
+      logo: "https://upload.wikimedia.org/wikipedia/en/thumb/5/51/Sunrisers_Hyderabad_Logo.svg/1200px-Sunrisers_Hyderabad_Logo.svg.png",
+      color: "#fb643e" // SRH orange
+    },
+    9: { 
+      logo: "https://upload.wikimedia.org/wikipedia/en/thumb/a/a9/Lucknow_Super_Giants_IPL_Logo.svg/1200px-Lucknow_Super_Giants_IPL_Logo.svg.png",
+      color: "#00a6b0" // LSG teal
+    },
+    10: { 
+      logo: "https://upload.wikimedia.org/wikipedia/en/thumb/0/09/Gujarat_Titans_Logo.svg/1200px-Gujarat_Titans_Logo.svg.png",
+      color: "rgb(27, 33, 51)" // GT orange
+    }
   };
+
   const firstRowTeams = teams.slice(0, 5);
   const secondRowTeams = teams.slice(5, 10);
+
   return (
-    <div className="container mt-5">
+    <div className={styles.container}>
+      
+      <div className={styles.videoContainer}>
+        <video
+          ref={videoRef}
+          className={styles.videoBackground}
+          autoPlay
+          muted
+          loop
+          playsInline
+        >
+          <source src={vid} type="video/mp4" />
+          Your browser does not support HTML5 video.
+        </video>
+        <div className={styles.videoOverlay}></div>
+      </div>
 
-      <Row className="justify-content-center pt-5 mb-4">
+      <div className={styles.teamsRow}>
         {firstRowTeams.map(team => (
-          <Col key={team.id} xs={6} sm={4} md={3} lg={2} className="mb-4">
-            <div
-              className={`team-card ${selectedTeam === team.id ? 'selected' : ''}`}
-              onClick={() => setSelectedTeam(team.id)}
+          <div 
+            key={team.id} 
+            className={`${styles.teamCard} ${selectedTeam === team.id ? styles.selected : ''}`}
+            onClick={() => setSelectedTeam(team.id)}
+            style={{
+              backgroundColor: selectedTeam === team.id ? `${teamData[team.id].color}` : '#f8f9fa',
+              borderColor: selectedTeam === team.id ? teamData[team.id].color : 'transparent'
+            }}
+          >
+            <img
+              src={teamData[team.id].logo}
+              alt={team.name}
+              className={styles.teamLogo}
+            />
+            <div 
+              className={styles.teamName}
+              style={{ color: selectedTeam === team.id ? '#fff' : '#333' }}
             >
-              <img
-                src={teamLogos[team.id]}
-                alt={team.name}
-                className="img-fluid team-logo"
-              />
-              <div className="team-name">{team.short}</div>
+              {team.short}
             </div>
-          </Col>
+          </div>
         ))}
-      </Row>
+      </div>
 
-      {/* Second row with remaining 5 teams */}
-      <Row className="justify-content-center">
+      <div className={styles.teamsRow}>
         {secondRowTeams.map(team => (
-          <Col key={team.id} xs={6} sm={4} md={3} lg={2} className="mb-4">
-            <div
-              className={`team-card ${selectedTeam === team.id ? 'selected' : ''}`}
-              onClick={() => setSelectedTeam(team.id)}
+          <div 
+            key={team.id} 
+            className={`${styles.teamCard} ${selectedTeam === team.id ? styles.selected : ''}`}
+            onClick={() => setSelectedTeam(team.id)}
+            style={{
+              backgroundColor: selectedTeam === team.id ? `${teamData[team.id].color}` : '#f8f9fa',
+              borderColor: selectedTeam === team.id ? teamData[team.id].color : 'transparent'
+            }}
+          >
+            <img
+              src={teamData[team.id].logo}
+              alt={team.name}
+              className={styles.teamLogo}
+            />
+            <div 
+              className={styles.teamName}
+              style={{ color: selectedTeam === team.id ? '#fff' : '#333' }}
             >
-              <img
-                src={teamLogos[team.id]}
-                alt={team.name}
-                className="img-fluid team-logo"
-              />
-              <div className="team-name">{team.short}</div>
+              {team.short}
             </div>
-          </Col>
+          </div>
         ))}
-      </Row>
+      </div>
 
-      <div className="pe-5 next_button_container mt-4">
-        <Button className='me-5 p-3 rounded-circle' onClick={handleNext}><FaArrowRight className='d-flex justify-content-center align-items-center' size={24} /></Button>
+      <div className={styles.nextButtonContainer}>
+        <button 
+          className={styles.nextButton} 
+          onClick={handleNext}
+        >
+          Next
+        </button>
       </div>
     </div>
   );

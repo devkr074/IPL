@@ -9,7 +9,7 @@ function Schedule() {
   const [teams, setTeams] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState(null);
   useEffect(() => {
-    document.title = "IPL 2025 - Schedule";
+    document.title = "IPL - Main Menu";
     const storedData = JSON.parse(localStorage.getItem('cricketData'));
     setSchedule(storedData.schedule);
     setVenues(storedData.venues);

@@ -1,108 +1,143 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Button, Card, ProgressBar, Table, ListGroup, Alert, Badge } from 'react-bootstrap';
+import { Button, Table, ProgressBar, Card, ListGroup, Badge } from 'react-bootstrap';
 
-function Match() {
+const Match = () => {
   const { matchId } = useParams();
   const navigate = useNavigate();
-  const [matchData, setMatchData] = useState(null);
-  const [teams, setTeams] = useState([]);
-  const [players, setPlayers] = useState({});
-  const [venues, setVenues] = useState([]);
+  const [cricketData, setCricketData] = useState(null);
+  const [match, setMatch] = useState(null);
   const [selectedTeam, setSelectedTeam] = useState(null);
-  const [matchStatus, setMatchStatus] = useState({
-    innings: 1,
-    battingTeam: null,
-    bowlingTeam: null,
-    batsman1: null,
-    batsman2: null,
-    bowler: null,
-    overs: 0,
-    balls: 0,
-    runs: 0,
-    wickets: 0,
-    extras: 0,
-    target: 0,
-    isCompleted: false,
-    commentary: []
-  });
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [innings, setInnings] = useState(1);
+  const [currentBatsman1, setCurrentBatsman1] = useState(null);
+  const [currentBatsman2, setCurrentBatsman2] = useState(null);
+  const [currentBowler, setCurrentBowler] = useState(null);
+  const [overs, setOvers] = useState(0);
+  const [balls, setBalls] = useState(0);
+  const [totalRuns, setTotalRuns] = useState(0);
+  const [wickets, setWickets] = useState(0);
+  const [commentary, setCommentary] = useState([]);
+  const [matchCompleted, setMatchCompleted] = useState(false);
+  const [target, setTarget] = useState(0);
+  const [battingTeam, setBattingTeam] = useState(null);
+  const [bowlingTeam, setBowlingTeam] = useState(null);
+  const [batsmanStats, setBatsmanStats] = useState({});
+  const [bowlerStats, setBowlerStats] = useState({});
 
-  // Load match data from localStorage
   useEffect(() => {
-    const loadData = () => {
-      try {
-        const storedData = JSON.parse(localStorage.getItem('cricketData'));
-        if (!storedData) throw new Error('No tournament data found');
+    const storedData = JSON.parse(localStorage.getItem('cricketData'));
+    if (storedData) {
+      setCricketData(storedData);
+      const currentMatch = storedData.schedule.find(m => m.id === parseInt(matchId));
+      setMatch(currentMatch);
+      setSelectedTeam(storedData.selectedTeam);
+      
+      if (currentMatch) {
+        setBattingTeam(currentMatch.toss?.wonBy || currentMatch.team1);
+        setBowlingTeam(currentMatch.toss?.wonBy === currentMatch.team1 ? currentMatch.team2 : currentMatch.team1);
         
-        const currentMatch = storedData.schedule.find(m => m.id === parseInt(matchId));
-        if (!currentMatch) throw new Error('Match not found');
-
-        setMatchData(currentMatch);
-        setTeams(storedData.teams);
-        setPlayers(storedData.players);
-        setVenues(storedData.venues);
-        setSelectedTeam(storedData.selectedTeam);
-
-        // Initialize match status
-        if (!currentMatch.status || currentMatch.status === 'scheduled') {
-          setMatchStatus({
-            innings: 1,
-            battingTeam: currentMatch.toss.wonBy,
-            bowlingTeam: currentMatch.toss.wonBy === currentMatch.team1 ? currentMatch.team2 : currentMatch.team1,
-            batsman1: storedData.players[currentMatch.toss.wonBy][0].id,
-            batsman2: storedData.players[currentMatch.toss.wonBy][1].id,
-            bowler: storedData.players[currentMatch.toss.wonBy === currentMatch.team1 ? currentMatch.team2 : currentMatch.team1]
-              .find(p => p.role === 'Bowler')?.id || storedData.players[currentMatch.toss.wonBy === currentMatch.team1 ? currentMatch.team2 : currentMatch.team1][0].id,
-            overs: 0,
-            balls: 0,
-            runs: 0,
-            wickets: 0,
-            extras: 0,
-            target: 0,
-            isCompleted: false,
-            commentary: []
+        // Initialize player stats if not already set
+        if (!currentMatch.playerStats) {
+          const initialBatsmanStats = {};
+          const initialBowlerStats = {};
+          
+          // Get team players
+          const battingTeamPlayers = storedData.players.filter(p => 
+            p.id >= (currentMatch.toss?.wonBy === currentMatch.team1 ? 
+              (currentMatch.team1 - 1) * 11 + 1 : 
+              (currentMatch.team2 - 1) * 11 + 1) && 
+            p.id <= (currentMatch.toss?.wonBy === currentMatch.team1 ? 
+              currentMatch.team1 * 11 : 
+              currentMatch.team2 * 11)
+          );
+          
+          const bowlingTeamPlayers = storedData.players.filter(p => 
+            p.id >= (currentMatch.toss?.wonBy === currentMatch.team1 ? 
+              (currentMatch.team2 - 1) * 11 + 1 : 
+              (currentMatch.team1 - 1) * 11 + 1) && 
+            p.id <= (currentMatch.toss?.wonBy === currentMatch.team1 ? 
+              currentMatch.team2 * 11 : 
+              currentMatch.team1 * 11)
+          );
+          
+          // Initialize batsman stats
+          battingTeamPlayers.forEach(player => {
+            initialBatsmanStats[player.id] = {
+              runs: 0,
+              balls: 0,
+              fours: 0,
+              sixes: 0,
+              out: false
+            };
           });
-        } else if (currentMatch.status === 'in-progress') {
-          setMatchStatus(currentMatch.matchStatus);
+          
+          // Initialize bowler stats
+          bowlingTeamPlayers.forEach(player => {
+            initialBowlerStats[player.id] = {
+              overs: 0,
+              balls: 0,
+              runsGiven: 0,
+              wickets: 0,
+              maidens: 0
+            };
+          });
+          
+          setBatsmanStats(initialBatsmanStats);
+          setBowlerStats(initialBowlerStats);
+        } else {
+          setBatsmanStats(currentMatch.playerStats.batsmen);
+          setBowlerStats(currentMatch.playerStats.bowlers);
         }
-
-        setIsLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setIsLoading(false);
-        navigate('/');
       }
-    };
+    }
+  }, [matchId]);
 
-    loadData();
+  useEffect(() => {
+    if (match && innings === 2) {
+      setTarget(totalRuns + 1);
+    }
+  }, [innings, match, totalRuns]);
 
-    // Handle back button to redirect home
-    const handleBackButton = (e) => {
-      e.preventDefault();
-      navigate('/');
-    };
+  const getTeamName = (id) => {
+    return cricketData?.teams.find(team => team.id === id)?.name || 'Team';
+  };
 
-    window.history.pushState(null, '', window.location.pathname);
-    window.addEventListener('popstate', handleBackButton);
+  const getTeamShortName = (id) => {
+    return cricketData?.teams.find(team => team.id === id)?.short || '';
+  };
 
-    return () => {
-      window.removeEventListener('popstate', handleBackButton);
-    };
-  }, [matchId, navigate]);
+  const getPlayerName = (id) => {
+    return cricketData?.players.find(player => player.id === id)?.name || 'Player';
+  };
 
-  // Helper functions
-  const getTeamName = (id) => teams.find(team => team.id === id)?.name || 'Team';
-  const getPlayerName = (id) => Object.values(players).flat().find(player => player.id === id)?.name || 'Player';
-  const getPlayerRole = (id) => Object.values(players).flat().find(player => player.id === id)?.role || 'Player';
-  const getVenueName = (id) => venues.find(venue => venue.id === id)?.name || 'Venue';
+  const getPlayerShortName = (id) => {
+    return cricketData?.players.find(player => player.id === id)?.short || '';
+  };
 
-  // Simulate a ball being bowled
+  const getPlayerRole = (id) => {
+    const roleId = cricketData?.players.find(player => player.id === id)?.role_id;
+    switch(roleId) {
+      case 1: return 'Batsman';
+      case 2: return 'Bowler';
+      case 3: return 'All-rounder';
+      case 4: return 'Wicket-keeper';
+      default: return 'Player';
+    }
+  };
+
+  const getVenueName = (id) => {
+    return cricketData?.venues.find(venue => venue.id === id)?.name || 'Venue';
+  };
+
   const simulateBall = () => {
-    if (matchStatus.isCompleted) return;
-
-    const outcomes = [
+    if (matchCompleted) return;
+    
+    // Enhanced simulation logic based on player ratings
+    const batsmanRating = cricketData.players.find(p => p.id === currentBatsman1)?.batting_rating || 5;
+    const bowlerRating = cricketData.players.find(p => p.id === currentBowler)?.bowling_rating || 5;
+    
+    // Adjust outcome probabilities based on ratings
+    const baseOutcomes = [
       { type: 'dot', runs: 0, weight: 20 },
       { type: 'single', runs: 1, weight: 25 },
       { type: 'double', runs: 2, weight: 15 },
@@ -113,28 +148,46 @@ function Match() {
       { type: 'wide', runs: 1, weight: 4 },
       { type: 'no-ball', runs: 1, weight: 3 }
     ];
-
-    const totalWeight = outcomes.reduce((sum, outcome) => sum + outcome.weight, 0);
+    
+    // Adjust weights based on player ratings
+    const adjustedOutcomes = baseOutcomes.map(outcome => {
+      let adjustedWeight = outcome.weight;
+      
+      // Batsman advantage
+      if (['single', 'double', 'triple', 'boundary', 'six'].includes(outcome.type)) {
+        adjustedWeight += (batsmanRating - 5) * 2;
+      }
+      
+      // Bowler advantage
+      if (['dot', 'wicket'].includes(outcome.type)) {
+        adjustedWeight += (bowlerRating - 5) * 2;
+      }
+      
+      return { ...outcome, weight: Math.max(1, adjustedWeight) };
+    });
+    
+    const totalWeight = adjustedOutcomes.reduce((sum, outcome) => sum + outcome.weight, 0);
     let random = Math.random() * totalWeight;
-    let selectedOutcome = outcomes[0];
-
-    for (const outcome of outcomes) {
+    let selectedOutcome = adjustedOutcomes[0];
+    
+    for (const outcome of adjustedOutcomes) {
       if (random < outcome.weight) {
         selectedOutcome = outcome;
         break;
       }
       random -= outcome.weight;
     }
-
+    
     let newCommentary = '';
     let isWicket = false;
     let isExtra = false;
     let runsToAdd = selectedOutcome.runs;
-
+    let isBoundary = false;
+    
     switch (selectedOutcome.type) {
       case 'wicket':
         isWicket = true;
-        newCommentary = `OUT! ${getPlayerName(matchStatus.batsman1)} is out!`;
+        newCommentary = `OUT! ${getPlayerName(currentBatsman1)} is out!`;
         break;
       case 'wide':
         isExtra = true;
@@ -145,186 +198,330 @@ function Match() {
         newCommentary = `No ball! ${runsToAdd} extra run(s)`;
         break;
       case 'dot':
-        newCommentary = `${getPlayerName(matchStatus.batsman1)} defends`;
+        newCommentary = `${getPlayerName(currentBatsman1)} defends`;
         break;
       case 'single':
-        newCommentary = `${getPlayerName(matchStatus.batsman1)} takes a single`;
+        newCommentary = `${getPlayerName(currentBatsman1)} takes a single`;
         break;
       case 'double':
-        newCommentary = `${getPlayerName(matchStatus.batsman1)} runs two`;
+        newCommentary = `${getPlayerName(currentBatsman1)} runs two`;
         break;
       case 'triple':
-        newCommentary = `${getPlayerName(matchStatus.batsman1)} runs three`;
+        newCommentary = `${getPlayerName(currentBatsman1)} runs three`;
         break;
       case 'boundary':
-        newCommentary = `FOUR! ${getPlayerName(matchStatus.batsman1)} hits a boundary`;
+        isBoundary = true;
+        newCommentary = `FOUR! ${getPlayerName(currentBatsman1)} hits a boundary`;
         break;
       case 'six':
-        newCommentary = `SIX! ${getPlayerName(matchStatus.batsman1)} clears the ropes`;
+        isBoundary = true;
+        newCommentary = `SIX! ${getPlayerName(currentBatsman1)} clears the ropes`;
         break;
     }
-
-    // Update match status
-    setMatchStatus(prev => {
-      const newBalls = isExtra ? prev.balls : prev.balls + 1;
-      const newOvers = newBalls >= 6 ? prev.overs + 1 : prev.overs;
-      const finalBalls = newBalls >= 6 ? 0 : newBalls;
-
-      // Rotate strike on odd runs (except for extras)
-      const shouldRotate = !isExtra && runsToAdd % 2 !== 0;
-      const newBatsman1 = shouldRotate ? prev.batsman2 : prev.batsman1;
-      const newBatsman2 = shouldRotate ? prev.batsman1 : prev.batsman2;
-
-      // Handle wickets
-      let nextBatsman1 = newBatsman1;
-      let nextBatsman2 = newBatsman2;
-      let newWickets = prev.wickets;
-
-      if (isWicket) {
-        newWickets = prev.wickets + 1;
-        const battingTeamPlayers = players[prev.battingTeam];
-        const newBatsman = battingTeamPlayers.find(p => 
-          p.id !== prev.batsman1 && 
-          p.id !== prev.batsman2 &&
-          !battingTeamPlayers.slice(0, battingTeamPlayers.indexOf(p)).some(pl => pl.id === p.id)
-        );
-
-        if (newBatsman) {
-          nextBatsman1 = newBatsman2;
-          nextBatsman2 = newBatsman.id;
+    
+    // Update match state
+    if (!isExtra) {
+      setBalls(prev => {
+        const newBalls = prev + 1;
+        if (newBalls === 6) {
+          setOvers(prevOvers => prevOvers + 1);
+          return 0;
         }
-      }
-
-      // Check innings conditions
-      const isInningsOver = newWickets >= 10 || (newOvers >= 20 && finalBalls === 0);
-      const isTargetReached = prev.innings === 2 && (prev.runs + runsToAdd) >= prev.target;
-
-      const updatedStatus = {
-        ...prev,
-        overs: newOvers,
-        balls: finalBalls,
-        runs: prev.runs + runsToAdd,
-        wickets: newWickets,
-        extras: isExtra ? prev.extras + runsToAdd : prev.extras,
-        batsman1: nextBatsman1,
-        batsman2: nextBatsman2,
-        commentary: [`${prev.overs}.${prev.balls} - ${newCommentary}`, ...prev.commentary.slice(0, 9)],
-        isCompleted: isInningsOver || isTargetReached
-      };
-
-      if (isInningsOver && prev.innings === 1) {
-        // Switch to second innings
-        return {
-          ...updatedStatus,
-          innings: 2,
-          battingTeam: prev.bowlingTeam,
-          bowlingTeam: prev.battingTeam,
-          batsman1: players[prev.bowlingTeam][0].id,
-          batsman2: players[prev.bowlingTeam][1].id,
-          bowler: players[prev.battingTeam].find(p => p.role === 'Bowler')?.id || players[prev.battingTeam][0].id,
-          overs: 0,
-          balls: 0,
-          runs: 0,
-          wickets: 0,
-          extras: 0,
-          target: prev.runs + runsToAdd + 1,
-          commentary: [],
-          isCompleted: false
-        };
-      }
-
-      return updatedStatus;
-    });
-  };
-
-  // Save match progress to localStorage
-  useEffect(() => {
-    if (matchData && matchStatus.batsman1) {
-      const storedData = JSON.parse(localStorage.getItem('cricketData'));
-      const updatedSchedule = storedData.schedule.map(m => {
-        if (m.id === matchData.id) {
-          return {
-            ...m,
-            status: matchStatus.isCompleted ? 'completed' : 'in-progress',
-            matchStatus: matchStatus.isCompleted ? null : matchStatus
+        return newBalls;
+      });
+      
+      // Update batsman stats
+      setBatsmanStats(prev => {
+        const updated = { ...prev };
+        if (updated[currentBatsman1]) {
+          updated[currentBatsman1] = {
+            ...updated[currentBatsman1],
+            runs: updated[currentBatsman1].runs + runsToAdd,
+            balls: updated[currentBatsman1].balls + 1,
+            fours: isBoundary && runsToAdd === 4 ? updated[currentBatsman1].fours + 1 : updated[currentBatsman1].fours,
+            sixes: isBoundary && runsToAdd === 6 ? updated[currentBatsman1].sixes + 1 : updated[currentBatsman1].sixes,
+            out: isWicket ? true : updated[currentBatsman1].out
           };
         }
-        return m;
+        return updated;
       });
-
-      localStorage.setItem('cricketData', JSON.stringify({
-        ...storedData,
-        schedule: updatedSchedule
-      }));
-    }
-  }, [matchStatus, matchData]);
-
-  // Handle match completion
-  useEffect(() => {
-    if (matchStatus.isCompleted && matchData) {
-      const updateMatchResult = () => {
-        try {
-          const storedData = JSON.parse(localStorage.getItem('cricketData'));
-          const updatedSchedule = storedData.schedule.map(m => {
-            if (m.id === matchData.id) {
-              const winner = matchStatus.innings === 1 ? matchStatus.bowlingTeam : 
-                           matchStatus.runs > matchStatus.target ? matchStatus.battingTeam : 
-                           matchStatus.runs === matchStatus.target ? null : matchStatus.bowlingTeam;
-
-              // Update team stats
-              const updatedTeams = storedData.teams.map(team => {
-                if (team.id === matchStatus.battingTeam || team.id === matchStatus.bowlingTeam) {
-                  const isBattingTeam = team.id === matchStatus.battingTeam;
-                  const isWinner = team.id === winner;
-                  const isTie = winner === null;
-
-                  return {
-                    ...team,
-                    matches: (team.matches || 0) + 1,
-                    won: (team.won || 0) + (isWinner ? 1 : 0),
-                    lost: (team.lost || 0) + (!isWinner && !isTie ? 1 : 0),
-                    tied: (team.tied || 0) + (isTie ? 1 : 0),
-                    point: (team.point || 0) + (isWinner ? 2 : isTie ? 1 : 0),
-                    nrr: (team.nrr || 0) + (isBattingTeam ? 
-                      (matchStatus.runs / 20) - (matchStatus.target / 20) : 
-                      (matchStatus.target / 20) - (matchStatus.runs / 20))
-                  };
-                }
-                return team;
-              });
-
-              // Update player stats (simplified)
-              const updatedPlayers = { ...storedData.players };
-
-              return {
-                ...m,
-                status: 'completed',
-                winner,
-                score: `${matchStatus.runs}/${matchStatus.wickets} (${matchStatus.overs}.${matchStatus.balls} overs)`,
-                matchStatus: null
-              };
-            }
-            return m;
-          });
-
-          localStorage.setItem('cricketData', JSON.stringify({
-            ...storedData,
-            schedule: updatedSchedule,
-            teams: updatedTeams
-          }));
-        } catch (err) {
-          console.error('Failed to update match result:', err);
+      
+      // Update bowler stats
+      setBowlerStats(prev => {
+        const updated = { ...prev };
+        if (updated[currentBowler]) {
+          updated[currentBowler] = {
+            ...updated[currentBowler],
+            balls: (updated[currentBowler].balls % 6) + 1,
+            overs: Math.floor((updated[currentBowler].balls + 1) / 6),
+            runsGiven: updated[currentBowler].runsGiven + runsToAdd,
+            wickets: isWicket ? updated[currentBowler].wickets + 1 : updated[currentBowler].wickets,
+            maidens: updated[currentBowler].maidens // TODO: Update maidens based on over completion
+          };
         }
-      };
-
+        return updated;
+      });
+    }
+    
+    if (isWicket) {
+      setWickets(prev => prev + 1);
+      // Select new batsman
+      const battingTeamPlayers = cricketData.players.filter(p => 
+        p.id >= (battingTeam - 1) * 11 + 1 && 
+        p.id <= battingTeam * 11 &&
+        !batsmanStats[p.id]?.out &&
+        p.id !== currentBatsman1 && 
+        p.id !== currentBatsman2
+      );
+      
+      if (battingTeamPlayers.length > 0) {
+        setCurrentBatsman1(currentBatsman2);
+        setCurrentBatsman2(battingTeamPlayers[0].id);
+      }
+    } else if (runsToAdd > 0) {
+      setTotalRuns(prev => prev + runsToAdd);
+      // Rotate strike on odd runs
+      if (runsToAdd % 2 !== 0) {
+        setCurrentBatsman1(currentBatsman2);
+        setCurrentBatsman2(currentBatsman1);
+      }
+    }
+    
+    // Update commentary
+    setCommentary(prev => [
+      `${overs}.${balls} - ${newCommentary}`,
+      ...prev.slice(0, 9)
+    ]);
+    
+    // Check innings conditions
+    if (wickets >= 10 || (overs >= 20 && balls === 0)) {
+      if (innings === 1) {
+        // Switch to second innings
+        setInnings(2);
+        setBattingTeam(bowlingTeam);
+        setBowlingTeam(battingTeam);
+        setOvers(0);
+        setBalls(0);
+        setWickets(0);
+        
+        // Set new batsmen and bowler
+        const newBattingTeamPlayers = cricketData.players.filter(p => 
+          p.id >= (bowlingTeam - 1) * 11 + 1 && 
+          p.id <= bowlingTeam * 11
+        );
+        
+        const newBowlingTeamPlayers = cricketData.players.filter(p => 
+          p.id >= (battingTeam - 1) * 11 + 1 && 
+          p.id <= battingTeam * 11
+        );
+        
+        setCurrentBatsman1(newBattingTeamPlayers[0].id);
+        setCurrentBatsman2(newBattingTeamPlayers[1].id);
+        setCurrentBowler(newBowlingTeamPlayers.find(p => p.role_id === 2)?.id || newBowlingTeamPlayers[0].id);
+        
+        // Reset commentary
+        setCommentary([]);
+        
+        // Reset player stats for new innings
+        const newBatsmanStats = {};
+        const newBowlerStats = {};
+        
+        newBattingTeamPlayers.forEach(player => {
+          newBatsmanStats[player.id] = {
+            runs: 0,
+            balls: 0,
+            fours: 0,
+            sixes: 0,
+            out: false
+          };
+        });
+        
+        newBowlingTeamPlayers.forEach(player => {
+          newBowlerStats[player.id] = {
+            overs: 0,
+            balls: 0,
+            runsGiven: 0,
+            wickets: 0,
+            maidens: 0
+          };
+        });
+        
+        setBatsmanStats(newBatsmanStats);
+        setBowlerStats(newBowlerStats);
+      } else {
+        // Match completed
+        setMatchCompleted(true);
+        updateMatchResult();
+      }
+    }
+    
+    // Check target in second innings
+    if (innings === 2 && totalRuns >= target) {
+      setMatchCompleted(true);
       updateMatchResult();
     }
-  }, [matchStatus.isCompleted, matchData]);
+  };
+
+  const updateMatchResult = () => {
+    // Update match result in localStorage
+    const updatedSchedule = cricketData.schedule.map(m => {
+      if (m.id === match.id) {
+        const winner = innings === 1 ? bowlingTeam : 
+                      totalRuns > target ? battingTeam : 
+                      totalRuns === target ? null : bowlingTeam;
+        
+        // Update team stats
+        const updatedTeams = cricketData.teams.map(team => {
+          if (team.id === battingTeam || team.id === bowlingTeam) {
+            const isBattingTeam = team.id === battingTeam;
+            const isWinner = team.id === winner;
+            const isTie = winner === null;
+            
+            return {
+              ...team,
+              matches: team.matches + 1,
+              won: isWinner ? team.won + 1 : team.won,
+              lost: !isWinner && !isTie ? team.lost + 1 : team.lost,
+              tied: isTie ? team.tied + 1 : team.tied,
+              point: team.point + (isWinner ? 2 : isTie ? 1 : 0),
+              nrr: calculateNRR(team)
+            };
+          }
+          return team;
+        });
+        
+        return {
+          ...m,
+          status: 'completed',
+          winner,
+          score: `${totalRuns}/${wickets} (${overs}.${balls} overs)`,
+          playerStats: {
+            batsmen: batsmanStats,
+            bowlers: bowlerStats
+          },
+          innings1: innings === 1 ? {
+            runs: totalRuns,
+            wickets: wickets,
+            overs: `${overs}.${balls}`
+          } : match.innings1,
+          innings2: innings === 2 ? {
+            runs: totalRuns,
+            wickets: wickets,
+            overs: `${overs}.${balls}`
+          } : null
+        };
+      }
+      return m;
+    });
+    
+    // Update player stats in main players array
+    const updatedPlayers = cricketData.players.map(player => {
+      // Update batsmen
+      if (batsmanStats[player.id]) {
+        const stats = batsmanStats[player.id];
+        return {
+          ...player,
+          matches: player.matches + 1,
+          innings: player.innings + (stats.out || stats.balls > 0 ? 1 : 0),
+          runs: player.runs + stats.runs,
+          balls: player.balls + stats.balls,
+          fours: player.fours + stats.fours,
+          sixes: player.sixes + stats.sixes,
+          strike_rate: stats.balls > 0 ? 
+            (player.runs + stats.runs) / (player.balls + stats.balls) * 100 : 
+            player.strike_rate,
+          half_century: stats.runs >= 50 ? player.half_century + 1 : player.half_century,
+          century: stats.runs >= 100 ? player.century + 1 : player.century,
+          batting_avg: (player.innings + (stats.out ? 1 : 0)) > 0 ? 
+            (player.runs + stats.runs) / (player.innings + (stats.out ? 1 : 0)) : 
+            player.batting_avg
+        };
+      }
+      
+      // Update bowlers
+      if (bowlerStats[player.id]) {
+        const stats = bowlerStats[player.id];
+        return {
+          ...player,
+          matches: player.matches + 1,
+          overs: player.overs + stats.overs + (stats.balls / 6),
+          runs_given: player.runs_given + stats.runsGiven,
+          wickets: player.wickets + stats.wickets,
+          maiden: player.maiden + stats.maidens,
+          bowl_avg: stats.wickets > 0 ? 
+            (player.runs_given + stats.runsGiven) / (player.wickets + stats.wickets) : 
+            player.bowl_avg,
+          bowl_strike_rate: stats.wickets > 0 ? 
+            ((player.overs * 6 + player.balls) + (stats.overs * 6 + stats.balls)) / 
+            (player.wickets + stats.wickets) : 
+            player.bowl_strike_rate,
+          eco: ((player.overs * 6 + player.balls) + (stats.overs * 6 + stats.balls)) > 0 ? 
+            ((player.runs_given + stats.runsGiven) / 
+            ((player.overs * 6 + player.balls) + (stats.overs * 6 + stats.balls))) * 6 : 
+            player.eco,
+          four_fers: stats.wickets >= 4 ? player.four_fers + 1 : player.four_fers,
+          five_fers: stats.wickets >= 5 ? player.five_fers + 1 : player.five_fers
+        };
+      }
+      
+      return player;
+    });
+    
+    // Calculate NRR for teams
+    function calculateNRR(team) {
+      if (team.matches === 0) return 0;
+      
+      // This is simplified - actual NRR calculation would consider all matches
+      if (team.id === battingTeam) {
+        const runsScored = totalRuns;
+        const oversFaced = overs + (balls / 6);
+        const runsConceded = innings === 2 ? target - 1 : 0; // Simplified
+        const oversBowled = innings === 2 ? 20 : 0; // Simplified
+        
+        return ((runsScored / oversFaced) - (runsConceded / oversBowled));
+      } else if (team.id === bowlingTeam) {
+        const runsConceded = totalRuns;
+        const oversBowled = overs + (balls / 6);
+        const runsScored = innings === 2 ? target - 1 : 0; // Simplified
+        const oversFaced = innings === 2 ? 20 : 0; // Simplified
+        
+        return ((runsScored / oversFaced) - (runsConceded / oversBowled));
+      }
+      return team.nrr;
+    }
+    
+    // Save updated data
+    const updatedData = {
+      ...cricketData,
+      schedule: updatedSchedule,
+      teams: updatedTeams,
+      players: updatedPlayers
+    };
+    
+    localStorage.setItem('cricketData', JSON.stringify(updatedData));
+    setCricketData(updatedData);
+  };
+
+  const startMatch = () => {
+    // Initialize batsmen and bowler
+    const battingTeamPlayers = cricketData.players.filter(p => 
+      p.id >= (battingTeam - 1) * 11 + 1 && 
+      p.id <= battingTeam * 11
+    );
+    
+    const bowlingTeamPlayers = cricketData.players.filter(p => 
+      p.id >= (bowlingTeam - 1) * 11 + 1 && 
+      p.id <= bowlingTeam * 11
+    );
+    
+    setCurrentBatsman1(battingTeamPlayers[0].id);
+    setCurrentBatsman2(battingTeamPlayers[1].id);
+    setCurrentBowler(bowlingTeamPlayers.find(p => p.role_id === 2)?.id || bowlingTeamPlayers[0].id);
+  };
 
   const handleNextMatch = () => {
-    const storedData = JSON.parse(localStorage.getItem('cricketData'));
-    const nextMatch = storedData.schedule.find(m => 
-      !m.completed && (m.team1 === selectedTeam || m.team2 === selectedTeam)
+    const nextMatch = cricketData.schedule.find(m => 
+      !m.status && (m.team1 === selectedTeam || m.team2 === selectedTeam)
     );
     
     if (nextMatch) {
@@ -339,16 +536,14 @@ function Match() {
     navigate('/');
   };
 
-  if (isLoading) return <div className="container text-center py-5">Loading match data...</div>;
-  if (error) return <Alert variant="danger" className="container mt-4">{error}</Alert>;
-  if (!matchData || !selectedTeam) return null;
+  if (!cricketData || !match || !selectedTeam) return <div className="container text-center py-5">Loading match data...</div>;
 
-  const battingTeamName = getTeamName(matchStatus.battingTeam);
-  const bowlingTeamName = getTeamName(matchStatus.bowlingTeam);
-  const venueName = getVenueName(matchData.venue);
-  const isUserBatting = matchStatus.battingTeam === selectedTeam;
-  const requiredRunRate = matchStatus.innings === 2 && matchStatus.overs > 0 ? 
-    ((matchStatus.target - matchStatus.runs) / (20 - matchStatus.overs - (matchStatus.balls / 6))).toFixed(2) : 
+  const battingTeamName = getTeamName(battingTeam);
+  const bowlingTeamName = getTeamName(bowlingTeam);
+  const venueName = getVenueName(match.venue);
+  const isUserBatting = battingTeam === selectedTeam;
+  const requiredRunRate = innings === 2 && overs > 0 ? 
+    ((target - totalRuns) / (20 - overs - (balls / 6))).toFixed(2) : 
     null;
 
   return (
@@ -366,7 +561,7 @@ function Match() {
           </div>
           <div>
             <Badge bg="dark">
-              {matchStatus.innings === 1 ? '1st Innings' : '2nd Innings'} | {matchStatus.overs}.{matchStatus.balls} overs
+              {innings === 1 ? '1st Innings' : '2nd Innings'} | {overs}.{balls} overs
             </Badge>
           </div>
         </Card.Header>
@@ -375,30 +570,25 @@ function Match() {
             <div className="col-md-8">
               <div className="d-flex justify-content-between align-items-center mb-4">
                 <div>
-                  <h2 className="mb-0">{matchStatus.runs}/{matchStatus.wickets}</h2>
+                  <h2 className="mb-0">{totalRuns}/{wickets}</h2>
                   <small className="text-muted">
-                    {matchStatus.innings === 2 && `Target: ${matchStatus.target} | Need ${matchStatus.target - matchStatus.runs} runs`}
+                    {innings === 2 && `Target: ${target} | Need ${target - totalRuns} runs`}
                   </small>
                 </div>
                 <div className="text-end">
-                  <div>Run Rate: {(matchStatus.runs / (matchStatus.overs + matchStatus.balls / 6)).toFixed(2)}</div>
+                  <div>Run Rate: {(totalRuns / (overs + balls / 6)).toFixed(2)}</div>
                   {requiredRunRate && <div>Req. RR: {requiredRunRate}</div>}
                 </div>
               </div>
 
               <ProgressBar 
-                now={(matchStatus.overs * 6 + matchStatus.balls) / 120 * 100} 
-                label={`${matchStatus.overs}.${matchStatus.balls}/20`} 
+                now={(overs * 6 + balls) / 120 * 100} 
+                label={`${overs}.${balls}/20`} 
                 className="mb-4"
               />
 
-              {!matchStatus.batsman1 ? (
-                <Button variant="primary" size="lg" onClick={() => setMatchStatus(prev => ({
-                  ...prev,
-                  batsman1: players[matchStatus.battingTeam][0].id,
-                  batsman2: players[matchStatus.battingTeam][1].id,
-                  bowler: players[matchStatus.bowlingTeam].find(p => p.role === 'Bowler')?.id || players[matchStatus.bowlingTeam][0].id
-                }))}>
+              {!currentBatsman1 ? (
+                <Button variant="primary" size="lg" onClick={startMatch}>
                   Start Match
                 </Button>
               ) : (
@@ -406,22 +596,22 @@ function Match() {
                   variant="success" 
                   size="lg" 
                   onClick={simulateBall}
-                  disabled={matchStatus.isCompleted}
+                  disabled={matchCompleted}
                 >
-                  {matchStatus.isCompleted ? 'Match Over' : 'Simulate Ball'}
+                  {matchCompleted ? 'Match Over' : 'Simulate Ball'}
                 </Button>
               )}
 
-              {matchStatus.isCompleted && (
+              {matchCompleted && (
                 <div className="mt-4 text-center">
                   <h4 className="mb-3">
-                    {matchStatus.innings === 2 ? (
-                      matchStatus.runs > matchStatus.target ? (
-                        `${battingTeamName} won by ${10 - matchStatus.wickets} wickets!`
-                      ) : matchStatus.runs === matchStatus.target ? (
+                    {innings === 2 ? (
+                      totalRuns > target ? (
+                        `${battingTeamName} won by ${10 - wickets} wickets!`
+                      ) : totalRuns === target ? (
                         'Match tied!'
                       ) : (
-                        `${bowlingTeamName} won by ${matchStatus.target - matchStatus.runs - 1} runs!`
+                        `${bowlingTeamName} won by ${target - totalRuns - 1} runs!`
                       )
                     ) : (
                       'First innings completed'
@@ -442,8 +632,8 @@ function Match() {
                 <Card.Header>Commentary</Card.Header>
                 <Card.Body style={{ maxHeight: '200px', overflowY: 'auto' }}>
                   <ListGroup variant="flush">
-                    {matchStatus.commentary.length > 0 ? (
-                      matchStatus.commentary.map((item, index) => (
+                    {commentary.length > 0 ? (
+                      commentary.map((item, index) => (
                         <ListGroup.Item key={index}>{item}</ListGroup.Item>
                       ))
                     ) : (
@@ -468,25 +658,41 @@ function Match() {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr className={matchStatus.batsman1 ? 'table-active' : ''}>
+                      <tr className={currentBatsman1 ? 'table-active' : ''}>
                         <td>
-                          {matchStatus.batsman1 ? getPlayerName(matchStatus.batsman1) : '-'}
-                          <br />
-                          <small className="text-muted">{matchStatus.batsman1 ? getPlayerRole(matchStatus.batsman1) : ''}</small>
+                          {currentBatsman1 ? (
+                            <>
+                              {getPlayerShortName(currentBatsman1)} ({getPlayerRole(currentBatsman1)})
+                              <br />
+                              <small className="text-muted">{getPlayerName(currentBatsman1)}</small>
+                            </>
+                          ) : '-'}
                         </td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
+                        <td>{currentBatsman1 ? batsmanStats[currentBatsman1]?.runs || 0 : '-'}</td>
+                        <td>{currentBatsman1 ? batsmanStats[currentBatsman1]?.balls || 0 : '-'}</td>
+                        <td>
+                          {currentBatsman1 && batsmanStats[currentBatsman1]?.balls > 0 ? 
+                            ((batsmanStats[currentBatsman1].runs / batsmanStats[currentBatsman1].balls) * 100).toFixed(2) : 
+                            currentBatsman1 ? '0.00' : '-'}
+                        </td>
                       </tr>
-                      <tr className={matchStatus.batsman2 ? 'table-active' : ''}>
+                      <tr className={currentBatsman2 ? 'table-active' : ''}>
                         <td>
-                          {matchStatus.batsman2 ? getPlayerName(matchStatus.batsman2) : '-'}
-                          <br />
-                          <small className="text-muted">{matchStatus.batsman2 ? getPlayerRole(matchStatus.batsman2) : ''}</small>
+                          {currentBatsman2 ? (
+                            <>
+                              {getPlayerShortName(currentBatsman2)} ({getPlayerRole(currentBatsman2)})
+                              <br />
+                              <small className="text-muted">{getPlayerName(currentBatsman2)}</small>
+                            </>
+                          ) : '-'}
                         </td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
+                        <td>{currentBatsman2 ? batsmanStats[currentBatsman2]?.runs || 0 : '-'}</td>
+                        <td>{currentBatsman2 ? batsmanStats[currentBatsman2]?.balls || 0 : '-'}</td>
+                        <td>
+                          {currentBatsman2 && batsmanStats[currentBatsman2]?.balls > 0 ? 
+                            ((batsmanStats[currentBatsman2].runs / batsmanStats[currentBatsman2].balls) * 100).toFixed(2) : 
+                            currentBatsman2 ? '0.00' : '-'}
+                        </td>
                       </tr>
                     </tbody>
                   </Table>
@@ -507,16 +713,24 @@ function Match() {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr className={matchStatus.bowler ? 'table-active' : ''}>
+                      <tr className={currentBowler ? 'table-active' : ''}>
                         <td>
-                          {matchStatus.bowler ? getPlayerName(matchStatus.bowler) : '-'}
-                          <br />
-                          <small className="text-muted">{matchStatus.bowler ? getPlayerRole(matchStatus.bowler) : ''}</small>
+                          {currentBowler ? (
+                            <>
+                              {getPlayerShortName(currentBowler)} ({getPlayerRole(currentBowler)})
+                              <br />
+                              <small className="text-muted">{getPlayerName(currentBowler)}</small>
+                            </>
+                          ) : '-'}
                         </td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
+                        <td>{currentBowler ? `${Math.floor(bowlerStats[currentBowler]?.balls / 6)}.${bowlerStats[currentBowler]?.balls % 6}` || '0.0' : '-'}</td>
+                        <td>{currentBowler ? bowlerStats[currentBowler]?.runsGiven || 0 : '-'}</td>
+                        <td>{currentBowler ? bowlerStats[currentBowler]?.wickets || 0 : '-'}</td>
+                        <td>
+                          {currentBowler && bowlerStats[currentBowler]?.balls > 0 ? 
+                            ((bowlerStats[currentBowler].runsGiven / bowlerStats[currentBowler].balls) * 6).toFixed(2) : 
+                            currentBowler ? '0.00' : '-'}
+                        </td>
                       </tr>
                     </tbody>
                   </Table>
@@ -528,15 +742,15 @@ function Match() {
                 <Card.Body>
                   <div className="d-flex justify-content-between mb-2">
                     <span>Extras:</span>
-                    <span>{matchStatus.extras}</span>
+                    <span>{totalRuns - Object.values(batsmanStats).reduce((sum, b) => sum + b.runs, 0)}</span>
                   </div>
                   <div className="d-flex justify-content-between mb-2">
                     <span>Total Runs:</span>
-                    <span>{matchStatus.runs}</span>
+                    <span>{totalRuns}</span>
                   </div>
                   <div className="d-flex justify-content-between">
                     <span>Wickets:</span>
-                    <span>{matchStatus.wickets}</span>
+                    <span>{wickets}</span>
                   </div>
                 </Card.Body>
               </Card>
@@ -546,6 +760,6 @@ function Match() {
       </Card>
     </div>
   );
-}
+};
 
 export default Match;
