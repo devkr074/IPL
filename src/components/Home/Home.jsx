@@ -1,31 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 function Home() {
-    const navigate = useNavigate();
-    const [status, setStatus] = useState(false);
     useEffect(() => {
-        const getStatus = localStorage.getItem('status') || false;
-        if (getStatus) {
-            navigate('/schedule');
-        }
         document.title = "IPL - Indian Premier League";
     }, []);
-    function handleStartTournament() {
-        // if (localStorage.getItem('status') || false) {
-        //     const shouldReset = window.confirm('A game is already in progress. Do you want to reset and start a new game?');
-        //     if (shouldReset) {
-        //         localStorage.clear();
-        //     } else {
-        //         return;
-        //     }
-        // }
-        navigate('/team-selection');
+    const navigate = useNavigate();
+    function handlePlay() {
+        if (localStorage.getItem('data')) {
+            navigate('/main-menu');
+        }
+        else {
+            navigate('/teams');
+        }
     }
     return (
-        <div className={style.homeContainer}>
-            {/* <img className={style.teamPlayerImage} src={teams} alt="All Teams Player" /> */}
-            <button className={style.startBtn} onClick={handleStartTournament}>Start Tournament</button>
-        </div>
+        <>
+            <button onClick={handlePlay}>Play</button>
+        </>
     );
 }
 export default Home;

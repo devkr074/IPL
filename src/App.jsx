@@ -1,13 +1,16 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/Home/Home.jsx';
-import TeamSelection from './components/Teams/Teams.jsx';
+import Teams from './components/Teams/Teams.jsx';
+import MainMenu from './components/MainMenu/MainMenu.jsx'
+import Schedule from './components/Schedule/Schedule.jsx'
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/team-selection" element={<TeamSelection />} />
+        <Route path="/teams" element={<Teams />} />
+        <Route path="/main-menu" element={<MainMenu />} />
+        <Route path="/schedule" element={<Schedule />} />
       </Routes>
     </Router>
   );

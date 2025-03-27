@@ -1,32 +1,20 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Table, Tabs, Tab } from 'react-bootstrap';
 function Schedule() {
-  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('all');
   const [schedule, setSchedule] = useState([]);
   const [venues, setVenues] = useState([]);
   const [teams, setTeams] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState(null);
   useEffect(() => {
-    document.title = "IPL - Main Menu";
-    const storedData = JSON.parse(localStorage.getItem('cricketData'));
-    setSchedule(storedData.schedule);
-    setVenues(storedData.venues);
-    setTeams(storedData.teams);
-    setSelectedTeam(storedData.selectedTeam);
+    document.title = "IPL - Schedule";
+    const data = JSON.parse(localStorage.getItem('data'));
+    setSchedule(data.schedule);
+    setVenues(data.venues);
+    setTeams(data.teams);
+    setSelectedTeam(data.selectedTeam);
   }, []);
-  useEffect(() => {
-    function handleBackButton(e) {
-      e.preventDefault();
-      navigate('/');
-    }
-    window.history.pushState(null, '', window.location.pathname);
-    window.addEventListener('popstate', handleBackButton);
-    return () => {
-      window.removeEventListener('popstate', handleBackButton);
-    };
-  }, [navigate]);
+  const navigate = useNavigate();
   function handleMatchAction(match) {
     if (selectedTeam && (match.team1 === selectedTeam || match.team2 === selectedTeam)) {
       navigate(`/toss/${match.id}`);
@@ -38,11 +26,16 @@ function Schedule() {
     return selectedTeam && (match.team1 === selectedTeam || match.team2 === selectedTeam);
   }
   return (
-    <div className="container mt-4">
-      <h2 className="text-center mb-4">Tournament Schedule</h2>
-      <Tabs activeKey={activeTab} onSelect={(e) => setActiveTab(e)} className="mb-3">
-        <Tab eventKey="all" title="All Matches">
-          <Table striped bordered hover responsive>
+    <div className="schedule-container">
+      <h2 className="schedule-title">Tournament Schedule</h2>   
+      <div className="tabs">
+        <div className={`tab ${activeTab === 'all' ? 'active' : ''}`} onClick={() => setActiveTab('all')}>All Matches</div>
+        <div className={`tab ${activeTab === 'playoffs' ? 'active' : ''}`} onClick={() => setActiveTab('playoffs')}>Playoff Matches</div>
+        <div className={`tab ${activeTab === 'pointstable' ? 'active' : ''}`} onClick={() => setActiveTab('pointstable')}>Points Table</div>
+      </div>
+      <div className="tab-content">
+        {activeTab === 'all' && (
+          <table className="schedule-table">
             <thead>
               <tr>
                 <th>Match No.</th>
@@ -53,7 +46,11 @@ function Schedule() {
             </thead>
             <tbody>
               {schedule.map((match, index) => (
-                <tr key={match.id} className={isUserMatch(match) ? 'table-info' : ''} onClick={() => handleMatchAction(match)}>
+                <tr 
+                  key={match.id} 
+                  className={isUserMatch(match) ? 'user-match' : ''} 
+                  onClick={() => handleMatchAction(match)}
+                >
                   <td>Match {index + 1}</td>
                   <td>{teams[match.team1 - 1].name} vs {teams[match.team2 - 1].name}</td>
                   <td>{venues[match.team1 - 1].name}</td>
@@ -61,13 +58,17 @@ function Schedule() {
                 </tr>
               ))}
             </tbody>
-          </Table>
-        </Tab>
-        <Tab eventKey="playoffs" title="Playoff Matches">
-          <p className="text-center py-4">Playoff matches will appear here after league stage completes</p>
-        </Tab>
-        <Tab eventKey="pointstable" title="Points Table">
-          <Table striped bordered hover responsive>
+          </table>
+        )}
+
+        {activeTab === 'playoffs' && (
+          <div className="playoffs-message">
+            Playoff matches will appear here after league stage completes
+          </div>
+        )}
+
+        {activeTab === 'pointstable' && (
+          <table className="points-table">
             <thead>
               <tr>
                 <th>Rank</th>
@@ -96,9 +97,9 @@ function Schedule() {
                 </tr>
               ))}
             </tbody>
-          </Table>
-        </Tab>
-      </Tabs>
+          </table>
+        )}
+      </div>
     </div>
   );
 }
