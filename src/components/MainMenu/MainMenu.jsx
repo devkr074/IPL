@@ -28,12 +28,17 @@ function MainMenu() {
     function handleSquad() {
         navigate('/squad');
     }
+    function handleRestart() {
+        localStorage.clear();
+        navigate('/');
+    }
     return (
         <>
             <button onClick={handleContinue}>Continue</button>
             <button onClick={handleStatistics}>Statistics</button>
             <button onClick={handlePointsTable}>Points Table</button>
             <button onClick={handleSquad}>Squad</button>
+            <button onClick={handleRestart}>Restart</button>
         </>
     );
 }
