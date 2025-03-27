@@ -1,106 +1,79 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 function Schedule() {
-  const [activeTab, setActiveTab] = useState('all');
+  const [activeTab, setActiveTab] = useState('your-matches');
   const [schedule, setSchedule] = useState([]);
   const [venues, setVenues] = useState([]);
   const [teams, setTeams] = useState([]);
-  const [selectedTeam, setSelectedTeam] = useState(null);
+  const [userTeam, setUserTeam] = useState(null);
   useEffect(() => {
     document.title = "IPL - Schedule";
     const data = JSON.parse(localStorage.getItem('data'));
     setSchedule(data.schedule);
     setVenues(data.venues);
     setTeams(data.teams);
-    setSelectedTeam(data.selectedTeam);
+    setUserTeam(data.userTeam);
   }, []);
   const navigate = useNavigate();
   function handleMatchAction(match) {
-    if (selectedTeam && (match.team1 === selectedTeam || match.team2 === selectedTeam)) {
+    if (match.status === false) {
       navigate(`/toss/${match.id}`);
     } else {
       navigate(`/match/${match.id}`);
     }
   };
   function isUserMatch(match) {
-    return selectedTeam && (match.team1 === selectedTeam || match.team2 === selectedTeam);
+    return userTeam && (match.team1 === userTeam || match.team2 === userTeam);
   }
   return (
-    <div className="schedule-container">
-      <h2 className="schedule-title">Tournament Schedule</h2>   
+    <>
       <div className="tabs">
-        <div className={`tab ${activeTab === 'all' ? 'active' : ''}`} onClick={() => setActiveTab('all')}>All Matches</div>
-        <div className={`tab ${activeTab === 'playoffs' ? 'active' : ''}`} onClick={() => setActiveTab('playoffs')}>Playoff Matches</div>
-        <div className={`tab ${activeTab === 'pointstable' ? 'active' : ''}`} onClick={() => setActiveTab('pointstable')}>Points Table</div>
+        <div className={`tab ${activeTab === 'your-matches' ? 'active' : ''}`} onClick={() => setActiveTab('your-matches')}>Your Matches</div>
+        <div className={`tab ${activeTab === 'all-matches' ? 'active' : ''}`} onClick={() => setActiveTab('all-matches')}>All Matches</div>
       </div>
       <div className="tab-content">
-        {activeTab === 'all' && (
-          <table className="schedule-table">
-            <thead>
-              <tr>
-                <th>Match No.</th>
-                <th>Teams</th>
-                <th>Venue</th>
-                <th>Result</th>
-              </tr>
-            </thead>
-            <tbody>
-              {schedule.map((match, index) => (
-                <tr 
-                  key={match.id} 
-                  className={isUserMatch(match) ? 'user-match' : ''} 
-                  onClick={() => handleMatchAction(match)}
-                >
-                  <td>Match {index + 1}</td>
-                  <td>{teams[match.team1 - 1].name} vs {teams[match.team2 - 1].name}</td>
-                  <td>{venues[match.team1 - 1].name}</td>
-                  <td>{match.status ? 'Completed' : 'Yet to Complete'}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-
-        {activeTab === 'playoffs' && (
-          <div className="playoffs-message">
-            Playoff matches will appear here after league stage completes
+        {activeTab === 'your-matches' && (
+          <div className="matches-grid">
+            {schedule.map((match) => {
+              if (isUserMatch(match)) {
+                const team1 = teams[match.team1 - 1].name;
+                const team2 = teams[match.team2 - 1].name;
+                const venue = venues[match.team1 - 1].name;
+                return (
+                  <div key={match.id} onClick={() => handleMatchAction(match)} style={{ border: '2px solid' }}>
+                    <h3>{venue}</h3>
+                    <div className="teams-container">
+                      <div className="team-name">{team1}</div>
+                      <div className="vs">vs</div>
+                      <div className="team-name">{team2}</div>
+                    </div>
+                  </div>
+                );
+              }
+            })}
           </div>
         )}
-
-        {activeTab === 'pointstable' && (
-          <table className="points-table">
-            <thead>
-              <tr>
-                <th>Rank</th>
-                <th>Team</th>
-                <th>Played</th>
-                <th>Won</th>
-                <th>Lost</th>
-                <th>Tied</th>
-                <th>NR</th>
-                <th>Points</th>
-                <th>NRR</th>
-              </tr>
-            </thead>
-            <tbody>
-              {teams.map((team, index) => (
-                <tr key={team.id}>
-                  <td>{index + 1}</td>
-                  <td>{team.name}</td>
-                  <td>{team.matches}</td>
-                  <td>{team.won}</td>
-                  <td>{team.lost}</td>
-                  <td>{team.tied}</td>
-                  <td>{team.nr}</td>
-                  <td>{team.point}</td>
-                  <td>{team.nrr}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        {activeTab === 'all-matches' && (
+          <div className="matches-grid">
+            {schedule.map((match) => {
+              const team1 = teams[match.team1 - 1].name;
+              const team2 = teams[match.team2 - 1].name;
+              const venue = venues[match.team1 - 1].name;
+              return (
+                <div key={match.id} className={`match-card ${isUserMatch(match) ? 'user-match' : ''}`} style={{ border: '2px solid' }}>
+                  <div className="teams-container">
+                    <h3>{venue}</h3>
+                    <div className="team-name">{team1}</div>
+                    <div className="vs">vs</div>
+                    <div className="team-name">{team2}</div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         )}
       </div>
-    </div>
+    </>
   );
 }
 export default Schedule;
