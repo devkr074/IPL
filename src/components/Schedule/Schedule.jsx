@@ -16,9 +16,10 @@ function Schedule() {
   }, []);
   const navigate = useNavigate();
   function handleMatchAction(match) {
-    if (match.status === false) {
-      navigate(`/toss/${match.id}`);
-    } else {
+    if (match.status === "next") {
+      navigate(`/toss/${teams[match.team1 - 1].short}vs${teams[match.team2 - 1].short}`);
+    }
+    else if (match.status === "toss-completed") {
       navigate(`/match/${match.id}`);
     }
   };
