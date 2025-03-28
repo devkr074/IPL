@@ -10,7 +10,7 @@
         "sixes": 0,
         "captain": false,
         "wk": false,
-        "logo": "https://documents.iplt20.com/ipl/IPLHeadshot2025/6.png"
+        "profile": "https://documents.iplt20.com/ipl/IPLHeadshot2025/6.png"
     },
     {
         "id": 2,
@@ -21,7 +21,8 @@
         "matches": 0,
         "runs": 0,
         "captain": false,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/993.png"
     },
     {
         "id": 3,
@@ -33,7 +34,8 @@
         "runs": 0,
         "sixes": 0,
         "captain": false,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/174.png"
     },
     {
         "id": 4,
@@ -45,7 +47,8 @@
         "runs": 0,
         "sixes": 0,
         "captain": false,
-        "wk": true
+        "wk": true,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/743.png"
     },
     {
         "id": 5,
@@ -58,7 +61,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": false,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/1941.png"
     },
     {
         "id": 6,
@@ -71,7 +75,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": true,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/54.png"
     },
     {
         "id": 7,
@@ -84,7 +89,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": false,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/75.png"
     },
     {
         "id": 8,
@@ -97,7 +103,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": false,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/91.png"
     },
     {
         "id": 9,
@@ -110,7 +117,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": false,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/66.png"
     },
     {
         "id": 10,
@@ -123,7 +131,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": false,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/9.png"
     },
     {
         "id": 11,
@@ -136,7 +145,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": false,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/98.png"
     },
     {
         "id": 12,
@@ -149,7 +159,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": false,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/724.png"
     },
     {
         "id": 13,
@@ -162,7 +173,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": false,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/188.png"
     },
     {
         "id": 14,
@@ -176,7 +188,7 @@
         "wickets": 0,
         "captain": true,
         "wk": false,
-        "logo": "https://documents.iplt20.com/ipl/IPLHeadshot2025/102.png"
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/102.png"
     },
     {
         "id": 15,
@@ -189,7 +201,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": false,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/211.png"
     },
     {
         "id": 16,
@@ -202,7 +215,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": false,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/215.png"
     },
     {
         "id": 17,
@@ -215,7 +229,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": false,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/138.png"
     },
     {
         "id": 18,
@@ -228,7 +243,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": false,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/46.png"
     },
     {
         "id": 19,
@@ -241,7 +257,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": false,
-        "wk": true
+        "wk": true,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/57.png"
     },
     {
         "id": 20,
@@ -254,7 +271,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": false,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/45.png"
     },
     {
         "id": 21,
@@ -267,7 +285,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": false,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/975.png"
     },
     {
         "id": 22,
@@ -280,7 +299,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": false,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/8.png"
     },
     {
         "id": 23,
@@ -293,7 +313,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": false,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/1220.png"
     },
     {
         "id": 24,
@@ -306,7 +327,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": false,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/2.png"
     },
     {
         "id": 25,
@@ -319,7 +341,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": false,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/200.png"
     },
     {
         "id": 26,
@@ -332,7 +355,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": false,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/597.png"
     },
     {
         "id": 27,
@@ -345,7 +369,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": false,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/183.png"
     },
     {
         "id": 28,
@@ -358,7 +383,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": false,
-        "wk": true
+        "wk": true,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/1000.png"
     },
     {
         "id": 29,
@@ -371,7 +397,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": false,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/636.png"
     },
     {
         "id": 30,
@@ -384,7 +411,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": false,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/17.png"
     },
     {
         "id": 31,
@@ -397,7 +425,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": false,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/1932.png"
     },
     {
         "id": 32,
@@ -410,7 +439,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": false,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/36.png"
     },
     {
         "id": 33,
@@ -423,7 +453,8 @@
         "sixes": 0,
         "wickets": 0,
         "captain": false,
-        "wk": false
+        "wk": false,
+        "profile":"https://documents.iplt20.com/ipl/IPLHeadshot2025/978.png"
     },
     {
         "id": 34,

@@ -1,0 +1,59 @@
+.container {
+    height: 100vh;
+}
+
+.tabContainer {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    padding: 10px 20px;
+}
+
+.tab {
+    padding: 12px 15px;
+    background-color: #fff;
+    color: #000;
+    border-radius: 8px;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.active {
+    background-color: #3f51b5;
+    color: #fff;
+}
+
+.scheduleContainer {
+    height: calc(100vh - 66px);
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    gap: 39.7px;
+    flex-wrap: wrap;
+    padding: 40px;
+    scrollbar-width: none;
+}
+.card{
+    background-color: #d0caca;
+    border-radius: 8px;
+    padding: 20px 30px;
+    cursor: pointer;
+}
+.card:first-child{
+    background-color: #fff;
+}
+.venue{
+    font-size: 17px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+.teamContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.vs{
+    font-size: 24px;
+}
