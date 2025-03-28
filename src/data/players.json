@@ -53,7 +53,7 @@
             "short_name": "R. Rickelton",
             "profile_picture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/743.png",
             "captain": false,
-            "wicket_keeper": false
+            "wicket_keeper": true
         }
     },
     {
@@ -78,7 +78,7 @@
             "name": "Suryakumar Yadav",
             "short_name": "S. Yadav",
             "profile_picture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/174.png",
-            "captain": true,
+            "captain": false,
             "wicket_keeper": false
         }
     },
@@ -103,7 +103,7 @@
             "bowling_rating": 4,
             "name": "Hardik Pandya",
             "short_name": "H. Pandya",
-            "profile_picture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/743.png",
+            "profile_picture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/54.png",
             "captain": true,
             "wicket_keeper": false
         }
