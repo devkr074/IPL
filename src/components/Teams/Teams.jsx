@@ -4,6 +4,7 @@ import teams from '../../data/teams.json';
 import players from '../../data/players.json';
 import venues from '../../data/venues.json';
 import schedule from '../../data/schedule.json';
+import styles from './Teams.module.css'
 function Teams() {
   const [selectedTeam, setSelectedTeam] = useState(1);
   useEffect(() => {
@@ -15,18 +16,21 @@ function Teams() {
     localStorage.setItem('data', JSON.stringify(data));
     navigate('/main-menu');
   }
-  function handleTeamChange(e) {
-    setSelectedTeam(parseInt(e.target.value));
+  function handleTeamChange(id) {
+    setSelectedTeam(id);
   }
   return (
     <>
-      {teams.map(team => (
-        <label key={team.id}>
-          <input type="radio" value={team.id} checked={selectedTeam === team.id} onChange={handleTeamChange} />
-          {team.name}
-        </label>
-      ))}
-      <button onClick={handleNext}>Next</button>
+      <div className={styles.container} >
+        {teams.map(team => (
+          <label key={team.id} className={`${styles.card} ${selectedTeam === team.id ? styles.active : ''}`}>
+            <input type="radio" name="teams" value={team.id} checked={selectedTeam === team.id} onChange={() => handleTeamChange(team.id)} className={styles.hiddenRadio} />
+            <img src={team.logo} className={styles.image} alt={team.name} />
+          </label>
+        ))}
+        <br />
+        <button className={styles.button} onClick={handleNext}>Next</button>
+      </div>
     </>
   );
 }

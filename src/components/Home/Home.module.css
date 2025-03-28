@@ -1,0 +1,53 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100vh;
+    padding-inline: 110px;
+    overflow: hidden;
+}
+
+.image {
+    height: 600px;
+    transform: translateY(100px);
+    animation: appear 1s ease forwards;
+}
+
+.button {
+    margin-inline: 100px;
+    padding: 20px 50px;
+    font-size: 2em;
+    border-radius: 10px;
+    background-color: transparent;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+    transform: scale(0);
+    opacity: 0;
+    border: 7px solid #5078de;
+    outline: none;
+    animation: shrink 1s ease forwards;
+    animation-delay: 1.3s;
+}
+
+@keyframes appear {
+    0% {
+        transform: translateY(100%);
+    }
+
+    100% {
+        transform: translateY(100px);
+    }
+}
+
+@keyframes shrink {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
