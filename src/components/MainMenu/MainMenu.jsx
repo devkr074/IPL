@@ -1,5 +1,9 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styles from './MainMenu.module.css';
+import trophy from '../../assets/trophy.png';
+import { FaRedo } from 'react-icons/fa';
+import { FaPlay } from 'react-icons/fa';
 function MainMenu() {
     useEffect(() => {
         document.title = "IPL - Main Menu";
@@ -34,11 +38,20 @@ function MainMenu() {
     }
     return (
         <>
-            <button onClick={handleContinue}>Continue</button>
-            <button onClick={handleStatistics}>Statistics</button>
-            <button onClick={handlePointsTable}>Points Table</button>
-            <button onClick={handleSquad}>Squad</button>
-            <button onClick={handleRestart}>Restart</button>
+            <div className={styles.container}>
+                <div className={styles.imageContainer}>
+                    <img src={trophy} alt="IPL Trophy" className={styles.image} />
+                </div>
+                <div className={styles.buttonContainer}>
+                    <button className={styles.mainButton} onClick={handleContinue}> <FaPlay size={44} /> CONTINUE</button>
+                    <div className={styles.buttonContainer2}>
+                        <button className={styles.button} onClick={handleStatistics}>STATISTICS</button>
+                        <button className={styles.button} onClick={handleSquad}>SQUAD</button>
+                        <button className={styles.button} onClick={handlePointsTable}>POINTS TABLE</button>
+                    </div>
+                    <button className={styles.restartButton} onClick={handleRestart}><FaRedo /></button>
+                </div>
+            </div>
         </>
     );
 }

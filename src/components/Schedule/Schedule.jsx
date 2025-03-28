@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styles from './Schedule.module.css'
 function Schedule() {
   const [activeTab, setActiveTab] = useState('your-matches');
   const [schedule, setSchedule] = useState([]);
@@ -28,51 +29,48 @@ function Schedule() {
   }
   return (
     <>
-      <div className="tabs">
-        <div className={`tab ${activeTab === 'your-matches' ? 'active' : ''}`} onClick={() => setActiveTab('your-matches')}>Your Matches</div>
-        <div className={`tab ${activeTab === 'all-matches' ? 'active' : ''}`} onClick={() => setActiveTab('all-matches')}>All Matches</div>
-      </div>
-      <div className="tab-content">
-        {activeTab === 'your-matches' && (
-          <div className="matches-grid">
-            {schedule.map((match) => {
-              if (isUserMatch(match)) {
-                const team1 = teams[match.team1 - 1].name;
-                const team2 = teams[match.team2 - 1].name;
-                const venue = venues[match.team1 - 1].name;
+      <div className={styles.container}>
+        <div className={styles.tabContainer}>
+          <div className={`${styles.tab} ${activeTab === 'your-matches' ? styles.active : ''}`} onClick={() => setActiveTab('your-matches')}>Your Matches</div>
+          <div className={`${styles.tab} ${activeTab === 'all-matches' ? styles.active : ''}`} onClick={() => setActiveTab('all-matches')}>All Matches</div>
+        </div>
+        <div className={styles.scheduleContainer}>
+          {activeTab === 'your-matches' && (
+            schedule
+              .filter(match => isUserMatch(match))
+              .map((match) => {
+                const team1 = teams[match.team1 - 1].logo;
+                const team2 = teams[match.team2 - 1].logo;
+                const venue = venues[match.team1 - 1].city;
                 return (
-                  <div key={match.id} onClick={() => handleMatchAction(match)} style={{ border: '2px solid' }}>
-                    <h3>{venue}</h3>
-                    <div className="teams-container">
-                      <div className="team-name">{team1}</div>
-                      <div className="vs">vs</div>
-                      <div className="team-name">{team2}</div>
+                  <div className={styles.card} key={match.id} onClick={() => handleMatchAction(match)}>
+                    <p className={styles.venue} >Venue: {venue}</p>
+                    <div className={styles.teamContainer}>
+                      <img src={team1} alt="" height={80} />
+                      <p className={styles.vs}>vs</p>
+                      <img src={team2} alt="" height={80} />
                     </div>
                   </div>
                 );
-              }
-            })}
-          </div>
-        )}
-        {activeTab === 'all-matches' && (
-          <div className="matches-grid">
-            {schedule.map((match) => {
-              const team1 = teams[match.team1 - 1].name;
-              const team2 = teams[match.team2 - 1].name;
-              const venue = venues[match.team1 - 1].name;
-              return (
-                <div key={match.id} className={`match-card ${isUserMatch(match) ? 'user-match' : ''}`} style={{ border: '2px solid' }}>
-                  <div className="teams-container">
-                    <h3>{venue}</h3>
-                    <div className="team-name">{team1}</div>
-                    <div className="vs">vs</div>
-                    <div className="team-name">{team2}</div>
+              })
+          )}
+          {activeTab === 'all-matches' && (schedule.map((match) => {
+                const team1 = teams[match.team1 - 1].logo;
+                const team2 = teams[match.team2 - 1].logo;
+                const venue = venues[match.team1 - 1].city;
+                return (
+                  <div className={styles.card} key={match.id} onClick={() => handleMatchAction(match)}>
+                    <p className={styles.venue} >Venue: {venue}</p>
+                    <div className={styles.teamContainer}>
+                      <img src={team1} alt="" height={80} />
+                      <p className={styles.vs}>vs</p>
+                      <img src={team2} alt="" height={80} />
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
+                );
+              })
+          )}
+        </div>
       </div>
     </>
   );

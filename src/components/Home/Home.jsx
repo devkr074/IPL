@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Home.module.css'
-import trophy from '../../assets/trophy.png'
+import poster from '../../assets/poster.png'
 function Home() {
     useEffect(() => {
         document.title = "IPL - Indian Premier League";
@@ -18,7 +18,7 @@ function Home() {
     return (
         <>
             <div className={styles.container}>
-                <img src={trophy} alt="IPL Trophy" className={styles.image} />
+                <img src={poster} alt="IPL Trophy" className={styles.image} />
                 <button className={styles.button} onClick={handlePlay}>PLAY</button>
             </div>
         </>

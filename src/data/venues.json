@@ -1,42 +1,52 @@
 [
     {
         "id": 1,
-        "name": "Wankhede Stadium"
+        "name": "Wankhede Stadium",
+        "city":"Mumbai"
     },
     {
         "id": 2,
-        "name": "MA Chidambaram Stadium"
+        "name": "MA Chidambaram Stadium",
+        "city":"Chennai"
     },
     {
         "id": 3,
-        "name": "M.Chinnaswamy Stadium"
+        "name": "M.Chinnaswamy Stadium",
+        "city":"Banglore"
     },
     {
         "id": 4,
-        "name": "Eden Gardens"
+        "name": "Eden Gardens",
+        "city":"Kolkata"
     },
     {
         "id": 5,
-        "name": "Arun Jaitley Stadium"
+        "name": "Arun Jaitley Stadium",
+        "city": "Delhi"
     },
     {
         "id": 6,
-        "name": "Himachal Pradesh Cricket Association Stadium"
+        "name": "Himachal Pradesh Cricket Association Stadium",
+        "city":"Punjab"
     },
     {
         "id": 7,
-        "name": "Sawai Mansingh Stadium"
+        "name": "Sawai Mansingh Stadium",
+        "city":"Jaipur"
     },
     {
         "id": 8,
-        "name": "Rajiv Gandhi International Stadium"
+        "name": "Rajiv Gandhi International Stadium",
+        "city":"Hyderabad"
     },
     {
         "id": 9,
-        "name": "Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium"
+        "name": "Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium",
+        "city":"Lucknow"
     },
     {
         "id": 10,
-        "name": "Narendra Modi Stadium"
+        "name": "Narendra Modi Stadium",
+        "city":"Gujarat"
     }
 ]
