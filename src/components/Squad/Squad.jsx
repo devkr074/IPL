@@ -29,17 +29,17 @@ function Squad() {
                             <h2>Batsman</h2>
                             {players
                                 .filter(player =>
-                                    player.id >= ((activeTab - 1) * 11) + 1 &&
-                                    player.id <= (activeTab * 11) &&
-                                    player.role_id === 1
+                                    player.personal_information.player_id >= ((activeTab - 1) * 11) + 1 &&
+                                    player.personal_information.player_id <= (activeTab * 11) &&
+                                    player.personal_information.role_id === 1
                                 )
                                 .map(player => (
-                                    <div key={player.id}>
-                                        {player.profile && <img src={player.profile} height={180} alt={player.name} />}
+                                    <div key={player.personal_information.player_id}>
+                                        {player.personal_information.profile_picture && <img src={player.personal_information.profile_picture} height={180} alt={player.personal_information.name} />}
                                         <div>
-                                            {player.name}
-                                            {player.captain && "(C)"}
-                                            {player.wk && "(WK)"}
+                                            {player.personal_information.name}
+                                            {player.personal_information.captain && "(C)"}
+                                            {player.personal_information.wicket_keeper && "(WK)"}
                                         </div>
                                     </div>
                                 ))
@@ -48,17 +48,17 @@ function Squad() {
                             <h2>All Rounder</h2>
                             {players
                                 .filter(player =>
-                                    player.id >= ((activeTab - 1) * 11) + 1 &&
-                                    player.id <= (activeTab * 11) &&
-                                    player.role_id === 2
+                                    player.personal_information.player_id >= ((activeTab - 1) * 11) + 1 &&
+                                    player.personal_information.player_id <= (activeTab * 11) &&
+                                    player.personal_information.role_id === 2
                                 )
                                 .map(player => (
-                                    <div key={player.id}>
-                                        {player.profile && <img src={player.profile} height={180} alt={player.name} />}
+                                    <div key={player.personal_information.player_id}>
+                                        {player.personal_information.profile_picture && <img src={player.personal_information.profile_picture} height={180} alt={player.personal_information.name} />}
                                         <div>
-                                            {player.name}
-                                            {player.captain && "(C)"}
-                                            {player.wk && "(WK)"}
+                                            {player.personal_information.name}
+                                            {player.personal_information.captain && "(C)"}
+                                            {player.personal_information.wicket_keeper && "(WK)"}
                                         </div>
                                     </div>
                                 ))
@@ -66,16 +66,16 @@ function Squad() {
 
                             <h2>Bowler</h2>
                             {players.filter(player =>
-                                player.id >= ((activeTab - 1) * 11) + 1 &&
-                                player.id <= (activeTab * 11) &&
-                                player.role_id === 3
+                                player.personal_information.player_id >= ((activeTab - 1) * 11) + 1 &&
+                                player.personal_information.player_id <= (activeTab * 11) &&
+                                player.personal_information.role_id === 3
                             ).map(player => (
-                                <div key={player.id}>
-                                    {player.profile && <img src={player.profile} height={180} alt={player.name} />}
+                                <div key={player.personal_information.player_id}>
+                                    {player.personal_information.profile_picture && <img src={player.personal_information.profile_picture} height={180} alt={player.personal_information.name} />}
                                     <div>
-                                        {player.name}
-                                        {player.captain && "(C)"}
-                                        {player.wk && "(WK)"}
+                                        {player.personal_information.name}
+                                        {player.personal_information.captain && "(C)"}
+                                        {player.personal_information.wicket_keeper && "(WK)"}
                                     </div>
                                 </div>
                             ))

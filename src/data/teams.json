@@ -1,142 +1,62 @@
 [
     {
-        "id": 1,
+        "team_id": 1,
         "name": "Mumbai Indians",
-        "short": "MI",
-        "matches": 0,
-        "won": 0,
-        "lost": 0,
-        "tied": 0,
-        "nr": 0,
-        "point": 0,
-        "nrr": 0.0,
-        "logo": "https://documents.iplt20.com/ipl/MI/Logos/Logooutline/MIoutline.png",
-        "color": "#004ba0"
+        "short_name": "MI",
+        "team_logo": "https://documents.iplt20.com/ipl/MI/Logos/Logooutline/MIoutline.png"
     },
     {
-        "id": 2,
+        "team_id": 2,
         "name": "Chennai Super Kings",
-        "short": "CSK",
-        "matches": 0,
-        "won": 0,
-        "lost": 0,
-        "tied": 0,
-        "nr": 0,
-        "point": 0,
-        "nrr": 0.0,
-        "logo": "https://documents.iplt20.com/ipl/CSK/logos/Logooutline/CSKoutline.png",
-        "color": "yellow"
+        "short_name": "CSK",
+        "team_logo": "https://documents.iplt20.com/ipl/CSK/logos/Logooutline/CSKoutline.png"
     },
     {
-        "id": 3,
+        "team_id": 3,
         "name": "Royal Challengers Bangalore",
-        "short": "RCB",
-        "matches": 0,
-        "won": 0,
-        "lost": 0,
-        "tied": 0,
-        "nr": 0,
-        "point": 0,
-        "nrr": 0.0,
-        "logo": "https://documents.iplt20.com/ipl/RCB/Logos/Logooutline/RCBoutline.png",
-        "color": "#ec1c24"
+        "short_name": "RCB",
+        "team_logo": "https://documents.iplt20.com/ipl/RCB/Logos/Logooutline/RCBoutline.png"
     },
     {
-        "id": 4,
-        "name": "Kolkata Knight Riders",
-        "short": "KKR",
-        "matches": 0,
-        "won": 0,
-        "lost": 0,
-        "tied": 0,
-        "nr": 0,
-        "point": 0,
-        "nrr": 0.0,
-        "logo": "https://documents.iplt20.com/ipl/KKR/Logos/Logooutline/KKRoutline.png",
-        "color": "#3a225d"
+        "team_id": 4,
+        "name": "Kolkata Knight Rteam_iders",
+        "short_name": "KKR",
+        "team_logo": "https://documents.iplt20.com/ipl/KKR/Logos/Logooutline/KKRoutline.png"
     },
     {
-        "id": 5,
+        "team_id": 5,
         "name": "Delhi Capitals",
-        "short": "DC",
-        "matches": 0,
-        "won": 0,
-        "lost": 0,
-        "tied": 0,
-        "nr": 0,
-        "point": 0,
-        "nrr": 0.0,
-        "logo": "https://documents.iplt20.com/ipl/DC/Logos/LogoOutline/DCoutline.png",
-        "color": "rgb(40, 41, 104)"
+        "short_name": "DC",
+        "team_logo": "https://documents.iplt20.com/ipl/DC/Logos/LogoOutline/DCoutline.png"
     },
     {
-        "id": 6,
+        "team_id": 6,
         "name": "Punjab Kings",
-        "short": "PBKS",
-        "matches": 0,
-        "won": 0,
-        "lost": 0,
-        "tied": 0,
-        "nr": 0,
-        "point": 0,
-        "nrr": 0.0,
-        "logo": "https://documents.iplt20.com/ipl/PBKS/Logos/Logooutline/PBKSoutline.png",
-        "color": "#aa4545"
+        "short_name": "PBKS",
+        "team_logo": "https://documents.iplt20.com/ipl/PBKS/Logos/Logooutline/PBKSoutline.png"
     },
     {
-        "id": 7,
+        "team_id": 7,
         "name": "Rajasthan Royals",
-        "short": "RR",
-        "matches": 0,
-        "won": 0,
-        "lost": 0,
-        "tied": 0,
-        "nr": 0,
-        "point": 0,
-        "nrr": 0.0,
-        "logo": "https://documents.iplt20.com/ipl/RR/Logos/Logooutline/RRoutline.png",
-        "color": "rgb(230, 6, 147)"
+        "short_name": "RR",
+        "team_logo": "https://documents.iplt20.com/ipl/RR/Logos/Logooutline/RRoutline.png"
     },
     {
-        "id": 8,
+        "team_id": 8,
         "name": "Sunrisers Hyderabad",
-        "short": "SRH",
-        "matches": 0,
-        "won": 0,
-        "lost": 0,
-        "tied": 0,
-        "nr": 0,
-        "point": 0,
-        "nrr": 0.0,
-        "logo": "https://documents.iplt20.com/ipl/SRH/Logos/Logooutline/SRHoutline.png",
-        "color": "#fb643e"
+        "short_name": "SRH",
+        "team_logo": "https://documents.iplt20.com/ipl/SRH/Logos/Logooutline/SRHoutline.png"
     },
     {
-        "id": 9,
+        "team_id": 9,
         "name": "Lucknow Super Giants",
-        "short": "LSG",
-        "matches": 0,
-        "won": 0,
-        "lost": 0,
-        "tied": 0,
-        "nr": 0,
-        "point": 0,
-        "nrr": 0.0,
-        "logo": "https://documents.iplt20.com/ipl/LSG/Logos/Logooutline/LSGoutline.png",
-        "color": "#00a6b0"
+        "short_name": "LSG",
+        "team_logo": "https://documents.iplt20.com/ipl/LSG/Logos/Logooutline/LSGoutline.png"
     },
     {
-        "id": 10,
+        "team_id": 10,
         "name": "Gujarat Titans",
-        "short": "GT",
-        "matches": 0,
-        "won": 0,
-        "lost": 0,
-        "tied": 0,
-        "nr": 0,
-        "point": 0,
-        "nrr": 0.0,
-        "logo": "https://documents.iplt20.com/ipl/GT/Logos/Logooutline/GToutline.png",
-        "color": "rgb(27, 33, 51)"
+        "short_name": "GT",
+        "team_logo": "https://documents.iplt20.com/ipl/GT/Logos/Logooutline/GToutline.png"
     }
 ]
