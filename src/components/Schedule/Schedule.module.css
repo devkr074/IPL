@@ -1,59 +1,71 @@
 .container {
     height: 100vh;
-}
-
-.tabContainer {
     display: flex;
-    gap: 20px;
-    width: 100%;
-    padding: 10px 20px;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    overflow: hidden;
 }
 
-.tab {
-    padding: 12px 15px;
-    background-color: #fff;
-    color: #000;
-    border-radius: 8px;
+.section {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px 0px;
+}
+
+.section:first-child {
+    height: 20%;
+    justify-content: start;
+    padding: 0px 25px;
+}
+
+.section:last-child {
+    height: 80%;
+    justify-content: center;
+    overflow: auto;
+    scrollbar-width: none;
+}
+
+.tabButton {
     font-size: 17px;
     font-weight: 600;
+    color: #000;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 12px 15px;
     cursor: pointer;
 }
 
 .active {
-    background-color: #3f51b5;
     color: #fff;
+    background-color: #3f51b5;
 }
 
-.scheduleContainer {
-    height: calc(100vh - 66px);
-    overflow: auto;
-    display: flex;
-    align-items: center;
-    gap: 39.7px;
-    flex-wrap: wrap;
-    padding: 40px;
-    scrollbar-width: none;
-}
-.card{
+.card {
     background-color: #d0caca;
+    display: flex;
+    flex-direction: column;
     border-radius: 8px;
-    padding: 20px 30px;
     cursor: pointer;
 }
-.card:first-child{
-    background-color: #fff;
-}
-.venue{
+
+.cardTitle {
+    height: 10%;
+    width: 100%;
     font-size: 17px;
     font-weight: 500;
-    margin-bottom: 10px;
+    padding: 10px 20px;
 }
-.teamContainer{
+
+.cardBody {
+    height: 90%;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-}
-.vs{
-    font-size: 24px;
+    gap: 20px;
+    padding: 10px 20px;
 }

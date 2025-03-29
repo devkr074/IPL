@@ -13,9 +13,6 @@ function Team() {
     document.title = "IPL - Teams";
   }, []);
   const navigate = useNavigate();
-  function handleTeamChange(teamId) {
-    setUserTeamId(teamId);
-  }
   function handleNext() {
     localStorage.setItem("gameStatus", true);
     localStorage.setItem("playOff", JSON.stringify(playOff));
@@ -32,15 +29,15 @@ function Team() {
     <>
       <div className={style.container} >
         <div className={style.section}>
-          {team.map(team => (
+          {team.map((team) => (
             <label key={team.teamId} className={`${style.card} ${userTeamId === team.teamId ? style.active : ""}`} title={team.teamName}>
-              <input type="radio" name="team" value={team.teamId} checked={userTeamId === team.teamId} className={style.hideRadioMark} onChange={() => handleTeamChange(team.teamId)} />
+              <input type="radio" name="team" value={team.teamId} checked={userTeamId === team.teamId} className={style.hideRadioMark} onChange={() => setUserTeamId(team.teamId)} />
               <img src={team.logo} alt={team.teamName} className={style.logo} />
             </label>
           ))}
         </div>
         <div className={style.section}>
-          <button className={style.button} onClick={handleNext}>NEXT</button>
+          <button className={style.button} onClick={handleNext()}>NEXT</button>
         </div>
       </div>
     </>
