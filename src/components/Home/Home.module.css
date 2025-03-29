@@ -3,8 +3,13 @@
     align-items: center;
     justify-content: space-between;
     height: 100vh;
-    padding-inline: 110px;
     overflow: hidden;
+}
+
+.section{
+    height: 100vh;
+    width: 50%;
+    border: 2px solid red;
 }
 
 .image {

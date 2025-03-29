@@ -1,7 +1,7 @@
 [
     {
         "matchId": 71,
-        "matchName": "Qualifier-1",
+        "matchName": "Qualifier 1",
         "teamAId": null,
         "teamBId": null,
         "winnerTeamId": null,
@@ -10,7 +10,7 @@
         "tossResult": "",
         "matchStatusId": null,
         "matchResult": "",
-        "venueId": 4
+        "venueId": 8
     },
     {
         "matchId": 72,
@@ -23,11 +23,11 @@
         "tossResult": "",
         "matchStatusId": null,
         "matchResult": "",
-        "venueId": 4
+        "venueId": 8
     },
     {
         "matchId": 73,
-        "matchName": "Qualifier-2",
+        "matchName": "Qualifier 2",
         "teamAId": null,
         "teamBId": null,
         "winnerTeamId": null,

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './MainMenu.module.css';
+import style from './MainMenu.module.css';
 import trophy from '../../assets/trophy.png';
 import { FaRedo } from 'react-icons/fa';
 import { FaPlay } from 'react-icons/fa';
@@ -23,8 +23,8 @@ function MainMenu() {
     function handleContinue() {
         navigate('/schedule');
     }
-    function handleStatistics() {
-        navigate('/statistics');
+    function handleStatistic() {
+        navigate('/statistic');
     }
     function handlePointsTable() {
         navigate('/points-table');
@@ -38,18 +38,18 @@ function MainMenu() {
     }
     return (
         <>
-            <div className={styles.container}>
-                <div className={styles.imageContainer}>
-                    <img src={trophy} alt="IPL Trophy" className={styles.image} />
+            <div className={style.container}>
+                <div className={style.imageContainer}>
+                    <img src={trophy} alt="IPL Trophy" className={style.image} />
                 </div>
-                <div className={styles.buttonContainer}>
-                    <button className={styles.mainButton} onClick={handleContinue}> <FaPlay size={44} /> CONTINUE</button>
-                    <div className={styles.buttonContainer2}>
-                        <button className={styles.button} onClick={handleStatistics}>STATISTICS</button>
-                        <button className={styles.button} onClick={handleSquad}>SQUAD</button>
-                        <button className={styles.button} onClick={handlePointsTable}>POINTS TABLE</button>
+                <div className={style.buttonContainer}>
+                    <button className={style.mainButton} onClick={handleContinue}> <FaPlay size={44} /> CONTINUE</button>
+                    <div className={style.buttonContainer2}>
+                        <button className={style.button} onClick={handleStatistic}>STATISTIC</button>
+                        <button className={style.button} onClick={handleSquad}>SQUAD</button>
+                        <button className={style.button} onClick={handlePointsTable}>POINTS TABLE</button>
                     </div>
-                    <button className={styles.restartButton} onClick={handleRestart}><FaRedo /></button>
+                    <button className={style.restartButton} onClick={handleRestart}><FaRedo /></button>
                 </div>
             </div>
         </>
