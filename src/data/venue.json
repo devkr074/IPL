@@ -1,0 +1,52 @@
+[
+    {
+        "venueId": 1,
+        "venueName": "Wankhede Stadium",
+        "venueCity": "Mumbai"
+    },
+    {
+        "venueId": 2,
+        "venueName": "MA Chidambaram Stadium",
+        "venueCity": "Chennai"
+    },
+    {
+        "venueId": 3,
+        "venueName": "M.Chinnaswamy Stadium",
+        "venueCity": "Bengaluru"
+    },
+    {
+        "venueId": 4,
+        "venueName": "Eden Gardens",
+        "venueCity": "Kolkata"
+    },
+    {
+        "venueId": 5,
+        "venueName": "Arun Jaitley Stadium",
+        "venueCity": "Delhi"
+    },
+    {
+        "venueId": 6,
+        "venueName": "Maharaja Yadavindra Singh International Cricket Stadium, Mullanpur",
+        "venueCity": "Chandigarh"
+    },
+    {
+        "venueId": 7,
+        "venueName": "Sawai Mansingh Stadium",
+        "venueCity": "Jaipur"
+    },
+    {
+        "venueId": 8,
+        "venueName": "Rajiv Gandhi International Stadium",
+        "venueCity": "Hyderabad"
+    },
+    {
+        "venueId": 9,
+        "venueName": "Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium",
+        "venueCity": "Lucknow"
+    },
+    {
+        "venueId": 10,
+        "venueName": "Narendra Modi Stadium",
+        "venueCity": "Ahmedabad"
+    }
+]

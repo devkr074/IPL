@@ -1,0 +1,54 @@
+[
+    {
+        "matchId": 71,
+        "matchName": "Qualifier-1",
+        "teamAId": null,
+        "teamBId": null,
+        "winnerTeamId": null,
+        "loserTeamId": null,
+        "tossStatusId": null,
+        "tossResult": "",
+        "matchStatusId": null,
+        "matchResult": "",
+        "venueId": 4
+    },
+    {
+        "matchId": 72,
+        "matchName": "Eliminator",
+        "teamAId": null,
+        "teamBId": null,
+        "winnerTeamId": null,
+        "loserTeamId": null,
+        "tossStatusId": null,
+        "tossResult": "",
+        "matchStatusId": null,
+        "matchResult": "",
+        "venueId": 4
+    },
+    {
+        "matchId": 73,
+        "matchName": "Qualifier-2",
+        "teamAId": null,
+        "teamBId": null,
+        "winnerTeamId": null,
+        "loserTeamId": null,
+        "tossStatusId": null,
+        "tossResult": "",
+        "matchStatusId": null,
+        "matchResult": "",
+        "venueId": 4
+    },
+    {
+        "matchId": 74,
+        "matchName": "Final",
+        "teamAId": null,
+        "teamBId": null,
+        "winnerTeamId": null,
+        "loserTeamId": null,
+        "tossStatusId": null,
+        "tossResult": "",
+        "matchStatusId": null,
+        "matchResult": "",
+        "venueId": 4
+    }
+]
