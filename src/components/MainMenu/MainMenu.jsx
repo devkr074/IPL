@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import style from './MainMenu.module.css';
-import trophy from '../../assets/trophy.png';
-import { FaRedo } from 'react-icons/fa';
-import { FaPlay } from 'react-icons/fa';
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { FaRedo } from "react-icons/fa";
+import { FaPlay } from "react-icons/fa";
+import style from "./MainMenu.module.css";
+import trophy from "../../assets/trophy.png";
 function MainMenu() {
     useEffect(() => {
         document.title = "IPL - Main Menu";
@@ -12,42 +12,42 @@ function MainMenu() {
     useEffect(() => {
         function handleBackButton(e) {
             e.preventDefault();
-            navigate('/');
+            navigate("/");
         }
-        window.history.pushState(null, '', window.location.pathname);
-        window.addEventListener('popstate', handleBackButton);
+        window.history.pushState(null, "", window.location.pathname);
+        window.addEventListener("popstate", handleBackButton);
         return () => {
-            window.removeEventListener('popstate', handleBackButton);
+            window.removeEventListener("popstate", handleBackButton);
         };
     }, [navigate]);
     function handleContinue() {
-        navigate('/schedule');
+        navigate("/schedule");
     }
     function handleStatistic() {
-        navigate('/statistic');
-    }
-    function handlePointsTable() {
-        navigate('/points-table');
+        navigate("/statistic");
     }
     function handleSquad() {
-        navigate('/squad');
+        navigate("/squad");
+    }
+    function handlePointsTable() {
+        navigate("/points-table");
     }
     function handleRestart() {
         localStorage.clear();
-        navigate('/');
+        navigate("/");
     }
     return (
         <>
             <div className={style.container}>
-                <div className={style.imageContainer}>
-                    <img src={trophy} alt="IPL Trophy" className={style.image} />
+                <div className={style.section}>
+                    <img src={trophy} alt="IPL Trophy" className={style.trophy} />
                 </div>
-                <div className={style.buttonContainer}>
-                    <button className={style.mainButton} onClick={handleContinue}> <FaPlay size={44} /> CONTINUE</button>
-                    <div className={style.buttonContainer2}>
-                        <button className={style.button} onClick={handleStatistic}>STATISTIC</button>
-                        <button className={style.button} onClick={handleSquad}>SQUAD</button>
-                        <button className={style.button} onClick={handlePointsTable}>POINTS TABLE</button>
+                <div className={style.section}>
+                    <button className={style.button} onClick={handleContinue}><FaPlay size={44} />CONTINUE</button>
+                    <div className={style.menuButtonContainer}>
+                        <button className={style.menuButton} onClick={handleStatistic}>STATISTIC</button>
+                        <button className={style.menuButton} onClick={handleSquad}>SQUAD</button>
+                        <button className={style.menuButton} onClick={handlePointsTable}>POINTS TABLE</button>
                     </div>
                     <button className={style.restartButton} onClick={handleRestart}><FaRedo /></button>
                 </div>

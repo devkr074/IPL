@@ -1,12 +1,34 @@
 .container {
-    padding: 30px 100px;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.section {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 2% 5%;
+}
+
+.section:first-child {
+    height: 80%;
+    justify-content: center;
+}
+
+.section:last-child {
+    height: 20%;
+    justify-content: end;
 }
 
 .card {
-    display: inline-block;
+    background-color: #fff;
     border: 5px solid #fff;
     border-radius: 8px;
-    background-color: #fff;
     padding: 16px;
     margin: 25px;
     cursor: pointer;
@@ -15,33 +37,26 @@
 
 .active {
     border-color: #3f51b5;
-    background-color: #ffffff;
-    box-shadow: 5px 5px 15px #d0ccccce
 }
 
-.hiddenRadio {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
+.hideRadioMark {
+    display: none;
 }
 
-.image {
-    width: 100px;
+.logo {
     height: 100px;
-    object-fit: contain;
+    width: 100px;
 }
 
 .button {
-    padding: 10px 20px;
-    font-size: 1.2em;
+    height: 80%;
+    font-size: 1.5em;
     font-weight: bold;
-    background-color: transparent;
     color: #fff;
     background-color: #3f51b5;
     border: none;
+    border-radius: 10px;
+    padding: 0px 24px;
     cursor: pointer;
-    border-radius: 8px;
-    margin: 35px;
-    transform: translateX(calc(100vw - 445px));
+    outline: none;
 }

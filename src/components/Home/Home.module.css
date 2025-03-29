@@ -1,33 +1,32 @@
 .container {
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 100vh;
     overflow: hidden;
 }
 
-.section{
-    height: 100vh;
+.section {
+    height: 100%;
     width: 50%;
-    border: 2px solid red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.image {
+.poster {
     height: 500px;
     transform: translateY(50px);
-    filter: drop-shadow(5px 5px 15px rgb(49, 106, 159));
 }
 
 .button {
-    margin-inline: 100px;
-    padding: 20px 50px;
     font-size: 2em;
-    border-radius: 10px;
-    background-color: transparent;
-    color: #fff;
-    cursor: pointer;
     font-weight: bold;
+    color: #fff;
+    background-color: #3f51b5;
     border: none;
-    background-color: #5078de;
+    border-radius: 10px;
+    padding: 20px 50px;
+    cursor: pointer;
     outline: none;
 }
