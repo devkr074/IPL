@@ -22,7 +22,7 @@ function Home() {
                     <img src={poster} alt="IPL Trophy" className={style.poster} />
                 </div>
                 <div className={style.section}>
-                    <button className={style.button} onClick={handlePlay()}>PLAY</button>
+                    <button className={style.button} onClick={handlePlay}>PLAY</button>
                 </div>
             </div>
         </>

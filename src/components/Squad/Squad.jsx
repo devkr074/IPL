@@ -26,7 +26,7 @@ function Squad() {
                 <div className={style.section}>
                     {activeTab && (
                         <>
-                            <h2>Batsman</h2>
+                            <h2 className={style.category}>Batsman</h2>
                             <div className={style.cardContainer}>
                                 {player
                                     .filter(player =>
@@ -35,18 +35,18 @@ function Squad() {
                                         player.roleId === 1
                                     )
                                     .map(player => (
-                                        <div key={player.playerId}>
+                                        <div key={player.playerId} className={style.card}>
                                             {player.profilePicture && <img src={player.profilePicture} height={180} alt={player.playerName} />}
-                                            <div>
+                                            <h3>
                                                 {player.playerName}
                                                 {player.isCaptain && "(C)"}
                                                 {player.isWicketKeeper && "(WK)"}
-                                            </div>
+                                            </h3>
                                         </div>
                                     ))
                                 }
                             </div>
-                            <h2>All Rounder</h2>
+                            <h2 className={style.category}>All Rounder</h2>
                             <div className={style.cardContainer}>
                                 {player
                                     .filter(player =>
@@ -55,31 +55,31 @@ function Squad() {
                                         player.roleId === 2
                                     )
                                     .map(player => (
-                                        <div key={player.playerId}>
+                                        <div key={player.playerId} className={style.card}>
                                             {player.profilePicture && <img src={player.profilePicture} height={180} alt={player.playerName} />}
-                                            <div>
+                                            <h3>
                                                 {player.playerName}
                                                 {player.isCaptain && "(C)"}
                                                 {player.isWicketKeeper && "(WK)"}
-                                            </div>
+                                            </h3>
                                         </div>
                                     ))
                                 }
                             </div>
-                            <h2>Bowler</h2>
+                            <h2 className={style.category}>Bowler</h2>
                             <div className={style.cardContainer}>
                                 {player.filter(player =>
                                     player.playerId >= ((activeTab - 1) * 11) + 1 &&
                                     player.playerId <= (activeTab * 11) &&
                                     player.roleId === 3
                                 ).map(player => (
-                                    <div key={player.playerId}>
+                                    <div key={player.playerId} className={style.card}>
                                         {player.profilePicture && <img src={player.profilePicture} height={180} alt={player.playerName} />}
-                                        <div>
+                                        <h3>
                                             {player.playerName}
                                             {player.isCaptain && "(C)"}
                                             {player.isWicketKeeper && "(WK)"}
-                                        </div>
+                                        </h3>
                                     </div>
                                 ))
                                 }

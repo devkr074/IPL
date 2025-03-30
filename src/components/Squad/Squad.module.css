@@ -11,7 +11,6 @@
     display: flex;
     align-items: center;
     gap: 20px;
-    padding: 20px 0px;
 }
 
 .section:first-child {
@@ -22,16 +21,10 @@
 
 .section:last-child {
     height: 80%;
-    justify-content: center;
     flex-direction: column;
-    padding: 100px 30px;
+    padding-bottom: 30px;
     overflow: auto;
     scrollbar-width: none;
-}
-
-h2 {
-    width: 100%;
-    border: 2px solid red;
 }
 
 .tabButton {
@@ -49,34 +42,33 @@ h2 {
     background-color: #3f51b5;
 }
 
+.category {
+    width: 100%;
+    color: #333;
+    padding: 10px 20px;
+}
+
 .cardContainer {
     width: 100%;
     display: flex;
+    gap: 20px;
     flex-wrap: wrap;
+    padding: 10px 20px;
 }
 
 .card {
+    width: 230px;
     background-color: #d0caca;
-    display: flex;
-    flex-direction: column;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.cardTitle {
-    height: 10%;
-    width: 100%;
-    font-size: 17px;
-    font-weight: 500;
-    padding: 10px 20px;
-}
-
-.cardBody {
-    height: 90%;
-    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     gap: 20px;
-    padding: 10px 20px;
+    border-radius: 8px;
+    padding: 20px;
+    cursor: pointer;
+}
+
+h3{
+    text-align: center;
 }

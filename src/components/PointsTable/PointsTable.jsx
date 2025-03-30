@@ -1,18 +1,15 @@
 import { useState, useEffect } from 'react';
 import style from './PointsTable.module.css';
-
 function PointsTable() {
     const [pointsTable, setPointsTable] = useState([]);
-    const [teams, setTeams] = useState([]);
-
+    const [teams, setTeam] = useState([]);
     useEffect(() => {
         document.title = "IPL - Points Table";
         const pointsData = JSON.parse(localStorage.getItem('pointsTable')) || [];
-        const teamData = JSON.parse(localStorage.getItem('team')) || [];
+        const team = JSON.parse(localStorage.getItem('team')) || [];
         setPointsTable(pointsData);
-        setTeams(teamData);
+        setTeam(team);
     }, []);
-
     return (
         <div className={style.container}>
             <table>
@@ -28,18 +25,15 @@ function PointsTable() {
                 </thead>
                 <tbody>
                     {pointsTable.map((team) => {
-                        const teamInfo = teams.find(t => t.teamId === team.teamId) || {};
+                        const teamName = teams[team.teamId - 1].teamName;
+                        const teamShortName = teams[team.teamId - 1].teamShortName;
+                        const teamLogo = teams[team.teamId - 1].logo;
                         return (
                             <tr key={team.teamId}>
-                                <td>{team.position}</td>
-                                <td className={style.teamCell}>
-                                    {teamInfo.logo && <img src={teamInfo.logo} alt={teamInfo.teamName} height={50} className={style.teamLogo} />}
-                                    <span>{teamInfo.teamShortName || team.teamShortName}</span>
+                                <td></td>
+                                <td>
+                                    <span>{teamShortName}</span>
                                 </td>
-                                <td>{team.matchesPlayed}</td>
-                                <td>{team.matchesWon}</td>
-                                <td>{team.matchesLost}</td>
-                                <td>{team.points}</td>
                             </tr>
                         );
                     })}
@@ -48,5 +42,4 @@ function PointsTable() {
         </div>
     );
 }
-
 export default PointsTable;

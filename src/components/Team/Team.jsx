@@ -37,7 +37,7 @@ function Team() {
           ))}
         </div>
         <div className={style.section}>
-          <button className={style.button} onClick={handleNext()}>NEXT</button>
+          <button className={style.button} onClick={handleNext}>NEXT</button>
         </div>
       </div>
     </>
