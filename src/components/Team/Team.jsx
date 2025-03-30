@@ -23,6 +23,7 @@ function Team() {
     localStorage.setItem("totalMatchPlayed", 0);
     localStorage.setItem("userTeamId", userTeamId);
     localStorage.setItem("venue", JSON.stringify(venue));
+    localStorage.setItem("statistic", []);
     navigate("/main-menu");
   }
   return (

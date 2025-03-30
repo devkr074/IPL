@@ -9,55 +9,64 @@ function MainMenu() {
     const [totalMatchPlayed, setTotalMatchPlayed] = useState(null);
     const [userTeamId, setUserTeamId] = useState(null);
     const [team, setTeam] = useState([]);
+    const [player, setPlayer] = useState([]);
     useEffect(() => {
         document.title = "IPL - Main Menu";
         const schedule = JSON.parse(localStorage.getItem("schedule"));
         const totalMatchPlayed = Number(localStorage.getItem("totalMatchPlayed"));
         const userTeamId = Number(localStorage.getItem("userTeamId"));
         const team = JSON.parse(localStorage.getItem("team"));
+        const player = JSON.parse(localStorage.getItem("player"));
         setSchedule(schedule);
         setTotalMatchPlayed(totalMatchPlayed);
         setTeam(team);
+        setPlayer(player);
         setUserTeamId(userTeamId);
-
     }, []);
     useEffect(() => {
         for (const match of schedule) {
             const matchStatusId = match.matchStatusId;
-            const teamA = team[match.teamAId - 1]; // Make sure `team` is defined!
-            const teamB = team[match.teamBId - 1]; // Make sure `team` is defined!
-
-            if (matchStatusId === null) {
-                if (isUserMatch(match)) { // Make sure `isUserMatch` is defined!
-                    break; // Now `break` works because we're in a `for...of` loop
-                } else {
-                    simulateToss(teamA, teamB, match);
-                }
+            const teamA = team[match.teamAId - 1];
+            const teamB = team[match.teamBId - 1];
+            if (matchStatusId === null && !isUserMatch(match)) {
+                break;
+            }
+            else {
+                simulateToss(teamA, teamB, match);
             }
         }
     }, [schedule]);
     function simulateToss(teamA, teamB, match) {
         const random = Math.round(Math.random());
+        match.tossStatusId = 1;
         if (random == 0) {
             const random = Math.round(Math.random());
             if (random == 0) {
+                match.tossResult = `${teamA.teamShortName} elected to Bat first`;
+                setSchedule(schedule);
+                localStorage.setItem("schedule", JSON.stringify(schedule));
                 simulateFirstInning(teamA, teamB, match);
-                console.log(`${teamA.teamShortName} won the toss and elected to bat first`);
             }
             else if (random == 1) {
+                match.tossResult = `${teamA.teamShortName} elected to Ball first`;
+                setSchedule(schedule);
+                localStorage.setItem("schedule", JSON.stringify(schedule));
                 simulateFirstInning(teamB, teamA, match);
-                console.log(`${teamA.teamShortName} won the toss and elected to ball first`);
             }
         }
         if (random == 1) {
             const random = Math.round(Math.random());
             if (random == 0) {
+                match.tossResult = `${teamB.teamShortName} elected to Bat first`;
+                setSchedule(schedule);
+                localStorage.setItem("schedule", JSON.stringify(schedule));
                 simulateFirstInning(teamB, teamA, match);
-                console.log(`${teamB.teamShortName} won the toss and elected to bat first`);
             }
             else if (random == 1) {
+                match.tossResult = `${teamB.teamShortName} elected to Ball first`;
+                setSchedule(schedule);
+                localStorage.setItem("schedule", JSON.stringify(schedule));
                 simulateFirstInning(teamA, teamB, match);
-                console.log(`${teamB.teamShortName} won the toss and elected to ball first`);
             }
         }
     }
@@ -69,8 +78,6 @@ function MainMenu() {
     function simulateSecondInning(teamA, teamB, match) {
         const score2 = Math.floor(Math.random() * (250 - 150 + 1)) + 150
         console.log(`${teamA.teamShortName}: ${score2}`);
-        match.matchStatusId = 1;
-        localStorage.setItem("schedule", JSON.stringify(schedule));
     }
     function isUserMatch(match) {
         return match.teamAId === userTeamId || match.teamBId === userTeamId;
