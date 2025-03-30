@@ -62,13 +62,15 @@ function MainMenu() {
         }
     }
     function simulateFirstInning(teamA, teamB, match) {
-        const score=Math.floor(Math.random() * (250 - 150 + 1)) + 150
+        const score = Math.floor(Math.random() * (250 - 150 + 1)) + 150
         console.log(`${teamA.teamShortName}: ${score}`);
-        simulateSecondInning(teamB,teamA,match,score);
+        simulateSecondInning(teamB, teamA, match, score);
     }
     function simulateSecondInning(teamA, teamB, match) {
-        const score2=Math.floor(Math.random() * (250 - 150 + 1)) + 150
+        const score2 = Math.floor(Math.random() * (250 - 150 + 1)) + 150
         console.log(`${teamA.teamShortName}: ${score2}`);
+        match.matchStatusId = 1;
+        localStorage.setItem("schedule", JSON.stringify(schedule));
     }
     function isUserMatch(match) {
         return match.teamAId === userTeamId || match.teamBId === userTeamId;
