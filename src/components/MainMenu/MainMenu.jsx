@@ -87,10 +87,10 @@ function MainMenu() {
     function getWeights(playerRating, runsScored) {
         let weights;
         if (playerRating >= 8 && playerRating <= 10) {
-            weights = [20, 50, 5, 2, 10, 8, 5];
+            weights = [15, 15, 10, 8, 20, 17, 15];
         }
         else if (playerRating >= 5 && playerRating <= 7) {
-            weights = [15, 15, 10, 8, 20, 17, 15];
+            weights = [20, 50, 5, 2, 10, 8, 5];
         }
         else {
             weights = [20, 17, 5, 3, 20, 30, 5];
@@ -143,18 +143,13 @@ function MainMenu() {
         let nonStriker = getNonStriker(teamA);
         let runs = 0;
         for (let i = 0; i < 120; i++) {
-            let run = getRuns(striker.playerRating, runs);
-            if (run == 5) {
-                runs=0;
+            if (getRuns(striker.playerRating, runs) === 5) {
                 console.log('W');
             }
             else {
-                runs = runs + run;
-                console.log(runs);
+                console.log(getRuns(striker.playerRating, runs));
             }
         }
-        console.log(striker.playerId);
-        console.log(nonStriker.playerId);
         let statistic = JSON.parse(localStorage.getItem("statistic")) || [];
         // const strikerExists = statistic.some(player => player.playerId === striker.playerId);
 
