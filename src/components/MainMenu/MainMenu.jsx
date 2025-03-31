@@ -87,7 +87,7 @@ function MainMenu() {
     function getWeights(playerRating, runsScored) {
         let weights;
         if (playerRating >= 8 && playerRating <= 10) {
-            weights = [15, 30, 10, 3, 15, 20, 7];
+            weights = [20, 50, 5, 2, 10, 8, 5];
         }
         else if (playerRating >= 5 && playerRating <= 7) {
             weights = [15, 15, 10, 8, 20, 17, 15];
