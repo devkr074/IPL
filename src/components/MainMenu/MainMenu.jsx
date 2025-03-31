@@ -84,74 +84,55 @@ function MainMenu() {
         return player[(team.teamId - 1) * 11 + wicket + 1];
     }
 
-
-    /*
-    
-    function generateWeightedRangesAndFindNumber() {
-    // Predefined weights for each index (0-6)
-    const weights = [20, 30, 10, 5, 20, 5, 10];
-    
-    // Generate a random permutation of indices 0-6
-    const indices = [0, 1, 2, 3, 4, 5, 6];
-    const randomArray = [];
-    
-    while (indices.length > 0) {
-        const randomIndex = Math.floor(Math.random() * indices.length);
-        randomArray.push(indices[randomIndex]);
-        indices.splice(randomIndex, 1);
-    }
-    
-    // Calculate total weight and create ranges
-    let current = 1;
-    const ranges = [];
-    const rangeMap = {};
-    
-    for (const index of randomArray) {
-        const weight = weights[index];
-        const start = current;
-        const end = current + weight - 1;
-        ranges.push({
-            index: index,
-            range: [start, end],
-            description: `${index}: [${start}-${end}]`
-        });
-        rangeMap[index] = [start, end];
-        current = end + 1;
-    }
-    
-    // Generate a random number between 1-100
-    const randomNumber = Math.floor(Math.random() * 100) + 1;
-    
-    // Find which range the number falls into
-    let selectedIndex = -1;
-    for (const range of ranges) {
-        if (randomNumber >= range.range[0] && randomNumber <= range.range[1]) {
-            selectedIndex = range.index;
-            break;
+    function getWeights(playerRating, runsScored) {
+        let weights;
+        if (playerRating >= 8 && playerRating <= 10) {
+            weights = [15, 30, 10, 3, 15, 20, 7];
         }
+        else if (playerRating >= 5 && playerRating <= 7) {
+            weights = [15, 15, 10, 8, 20, 17, 15];
+        }
+        else {
+            weights = [20, 17, 5, 3, 20, 30, 5];
+        }
+        return weights;
     }
-    
-    return {
-        randomArray: randomArray,
-        ranges: ranges.map(r => r.description),
-        rangeMap: rangeMap,
-        totalWeight: 100,
-        randomNumber: randomNumber,
-        selectedIndex: selectedIndex
-    };
-}
 
-// Run the function and display results
-const result = generateWeightedRangesAndFindNumber();
-
-console.log("Randomly generated index order:", result.randomArray);
-console.log("Generated Ranges:");
-result.ranges.forEach(range => console.log(range));
-console.log(`\nRandom number generated: ${result.randomNumber}`);
-console.log(`This number falls in range for index: ${result.selectedIndex}`);
-console.log(`Which corresponds to: ${result.ranges.find(r => r.startsWith(result.selectedIndex + ":"))}`);
-
-    */
+    function getRuns(playerRating, runsScored) {
+        // Predefined weights for each index (0-6)
+        const weights = getWeights(playerRating, runsScored);
+        // Generate a random permutation of indices 0-6
+        const indices = [0, 1, 2, 3, 4, 5, 6];
+        const randomArray = [];
+        while (indices.length > 0) {
+            const randomIndex = Math.floor(Math.random() * indices.length);
+            randomArray.push(indices[randomIndex]);
+            indices.splice(randomIndex, 1);
+        }
+        // Calculate total weight and create ranges
+        let current = 1;
+        const ranges = [];
+        for (const index of randomArray) {
+            const weight = weights[index];
+            const start = current;
+            const end = current + weight - 1;
+            ranges.push({
+                index: index,
+                range: [start, end],
+                description: `${index}: [${start}-${end}]`
+            });
+            current = end + 1;
+        }
+        // Generate a random number between 1-100
+        const randomNumber = Math.floor(Math.random() * 100) + 1;
+        // Find which range the number falls into
+        for (const range of ranges) {
+            if (randomNumber >= range.range[0] && randomNumber <= range.range[1]) {
+                return range.index;  // or return range.index if you just want the number
+            }
+        }
+        return 0; // in case no range was found (shouldn't happen if weights sum to 100)
+    }
 
 
 
@@ -160,37 +141,49 @@ console.log(`Which corresponds to: ${result.ranges.find(r => r.startsWith(result
         let wicket = 0;
         let striker = getStriker(teamA);
         let nonStriker = getNonStriker(teamA);
+        let runs = 0;
+        for (let i = 0; i < 120; i++) {
+            let run = getRuns(striker.playerRating, runs);
+            if (run == 5) {
+                runs=0;
+                console.log('W');
+            }
+            else {
+                runs = runs + run;
+                console.log(runs);
+            }
+        }
         console.log(striker.playerId);
         console.log(nonStriker.playerId);
         let statistic = JSON.parse(localStorage.getItem("statistic")) || [];
-        const strikerExists = statistic.some(player => player.playerId === striker.playerId);
+        // const strikerExists = statistic.some(player => player.playerId === striker.playerId);
 
-        if (!strikerExists) {
-            statistic.push({
-                playerId: striker.playerId,
-                playerName: striker.playerName,
-                runs: 0,
-                ballsFaced: 0,
-                wickets: 0,
-            });
-            localStorage.setItem("statistic", JSON.stringify(statistic));
-        }
-        const nonStrikerExists = statistic.some(player => player.playerId === nonStriker.playerId);
+        // if (!strikerExists) {
+        //     statistic.push({
+        //         playerId: striker.playerId,
+        //         playerName: striker.playerName,
+        //         runs: 0,
+        //         ballsFaced: 0,
+        //         wickets: 0,
+        //     });
+        //     localStorage.setItem("statistic", JSON.stringify(statistic));
+        // }
+        // const nonStrikerExists = statistic.some(player => player.playerId === nonStriker.playerId);
 
-        if (!nonStrikerExists) {
-            statistic.push({
-                playerId: nonStriker.playerId,
-                playerName: nonStriker.playerName,
-                runs: 0,
-                ballsFaced: 0,
-                wickets: 0,
-            });
+        // if (!nonStrikerExists) {
+        //     statistic.push({
+        //         playerId: nonStriker.playerId,
+        //         playerName: nonStriker.playerName,
+        //         runs: 0,
+        //         ballsFaced: 0,
+        //         wickets: 0,
+        //     });
 
-            localStorage.setItem("statistic", JSON.stringify(statistic));
-        }
-
-        console.log(statistic);
+        //     localStorage.setItem("statistic", JSON.stringify(statistic));
+        // }
     }
+
+
     function isUserMatch(match) {
         return match.teamAId === userTeamId || match.teamBId === userTeamId;
     }

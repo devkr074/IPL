@@ -2,7 +2,7 @@
     {
         "playerId": 1,
         "roleId": 1,
-        "rating": 9,
+        "playerRating": 9,
         "playerName": "Rohit Sharma",
         "playerShortName": "R. Sharma",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/6.png",
@@ -14,7 +14,7 @@
     {
         "playerId": 2,
         "roleId": 1,
-        "rating": 7,
+        "playerRating": 7,
         "playerName": "Ryan Rickelton",
         "playerShortName": "R. Rickelton",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/743.png",
@@ -26,7 +26,7 @@
     {
         "playerId": 3,
         "roleId": 2,
-        "rating": 7,
+        "playerRating": 7,
         "playerName": "Will Jacks",
         "playerShortName": "W. Jacks",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/1941.png",
@@ -38,7 +38,7 @@
     {
         "playerId": 4,
         "roleId": 1,
-        "rating": 8,
+        "playerRating": 8,
         "playerName": "Suryakumar Yadav",
         "playerShortName": "S. Yadav",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/174.png",
@@ -50,7 +50,7 @@
     {
         "playerId": 5,
         "roleId": 1,
-        "rating": 7,
+        "playerRating": 7,
         "playerName": "Tilak Varma",
         "playerShortName": "T. Varma",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/993.png",
@@ -62,7 +62,7 @@
     {
         "playerId": 6,
         "roleId": 2,
-        "rating": 6,
+        "playerRating": 6,
         "playerName": "Hardik Pandya",
         "playerShortName": "H. Pandya",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/54.png",
@@ -74,7 +74,7 @@
     {
         "playerId": 7,
         "roleId": 2,
-        "rating": 4,
+        "playerRating": 4,
         "playerName": "Mitchell Santner",
         "playerShortName": "M. Santner",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/75.png",
@@ -86,7 +86,7 @@
     {
         "playerId": 8,
         "roleId": 3,
-        "rating": 3,
+        "playerRating": 3,
         "playerName": "Deepak Chahar",
         "playerShortName": "D. Chahar",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/91.png",
@@ -98,7 +98,7 @@
     {
         "playerId": 9,
         "roleId": 3,
-        "rating": 3,
+        "playerRating": 3,
         "playerName": "Trent Boult",
         "playerShortName": "T. Boult",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/66.png",
@@ -110,7 +110,7 @@
     {
         "playerId": 10,
         "roleId": 3,
-        "rating": 2,
+        "playerRating": 2,
         "playerName": "Jasprit Bumrah",
         "playerShortName": "J. Bumrah",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/9.png",
@@ -122,7 +122,7 @@
     {
         "playerId": 11,
         "roleId": 3,
-        "rating": 1,
+        "playerRating": 1,
         "playerName": "Karn Sharma",
         "playerShortName": "K. Sharma",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/98.png",
@@ -134,7 +134,7 @@
     {
         "playerId": 12,
         "roleId": 1,
-        "rating": 8,
+        "playerRating": 8,
         "playerName": "Ruturaj Gaikwad",
         "playerShortName": "R. Gaikwad",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/102.png",
@@ -146,7 +146,7 @@
     {
         "playerId": 13,
         "roleId": 2,
-        "rating": 7,
+        "playerRating": 7,
         "playerName": "Rachin Ravindra",
         "playerShortName": "R. Ravindra",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/724.png",
@@ -158,7 +158,7 @@
     {
         "playerId": 14,
         "roleId": 2,
-        "rating": 7,
+        "playerRating": 7,
         "playerName": "Deepak Hooda",
         "playerShortName": "D. Hooda",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/215.png",
@@ -170,7 +170,7 @@
     {
         "playerId": 15,
         "roleId": 2,
-        "rating": 7,
+        "playerRating": 7,
         "playerName": "Shivam Dube",
         "playerShortName": "S. Dube",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/211.png",
@@ -182,7 +182,7 @@
     {
         "playerId": 16,
         "roleId": 2,
-        "rating": 5,
+        "playerRating": 5,
         "playerName": "Ravindra Jadeja",
         "playerShortName": "R. Jadeja",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/46.png",
@@ -194,7 +194,7 @@
     {
         "playerId": 17,
         "roleId": 2,
-        "rating": 5,
+        "playerRating": 5,
         "playerName": "Sam Curran",
         "playerShortName": "S. Curran",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/138.png",
@@ -206,7 +206,7 @@
     {
         "playerId": 18,
         "roleId": 1,
-        "rating": 7,
+        "playerRating": 7,
         "playerName": "Mahendra Singh Dhoni",
         "playerShortName": "M.S. Dhoni",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/57.png",
@@ -218,7 +218,7 @@
     {
         "playerId": 19,
         "roleId": 2,
-        "rating": 4,
+        "playerRating": 4,
         "playerName": "Ravichandran Ashwin",
         "playerShortName": "R. Ashwin",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/45.png",
@@ -230,7 +230,7 @@
     {
         "playerId": 20,
         "roleId": 3,
-        "rating": 3,
+        "playerRating": 3,
         "playerName": "Noor Ahmad",
         "playerShortName": "N. Ahmad",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/975.png",
@@ -242,7 +242,7 @@
     {
         "playerId": 21,
         "roleId": 3,
-        "rating": 2,
+        "playerRating": 2,
         "playerName": "Nathan Ellis",
         "playerShortName": "N. Ellis",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/633.png",
@@ -254,7 +254,7 @@
     {
         "playerId": 22,
         "roleId": 3,
-        "rating": 1,
+        "playerRating": 1,
         "playerName": "Khaleel Ahmed",
         "playerShortName": "K. Ahmed",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/8.png",
@@ -266,7 +266,7 @@
     {
         "playerId": 23,
         "roleId": 1,
-        "rating": 9,
+        "playerRating": 9,
         "playerName": "Virat Kohli",
         "playerShortName": "V. Kohli",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/2.png",
@@ -278,7 +278,7 @@
     {
         "playerId": 24,
         "roleId": 1,
-        "rating": 8,
+        "playerRating": 8,
         "playerName": "Philip Salt",
         "playerShortName": "P. Salt",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/1220.png",
@@ -290,7 +290,7 @@
     {
         "playerId": 25,
         "roleId": 1,
-        "rating": 7,
+        "playerRating": 7,
         "playerName": "Rajat Patidar",
         "playerShortName": "R. Patidar",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/597.png",
@@ -302,7 +302,7 @@
     {
         "playerId": 26,
         "roleId": 2,
-        "rating": 6,
+        "playerRating": 6,
         "playerName": "Liam Livingston",
         "playerShortName": "L. Livingston",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/183.png",
@@ -314,7 +314,7 @@
     {
         "playerId": 27,
         "roleId": 1,
-        "rating": 6,
+        "playerRating": 6,
         "playerName": "Tim David",
         "playerShortName": "T. David",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/636.png",
@@ -326,7 +326,7 @@
     {
         "playerId": 28,
         "roleId": 2,
-        "rating": 6,
+        "playerRating": 6,
         "playerName": "Krunal Pandya",
         "playerShortName": "K. Pandya",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/17.png",
@@ -338,7 +338,7 @@
     {
         "playerId": 29,
         "roleId": 2,
-        "rating": 6,
+        "playerRating": 6,
         "playerName": "Swapnil Singh",
         "playerShortName": "S. Singh",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/1483.png",
@@ -350,7 +350,7 @@
     {
         "playerId": 30,
         "roleId": 3,
-        "rating": 5,
+        "playerRating": 5,
         "playerName": "Josh Hazlewood",
         "playerShortName": "J. Hazlewood",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/36.png",
@@ -362,7 +362,7 @@
     {
         "playerId": 31,
         "roleId": 3,
-        "rating": 4,
+        "playerRating": 4,
         "playerName": "Bhuvneshwar Kumar",
         "playerShortName": "B. Kumar",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/15.png",
@@ -374,7 +374,7 @@
     {
         "playerId": 32,
         "roleId": 3,
-        "rating": 1,
+        "playerRating": 1,
         "playerName": "Suyash Sharma",
         "playerShortName": "S. Sharma",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/1932.png",
@@ -386,7 +386,7 @@
     {
         "playerId": 33,
         "roleId": 3,
-        "rating": 1,
+        "playerRating": 1,
         "playerName": "Yash Dayal",
         "playerShortName": "Y. Dayal",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/978.png",
@@ -398,7 +398,7 @@
     {
         "playerId": 34,
         "roleId": 1,
-        "rating": 8,
+        "playerRating": 8,
         "playerName": "Quinton de Kock",
         "playerShortName": "Q. de Kock",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/170.png",
@@ -410,7 +410,7 @@
     {
         "playerId": 35,
         "roleId": 2,
-        "rating": 7,
+        "playerRating": 7,
         "playerName": "Venkatesh Iyer",
         "playerShortName": "V. Iyer",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/584.png",
@@ -422,7 +422,7 @@
     {
         "playerId": 36,
         "roleId": 1,
-        "rating": 8,
+        "playerRating": 8,
         "playerName": "Ajinkya Rahane",
         "playerShortName": "A. Rahane",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/44.png",
@@ -434,7 +434,7 @@
     {
         "playerId": 37,
         "roleId": 1,
-        "rating": 7,
+        "playerRating": 7,
         "playerName": "Rinku Singh",
         "playerShortName": "R. Singh",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/152.png",
@@ -446,7 +446,7 @@
     {
         "playerId": 38,
         "roleId": 2,
-        "rating": 5,
+        "playerRating": 5,
         "playerName": "Sunil Narine",
         "playerShortName": "S. Narine",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/156.png",
@@ -458,7 +458,7 @@
     {
         "playerId": 39,
         "roleId": 2,
-        "rating": 6,
+        "playerRating": 6,
         "playerName": "Andre Russell",
         "playerShortName": "A. Russell",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/141.png",
@@ -470,7 +470,7 @@
     {
         "playerId": 40,
         "roleId": 2,
-        "rating": 5,
+        "playerRating": 5,
         "playerName": "Ramandeep Singh",
         "playerShortName": "R. Singh",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/991.png",
@@ -482,7 +482,7 @@
     {
         "playerId": 41,
         "roleId": 3,
-        "rating": 3,
+        "playerRating": 3,
         "playerName": "Spencer Johnson",
         "playerShortName": "S. Johnson",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/2518.png",
@@ -494,7 +494,7 @@
     {
         "playerId": 42,
         "roleId": 3,
-        "rating": 3,
+        "playerRating": 3,
         "playerName": "Harshit Rana",
         "playerShortName": "H. Rana",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/1013.png",
@@ -506,7 +506,7 @@
     {
         "playerId": 43,
         "roleId": 3,
-        "rating": 2,
+        "playerRating": 2,
         "playerName": "Anrich Nortje",
         "playerShortName": "A. Nortje",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/142.png",
@@ -518,7 +518,7 @@
     {
         "playerId": 44,
         "roleId": 3,
-        "rating": 1,
+        "playerRating": 1,
         "playerName": "Varun Chakaravarthy",
         "playerShortName": "V. Chakaravarthy",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/140.png",
@@ -530,7 +530,7 @@
     {
         "playerId": 45,
         "roleId": 1,
-        "rating": 6,
+        "playerRating": 6,
         "playerName": "Jake Fraser-McGurk",
         "playerShortName": "J. Fraser-McGurk",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/3115.png",
@@ -542,7 +542,7 @@
     {
         "playerId": 46,
         "roleId": 1,
-        "rating": 8,
+        "playerRating": 8,
         "playerName": "Faf du Plessis",
         "playerShortName": "F. du Plessis",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/94.png",
@@ -554,7 +554,7 @@
     {
         "playerId": 47,
         "roleId": 1,
-        "rating": 8,
+        "playerRating": 8,
         "playerName": "Lokesh Rahul",
         "playerShortName": "KL Rahul",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/19.png",
@@ -566,7 +566,7 @@
     {
         "playerId": 48,
         "roleId": 1,
-        "rating": 7,
+        "playerRating": 7,
         "playerName": "Karun Nair",
         "playerShortName": "K. Nair",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/131.png",
@@ -578,7 +578,7 @@
     {
         "playerId": 49,
         "roleId": 1,
-        "rating": 6,
+        "playerRating": 6,
         "playerName": "Tristan Stubbs",
         "playerShortName": "T. Stubbs",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/1017.png",
@@ -590,7 +590,7 @@
     {
         "playerId": 50,
         "roleId": 2,
-        "rating": 5,
+        "playerRating": 5,
         "playerName": "Axar Patel",
         "playerShortName": "A. Patel",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/110.png",
@@ -602,7 +602,7 @@
     {
         "playerId": 51,
         "roleId": 2,
-        "rating": 6,
+        "playerRating": 6,
         "playerName": "Ashutosh Sharma",
         "playerShortName": "A. Sharma",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/3109.png",
@@ -614,7 +614,7 @@
     {
         "playerId": 52,
         "roleId": 3,
-        "rating": 3,
+        "playerRating": 3,
         "playerName": "Mitchell Starc",
         "playerShortName": "M. Starc",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/31.png",
@@ -626,7 +626,7 @@
     {
         "playerId": 53,
         "roleId": 3,
-        "rating": 1,
+        "playerRating": 1,
         "playerName": "Kuldeep Yadav",
         "playerShortName": "K. Yadav",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/14.png",
@@ -638,7 +638,7 @@
     {
         "playerId": 54,
         "roleId": 3,
-        "rating": 1,
+        "playerRating": 1,
         "playerName": "Mohit Sharma",
         "playerShortName": "M. Sharma",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/100.png",
@@ -650,7 +650,7 @@
     {
         "playerId": 55,
         "roleId": 3,
-        "rating": 1,
+        "playerRating": 1,
         "playerName": "Thangarasu Natarajan",
         "playerShortName": "T. Natarajan",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/224.png",
@@ -662,7 +662,7 @@
     {
         "playerId": 56,
         "roleId": 1,
-        "rating": 7,
+        "playerRating": 7,
         "playerName": "Prabhsimran Singh",
         "playerShortName": "P. Singh",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/137.png",
@@ -674,7 +674,7 @@
     {
         "playerId": 57,
         "roleId": 2,
-        "rating": 6,
+        "playerRating": 6,
         "playerName": "Priyansh Arya",
         "playerShortName": "P. Arya",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/3571.png",
@@ -686,7 +686,7 @@
     {
         "playerId": 58,
         "roleId": 1,
-        "rating": 8,
+        "playerRating": 8,
         "playerName": "Shreyas Iyer",
         "playerShortName": "S. Iyer",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/12.png",
@@ -698,7 +698,7 @@
     {
         "playerId": 59,
         "roleId": 2,
-        "rating": 6,
+        "playerRating": 6,
         "playerName": "Shashank Singh",
         "playerShortName": "S. Singh",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/191.png",
@@ -710,7 +710,7 @@
     {
         "playerId": 60,
         "roleId": 2,
-        "rating": 7,
+        "playerRating": 7,
         "playerName": "Marcus Stoinis",
         "playerShortName": "M. Stoinis",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/23.png",
@@ -722,7 +722,7 @@
     {
         "playerId": 61,
         "roleId": 2,
-        "rating": 7,
+        "playerRating": 7,
         "playerName": "Glenn Maxwell",
         "playerShortName": "G. Maxwell",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/28.png",
@@ -734,7 +734,7 @@
     {
         "playerId": 62,
         "roleId": 2,
-        "rating": 6,
+        "playerRating": 6,
         "playerName": "Suryansh Shedge",
         "playerShortName": "S. Shedge",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/2146.png",
@@ -746,7 +746,7 @@
     {
         "playerId": 63,
         "roleId": 2,
-        "rating": 4,
+        "playerRating": 4,
         "playerName": "Azmatullah Omarzai",
         "playerShortName": "A. Omarzai",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/1354.png",
@@ -758,7 +758,7 @@
     {
         "playerId": 64,
         "roleId": 2,
-        "rating": 3,
+        "playerRating": 3,
         "playerName": "Marco Jansen",
         "playerShortName": "M. Jansen",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/586.png",
@@ -770,7 +770,7 @@
     {
         "playerId": 65,
         "roleId": 3,
-        "rating": 1,
+        "playerRating": 1,
         "playerName": "Arshdeep Singh",
         "playerShortName": "A. Singh",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/125.png",
@@ -782,7 +782,7 @@
     {
         "playerId": 66,
         "roleId": 3,
-        "rating": 1,
+        "playerRating": 1,
         "playerName": "Yuzvendra Chahal",
         "playerShortName": "Y. Chahal",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/10.png",
@@ -794,7 +794,7 @@
     {
         "playerId": 67,
         "roleId": 1,
-        "rating": 8,
+        "playerRating": 8,
         "playerName": "Yashasvi Jaiswal",
         "playerShortName": "Y. Jaiswal",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/533.png",
@@ -806,7 +806,7 @@
     {
         "playerId": 68,
         "roleId": 1,
-        "rating": 7,
+        "playerRating": 7,
         "playerName": "Shubham Dubey",
         "playerShortName": "S. Dubey",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/3112.png",
@@ -818,7 +818,7 @@
     {
         "playerId": 69,
         "roleId": 2,
-        "rating": 7,
+        "playerRating": 7,
         "playerName": "Nitish Rana",
         "playerShortName": "N. Rana",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/148.png",
@@ -830,7 +830,7 @@
     {
         "playerId": 70,
         "roleId": 1,
-        "rating": 8,
+        "playerRating": 8,
         "playerName": "Sanju Samson",
         "playerShortName": "S. Samson",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/190.png",
@@ -842,7 +842,7 @@
     {
         "playerId": 71,
         "roleId": 1,
-        "rating": 7,
+        "playerRating": 7,
         "playerName": "Shimron Hetmyer",
         "playerShortName": "S. Hetmyer",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/210.png",
@@ -854,7 +854,7 @@
     {
         "playerId": 72,
         "roleId": 2,
-        "rating": 6,
+        "playerRating": 6,
         "playerName": "Riyan Parag",
         "playerShortName": "R. Parag",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/189.png",
@@ -866,7 +866,7 @@
     {
         "playerId": 73,
         "roleId": 3,
-        "rating": 3,
+        "playerRating": 3,
         "playerName": "Jofra Archer",
         "playerShortName": "J. Archer",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/181.png",
@@ -878,7 +878,7 @@
     {
         "playerId": 74,
         "roleId": 3,
-        "rating": 2,
+        "playerRating": 2,
         "playerName": "Maheesh Theekshana",
         "playerShortName": "M. Theekshana",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/629.png",
@@ -890,7 +890,7 @@
     {
         "playerId": 75,
         "roleId": 3,
-        "rating": 2,
+        "playerRating": 2,
         "playerName": "Tushar Deshpande",
         "playerShortName": "T. Deshpande",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/539.png",
@@ -902,7 +902,7 @@
     {
         "playerId": 76,
         "roleId": 3,
-        "rating": 1,
+        "playerRating": 1,
         "playerName": "Sandeep Sharma",
         "playerShortName": "S. Sharma",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/220.png",
@@ -914,7 +914,7 @@
     {
         "playerId": 77,
         "roleId": 3,
-        "rating": 1,
+        "playerRating": 1,
         "playerName": "Wanindu Hasaranga",
         "playerShortName": "W. Hasaranga",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/377.png",
@@ -926,7 +926,7 @@
     {
         "playerId": 78,
         "roleId": 1,
-        "rating": 8,
+        "playerRating": 8,
         "playerName": "Travis Head",
         "playerShortName": "T. Head",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/37.png",
@@ -938,7 +938,7 @@
     {
         "playerId": 79,
         "roleId": 2,
-        "rating": 7,
+        "playerRating": 7,
         "playerName": "Abhishek Sharma",
         "playerShortName": "A. Sharma",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/212.png",
@@ -950,7 +950,7 @@
     {
         "playerId": 80,
         "roleId": 1,
-        "rating": 8,
+        "playerRating": 8,
         "playerName": "Ishan Kishan",
         "playerShortName": "I. Kishan",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/164.png",
@@ -962,7 +962,7 @@
     {
         "playerId": 81,
         "roleId": 2,
-        "rating": 7,
+        "playerRating": 7,
         "playerName": "Nitish Kumar Reddy",
         "playerShortName": "N.K. Reddy",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/1944.png",
@@ -974,7 +974,7 @@
     {
         "playerId": 82,
         "roleId": 1,
-        "rating": 8,
+        "playerRating": 8,
         "playerName": "Heinrich Klaasen",
         "playerShortName": "H. Klaasen",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/202.png",
@@ -986,7 +986,7 @@
     {
         "playerId": 83,
         "roleId": 1,
-        "rating": 6,
+        "playerRating": 6,
         "playerName": "Aniket Verma",
         "playerShortName": "A. Verma",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/3576.png",
@@ -998,7 +998,7 @@
     {
         "playerId": 84,
         "roleId": 1,
-        "rating": 6,
+        "playerRating": 6,
         "playerName": "Abhinav Manohar",
         "playerShortName": "A. Manohar",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/974.png",
@@ -1010,7 +1010,7 @@
     {
         "playerId": 85,
         "roleId": 3,
-        "rating": 2,
+        "playerRating": 2,
         "playerName": "Pat Cummins",
         "playerShortName": "P. Cummins",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/33.png",
@@ -1022,7 +1022,7 @@
     {
         "playerId": 86,
         "roleId": 3,
-        "rating": 2,
+        "playerRating": 2,
         "playerName": "Simarjeet Singh",
         "playerShortName": "S. Singh",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/622.png",
@@ -1034,7 +1034,7 @@
     {
         "playerId": 87,
         "roleId": 3,
-        "rating": 1,
+        "playerRating": 1,
         "playerName": "Harshal Patel",
         "playerShortName": "H. Patel",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/114.png",
@@ -1046,7 +1046,7 @@
     {
         "playerId": 88,
         "roleId": 3,
-        "rating": 1,
+        "playerRating": 1,
         "playerName": "Mohammad Shami",
         "playerShortName": "M. Shami",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/47.png",
@@ -1058,7 +1058,7 @@
     {
         "playerId": 89,
         "roleId": 1,
-        "rating": 8,
+        "playerRating": 8,
         "playerName": "Aiden Markram",
         "playerShortName": "A. Markram",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/287.png",
@@ -1070,7 +1070,7 @@
     {
         "playerId": 90,
         "roleId": 2,
-        "rating": 7,
+        "playerRating": 7,
         "playerName": "Mitchell Marsh",
         "playerShortName": "M. Marsh",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/40.png",
@@ -1082,7 +1082,7 @@
     {
         "playerId": 91,
         "roleId": 1,
-        "rating": 7,
+        "playerRating": 7,
         "playerName": "Nicholas Pooran",
         "playerShortName": "N. Pooran",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/136.png",
@@ -1094,7 +1094,7 @@
     {
         "playerId": 92,
         "roleId": 2,
-        "rating": 7,
+        "playerRating": 7,
         "playerName": "Ayush Badoni",
         "playerShortName": "A. Badoni",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/985.png",
@@ -1106,7 +1106,7 @@
     {
         "playerId": 93,
         "roleId": 1,
-        "rating": 8,
+        "playerRating": 8,
         "playerName": "Rishabh Pant",
         "playerShortName": "R. Pant",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/18.png",
@@ -1118,7 +1118,7 @@
     {
         "playerId": 94,
         "roleId": 1,
-        "rating": 7,
+        "playerRating": 7,
         "playerName": "David Miller",
         "playerShortName": "D. Miller",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/128.png",
@@ -1130,7 +1130,7 @@
     {
         "playerId": 95,
         "roleId": 3,
-        "rating": 2,
+        "playerRating": 2,
         "playerName": "Prince Yadav",
         "playerShortName": "P. Yadav",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/1225.png",
@@ -1142,7 +1142,7 @@
     {
         "playerId": 96,
         "roleId": 3,
-        "rating": 1,
+        "playerRating": 1,
         "playerName": "Digvesh Rathi",
         "playerShortName": "D. Rathi",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/3565.png",
@@ -1154,7 +1154,7 @@
     {
         "playerId": 97,
         "roleId": 2,
-        "rating": 3,
+        "playerRating": 3,
         "playerName": "Shahbaz Ahamad",
         "playerShortName": "S. Ahamad",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/523.png",
@@ -1166,7 +1166,7 @@
     {
         "playerId": 98,
         "roleId": 2,
-        "rating": 4,
+        "playerRating": 4,
         "playerName": "Shardul Thakur",
         "playerShortName": "S. Thakur",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/105.png",
@@ -1178,7 +1178,7 @@
     {
         "playerId": 99,
         "roleId": 3,
-        "rating": 1,
+        "playerRating": 1,
         "playerName": "Ravi Bishnoi",
         "playerShortName": "R. Bishnoi",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/520.png",
@@ -1190,7 +1190,7 @@
     {
         "playerId": 100,
         "roleId": 1,
-        "rating": 8,
+        "playerRating": 8,
         "playerName": "Shubman Gill",
         "playerShortName": "S. Gill",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/62.png",
@@ -1202,7 +1202,7 @@
     {
         "playerId": 101,
         "roleId": 1,
-        "rating": 8,
+        "playerRating": 8,
         "playerName": "Jos Buttler",
         "playerShortName": "J. Buttler",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/182.png",
@@ -1214,7 +1214,7 @@
     {
         "playerId": 102,
         "roleId": 1,
-        "rating": 7,
+        "playerRating": 7,
         "playerName": "Sai Sudharsan",
         "playerShortName": "S. Sudharsan",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/976.png",
@@ -1226,7 +1226,7 @@
     {
         "playerId": 103,
         "roleId": 2,
-        "rating": 7,
+        "playerRating": 7,
         "playerName": "Shahrukh Khan",
         "playerShortName": "S. Khan",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/590.png",
@@ -1238,7 +1238,7 @@
     {
         "playerId": 104,
         "roleId": 2,
-        "rating": 7,
+        "playerRating": 7,
         "playerName": "Rahul Tewatia",
         "playerShortName": "R. Tewatia",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/120.png",
@@ -1250,7 +1250,7 @@
     {
         "playerId": 105,
         "roleId": 2,
-        "rating": 5,
+        "playerRating": 5,
         "playerName": "Arshad Khan",
         "playerShortName": "A. Khan",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/988.png",
@@ -1262,7 +1262,7 @@
     {
         "playerId": 106,
         "roleId": 2,
-        "rating": 5,
+        "playerRating": 5,
         "playerName": "Rashid Khan",
         "playerShortName": "R. Khan",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/218.png",
@@ -1274,7 +1274,7 @@
     {
         "playerId": 107,
         "roleId": 3,
-        "rating": 3,
+        "playerRating": 3,
         "playerName": "Kagiso Rabada",
         "playerShortName": "K. Rabada",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/116.png",
@@ -1286,7 +1286,7 @@
     {
         "playerId": 108,
         "roleId": 3,
-        "rating": 3,
+        "playerRating": 3,
         "playerName": "Mohammed Siraj",
         "playerShortName": "M. Siraj",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/63.png",
@@ -1298,7 +1298,7 @@
     {
         "playerId": 109,
         "roleId": 3,
-        "rating": 1,
+        "playerRating": 1,
         "playerName": "Prasidh Krishna",
         "playerShortName": "P. Krishna",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/150.png",
@@ -1310,7 +1310,7 @@
     {
         "playerId": 110,
         "roleId": 3,
-        "rating": 1,
+        "playerRating": 1,
         "playerName": "Ishant Sharma",
         "playerShortName": "I. Sharma",
         "profilePicture": "https://documents.iplt20.com/ipl/IPLHeadshot2025/50.png",
