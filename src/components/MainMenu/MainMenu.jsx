@@ -85,7 +85,7 @@ function MainMenu() {
     function getWeights(roleId, runsScored) {
         let weights;
         if (roleId == 1) {
-            weights = [35, 30, 8, 2, 12, 5, 8];
+            weights = [30, 35, 8, 2, 12, 5, 8];
         }
         else if (roleId == 2) {
             weights = [40, 45, 8, 0, 9, 5, 6];
