@@ -29,12 +29,10 @@ function MainMenu() {
             const teamA = team[match.teamAId - 1];
             const teamB = team[match.teamBId - 1];
             if (matchStatusId === null) {
-                if (isUserMatch(match)) {
-                    break;
-                }
-                else {
-                    simulateToss(teamA, teamB, match);
-                }
+
+                
+                simulateToss(teamA, teamB, match);
+
             }
         }
     }, [schedule]);
@@ -84,23 +82,23 @@ function MainMenu() {
         return player[(team.teamId - 1) * 11 + wicket + 1];
     }
 
-    function getWeights(playerRating, runsScored) {
+    function getWeights(roleId, runsScored) {
         let weights;
-        if (playerRating >= 8 && playerRating <= 10) {
-            weights = [15, 15, 10, 8, 20, 17, 15];
+        if (roleId == 1) {
+            weights = [35, 30, 8, 2, 12, 5, 8];
         }
-        else if (playerRating >= 5 && playerRating <= 7) {
-            weights = [20, 50, 5, 2, 10, 8, 5];
+        else if (roleId == 2) {
+            weights = [40, 45, 8, 0, 9, 5, 6];
         }
         else {
-            weights = [20, 17, 5, 3, 20, 30, 5];
+            weights = [40, 27, 2, 0, 2, 15.9, 0.1];
         }
         return weights;
     }
 
-    function getRuns(playerRating, runsScored) {
+    function getRuns(roleId, runsScored) {
         // Predefined weights for each index (0-6)
-        const weights = getWeights(playerRating, runsScored);
+        const weights = getWeights(roleId, runsScored);
         // Generate a random permutation of indices 0-6
         const indices = [0, 1, 2, 3, 4, 5, 6];
         const randomArray = [];
@@ -137,20 +135,41 @@ function MainMenu() {
 
 
     function simulateFirstInning(teamA, teamB, match) {
-        console.log(teamA.teamShortName);
         let wicket = 0;
+        let sixes = 0;
+        let fours = 0;
+        let runs = 0;
         let striker = getStriker(teamA);
         let nonStriker = getNonStriker(teamA);
-        let runs = 0;
-        for (let i = 0; i < 120; i++) {
-            if (getRuns(striker.playerRating, runs) === 5) {
-                console.log('W');
+        let i = 0;
+        while (i < 120 && wicket < 10) {
+            let lastBallRun = getRuns(striker.roleId, runs);
+            if (lastBallRun == 1 || lastBallRun == 3) {
+                runs = runs + lastBallRun;
+                let temp = striker;
+                striker = nonStriker;
+                nonStriker = temp;
             }
-            else {
-                console.log(getRuns(striker.playerRating, runs));
+            else if (lastBallRun == 2 || lastBallRun == 0) {
+                runs = runs + lastBallRun;
             }
+            else if (lastBallRun == 4) {
+                runs = runs + lastBallRun;
+                fours++;
+            }
+            else if (lastBallRun == 6) {
+                runs = runs + lastBallRun;
+                sixes++;
+            }
+            else if (lastBallRun == 5) {
+                wicket++;
+                striker = getNewPlayer(teamA, wicket);
+            }
+            i++;
         }
-        let statistic = JSON.parse(localStorage.getItem("statistic")) || [];
+        console.log(`${teamA.teamShortName}: ${runs}-${wicket} 4's: ${fours} 6's: ${sixes} balls: ${i} ov: ${Math.floor(i / 6)}.${i % 6}`);
+        simulateSecondInning(teamB, teamA, match, runs);
+        // let statistic = JSON.parse(localStorage.getItem("statistic")) || [];
         // const strikerExists = statistic.some(player => player.playerId === striker.playerId);
 
         // if (!strikerExists) {
@@ -177,7 +196,43 @@ function MainMenu() {
         //     localStorage.setItem("statistic", JSON.stringify(statistic));
         // }
     }
-
+    function simulateSecondInning(teamA, teamB, match, run) {
+        let wicket = 0;
+        let sixes = 0;
+        let fours = 0;
+        let runs = 0;
+        let striker = getStriker(teamA);
+        let nonStriker = getNonStriker(teamA);
+        let i = 0;
+        while (i < 120 && wicket < 10 && runs <= run) {
+            let lastBallRun = getRuns(striker.roleId, runs);
+            if (lastBallRun == 1 || lastBallRun == 3) {
+                runs = runs + lastBallRun;
+                let temp = striker;
+                striker = nonStriker;
+                nonStriker = temp;
+            }
+            else if (lastBallRun == 2 || lastBallRun == 0) {
+                runs = runs + lastBallRun;
+            }
+            else if (lastBallRun == 4) {
+                runs = runs + lastBallRun;
+                fours++;
+            }
+            else if (lastBallRun == 6) {
+                runs = runs + lastBallRun;
+                sixes++;
+            }
+            else if (lastBallRun == 5) {
+                wicket++;
+                //console.log(`${runs} 4's: ${fours} 6's: ${sixes}`);
+                striker = getNewPlayer(teamA, wicket);
+            }
+            i++;
+        }
+        console.log(`${teamA.teamShortName}: ${runs}-${wicket} 4's: ${fours} 6's: ${sixes} balls: ${i} ov: ${Math.floor(i / 6)}.${i % 6}`);
+        console.log("-------------------------------------");
+    }
 
     function isUserMatch(match) {
         return match.teamAId === userTeamId || match.teamBId === userTeamId;
