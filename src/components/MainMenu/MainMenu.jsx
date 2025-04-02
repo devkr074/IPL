@@ -30,7 +30,6 @@ function MainMenu() {
             const teamB = team[match.teamBId - 1];
             if (matchStatusId === null) {
 
-                
                 simulateToss(teamA, teamB, match);
 
             }
@@ -82,76 +81,164 @@ function MainMenu() {
         return player[(team.teamId - 1) * 11 + wicket + 1];
     }
 
-    function getWeights(roleId, runsScored) {
-        let weights;
-        if (roleId == 1) {
-            weights = [30, 35, 8, 2, 12, 5, 8];
-        }
-        else if (roleId == 2) {
-            weights = [40, 45, 8, 0, 9, 5, 6];
-        }
-        else {
-            weights = [40, 27, 2, 0, 2, 15.9, 0.1];
-        }
-        return weights;
-    }
+    // function getWeights(roleId, runsScored) {
+    //     let weights;
+    //     if (roleId == 1) {
+    //         weights = [30, 35, 8, 2, 12, 5, 8];
+    //     }
+    //     else if (roleId == 2) {
+    //         weights = [40, 45, 8, 0, 9, 5, 6];
+    //     }
+    //     else {
+    //         weights = [40, 27, 2, 0, 2, 15.9, 0.1];
+    //     }
+    //     return weights;
+    // }
+
+    // function getRuns(roleId, runsScored) {
+    //     // Predefined weights for each index (0-6)
+    //     const weights = getWeights(roleId, runsScored);
+    //     // Generate a random permutation of indices 0-6
+    //     const indices = [0, 1, 2, 3, 4, 5, 6];
+    //     const randomArray = [];
+    //     while (indices.length > 0) {
+    //         const randomIndex = Math.floor(Math.random() * indices.length);
+    //         randomArray.push(indices[randomIndex]);
+    //         indices.splice(randomIndex, 1);
+    //     }
+    //     // Calculate total weight and create ranges
+    //     let current = 1;
+    //     const ranges = [];
+    //     for (const index of randomArray) {
+    //         const weight = weights[index];
+    //         const start = current;
+    //         const end = current + weight - 1;
+    //         ranges.push({
+    //             index: index,
+    //             range: [start, end],
+    //             description: `${index}: [${start}-${end}]`
+    //         });
+    //         current = end + 1;
+    //     }
+    //     // Generate a random number between 1-100
+    //     const randomNumber = Math.floor(Math.random() * 100) + 1;
+    //     // Find which range the number falls into
+    //     for (const range of ranges) {
+    //         if (randomNumber >= range.range[0] && randomNumber <= range.range[1]) {
+    //             return range.index;  // or return range.index if you just want the number
+    //         }
+    //     }
+    //     return 0; // in case no range was found (shouldn't happen if weights sum to 100)
+    // }
 
     function getRuns(roleId, runsScored) {
-        // Predefined weights for each index (0-6)
-        const weights = getWeights(roleId, runsScored);
-        // Generate a random permutation of indices 0-6
-        const indices = [0, 1, 2, 3, 4, 5, 6];
-        const randomArray = [];
-        while (indices.length > 0) {
-            const randomIndex = Math.floor(Math.random() * indices.length);
-            randomArray.push(indices[randomIndex]);
-            indices.splice(randomIndex, 1);
-        }
-        // Calculate total weight and create ranges
-        let current = 1;
-        const ranges = [];
-        for (const index of randomArray) {
-            const weight = weights[index];
-            const start = current;
-            const end = current + weight - 1;
-            ranges.push({
-                index: index,
-                range: [start, end],
-                description: `${index}: [${start}-${end}]`
-            });
-            current = end + 1;
-        }
-        // Generate a random number between 1-100
-        const randomNumber = Math.floor(Math.random() * 100) + 1;
-        // Find which range the number falls into
-        for (const range of ranges) {
-            if (randomNumber >= range.range[0] && randomNumber <= range.range[1]) {
-                return range.index;  // or return range.index if you just want the number
+        const outcome = Math.floor(Math.random() * 100) + 1;
+        const diceRoll = Math.floor(Math.random() * 6) + 1;
+        if (roleId == 1) {
+            if (outcome <= 10 && (diceRoll == 1 || ((diceRoll + 10)) % 3 == 0)) {
+                return 6;
+            }
+            if (outcome <= 30 && (diceRoll == 1 || ((diceRoll + 10)) % 3 == 0)) {
+                return 4;
+            }
+            if (outcome == 31 && diceRoll==1) {
+                return 3;
+            }
+            if (outcome <= 40 && (diceRoll%2==0)) {
+                return 2;
+            }
+            if (outcome <= 80) {
+                return 1;
+            }
+            if (outcome > 80 && (diceRoll == 5 || ((diceRoll + 11) % 4) == 0)) {
+                return 5;
+            }
+            if (outcome > 80) {
+                return 0;
             }
         }
-        return 0; // in case no range was found (shouldn't happen if weights sum to 100)
+        else if (roleId == 2) {
+            if (outcome <= 10 && (diceRoll == 1 || diceRoll==3 || ((diceRoll + 10)) % 3 == 0)) {
+                return 6;
+            }
+            if (outcome <= 30 && (diceRoll == 1 || ((diceRoll + 10)) % 3 == 0)) {
+                return 4;
+            }
+            if (outcome == 31 && diceRoll==1) {
+                return 3;
+            }
+            if (outcome <= 40 && (diceRoll%2==0)) {
+                return 2;
+            }
+            if (outcome <= 80) {
+                return 1;
+            }
+            if (outcome > 70 && (diceRoll == 5 || diceRoll == 1 || ((diceRoll + 11) % 4) == 0)) {
+                return 5;
+            }
+            if (outcome > 70) {
+                return 0;
+            }
+        }
+        else {
+            if (outcome <= 10 && (diceRoll == 1 && ((diceRoll + 10)) % 3 == 0)) {
+                return 6;
+            }
+            if (outcome <= 30 && (diceRoll == 1 && ((diceRoll + 10)) % 3 == 0)) {
+                return 4;
+            }
+            if (outcome == 31 && diceRoll==1) {
+                return 3;
+            }
+            if (outcome <= 40 && (diceRoll%2==0)) {
+                return 2;
+            }
+            if (outcome <= 70) {
+                return 1;
+            }
+            if (outcome > 60 && (diceRoll == 5 || diceRoll == 1 || ((diceRoll + 11) % 4) == 0)) {
+                return 5;
+            }
+            if (outcome > 60) {
+                return 0;
+            }
+        }
     }
-
-
 
     function simulateFirstInning(teamA, teamB, match) {
         let wicket = 0;
         let sixes = 0;
         let fours = 0;
+        let single = 0;
+        let double = 0;
+        let triple = 0;
+        let dots = 0;
         let runs = 0;
         let striker = getStriker(teamA);
         let nonStriker = getNonStriker(teamA);
         let i = 0;
         while (i < 120 && wicket < 10) {
             let lastBallRun = getRuns(striker.roleId, runs);
-            if (lastBallRun == 1 || lastBallRun == 3) {
+            if (lastBallRun == 0) {
+                dots++;
+            }
+            else if (lastBallRun == 1) {
                 runs = runs + lastBallRun;
                 let temp = striker;
                 striker = nonStriker;
                 nonStriker = temp;
+                single++;
             }
-            else if (lastBallRun == 2 || lastBallRun == 0) {
+            else if (lastBallRun == 2) {
                 runs = runs + lastBallRun;
+                double++;
+            }
+            else if (lastBallRun == 3) {
+                runs = runs + lastBallRun;
+                let temp = striker;
+                striker = nonStriker;
+                nonStriker = temp;
+                triple++;
             }
             else if (lastBallRun == 4) {
                 runs = runs + lastBallRun;
@@ -167,7 +254,7 @@ function MainMenu() {
             }
             i++;
         }
-        console.log(`${teamA.teamShortName}: ${runs}-${wicket} 4's: ${fours} 6's: ${sixes} balls: ${i} ov: ${Math.floor(i / 6)}.${i % 6}`);
+        console.log(`${teamA.teamShortName}: ${runs}-${wicket} 0's: ${dots} 1's: ${single} 2's: ${double} 3's: ${triple} 4's: ${fours} 6's: ${sixes} balls: ${i} ov: ${Math.floor(i / 6)}.${i % 6}`);
         simulateSecondInning(teamB, teamA, match, runs);
         // let statistic = JSON.parse(localStorage.getItem("statistic")) || [];
         // const strikerExists = statistic.some(player => player.playerId === striker.playerId);
@@ -200,20 +287,36 @@ function MainMenu() {
         let wicket = 0;
         let sixes = 0;
         let fours = 0;
+        let single = 0;
+        let double = 0;
+        let triple = 0;
+        let dots = 0;
         let runs = 0;
         let striker = getStriker(teamA);
         let nonStriker = getNonStriker(teamA);
         let i = 0;
         while (i < 120 && wicket < 10 && runs <= run) {
             let lastBallRun = getRuns(striker.roleId, runs);
-            if (lastBallRun == 1 || lastBallRun == 3) {
+            if (lastBallRun == 0) {
+                dots++;
+            }
+            else if (lastBallRun == 1) {
                 runs = runs + lastBallRun;
                 let temp = striker;
                 striker = nonStriker;
                 nonStriker = temp;
+                single++;
             }
-            else if (lastBallRun == 2 || lastBallRun == 0) {
+            else if (lastBallRun == 2) {
                 runs = runs + lastBallRun;
+                double++;
+            }
+            else if (lastBallRun == 3) {
+                runs = runs + lastBallRun;
+                let temp = striker;
+                striker = nonStriker;
+                nonStriker = temp;
+                triple++;
             }
             else if (lastBallRun == 4) {
                 runs = runs + lastBallRun;
@@ -225,12 +328,11 @@ function MainMenu() {
             }
             else if (lastBallRun == 5) {
                 wicket++;
-                //console.log(`${runs} 4's: ${fours} 6's: ${sixes}`);
                 striker = getNewPlayer(teamA, wicket);
             }
             i++;
         }
-        console.log(`${teamA.teamShortName}: ${runs}-${wicket} 4's: ${fours} 6's: ${sixes} balls: ${i} ov: ${Math.floor(i / 6)}.${i % 6}`);
+        console.log(`${teamA.teamShortName}: ${runs}-${wicket} 0's: ${dots} 1's: ${single} 2's: ${double} 3's: ${triple} 4's: ${fours} 6's: ${sixes} balls: ${i} ov: ${Math.floor(i / 6)}.${i % 6}`);
         console.log("-------------------------------------");
     }
 
