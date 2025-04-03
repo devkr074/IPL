@@ -5,45 +5,57 @@ import { FaPlay } from "react-icons/fa";
 import style from "./MainMenu.module.css";
 import trophy from "../../assets/trophy.png";
 function MainMenu() {
+    const [player, setPlayer] = useState([]);
+    const [pointsTable, setPointsTable] = useState([]);
     const [schedule, setSchedule] = useState([]);
+    const [statistic, setStatistic] = useState([]);
+    const [team, setTeam] = useState([]);
     const [totalMatchPlayed, setTotalMatchPlayed] = useState(null);
     const [userTeamId, setUserTeamId] = useState(null);
-    const [team, setTeam] = useState([]);
-    const [player, setPlayer] = useState([]);
+    const [venue, setVenue] = useState([]);
     useEffect(() => {
         document.title = "IPL - Main Menu";
+        const player = JSON.parse(localStorage.getItem("player"));
+        const pointsTable = JSON.parse(localStorage.getItem("pointsTable"));
         const schedule = JSON.parse(localStorage.getItem("schedule"));
+        const statistic = JSON.parse(localStorage.getItem("statistic"));
+        const team = JSON.parse(localStorage.getItem("team"));
         const totalMatchPlayed = Number(localStorage.getItem("totalMatchPlayed"));
         const userTeamId = Number(localStorage.getItem("userTeamId"));
-        const team = JSON.parse(localStorage.getItem("team"));
-        const player = JSON.parse(localStorage.getItem("player"));
-        setSchedule(schedule);
-        setTotalMatchPlayed(totalMatchPlayed);
-        setTeam(team);
+        const venue = JSON.parse(localStorage.getItem("venue"));
         setPlayer(player);
+        setPointsTable(pointsTable);
+        setSchedule(schedule);
+        setStatistic(statistic);
+        setTeam(team);
+        setTotalMatchPlayed(totalMatchPlayed);
         setUserTeamId(userTeamId);
+        setVenue(venue);
     }, []);
     useEffect(() => {
-        for (const match of schedule) {
-            const matchStatusId = match.matchStatusId;
-            const teamA = team[match.teamAId - 1];
-            const teamB = team[match.teamBId - 1];
+        for (let i = 0; i < schedule.length; i++) {
+            const matchStatusId = schedule[i].matchStatusId;
+            const teamA = team[schedule[i].teamAId - 1];
+            const teamB = team[schedule[i].teamBId - 1];
             if (matchStatusId === null) {
-                if (isUserMatch(match)) {
+                if (isUserMatch(schedule[i])) {
                     return;
                 }
                 else {
-                    simulateToss(teamA, teamB, match);
+                    simulateToss(teamA, teamB, schedule[i]);
                 }
             }
         }
     }, [schedule]);
+    function isUserMatch(match) {
+        return ((match.teamAId === userTeamId) || (match.teamBId === userTeamId));
+    }
     function simulateToss(teamA, teamB, match) {
         const random = Math.round(Math.random());
         match.tossStatusId = 1;
-        if (random == 0) {
+        if (random === 0) {
             const random = Math.round(Math.random());
-            if (random == 0) {
+            if (random === 0) {
                 match.tossResult = `${teamA.teamShortName} elected to Bat first`;
                 setSchedule(schedule);
                 localStorage.setItem("schedule", JSON.stringify(schedule));
@@ -71,6 +83,64 @@ function MainMenu() {
                 simulateFirstInning(teamA, teamB, match);
             }
         }
+    }
+    function simulateFirstInning(teamA, teamB, match) {
+        let wicket = 0;
+        let sixes = 0;
+        let fours = 0;
+        let single = 0;
+        let double = 0;
+        let triple = 0;
+        let dots = 0;
+        let extras = 0;
+        let runs = 0;
+        let striker = getStriker(teamA);
+        let nonStriker = getNonStriker(teamA);
+        let i = 0;
+        while (i < 120 && wicket < 10) {
+            let lastBallRun = getRuns(striker.roleId, runs);
+            if (lastBallRun == 0) {
+                dots++;
+            }
+            else if (lastBallRun == 7) {
+                runs = runs + 1;
+                extras++;
+                i--;
+            }
+            else if (lastBallRun == 1) {
+                runs = runs + lastBallRun;
+                let temp = striker;
+                striker = nonStriker;
+                nonStriker = temp;
+                single++;
+            }
+            else if (lastBallRun == 2) {
+                runs = runs + lastBallRun;
+                double++;
+            }
+            else if (lastBallRun == 3) {
+                runs = runs + lastBallRun;
+                let temp = striker;
+                striker = nonStriker;
+                nonStriker = temp;
+                triple++;
+            }
+            else if (lastBallRun == 4) {
+                runs = runs + lastBallRun;
+                fours++;
+            }
+            else if (lastBallRun == 6) {
+                runs = runs + lastBallRun;
+                sixes++;
+            }
+            else if (lastBallRun == 5) {
+                wicket++;
+                striker = getNewPlayer(teamA, wicket);
+            }
+            i++;
+        }
+        console.log(`${teamA.teamShortName}: ${runs}-${wicket} 0's: ${dots} 1's: ${single} 2's: ${double} 3's: ${triple} 4's: ${fours} 6's: ${sixes} Extras: ${extras} balls: ${i} ov: ${Math.floor(i / 6)}.${i % 6}`);
+        simulateSecondInning(teamB, teamA, match, runs);
     }
     function getStriker(team) {
         return player[(team.teamId - 1) * 11];
@@ -133,64 +203,6 @@ function MainMenu() {
         const getOutcome = createOutcomeGenerator(roleId);
         return getOutcome();
     }
-    function simulateFirstInning(teamA, teamB, match) {
-        let wicket = 0;
-        let sixes = 0;
-        let fours = 0;
-        let single = 0;
-        let double = 0;
-        let triple = 0;
-        let dots = 0;
-        let extras = 0;
-        let runs = 0;
-        let striker = getStriker(teamA);
-        let nonStriker = getNonStriker(teamA);
-        let i = 0;
-        while (i < 120 && wicket < 10) {
-            let lastBallRun = getRuns(striker.roleId, runs);
-            if (lastBallRun == 0) {
-                dots++;
-            }
-            else if (lastBallRun == 7) {
-                runs = runs + 1;
-                extras++;
-                i--;
-            }
-            else if (lastBallRun == 1) {
-                runs = runs + lastBallRun;
-                let temp = striker;
-                striker = nonStriker;
-                nonStriker = temp;
-                single++;
-            }
-            else if (lastBallRun == 2) {
-                runs = runs + lastBallRun;
-                double++;
-            }
-            else if (lastBallRun == 3) {
-                runs = runs + lastBallRun;
-                let temp = striker;
-                striker = nonStriker;
-                nonStriker = temp;
-                triple++;
-            }
-            else if (lastBallRun == 4) {
-                runs = runs + lastBallRun;
-                fours++;
-            }
-            else if (lastBallRun == 6) {
-                runs = runs + lastBallRun;
-                sixes++;
-            }
-            else if (lastBallRun == 5) {
-                wicket++;
-                striker = getNewPlayer(teamA, wicket);
-            }
-            i++;
-        }
-        console.log(`${teamA.teamShortName}: ${runs}-${wicket} 0's: ${dots} 1's: ${single} 2's: ${double} 3's: ${triple} 4's: ${fours} 6's: ${sixes} Extras: ${extras} balls: ${i} ov: ${Math.floor(i / 6)}.${i % 6}`);
-        simulateSecondInning(teamB, teamA, match, runs);
-    }
     function simulateSecondInning(teamA, teamB, match, run) {
         let wicket = 0;
         let sixes = 0;
@@ -247,9 +259,6 @@ function MainMenu() {
             i++;
         }
         console.log(`${teamA.teamShortName}: ${runs}-${wicket} 0's: ${dots} 1's: ${single} 2's: ${double} 3's: ${triple} 4's: ${fours} 6's: ${sixes} Extras: ${extras} balls: ${i} ov: ${Math.floor(i / 6)}.${i % 6}`);
-    }
-    function isUserMatch(match) {
-        return match.teamAId === userTeamId || match.teamBId === userTeamId;
     }
     const navigate = useNavigate();
     useEffect(() => {
