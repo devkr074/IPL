@@ -29,9 +29,12 @@ function MainMenu() {
             const teamA = team[match.teamAId - 1];
             const teamB = team[match.teamBId - 1];
             if (matchStatusId === null) {
-
-                simulateToss(teamA, teamB, match);
-
+                if (isUserMatch(match)) {
+                    return;
+                }
+                else {
+                    simulateToss(teamA, teamB, match);
+                }
             }
         }
     }, [schedule]);
@@ -72,110 +75,51 @@ function MainMenu() {
     function getStriker(team) {
         return player[(team.teamId - 1) * 11];
     }
-
     function getNonStriker(team) {
         return player[(team.teamId - 1) * 11 + 1];
     }
-
     function getNewPlayer(team, wicket) {
         return player[(team.teamId - 1) * 11 + wicket + 1];
     }
-
-    // function getWeights(roleId, runsScored) {
-    //     let weights;
-    //     if (roleId == 1) {
-    //         weights = [30, 35, 8, 2, 12, 5, 8];
-    //     }
-    //     else if (roleId == 2) {
-    //         weights = [40, 45, 8, 0, 9, 5, 6];
-    //     }
-    //     else {
-    //         weights = [40, 27, 2, 0, 2, 15.9, 0.1];
-    //     }
-    //     return weights;
-    // }
-
-    // function getRuns(roleId, runsScored) {
-    //     // Predefined weights for each index (0-6)
-    //     const weights = getWeights(roleId, runsScored);
-    //     // Generate a random permutation of indices 0-6
-    //     const indices = [0, 1, 2, 3, 4, 5, 6];
-    //     const randomArray = [];
-    //     while (indices.length > 0) {
-    //         const randomIndex = Math.floor(Math.random() * indices.length);
-    //         randomArray.push(indices[randomIndex]);
-    //         indices.splice(randomIndex, 1);
-    //     }
-    //     // Calculate total weight and create ranges
-    //     let current = 1;
-    //     const ranges = [];
-    //     for (const index of randomArray) {
-    //         const weight = weights[index];
-    //         const start = current;
-    //         const end = current + weight - 1;
-    //         ranges.push({
-    //             index: index,
-    //             range: [start, end],
-    //             description: `${index}: [${start}-${end}]`
-    //         });
-    //         current = end + 1;
-    //     }
-    //     // Generate a random number between 1-100
-    //     const randomNumber = Math.floor(Math.random() * 100) + 1;
-    //     // Find which range the number falls into
-    //     for (const range of ranges) {
-    //         if (randomNumber >= range.range[0] && randomNumber <= range.range[1]) {
-    //             return range.index;  // or return range.index if you just want the number
-    //         }
-    //     }
-    //     return 0; // in case no range was found (shouldn't happen if weights sum to 100)
-    // }
-
     function createOutcomeGenerator(roleId) {
         const outcomes = [];
-    
         if (roleId == 1) {
-            outcomes.push(...Array(45).fill(1));  // 45 times 1
-            outcomes.push(...Array(8).fill(2));  // 10 times 2
-            outcomes.push(...Array(2).fill(3));   // 2 times 3
-            outcomes.push(...Array(18).fill(4));  // 18 times 4
-            outcomes.push(...Array(5).fill(5));   // 0 times 5 (if not needed)
-            outcomes.push(...Array(10).fill(6));  // 10 times 6
-            outcomes.push(...Array(7).fill(7));  // 10 times 7
-            outcomes.push(...Array(25).fill(0));  // 25 times 0 (total: 120)
+            outcomes.push(...Array(45).fill(1));
+            outcomes.push(...Array(8).fill(2));
+            outcomes.push(...Array(2).fill(3));
+            outcomes.push(...Array(18).fill(4));
+            outcomes.push(...Array(5).fill(5));
+            outcomes.push(...Array(10).fill(6));
+            outcomes.push(...Array(7).fill(7));
+            outcomes.push(...Array(25).fill(0));
         }
         else if (roleId == 2) {
-            outcomes.push(...Array(42).fill(1));  
-            outcomes.push(...Array(8).fill(2));  
-            outcomes.push(...Array(1).fill(3));   
-            outcomes.push(...Array(20).fill(4));  
-            outcomes.push(...Array(7).fill(5));   
-            outcomes.push(...Array(10).fill(6));  
-            outcomes.push(...Array(7).fill(7));  
-            outcomes.push(...Array(25).fill(0));  // Adjust to reach desired total
+            outcomes.push(...Array(42).fill(1));
+            outcomes.push(...Array(8).fill(2));
+            outcomes.push(...Array(1).fill(3));
+            outcomes.push(...Array(20).fill(4));
+            outcomes.push(...Array(7).fill(5));
+            outcomes.push(...Array(10).fill(6));
+            outcomes.push(...Array(7).fill(7));
+            outcomes.push(...Array(25).fill(0));
         }
         else if (roleId == 3) {
-            outcomes.push(...Array(25).fill(1));  
-            outcomes.push(...Array(4).fill(2));  
-            outcomes.push(...Array(0).fill(3));   
-            outcomes.push(...Array(4).fill(4));  
-            outcomes.push(...Array(20).fill(5));   
-            outcomes.push(...Array(2).fill(6));  
-            outcomes.push(...Array(5).fill(7));  
-            outcomes.push(...Array(60).fill(0));  // Adjust to reach desired total
+            outcomes.push(...Array(25).fill(1));
+            outcomes.push(...Array(4).fill(2));
+            outcomes.push(...Array(0).fill(3));
+            outcomes.push(...Array(4).fill(4));
+            outcomes.push(...Array(20).fill(5));
+            outcomes.push(...Array(2).fill(6));
+            outcomes.push(...Array(5).fill(7));
+            outcomes.push(...Array(60).fill(0));
         }
-    
-        // Fisher-Yates shuffle
         for (let i = outcomes.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [outcomes[i], outcomes[j]] = [outcomes[j], outcomes[i]];
         }
-    
         let currentIndex = 0;
-    
-        return function() {
+        return function () {
             if (currentIndex >= outcomes.length) {
-                // Reshuffle when all outcomes are used
                 for (let i = outcomes.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
                     [outcomes[i], outcomes[j]] = [outcomes[j], outcomes[i]];
@@ -185,14 +129,10 @@ function MainMenu() {
             return outcomes[currentIndex++];
         };
     }
-    
-    // Usage:
     function getRuns(roleId) {
         const getOutcome = createOutcomeGenerator(roleId);
-        return getOutcome();  // No argument needed
+        return getOutcome();
     }
-
-
     function simulateFirstInning(teamA, teamB, match) {
         let wicket = 0;
         let sixes = 0;
@@ -243,8 +183,6 @@ function MainMenu() {
                 sixes++;
             }
             else if (lastBallRun == 5) {
-                console.log(runs);
-                console.log("-----");
                 wicket++;
                 striker = getNewPlayer(teamA, wicket);
             }
@@ -252,32 +190,6 @@ function MainMenu() {
         }
         console.log(`${teamA.teamShortName}: ${runs}-${wicket} 0's: ${dots} 1's: ${single} 2's: ${double} 3's: ${triple} 4's: ${fours} 6's: ${sixes} Extras: ${extras} balls: ${i} ov: ${Math.floor(i / 6)}.${i % 6}`);
         simulateSecondInning(teamB, teamA, match, runs);
-        // let statistic = JSON.parse(localStorage.getItem("statistic")) || [];
-        // const strikerExists = statistic.some(player => player.playerId === striker.playerId);
-
-        // if (!strikerExists) {
-        //     statistic.push({
-        //         playerId: striker.playerId,
-        //         playerName: striker.playerName,
-        //         runs: 0,
-        //         ballsFaced: 0,
-        //         wickets: 0,
-        //     });
-        //     localStorage.setItem("statistic", JSON.stringify(statistic));
-        // }
-        // const nonStrikerExists = statistic.some(player => player.playerId === nonStriker.playerId);
-
-        // if (!nonStrikerExists) {
-        //     statistic.push({
-        //         playerId: nonStriker.playerId,
-        //         playerName: nonStriker.playerName,
-        //         runs: 0,
-        //         ballsFaced: 0,
-        //         wickets: 0,
-        //     });
-
-        //     localStorage.setItem("statistic", JSON.stringify(statistic));
-        // }
     }
     function simulateSecondInning(teamA, teamB, match, run) {
         let wicket = 0;
@@ -329,18 +241,13 @@ function MainMenu() {
                 sixes++;
             }
             else if (lastBallRun == 5) {
-                console.log(runs);
-                console.log("-----");
                 wicket++;
                 striker = getNewPlayer(teamA, wicket);
             }
             i++;
         }
-        // 0's: ${dots} 1's: ${single} 2's: ${double} 3's: ${triple} 4's: ${fours} 6's: ${sixes} Extras: ${extras} balls: ${i}
         console.log(`${teamA.teamShortName}: ${runs}-${wicket} 0's: ${dots} 1's: ${single} 2's: ${double} 3's: ${triple} 4's: ${fours} 6's: ${sixes} Extras: ${extras} balls: ${i} ov: ${Math.floor(i / 6)}.${i % 6}`);
-        console.log("-------------------------------------");
     }
-
     function isUserMatch(match) {
         return match.teamAId === userTeamId || match.teamBId === userTeamId;
     }
