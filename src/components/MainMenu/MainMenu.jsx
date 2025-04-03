@@ -131,79 +131,67 @@ function MainMenu() {
     //     return 0; // in case no range was found (shouldn't happen if weights sum to 100)
     // }
 
-    function getRuns(roleId, runsScored) {
-        const outcome = Math.floor(Math.random() * 100) + 1;
-        const diceRoll = Math.floor(Math.random() * 6) + 1;
+    function createOutcomeGenerator(roleId) {
+        const outcomes = [];
+    
         if (roleId == 1) {
-            if (outcome <= 10 && (diceRoll == 1 || ((diceRoll + 10)) % 3 == 0)) {
-                return 6;
-            }
-            if (outcome <= 30 && (diceRoll == 1 || ((diceRoll + 10)) % 3 == 0)) {
-                return 4;
-            }
-            if (outcome == 31 && diceRoll==1) {
-                return 3;
-            }
-            if (outcome <= 40 && (diceRoll%2==0)) {
-                return 2;
-            }
-            if (outcome <= 80) {
-                return 1;
-            }
-            if (outcome > 80 && (diceRoll == 5 || ((diceRoll + 11) % 4) == 0)) {
-                return 5;
-            }
-            if (outcome > 80) {
-                return 0;
-            }
+            outcomes.push(...Array(45).fill(1));  // 45 times 1
+            outcomes.push(...Array(8).fill(2));  // 10 times 2
+            outcomes.push(...Array(2).fill(3));   // 2 times 3
+            outcomes.push(...Array(18).fill(4));  // 18 times 4
+            outcomes.push(...Array(5).fill(5));   // 0 times 5 (if not needed)
+            outcomes.push(...Array(10).fill(6));  // 10 times 6
+            outcomes.push(...Array(7).fill(7));  // 10 times 7
+            outcomes.push(...Array(25).fill(0));  // 25 times 0 (total: 120)
         }
         else if (roleId == 2) {
-            if (outcome <= 10 && (diceRoll == 1 || diceRoll==3 || ((diceRoll + 10)) % 3 == 0)) {
-                return 6;
-            }
-            if (outcome <= 30 && (diceRoll == 1 || ((diceRoll + 10)) % 3 == 0)) {
-                return 4;
-            }
-            if (outcome == 31 && diceRoll==1) {
-                return 3;
-            }
-            if (outcome <= 40 && (diceRoll%2==0)) {
-                return 2;
-            }
-            if (outcome <= 80) {
-                return 1;
-            }
-            if (outcome > 70 && (diceRoll == 5 || diceRoll == 1 || ((diceRoll + 11) % 4) == 0)) {
-                return 5;
-            }
-            if (outcome > 70) {
-                return 0;
-            }
+            outcomes.push(...Array(42).fill(1));  
+            outcomes.push(...Array(8).fill(2));  
+            outcomes.push(...Array(1).fill(3));   
+            outcomes.push(...Array(20).fill(4));  
+            outcomes.push(...Array(7).fill(5));   
+            outcomes.push(...Array(10).fill(6));  
+            outcomes.push(...Array(7).fill(7));  
+            outcomes.push(...Array(25).fill(0));  // Adjust to reach desired total
         }
-        else {
-            if (outcome <= 10 && (diceRoll == 1 && ((diceRoll + 10)) % 3 == 0)) {
-                return 6;
-            }
-            if (outcome <= 30 && (diceRoll == 1 && ((diceRoll + 10)) % 3 == 0)) {
-                return 4;
-            }
-            if (outcome == 31 && diceRoll==1) {
-                return 3;
-            }
-            if (outcome <= 40 && (diceRoll%2==0)) {
-                return 2;
-            }
-            if (outcome <= 70) {
-                return 1;
-            }
-            if (outcome > 60 && (diceRoll == 5 || diceRoll == 1 || ((diceRoll + 11) % 4) == 0)) {
-                return 5;
-            }
-            if (outcome > 60) {
-                return 0;
-            }
+        else if (roleId == 3) {
+            outcomes.push(...Array(25).fill(1));  
+            outcomes.push(...Array(4).fill(2));  
+            outcomes.push(...Array(0).fill(3));   
+            outcomes.push(...Array(4).fill(4));  
+            outcomes.push(...Array(20).fill(5));   
+            outcomes.push(...Array(2).fill(6));  
+            outcomes.push(...Array(5).fill(7));  
+            outcomes.push(...Array(60).fill(0));  // Adjust to reach desired total
         }
+    
+        // Fisher-Yates shuffle
+        for (let i = outcomes.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [outcomes[i], outcomes[j]] = [outcomes[j], outcomes[i]];
+        }
+    
+        let currentIndex = 0;
+    
+        return function() {
+            if (currentIndex >= outcomes.length) {
+                // Reshuffle when all outcomes are used
+                for (let i = outcomes.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [outcomes[i], outcomes[j]] = [outcomes[j], outcomes[i]];
+                }
+                currentIndex = 0;
+            }
+            return outcomes[currentIndex++];
+        };
     }
+    
+    // Usage:
+    function getRuns(roleId) {
+        const getOutcome = createOutcomeGenerator(roleId);
+        return getOutcome();  // No argument needed
+    }
+
 
     function simulateFirstInning(teamA, teamB, match) {
         let wicket = 0;
@@ -213,6 +201,7 @@ function MainMenu() {
         let double = 0;
         let triple = 0;
         let dots = 0;
+        let extras = 0;
         let runs = 0;
         let striker = getStriker(teamA);
         let nonStriker = getNonStriker(teamA);
@@ -221,6 +210,11 @@ function MainMenu() {
             let lastBallRun = getRuns(striker.roleId, runs);
             if (lastBallRun == 0) {
                 dots++;
+            }
+            else if (lastBallRun == 7) {
+                runs = runs + 1;
+                extras++;
+                i--;
             }
             else if (lastBallRun == 1) {
                 runs = runs + lastBallRun;
@@ -249,12 +243,14 @@ function MainMenu() {
                 sixes++;
             }
             else if (lastBallRun == 5) {
+                console.log(runs);
+                console.log("-----");
                 wicket++;
                 striker = getNewPlayer(teamA, wicket);
             }
             i++;
         }
-        console.log(`${teamA.teamShortName}: ${runs}-${wicket} 0's: ${dots} 1's: ${single} 2's: ${double} 3's: ${triple} 4's: ${fours} 6's: ${sixes} balls: ${i} ov: ${Math.floor(i / 6)}.${i % 6}`);
+        console.log(`${teamA.teamShortName}: ${runs}-${wicket} 0's: ${dots} 1's: ${single} 2's: ${double} 3's: ${triple} 4's: ${fours} 6's: ${sixes} Extras: ${extras} balls: ${i} ov: ${Math.floor(i / 6)}.${i % 6}`);
         simulateSecondInning(teamB, teamA, match, runs);
         // let statistic = JSON.parse(localStorage.getItem("statistic")) || [];
         // const strikerExists = statistic.some(player => player.playerId === striker.playerId);
@@ -290,6 +286,7 @@ function MainMenu() {
         let single = 0;
         let double = 0;
         let triple = 0;
+        let extras = 0;
         let dots = 0;
         let runs = 0;
         let striker = getStriker(teamA);
@@ -299,6 +296,11 @@ function MainMenu() {
             let lastBallRun = getRuns(striker.roleId, runs);
             if (lastBallRun == 0) {
                 dots++;
+            }
+            else if (lastBallRun == 7) {
+                runs = runs + 1;
+                i--;
+                extras++;
             }
             else if (lastBallRun == 1) {
                 runs = runs + lastBallRun;
@@ -327,12 +329,15 @@ function MainMenu() {
                 sixes++;
             }
             else if (lastBallRun == 5) {
+                console.log(runs);
+                console.log("-----");
                 wicket++;
                 striker = getNewPlayer(teamA, wicket);
             }
             i++;
         }
-        console.log(`${teamA.teamShortName}: ${runs}-${wicket} 0's: ${dots} 1's: ${single} 2's: ${double} 3's: ${triple} 4's: ${fours} 6's: ${sixes} balls: ${i} ov: ${Math.floor(i / 6)}.${i % 6}`);
+        // 0's: ${dots} 1's: ${single} 2's: ${double} 3's: ${triple} 4's: ${fours} 6's: ${sixes} Extras: ${extras} balls: ${i}
+        console.log(`${teamA.teamShortName}: ${runs}-${wicket} 0's: ${dots} 1's: ${single} 2's: ${double} 3's: ${triple} 4's: ${fours} 6's: ${sixes} Extras: ${extras} balls: ${i} ov: ${Math.floor(i / 6)}.${i % 6}`);
         console.log("-------------------------------------");
     }
 
