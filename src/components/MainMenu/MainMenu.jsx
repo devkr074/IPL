@@ -43,6 +43,66 @@ function MainMenu() {
                     return;
                 }
                 else {
+                    for (let j = 0; j < 11; j++) {
+                        if (statistic.findIndex(obj => obj.playerId === player[(teamA.teamId - 1) * 11 + j].playerId) === -1) {
+                            statistic.push({
+                                playerId: player[(teamA.teamId - 1) * 11 + j].playerId,
+                                battingStatistic: {
+                                    matches: 0,
+                                    innings: 0,
+                                    runs: 0,
+                                    balls: 0,
+                                    fours: 0,
+                                    sixes: 0,
+                                    halfCentury: 0,
+                                    century: 0,
+                                    highestScore: 0,
+                                    highestScoreOpponentTeam: ""
+                                },
+                                bowlingStatistic: {
+                                    matches: 0,
+                                    balls: 0,
+                                    runs: 0,
+                                    fiveWickets: 0,
+                                    bestBowlingWickets: 0,
+                                    bestBowlingRuns: 0,
+                                    bestBowlingOpponent: ""
+                                }
+                            });
+                            setStatistic([...statistic, statistic]);
+                            localStorage.setItem("statistic", JSON.stringify(statistic));
+                        }
+                    }
+                    for (let j = 0; j < 11; j++) {
+                        if (statistic.findIndex(obj => obj.playerId === player[(teamB.teamId - 1) * 11 + j].playerId) === -1) {
+                            statistic.push({
+                                playerId: player[(teamA.teamId - 1) * 11 + j].playerId,
+                                battingStatistic: {
+                                    matches: 0,
+                                    innings: 0,
+                                    runs: 0,
+                                    balls: 0,
+                                    fours: 0,
+                                    sixes: 0,
+                                    halfCentury: 0,
+                                    century: 0,
+                                    highestScore: 0,
+                                    highestScoreOpponentTeam: ""
+                                },
+                                bowlingStatistic: {
+                                    matches: 0,
+                                    balls: 0,
+                                    runs: 0,
+                                    fiveWickets: 0,
+                                    bestBowlingWickets: 0,
+                                    bestBowlingRuns: 0,
+                                    bestBowlingOpponent: ""
+                                }
+                            });
+                            setStatistic([...statistic, statistic]);
+                            localStorage.setItem("statistic", JSON.stringify(statistic));
+                        }
+                    }
                     simulateToss(teamA, teamB, schedule[i]);
                 }
             }
