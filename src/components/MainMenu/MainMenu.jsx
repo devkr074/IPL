@@ -40,15 +40,16 @@ function MainMenu() {
             const teamB = team[schedule[i].teamBId - 1];
             if (matchStatusId === null) {
                 if (isUserMatch(schedule[i])) {
-                    return;
+                    return
                 }
                 else {
                     for (let j = 0; j < 11; j++) {
-                        if (statistic.findIndex(obj => obj.playerId === player[(teamA.teamId - 1) * 11 + j].playerId) === -1) {
+                        const index = statistic.findIndex(obj => obj.playerId === player[(teamA.teamId - 1) * 11 + j].playerId);
+                        if (index === -1) {
                             statistic.push({
                                 playerId: player[(teamA.teamId - 1) * 11 + j].playerId,
                                 battingStatistic: {
-                                    matches: 0,
+                                    matches: 1,
                                     innings: 0,
                                     runs: 0,
                                     balls: 0,
@@ -60,7 +61,7 @@ function MainMenu() {
                                     highestScoreOpponentTeam: ""
                                 },
                                 bowlingStatistic: {
-                                    matches: 0,
+                                    matches: 1,
                                     balls: 0,
                                     runs: 0,
                                     fiveWickets: 0,
@@ -72,13 +73,20 @@ function MainMenu() {
                             setStatistic([...statistic, statistic]);
                             localStorage.setItem("statistic", JSON.stringify(statistic));
                         }
+                        else {
+                            statistic[index].battingStatistic.matches = statistic[index].battingStatistic.matches + 1;
+                            statistic[index].bowlingStatistic.matches = statistic[index].bowlingStatistic.matches + 1;
+                            setStatistic(statistic);
+                            localStorage.setItem("statistic", JSON.stringify(statistic));
+                        }
                     }
                     for (let j = 0; j < 11; j++) {
-                        if (statistic.findIndex(obj => obj.playerId === player[(teamB.teamId - 1) * 11 + j].playerId) === -1) {
+                        const index = statistic.findIndex(obj => obj.playerId === player[(teamB.teamId - 1) * 11 + j].playerId);
+                        if (index === -1) {
                             statistic.push({
-                                playerId: player[(teamA.teamId - 1) * 11 + j].playerId,
+                                playerId: player[(teamB.teamId - 1) * 11 + j].playerId,
                                 battingStatistic: {
-                                    matches: 0,
+                                    matches: 1,
                                     innings: 0,
                                     runs: 0,
                                     balls: 0,
@@ -90,7 +98,7 @@ function MainMenu() {
                                     highestScoreOpponentTeam: ""
                                 },
                                 bowlingStatistic: {
-                                    matches: 0,
+                                    matches: 1,
                                     balls: 0,
                                     runs: 0,
                                     fiveWickets: 0,
@@ -100,6 +108,12 @@ function MainMenu() {
                                 }
                             });
                             setStatistic([...statistic, statistic]);
+                            localStorage.setItem("statistic", JSON.stringify(statistic));
+                        }
+                        else {
+                            statistic[index].battingStatistic.matches = statistic[index].battingStatistic.matches + 1;
+                            statistic[index].bowlingStatistic.matches = statistic[index].bowlingStatistic.matches + 1;
+                            setStatistic(statistic);
                             localStorage.setItem("statistic", JSON.stringify(statistic));
                         }
                     }
@@ -135,6 +149,90 @@ function MainMenu() {
         localStorage.clear();
         navigate("/");
     }
+    const commentaryForSingleRun = [
+        "That's a quick single! Excellent communication between the batters to keep the scoreboard ticking.",
+        "Just a gentle push into the gap, and they jog through for one. Smart cricket!",
+        "A well-placed shot for a comfortable single—rotating the strike beautifully.",
+        "One more added to the total; the batters are keeping the momentum going with these singles.",
+        "It's a single, and those small contributions often make a big difference in the final tally."
+    ];
+    const commentaryForDoubleRun = [
+        "Nicely placed in the gap! The batters run hard and make it back for two—great awareness.",
+        "A well-judged double, and that's the kind of running between the wickets that builds partnerships.",
+        "Good placement and excellent running! They convert a single into two with sheer determination.",
+        "The fielder chases it down, but not before the batters steal a quick two—sharp cricket all around!",
+        "Two more added to the score. That’s smart batting, picking up those doubles to keep things moving."
+    ];
+    const commentaryForTripleRun = [
+        "An excellent drive into the deep, and they’re pushing hard—three runs! That’s great running between the wickets.",
+        "Terrific placement and aggressive running! They pick up three, making the fielders work hard.",
+        "A well-executed shot and some quick legs! Three valuable runs added to the total.",
+        "Smart cricket from the batters—they seize the opportunity and run three. Fielders will need to tighten up their angles!",
+        "It's three runs, and the batters’ intent to maximize every scoring chance is paying off!"
+    ];
+    const commentaryForFourRun = [
+        "What a cracking shot! The ball races away to the boundary for a superb four!",
+        "Brilliant placement and timing—straight to the rope! Four runs with ease.",
+        "That’s a textbook drive, piercing the gap perfectly. Four runs to the batter!",
+        "Power and precision combined! The fielder had no chance as it sped to the boundary for four.",
+        "Beautifully struck! It’s all the way to the fence, a flawless four to add to the tally."
+    ];
+    const commentaryForCaughtOut = [
+        "Got him! The batter falls prey to a well-judged catch—what a moment for the fielding side!",
+        "Up in the air... and safely pouched! The fielder makes no mistake, and the batter has to walk back.",
+        "Brilliant catch! That’s a game-changing moment as the batter departs under pressure.",
+        "A soft dismissal! The batter couldn’t keep it down, and the fielder gleefully accepts the offering.",
+        "What a take! The fielder dives forward to complete an outstanding catch—excellent reflexes under pressure."
+    ];
+    const commentaryForLBWOut = [
+        "Plumb in front! The umpire raises the finger, and the batter knows they’re in trouble—what a delivery!",
+        "Trapped right in front of the stumps! That’s as clear an LBW as you’ll ever see. The bowler is ecstatic!",
+        "The ball skidded through, hitting the pads—no hesitation from the umpire. That’s out!",
+        "A peach of a delivery, nipping back and hitting the batter on the pad—LBW, and the fielding side strikes again!",
+        "The review won’t save the batter here—impact in line, hitting the stumps! It’s LBW, and they’re on their way back."
+    ];
+    const commentaryForBowled = [
+        "Clean bowled! The stumps are shattered, and the batter has no answer to that perfect delivery.",
+        "What a beauty! The ball sneaks through the defenses and crashes into the stumps—bowled out!",
+        "Straight through the gate! The bowler's precision leaves the batter stunned—an outstanding dismissal.",
+        "That's a peach of a delivery, hitting the top of off-stump! A textbook bowled-out moment.",
+        "The batter misjudges, and the bowler makes them pay—stumps flying everywhere!"
+    ];
+    const commentaryForRunOut = [
+        "Oh, that's brilliant fielding! A direct hit, and the batter is caught short of their crease—run out!",
+        "Exceptional teamwork! The throw was spot-on, and the keeper does the rest to execute a perfect run-out.",
+        "What a moment! The fielder's quick reflexes and accurate throw result in a run-out—pressure mounting on the batting side.",
+        "The gamble doesn't pay off! Superb fielding and swift work behind the stumps leave the batter stranded—run out!",
+        "A costly mistake from the batter—run out by miles! The fielding side celebrates a crucial breakthrough."
+    ];
+    const commentaryForSixRun = [
+        "That’s out of here! An absolute monster of a hit—straight into the crowd for a magnificent six!",
+        "What a clean strike! The ball sails over the boundary rope—six runs, pure class!",
+        "He’s unleashed the big one! That’s a maximum, and the bowler is under real pressure now.",
+        "Up, up, and away! That’s a towering six, the fans are on their feet!",
+        "It’s a colossal hit, straight as an arrow—six of the very best!"
+    ];
+    const commentaryForWideBall = [
+        "That one's gone well outside the line—it's a wide, and the bowler will have to reload.",
+        "The umpire stretches his arms, signaling a wide! Extra runs for the batting side.",
+        "Too much width on that delivery, and it's rightly called a wide. A small gift for the batters.",
+        "The bowler loses control, and that's an additional run as the wide is called. Extra pressure here!",
+        "A rare misstep from the bowler, straying outside the lines—it’s a wide and one more to the total."
+    ];
+    const commentaryForNoBall = [
+        "That’s a no-ball! The bowler oversteps, and the batting side gets a free hit to capitalize on.",
+        "No-ball signaled! A costly error from the bowler, gifting an extra run and a free hit.",
+        "It’s a no-ball, and the pressure mounts as the batting side gains an additional advantage.",
+        "Overstepping the line again—it's a no-ball! A free hit opportunity coming up, can the batter make the most of it?",
+        "Bowler’s mistake, and the umpire calls it a no-ball. These extras could prove crucial in the final tally."
+    ];
+    const commentaryForDotBall = [
+        "Another dot ball! The bowler is really tightening the screws here, building up the pressure on the batter.",
+        "Yet again, no runs on the board. The batter's timing seems a bit off—will they adjust in time?",
+        "Dot balls like these are gold in the middle overs; they're creating frustration for the batting side.",
+        "Excellent bowling—another dot ball forces the batter to rethink their strategy!",
+        "It's a dot ball, and every single one counts. The fielding side is gaining the upper hand with this disciplined approach."
+    ];
     function isUserMatch(match) {
         return ((match.teamAId === userTeamId) || (match.teamBId === userTeamId));
     }
@@ -175,6 +273,7 @@ function MainMenu() {
     let firstInningData;
     let firstInningBatsmanData;
     let firstInningBowlerData;
+    let firstInningCommentaryData;
     function startFirstInning(teamA, teamB, match) {
         firstInningData = {
             runs: 0,
@@ -191,6 +290,7 @@ function MainMenu() {
         };
         firstInningBatsmanData = [];
         firstInningBowlerData = [];
+        firstInningCommentaryData = [];
         firstInningBatsmanData.push(
             {
                 playerId: player[(teamA.teamId - 1) * 11].playerId,
@@ -198,7 +298,8 @@ function MainMenu() {
                 balls: 0,
                 fours: 0,
                 sixes: 0,
-                isNotOut: true
+                isNotOut: true,
+                wicketDetail: ""
             }
         )
         firstInningBatsmanData.push(
@@ -208,75 +309,23 @@ function MainMenu() {
                 balls: 0,
                 fours: 0,
                 sixes: 0,
-                isNotOut: true
+                isNotOut: true,
+                wicketDetail: ""
             }
         )
         while (firstInningData.balls < 120 && firstInningData.wickets < 10) {
             if (((firstInningData.balls % 6) === 0) && !(firstInningData.isLastBallExtra)) {
                 getFirstInningNewBowler(teamB);
-                let temp = firstInningData.striker;
+                const temp = firstInningData.striker;
                 firstInningData.striker = firstInningData.nonStriker;
                 firstInningData.nonStriker = temp;
-                simulateFirstInning(teamA, firstInningData.lastBowlerId);
+                simulateFirstInning(teamA, teamB, firstInningData.lastBowlerId);
             }
             else {
-                simulateFirstInning(teamA, firstInningData.lastBowlerId);
+                simulateFirstInning(teamA, teamB, firstInningData.lastBowlerId);
             }
         }
-        console.log(`${teamA.teamShortName}: ${firstInningData.runs}-${firstInningData.wickets} \t (${Math.floor(firstInningData.balls / 6)}.${firstInningData.balls % 6}) \t Extras: ${firstInningData.extras}`);
-        console.log(`Boundaries: 4's: ${firstInningData.fours} \t 6's: ${firstInningData.sixes}`);
-        console.log("");
-        console.log("Batting Scorecard");
-        console.log("");
-        console.log(
-            "Name".padEnd(25) +
-            "R".padEnd(5) +
-            "B".padEnd(5) +
-            "4".padEnd(5) +
-            "6".padEnd(5)
-        );
-        console.log("");
-        for (let i = 0; i < firstInningBatsmanData.length; i++) {
-            if (firstInningBatsmanData[i].isNotOut == true) {
-                console.log(
-                    (player[firstInningBatsmanData[i].playerId - 1].playerName + "*").padEnd(25) +
-                    firstInningBatsmanData[i].runs.toString().padEnd(5) +
-                    firstInningBatsmanData[i].balls.toString().padEnd(5) +
-                    firstInningBatsmanData[i].fours.toString().padEnd(5) +
-                    firstInningBatsmanData[i].sixes.toString().padEnd(5)
-                );
-            }
-            else {
-                console.log(
-                    player[firstInningBatsmanData[i].playerId - 1].playerName.padEnd(25) +
-                    firstInningBatsmanData[i].runs.toString().padEnd(5) +
-                    firstInningBatsmanData[i].balls.toString().padEnd(5) +
-                    firstInningBatsmanData[i].fours.toString().padEnd(5) +
-                    firstInningBatsmanData[i].sixes.toString().padEnd(5)
-                );
-            }
-        }
-        console.log("");
-        console.log("Bowling Scorecard");
-        console.log("");
-        console.log(
-            "Bowler".padEnd(25) +
-            "O".padEnd(7) +
-            "M".padEnd(5) +
-            "R".padEnd(5) +
-            "W".padEnd(5)
-        );
-        console.log("");
-        for (let i = 0; i < firstInningBowlerData.length; i++) {
-            console.log(
-                player[firstInningBowlerData[i].playerId - 1].playerName.padEnd(25) +
-                ((Math.floor(firstInningBowlerData[i].balls / 6)) + "." + (firstInningBowlerData[i].balls % 6)).padEnd(7) +
-                firstInningBowlerData[i].maiden.toString().padEnd(5) +
-                firstInningBowlerData[i].runs.toString().padEnd(5) +
-                firstInningBowlerData[i].wickets.toString().padEnd(5)
-            );
-        }
-        console.log("");
+        console.log(firstInningCommentaryData);
         // simulateSecondInning(teamB, teamA, match, totalRuns);
     }
     function getFirstInningNewBowler(teamB) {
@@ -298,7 +347,7 @@ function MainMenu() {
             }
             else if (firstInningBowlerData.findIndex(obj => obj.playerId === playerId) !== -1) {
                 const index = firstInningBowlerData.findIndex(obj => obj.playerId === playerId);
-                if (firstInningBowlerData[index].balls == 24) {
+                if (firstInningBowlerData[index].balls == 24 || firstInningData.lastBowlerId == playerId) {
                     getFirstInningNewBowler(teamB);
                 }
                 else {
@@ -310,10 +359,10 @@ function MainMenu() {
             getFirstInningNewBowler(teamB);
         }
     }
-    function simulateFirstInning(teamA, bowlerId) {
+    function simulateFirstInning(teamA, teamB, bowlerId) {
         let lastBallResult = generateOutcome(player[firstInningBatsmanData[firstInningData.striker].playerId - 1].roleId);
         const index = firstInningBowlerData.findIndex(obj => obj.playerId === bowlerId);
-        if (lastBallResult === 1 || lastBallResult === 3) {
+        if (lastBallResult === 1) {
             firstInningData.runs += lastBallResult;
             firstInningData.balls++;
             firstInningBatsmanData[firstInningData.striker].runs += lastBallResult;
@@ -321,7 +370,15 @@ function MainMenu() {
             firstInningBowlerData[index].balls++;
             firstInningBowlerData[index].runs += lastBallResult;
             firstInningData.isLastBallExtra = false;
-            let temp = firstInningData.striker;
+            const random = Math.floor(Math.random() * 5);
+            firstInningCommentaryData.push(
+                {
+                    ballNumber: firstInningData.balls,
+                    result: 1,
+                    statement: player[bowlerId - 1].playerName + " to " + player[firstInningBatsmanData[firstInningData.striker].playerId - 1].playerName + " 1 run. " + commentaryForSingleRun[random]
+                }
+            );
+            const temp = firstInningData.striker;
             firstInningData.striker = firstInningData.nonStriker;
             firstInningData.nonStriker = temp;
         }
@@ -333,6 +390,34 @@ function MainMenu() {
             firstInningBowlerData[index].balls++;
             firstInningBowlerData[index].runs += lastBallResult;
             firstInningData.isLastBallExtra = false;
+            const random = Math.floor(Math.random() * 5);
+            firstInningCommentaryData.push(
+                {
+                    ballNumber: firstInningData.balls,
+                    result: 2,
+                    statement: player[bowlerId - 1].playerName + " to " + player[firstInningBatsmanData[firstInningData.striker].playerId - 1].playerName + " 2 run. " + commentaryForDoubleRun[random]
+                }
+            );
+        }
+        else if (lastBallResult === 3) {
+            firstInningData.runs += lastBallResult;
+            firstInningData.balls++;
+            firstInningBatsmanData[firstInningData.striker].runs += lastBallResult;
+            firstInningBatsmanData[firstInningData.striker].balls++;
+            firstInningBowlerData[index].balls++;
+            firstInningBowlerData[index].runs += lastBallResult;
+            firstInningData.isLastBallExtra = false;
+            const random = Math.floor(Math.random() * 5);
+            firstInningCommentaryData.push(
+                {
+                    ballNumber: firstInningData.balls,
+                    result: 3,
+                    statement: player[bowlerId - 1].playerName + " to " + player[firstInningBatsmanData[firstInningData.striker].playerId - 1].playerName + " 3 run. " + commentaryForTripleRun[random]
+                }
+            );
+            const temp = firstInningData.striker;
+            firstInningData.striker = firstInningData.nonStriker;
+            firstInningData.nonStriker = temp;
         }
         else if (lastBallResult === 4) {
             firstInningData.runs += lastBallResult;
@@ -344,18 +429,101 @@ function MainMenu() {
             firstInningBowlerData[index].balls++;
             firstInningBowlerData[index].runs += lastBallResult;
             firstInningData.isLastBallExtra = false;
+            const random = Math.floor(Math.random() * 5);
+            firstInningCommentaryData.push(
+                {
+                    ballNumber: firstInningData.balls,
+                    result: 4,
+                    statement: player[bowlerId - 1].playerName + " to " + player[firstInningBatsmanData[firstInningData.striker].playerId - 1].playerName + " 4 run. " + commentaryForFourRun[random]
+                }
+            );
         }
         else if (lastBallResult == 5) {
-            firstInningData.balls++;
-            firstInningData.wickets++;
-            firstInningBatsmanData[firstInningData.striker].balls++;
-            firstInningBatsmanData[firstInningData.striker].isNotOut = false;
-            firstInningData.playersPlayed++;
-            firstInningData.striker = firstInningData.playersPlayed;
-            firstInningBowlerData[index].balls++;
-            firstInningBowlerData[index].wickets++;
-            firstInningData.isLastBallExtra = false;
+            let random = Math.floor(Math.random() * 4);
+            if (random == 0) {
+                firstInningData.balls++;
+                firstInningData.wickets++;
+                firstInningBatsmanData[firstInningData.striker].balls++;
+                firstInningBatsmanData[firstInningData.striker].isNotOut = false;
+                firstInningData.playersPlayed++;
+                firstInningBowlerData[index].balls++;
+                firstInningBowlerData[index].wickets++;
+                firstInningData.isLastBallExtra = false;
+                const fielder = Math.floor(Math.random() * 10);
+                if (player[(teamB.teamId - 1) * 11 + fielder].playerId == bowlerId) {
+                    firstInningBatsmanData[firstInningData.striker].wicketDetail = "c & b" + player[bowlerId - 1].playerName;
+                }
+                else {
+                    firstInningBatsmanData[firstInningData.striker].wicketDetail = "c " + player[(teamB.teamId - 1) * 11 + fielder].playerName + " b " + player[bowlerId - 1].playerName;
+                }
+                random = Math.floor(Math.random() * 5);
+                firstInningCommentaryData.push(
+                    {
+                        ballNumber: firstInningData.balls,
+                        result: 5,
+                        statement: player[bowlerId - 1].playerName + " to " + player[firstInningBatsmanData[firstInningData.striker].playerId - 1].playerName + " out. " + commentaryForCaughtOut[random]
+                    }
+                );
+            }
+            else if (random == 1) {
+                firstInningData.balls++;
+                firstInningData.wickets++;
+                firstInningBatsmanData[firstInningData.striker].balls++;
+                firstInningBatsmanData[firstInningData.striker].isNotOut = false;
+                firstInningData.playersPlayed++;
+                firstInningBowlerData[index].balls++;
+                firstInningBowlerData[index].wickets++;
+                firstInningData.isLastBallExtra = false;
+                firstInningBatsmanData[firstInningData.striker].wicketDetail = `LBW ${player[bowlerId - 1].playerName} `;
+                random = Math.floor(Math.random() * 5);
+                firstInningCommentaryData.push(
+                    {
+                        ballNumber: firstInningData.balls,
+                        result: 5,
+                        statement: player[bowlerId - 1].playerName + " to " + player[firstInningBatsmanData[firstInningData.striker].playerId - 1].playerName + " out. " + commentaryForLBWOut[random]
+                    }
+                );
+            }
+            else if (random == 2) {
+                firstInningData.balls++;
+                firstInningData.wickets++;
+                firstInningBatsmanData[firstInningData.striker].balls++;
+                firstInningBatsmanData[firstInningData.striker].isNotOut = false;
+                firstInningData.playersPlayed++;
+                firstInningBowlerData[index].balls++;
+                firstInningBowlerData[index].wickets++;
+                firstInningData.isLastBallExtra = false;
+                firstInningBatsmanData[firstInningData.striker].wicketDetail = "Bowled " + player[bowlerId - 1].playerName;
+                random = Math.floor(Math.random() * 5);
+                firstInningCommentaryData.push(
+                    {
+                        ballNumber: firstInningData.balls,
+                        result: 5,
+                        statement: player[bowlerId - 1].playerName + " to " + player[firstInningBatsmanData[firstInningData.striker].playerId - 1].playerName + " out. " + commentaryForBowled[random]
+                    }
+                );
+            }
+            else if (random == 3) {
+                firstInningData.balls++;
+                firstInningData.wickets++;
+                firstInningBatsmanData[firstInningData.striker].balls++;
+                firstInningBatsmanData[firstInningData.striker].isNotOut = false;
+                firstInningData.playersPlayed++;
+                firstInningBowlerData[index].balls++;
+                firstInningData.isLastBallExtra = false;
+                const fielder = Math.floor(Math.random() * 10);
+                firstInningBatsmanData[firstInningData.striker].wicketDetail = "Runout " + player[(teamB.teamId - 1) * 11 + fielder].playerName;
+                random = Math.floor(Math.random() * 5);
+                firstInningCommentaryData.push(
+                    {
+                        ballNumber: firstInningData.balls,
+                        result: 5,
+                        statement: player[bowlerId - 1].playerName + " to " + player[firstInningBatsmanData[firstInningData.striker].playerId - 1].playerName + " out. " + commentaryForRunOut[random]
+                    }
+                );
+            }
             if (firstInningData.wickets != 10) {
+                firstInningData.striker = firstInningData.playersPlayed;
                 firstInningBatsmanData.push(
                     {
                         playerId: player[(teamA.teamId - 1) * 11 + firstInningData.playersPlayed].playerId,
@@ -363,7 +531,8 @@ function MainMenu() {
                         balls: 0,
                         fours: 0,
                         sixes: 0,
-                        isNotOut: true
+                        isNotOut: true,
+                        wicketDetail: ""
                     }
                 );
             }
@@ -378,6 +547,14 @@ function MainMenu() {
             firstInningBowlerData[index].balls++;
             firstInningBowlerData[index].runs += lastBallResult;
             firstInningData.isLastBallExtra = false;
+            const random = Math.floor(Math.random() * 5);
+            firstInningCommentaryData.push(
+                {
+                    ballNumber: firstInningData.balls,
+                    result: 6,
+                    statement: player[bowlerId - 1].playerName + " to " + player[firstInningBatsmanData[firstInningData.striker].playerId - 1].playerName + " 6 run. " + commentaryForSixRun[random]
+                }
+            );
         }
         else if (lastBallResult === 7) {
             firstInningData.runs += lastBallResult;
@@ -385,137 +562,56 @@ function MainMenu() {
             firstInningData.extras++;
             firstInningData.isLastBallExtra = true;
             firstInningBowlerData[index].runs = firstInningBowlerData[index].runs + 1;
+            firstInningData.balls++;
+            let random = Math.floor(Math.random() * 2);
+            if (random == 0) {
+                random = Math.floor(Math.random() * 5);
+                firstInningCommentaryData.push(
+                    {
+                        ballNumber: firstInningData.balls,
+                        result: 7,
+                        statement: player[bowlerId - 1].playerName + " to " + player[firstInningBatsmanData[firstInningData.striker].playerId - 1].playerName + " wide. " + commentaryForWideBall[random]
+                    }
+                );
+            }
+            else {
+                random = Math.floor(Math.random() * 5);
+                firstInningCommentaryData.push(
+                    {
+                        ballNumber: firstInningData.balls,
+                        result: 7,
+                        statement: player[bowlerId - 1].playerName + " to " + player[firstInningBatsmanData[firstInningData.striker].playerId - 1].playerName + " No ball. " + commentaryForNoBall[random]
+                    }
+                );
+            }
+            firstInningData.balls--;
         }
         else {
             firstInningData.balls++;
             firstInningBatsmanData[firstInningData.striker].balls++;
             firstInningBowlerData[index].balls++;
+            firstInningData.isLastBallExtra = false;
+            const random = Math.floor(Math.random() * 5);
+            firstInningCommentaryData.push(
+                {
+                    ballNumber: firstInningData.balls,
+                    result: 0,
+                    statement: player[bowlerId - 1].playerName + " to " + player[firstInningBatsmanData[firstInningData.striker].playerId - 1].playerName + " no run. " + commentaryForDotBall[random]
+                }
+            );
         }
     }
-    // function simulateSecondInning(teamA, teamB, match, targetRuns) {
-    //     let totalRuns = 0;
-    //     let totalBalls = 0;
-    //     let totalWickets = 0;
-    //     let totalFours = 0;
-    //     let totalSixes = 0;
-    //     let totalExtras = 0;
-    //     let batsmanStatistic = [];
-    //     let striker = 0;
-    //     let nonStriker = 1;
-    //     let playersPlayed = 1;
-    //     batsmanStatistic.push(
-    //         {
-    //             id: player[(teamA.teamId - 1) * 11 + 0].playerId,
-    //             runs: 0,
-    //             balls: 0,
-    //             fours: 0,
-    //             sixes: 0,
-    //             isNotOut: true
-    //         }
-    //     );
-    //     batsmanStatistic.push(
-    //         {
-    //             id: player[(teamA.teamId - 1) * 11 + 1].playerId,
-    //             runs: 0,
-    //             balls: 0,
-    //             fours: 0,
-    //             sixes: 0,
-    //             isNotOut: true
-    //         }
-    //     );
-    //     while (totalBalls < 120 && totalWickets < 10 && totalRuns <= targetRuns) {
-    //         let lastBallResult = generateOutcome(player[batsmanStatistic[striker].id - 1].roleId);
-    //         if (lastBallResult === 1 || lastBallResult === 3) {
-    //             totalRuns = totalRuns + lastBallResult;
-    //             totalBalls++;
-    //             batsmanStatistic[striker].runs = batsmanStatistic[striker].runs + lastBallResult;
-    //             batsmanStatistic[striker].balls = batsmanStatistic[striker].balls + 1;
-    //             let temp = striker;
-    //             striker = nonStriker;
-    //             nonStriker = temp;
-    //         }
-    //         else if (lastBallResult === 2) {
-    //             totalRuns = totalRuns + lastBallResult;
-    //             batsmanStatistic[striker].runs = batsmanStatistic[striker].runs + lastBallResult;
-    //             batsmanStatistic[striker].balls = batsmanStatistic[striker].balls + 1;
-    //             totalBalls++;
-    //         }
-    //         else if (lastBallResult === 4) {
-    //             totalRuns = totalRuns + lastBallResult;
-    //             batsmanStatistic[striker].runs = batsmanStatistic[striker].runs + lastBallResult;
-    //             batsmanStatistic[striker].balls = batsmanStatistic[striker].balls + 1;
-    //             batsmanStatistic[striker].fours = batsmanStatistic[striker].fours + 1;
-    //             totalFours++;
-    //             totalBalls++;
-    //         }
-    //         else if (lastBallResult == 5) {
-    //             totalWickets++;
-    //             totalBalls++;
-    //             batsmanStatistic[striker].balls = batsmanStatistic[striker].balls + 1;
-    //             batsmanStatistic[striker].isNotOut = false;
-    //             striker = playersPlayed + 1;
-    //             playersPlayed++;
-    //             batsmanStatistic.push(
-    //                 {
-    //                     id: player[(teamA.teamId - 1) * 11 + playersPlayed].playerId,
-    //                     runs: 0,
-    //                     balls: 0,
-    //                     fours: 0,
-    //                     sixes: 0,
-    //                     isNotOut: true
-    //                 }
-    //             );
-    //         }
-    //         else if (lastBallResult === 6) {
-    //             totalRuns = totalRuns + lastBallResult;
-    //             totalSixes++;
-    //             totalBalls++;
-    //             batsmanStatistic[striker].runs = batsmanStatistic[striker].runs + lastBallResult;
-    //             batsmanStatistic[striker].balls = batsmanStatistic[striker].balls + 1;
-    //             batsmanStatistic[striker].sixes = batsmanStatistic[striker].sixes + 1;
-    //         }
-    //         else if (lastBallResult === 7) {
-    //             totalRuns = totalRuns + 1;
-    //             batsmanStatistic[striker].balls = batsmanStatistic[striker].balls + 1;
-    //             totalExtras++;
-    //         }
-    //         else {
-    //             batsmanStatistic[striker].balls = batsmanStatistic[striker].balls + 1;
-    //             totalBalls++;
-    //         }
-    //     }
-    //     console.log(`${teamA.teamShortName}: ${totalRuns}-${totalWickets} \t (${Math.floor(totalBalls / 6)}.${totalBalls % 6}) \t Extras: ${totalExtras}`);
-    //     console.log(`Boundaries: 4's: ${totalFours} \t 6's: ${totalSixes}`);
-    //     console.log(
-    //         "Name".padEnd(25) +
-    //         "R".padEnd(5) +
-    //         "B".padEnd(5) +
-    //         "4".padEnd(5) +
-    //         "6".padEnd(5)
-    //     );
 
-    //     for (let i = 0; i < batsmanStatistic.length; i++) {
-    //         if (batsmanStatistic[i].isNotOut == true) {
-    //             console.log(
-    //                 (player[batsmanStatistic[i].id - 1].playerName + "*").padEnd(25) +
-    //                 batsmanStatistic[i].runs.toString().padEnd(5) +
-    //                 batsmanStatistic[i].balls.toString().padEnd(5) +
-    //                 batsmanStatistic[i].fours.toString().padEnd(5) +
-    //                 batsmanStatistic[i].sixes.toString().padEnd(5)
-    //             );
-    //         }
-    //         else {
-    //             console.log(
-    //                 player[batsmanStatistic[i].id - 1].playerName.padEnd(25) +
-    //                 batsmanStatistic[i].runs.toString().padEnd(5) +
-    //                 batsmanStatistic[i].balls.toString().padEnd(5) +
-    //                 batsmanStatistic[i].fours.toString().padEnd(5) +
-    //                 batsmanStatistic[i].sixes.toString().padEnd(5)
-    //             );
-    //         }
-    //     }
-    //     console.log("--------------------------------------------------");
-    // }
+
+
+
+    
+
+
+
+
+
+
     function generateOutcome(roleId) {
         const outcomes = [];
         if (roleId === 1) {
