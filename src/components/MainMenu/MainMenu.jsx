@@ -659,7 +659,14 @@ function MainMenu() {
             simulateSuperOverFirstInning(teamA, teamB, match);
         }
         else {
-            saveData();
+            if (firstInningData.runs > secondInningData.runs) {
+                const result = ` won by ${firstInningData.runs - secondInningData.runs} runs`;
+                saveData(teamB, teamA, match, result);
+            }
+            else {
+                const result = ` won by ${10 - secondInningData.wickets} wkts`;
+                saveData(teamA, teamB, match, result);
+            }
         }
     }
     function getSecondInningNewBowler(teamB) {
@@ -938,8 +945,30 @@ function MainMenu() {
     function simulateSuperOverFirstInning(teamA, teamB, match) {
         console.log("Super Over Logic");
     }
-    function saveData() {
-        console.log("Data Saving Logic");
+    function saveData(teamA, teamB, match, result) {
+        const matchDetail =
+        {
+            firstInningData: firstInningData,
+            firstInningBatsmanData: firstInningBatsmanData,
+            firstInningBowlerData: firstInningBowlerData,
+            firstInningCommentaryData: firstInningCommentaryData,
+            secondInningData: secondInningData,
+            secondInningBatsmanData: secondInningBatsmanData,
+            secondInningBowlerData: secondInningBowlerData,
+            secondInningCommentaryData: secondInningCommentaryData,
+        };
+        localStorage.setItem(`match-${match.matchId}`, JSON.stringify(matchDetail));
+        match.matchStatusId = 1;
+        match.matchResult = teamA.teamShortName + result;
+        setSchedule(schedule);
+        localStorage.setItem("schedule", JSON.stringify(schedule));
+        pointsTable[teamA.teamId - 1].matchesPlayed = pointsTable[teamA.teamId - 1].matchesPlayed + 1;
+        pointsTable[teamA.teamId - 1].matchesWon = pointsTable[teamA.teamId - 1].matchesWon + 1;
+        pointsTable[teamA.teamId - 1].points = pointsTable[teamA.teamId - 1].points + 2;
+        pointsTable[teamB.teamId - 1].matchesPlayed = pointsTable[teamB.teamId - 1].matchesPlayed + 1;
+        pointsTable[teamB.teamId - 1].matchesLost = pointsTable[teamB.teamId - 1].matchesLost + 1;
+        setPointsTable(pointsTable);
+        localStorage.setItem("pointsTable", JSON.stringify(pointsTable));
     }
     function generateOutcome(roleId) {
         const outcomes = [];
