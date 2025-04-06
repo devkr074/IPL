@@ -12,9 +12,9 @@ body {
 }
 
 #root {
-    background-image: url("assets/background.jpeg");
-    background-position: center;
-    background-size: cover;
+    background-image: url("assets/backgroundImage1.svg"), url("assets/backgroundImage2.svg");
+    background-position: left bottom, right top;
+    background-repeat: no-repeat, no-repeat;
     height: 100vh;
     overflow: hidden;
 }

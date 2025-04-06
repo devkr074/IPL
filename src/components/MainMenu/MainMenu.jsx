@@ -36,86 +36,89 @@ function MainMenu() {
             const teamA = team[schedule[i].teamAId - 1];
             const teamB = team[schedule[i].teamBId - 1];
             if (matchStatusId === null) {
-
-                for (let j = 0; j < 11; j++) {
-                    const index = statistic.findIndex(obj => obj.playerId === player[(teamA.teamId - 1) * 11 + j].playerId);
-                    if (index === -1) {
-                        statistic.push({
-                            playerId: player[(teamA.teamId - 1) * 11 + j].playerId,
-                            battingStatistic: {
-                                matches: 1,
-                                innings: 0,
-                                runs: 0,
-                                balls: 0,
-                                fours: 0,
-                                sixes: 0,
-                                halfCentury: 0,
-                                century: 0,
-                                highestScore: 0,
-                                highestScoreOpponentTeam: ""
-                            },
-                            bowlingStatistic: {
-                                matches: 1,
-                                balls: 0,
-                                runs: 0,
-                                wickets: 0,
-                                fiveWickets: 0,
-                                bestBowlingWickets: 0,
-                                bestBowlingRuns: 0,
-                                bestBowlingOpponent: ""
-                            }
-                        });
-                        setStatistic([...statistic, statistic]);
-                        localStorage.setItem("statistic", JSON.stringify(statistic));
-                    }
-                    else {
-                        statistic[index].battingStatistic.matches = statistic[index].battingStatistic.matches + 1;
-                        statistic[index].bowlingStatistic.matches = statistic[index].bowlingStatistic.matches + 1;
-                        setStatistic(statistic);
-                        localStorage.setItem("statistic", JSON.stringify(statistic));
-                    }
+                if (isUserMatch(schedule[i])) {
+                    return;
                 }
-                for (let j = 0; j < 11; j++) {
-                    const index = statistic.findIndex(obj => obj.playerId === player[(teamB.teamId - 1) * 11 + j].playerId);
-                    if (index === -1) {
-                        statistic.push({
-                            playerId: player[(teamB.teamId - 1) * 11 + j].playerId,
-                            battingStatistic: {
-                                matches: 1,
-                                innings: 0,
-                                runs: 0,
-                                balls: 0,
-                                fours: 0,
-                                sixes: 0,
-                                halfCentury: 0,
-                                century: 0,
-                                highestScore: 0,
-                                highestScoreOpponentTeam: ""
-                            },
-                            bowlingStatistic: {
-                                matches: 1,
-                                balls: 0,
-                                runs: 0,
-                                wickets: 0,
-                                fiveWickets: 0,
-                                bestBowlingWickets: 0,
-                                bestBowlingRuns: 0,
-                                bestBowlingOpponent: ""
-                            }
-                        });
-                        setStatistic([...statistic, statistic]);
-                        localStorage.setItem("statistic", JSON.stringify(statistic));
+                else {
+                    for (let j = 0; j < 11; j++) {
+                        const index = statistic.findIndex(obj => obj.playerId === player[(teamA.teamId - 1) * 11 + j].playerId);
+                        if (index === -1) {
+                            statistic.push({
+                                playerId: player[(teamA.teamId - 1) * 11 + j].playerId,
+                                battingStatistic: {
+                                    matches: 1,
+                                    innings: 0,
+                                    runs: 0,
+                                    balls: 0,
+                                    fours: 0,
+                                    sixes: 0,
+                                    halfCentury: 0,
+                                    century: 0,
+                                    highestScore: 0,
+                                    highestScoreOpponentTeam: ""
+                                },
+                                bowlingStatistic: {
+                                    matches: 1,
+                                    balls: 0,
+                                    runs: 0,
+                                    wickets: 0,
+                                    fiveWickets: 0,
+                                    bestBowlingWickets: 0,
+                                    bestBowlingRuns: 0,
+                                    bestBowlingOpponent: ""
+                                }
+                            });
+                            setStatistic([...statistic, statistic]);
+                            localStorage.setItem("statistic", JSON.stringify(statistic));
+                        }
+                        else {
+                            statistic[index].battingStatistic.matches = statistic[index].battingStatistic.matches + 1;
+                            statistic[index].bowlingStatistic.matches = statistic[index].bowlingStatistic.matches + 1;
+                            setStatistic(statistic);
+                            localStorage.setItem("statistic", JSON.stringify(statistic));
+                        }
                     }
-                    else {
-                        statistic[index].battingStatistic.matches = statistic[index].battingStatistic.matches + 1;
-                        statistic[index].bowlingStatistic.matches = statistic[index].bowlingStatistic.matches + 1;
-                        setStatistic(statistic);
-                        localStorage.setItem("statistic", JSON.stringify(statistic));
+                    for (let j = 0; j < 11; j++) {
+                        const index = statistic.findIndex(obj => obj.playerId === player[(teamB.teamId - 1) * 11 + j].playerId);
+                        if (index === -1) {
+                            statistic.push({
+                                playerId: player[(teamB.teamId - 1) * 11 + j].playerId,
+                                battingStatistic: {
+                                    matches: 1,
+                                    innings: 0,
+                                    runs: 0,
+                                    balls: 0,
+                                    fours: 0,
+                                    sixes: 0,
+                                    halfCentury: 0,
+                                    century: 0,
+                                    highestScore: 0,
+                                    highestScoreOpponentTeam: ""
+                                },
+                                bowlingStatistic: {
+                                    matches: 1,
+                                    balls: 0,
+                                    runs: 0,
+                                    wickets: 0,
+                                    fiveWickets: 0,
+                                    bestBowlingWickets: 0,
+                                    bestBowlingRuns: 0,
+                                    bestBowlingOpponent: ""
+                                }
+                            });
+                            setStatistic([...statistic, statistic]);
+                            localStorage.setItem("statistic", JSON.stringify(statistic));
+                        }
+                        else {
+                            statistic[index].battingStatistic.matches = statistic[index].battingStatistic.matches + 1;
+                            statistic[index].bowlingStatistic.matches = statistic[index].bowlingStatistic.matches + 1;
+                            setStatistic(statistic);
+                            localStorage.setItem("statistic", JSON.stringify(statistic));
+                        }
                     }
+                    simulateToss(teamA, teamB, schedule[i]);
                 }
-                simulateToss(teamA, teamB, schedule[i]);
             }
-
         }
     }, [schedule]);
     useEffect(() => {
