@@ -102,7 +102,7 @@ function Home() {
                         <div className={style.sectionHeader}>
                             <p>Game Controller</p>
                         </div>
-                        <div className={style.sectionContent}>
+                        <div className={localStorage.getItem('gameStatus') ? style.sectionContent : style.sectionContent2}>
                             {localStorage.getItem('gameStatus') ? <button className={style.button} onClick={handleResume} >Resume Game</button> : <></>}
                             {localStorage.getItem('gameStatus') ? <button className={style.button} onClick={handleStart} >Restart Game</button> : <button className={style.button} onClick={handleStart} >Start Game</button>}
                         </div>

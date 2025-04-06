@@ -49,28 +49,34 @@
     border: var(--border-width) solid var(--border-color);
 }
 
-.section{
+.section:nth-child(1),
+.section:nth-child(2),
+.section:nth-child(3) {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 25% auto;
 }
 
-.sectionHeader{
+.sectionHeader {
     grid-column: span 2;
     padding: var(--padding);
     align-content: center;
     border-bottom: var(--border-width) solid var(--border-color);
 }
 
-.sectionHeader p{
+.sectionHeader p {
     font-size: var(--font-size);
     font-weight: var(--font-weight);
+}
+
+.sectionContent2{
+    grid-column: span 2;
 }
 
 .button {
     font-size: var(--font-size);
     font-weight: var(--font-weight);
     background-color: var(--background-color);
-    border-radius:var(--border-radius);
+    border-radius: var(--border-radius);
     border: none;
     box-shadow: 2px 2px 10px rgba(110, 107, 107, 0.5);
     padding: var(--padding);
