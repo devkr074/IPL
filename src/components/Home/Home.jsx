@@ -40,12 +40,12 @@ function Home() {
             setOrangeCapHolder(statistic[0]);
             statistic.sort((a, b) => b.bowlingStatistic.wickets - a.bowlingStatistic.wickets);
             setPurpleCapHolder(statistic[0]);
-            const nextMatchDetail=nextMatchFunction();
+            const nextMatchDetail = nextMatchFunction();
             setNextMatch(nextMatchDetail);
             console.log(nextMatch);
         }
     }, []);
-    function nextMatchFunction(){
+    function nextMatchFunction() {
         for (let i = 0; i < schedule.length; i++) {
             const matchStatusId = schedule[i].matchStatusId;
             if (matchStatusId == null) {
@@ -95,12 +95,17 @@ function Home() {
         <>
             <div className={style.container}>
                 <div className={style.containerHeader}>
-                    <p>IPL 2025 - Indian Premier League</p>
+                    <p>Indian Premier League - IPL 2025</p>
                 </div>
                 <div className={style.containerContent}>
                     <div className={style.section}>
-                        {localStorage.getItem('gameStatus') && <button className={style.button} onClick={handleResume} >Resume</button>}
-                        {localStorage.getItem('gameStatus') ? <button className={style.button} onClick={handleStart} >Restart</button> : <button className={style.button} onClick={handleStart} >Start</button>}
+                        <div className={style.sectionHeader}>
+                            <p>Game Controller</p>
+                        </div>
+                        <div className={style.sectionContent}>
+                            {localStorage.getItem('gameStatus') ? <button className={style.button} onClick={handleResume} >Resume Game</button> : <></>}
+                            {localStorage.getItem('gameStatus') ? <button className={style.button} onClick={handleStart} >Restart Game</button> : <button className={style.button} onClick={handleStart} >Start Game</button>}
+                        </div>
                     </div>
                     <div className={style.section}>
                         <div className={style.sectionHeader}>
@@ -130,7 +135,7 @@ function Home() {
                             {player.length > 0 && purpleCapHolder && purpleCapHolder.playerId ? (
                                 <>
                                     <img src={player[purpleCapHolder.playerId - 1]?.profilePicture || ""} alt="" />
-                                    <div  className={style.details}>
+                                    <div className={style.details}>
 
                                         <p>{player[purpleCapHolder.playerId - 1]?.playerName || "Unknown Player"}</p>
                                         <p>{purpleCapHolder.bowlingStatistic?.wickets || 0} Wickets</p>
