@@ -13,6 +13,7 @@ function Home() {
     const [gameStatus, setGameStatus] = useState(false);
     const [orangeCapHolder, setOrangeCapHolder] = useState([]);
     const [purpleCapHolder, setPurpleCapHolder] = useState([]);
+    const [nextMatch, setNextMatch] = useState([]);
     useEffect(() => {
         document.title = "IPL - Main Menu";
         const player = JSON.parse(localStorage.getItem("player")) || [];
@@ -37,12 +38,21 @@ function Home() {
             setPointsTable(pointsTableData);
             statistic.sort((a, b) => b.battingStatistic.runs - a.battingStatistic.runs);
             setOrangeCapHolder(statistic[0]);
-            console.log(statistic[0]);
             statistic.sort((a, b) => b.bowlingStatistic.wickets - a.bowlingStatistic.wickets);
             setPurpleCapHolder(statistic[0]);
-            console.log(statistic[0]);
+            const nextMatchDetail=nextMatchFunction();
+            setNextMatch(nextMatchDetail);
+            console.log(nextMatch);
         }
     }, []);
+    function nextMatchFunction(){
+        for (let i = 0; i < schedule.length; i++) {
+            const matchStatusId = schedule[i].matchStatusId;
+            if (matchStatusId == null) {
+                return schedule[i];
+            }
+        }
+    }
     function getPointsTableData(arr) {
         let point = [];
         let i = 0;
