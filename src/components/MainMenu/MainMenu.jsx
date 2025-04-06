@@ -12,7 +12,6 @@ function MainMenu() {
     const [team, setTeam] = useState([]);
     const [totalMatchPlayed, setTotalMatchPlayed] = useState(null);
     const [userTeamId, setUserTeamId] = useState(null);
-    const [venue, setVenue] = useState([]);
     const navigate = useNavigate();
     useEffect(() => {
         document.title = "IPL - Main Menu";
@@ -23,7 +22,6 @@ function MainMenu() {
         const team = JSON.parse(localStorage.getItem("team"));
         const totalMatchPlayed = Number(localStorage.getItem("totalMatchPlayed"));
         const userTeamId = Number(localStorage.getItem("userTeamId"));
-        const venue = JSON.parse(localStorage.getItem("venue"));
         setPlayer(player);
         setPointsTable(pointsTable);
         setSchedule(schedule);
@@ -31,7 +29,6 @@ function MainMenu() {
         setTeam(team);
         setTotalMatchPlayed(totalMatchPlayed);
         setUserTeamId(userTeamId);
-        setVenue(venue);
     }, []);
     useEffect(() => {
         for (let i = 0; i < schedule.length; i++) {
@@ -39,87 +36,86 @@ function MainMenu() {
             const teamA = team[schedule[i].teamAId - 1];
             const teamB = team[schedule[i].teamBId - 1];
             if (matchStatusId === null) {
-                if (isUserMatch(schedule[i])) {
-                    return
-                }
-                else {
-                    for (let j = 0; j < 11; j++) {
-                        const index = statistic.findIndex(obj => obj.playerId === player[(teamA.teamId - 1) * 11 + j].playerId);
-                        if (index === -1) {
-                            statistic.push({
-                                playerId: player[(teamA.teamId - 1) * 11 + j].playerId,
-                                battingStatistic: {
-                                    matches: 1,
-                                    innings: 0,
-                                    runs: 0,
-                                    balls: 0,
-                                    fours: 0,
-                                    sixes: 0,
-                                    halfCentury: 0,
-                                    century: 0,
-                                    highestScore: 0,
-                                    highestScoreOpponentTeam: ""
-                                },
-                                bowlingStatistic: {
-                                    matches: 1,
-                                    balls: 0,
-                                    runs: 0,
-                                    fiveWickets: 0,
-                                    bestBowlingWickets: 0,
-                                    bestBowlingRuns: 0,
-                                    bestBowlingOpponent: ""
-                                }
-                            });
-                            setStatistic([...statistic, statistic]);
-                            localStorage.setItem("statistic", JSON.stringify(statistic));
-                        }
-                        else {
-                            statistic[index].battingStatistic.matches = statistic[index].battingStatistic.matches + 1;
-                            statistic[index].bowlingStatistic.matches = statistic[index].bowlingStatistic.matches + 1;
-                            setStatistic(statistic);
-                            localStorage.setItem("statistic", JSON.stringify(statistic));
-                        }
+
+                for (let j = 0; j < 11; j++) {
+                    const index = statistic.findIndex(obj => obj.playerId === player[(teamA.teamId - 1) * 11 + j].playerId);
+                    if (index === -1) {
+                        statistic.push({
+                            playerId: player[(teamA.teamId - 1) * 11 + j].playerId,
+                            battingStatistic: {
+                                matches: 1,
+                                innings: 0,
+                                runs: 0,
+                                balls: 0,
+                                fours: 0,
+                                sixes: 0,
+                                halfCentury: 0,
+                                century: 0,
+                                highestScore: 0,
+                                highestScoreOpponentTeam: ""
+                            },
+                            bowlingStatistic: {
+                                matches: 1,
+                                balls: 0,
+                                runs: 0,
+                                wickets: 0,
+                                fiveWickets: 0,
+                                bestBowlingWickets: 0,
+                                bestBowlingRuns: 0,
+                                bestBowlingOpponent: ""
+                            }
+                        });
+                        setStatistic([...statistic, statistic]);
+                        localStorage.setItem("statistic", JSON.stringify(statistic));
                     }
-                    for (let j = 0; j < 11; j++) {
-                        const index = statistic.findIndex(obj => obj.playerId === player[(teamB.teamId - 1) * 11 + j].playerId);
-                        if (index === -1) {
-                            statistic.push({
-                                playerId: player[(teamB.teamId - 1) * 11 + j].playerId,
-                                battingStatistic: {
-                                    matches: 1,
-                                    innings: 0,
-                                    runs: 0,
-                                    balls: 0,
-                                    fours: 0,
-                                    sixes: 0,
-                                    halfCentury: 0,
-                                    century: 0,
-                                    highestScore: 0,
-                                    highestScoreOpponentTeam: ""
-                                },
-                                bowlingStatistic: {
-                                    matches: 1,
-                                    balls: 0,
-                                    runs: 0,
-                                    fiveWickets: 0,
-                                    bestBowlingWickets: 0,
-                                    bestBowlingRuns: 0,
-                                    bestBowlingOpponent: ""
-                                }
-                            });
-                            setStatistic([...statistic, statistic]);
-                            localStorage.setItem("statistic", JSON.stringify(statistic));
-                        }
-                        else {
-                            statistic[index].battingStatistic.matches = statistic[index].battingStatistic.matches + 1;
-                            statistic[index].bowlingStatistic.matches = statistic[index].bowlingStatistic.matches + 1;
-                            setStatistic(statistic);
-                            localStorage.setItem("statistic", JSON.stringify(statistic));
-                        }
+                    else {
+                        statistic[index].battingStatistic.matches = statistic[index].battingStatistic.matches + 1;
+                        statistic[index].bowlingStatistic.matches = statistic[index].bowlingStatistic.matches + 1;
+                        setStatistic(statistic);
+                        localStorage.setItem("statistic", JSON.stringify(statistic));
                     }
-                    simulateToss(teamA, teamB, schedule[i]);
                 }
+                for (let j = 0; j < 11; j++) {
+                    const index = statistic.findIndex(obj => obj.playerId === player[(teamB.teamId - 1) * 11 + j].playerId);
+                    if (index === -1) {
+                        statistic.push({
+                            playerId: player[(teamB.teamId - 1) * 11 + j].playerId,
+                            battingStatistic: {
+                                matches: 1,
+                                innings: 0,
+                                runs: 0,
+                                balls: 0,
+                                fours: 0,
+                                sixes: 0,
+                                halfCentury: 0,
+                                century: 0,
+                                highestScore: 0,
+                                highestScoreOpponentTeam: ""
+                            },
+                            bowlingStatistic: {
+                                matches: 1,
+                                balls: 0,
+                                runs: 0,
+                                wickets: 0,
+                                fiveWickets: 0,
+                                bestBowlingWickets: 0,
+                                bestBowlingRuns: 0,
+                                bestBowlingOpponent: ""
+                            }
+                        });
+                        setStatistic([...statistic, statistic]);
+                        localStorage.setItem("statistic", JSON.stringify(statistic));
+                    }
+                    else {
+                        statistic[index].battingStatistic.matches = statistic[index].battingStatistic.matches + 1;
+                        statistic[index].bowlingStatistic.matches = statistic[index].bowlingStatistic.matches + 1;
+                        setStatistic(statistic);
+                        localStorage.setItem("statistic", JSON.stringify(statistic));
+                    }
+                }
+                simulateToss(teamA, teamB, schedule[i]);
             }
+
         }
     }, [schedule]);
     useEffect(() => {
@@ -962,13 +958,106 @@ function MainMenu() {
         match.matchResult = teamA.teamShortName + result;
         setSchedule(schedule);
         localStorage.setItem("schedule", JSON.stringify(schedule));
+        const updatedTotalMatchPlayed = match.matchId;
+        localStorage.setItem("totalMatchPlayed", updatedTotalMatchPlayed);
+        setTotalMatchPlayed(updatedTotalMatchPlayed);
         pointsTable[teamA.teamId - 1].matchesPlayed = pointsTable[teamA.teamId - 1].matchesPlayed + 1;
         pointsTable[teamA.teamId - 1].matchesWon = pointsTable[teamA.teamId - 1].matchesWon + 1;
         pointsTable[teamA.teamId - 1].points = pointsTable[teamA.teamId - 1].points + 2;
+        let firstInningOvers;
+        let secondInningOvers;
+        if (firstInningData.wickets == 10) {
+            firstInningOvers = 20.0;
+        }
+        else {
+            firstInningOvers = Math.floor(firstInningData.balls / 6) + ((firstInningData.balls % 6) / 6);
+        }
+        if (secondInningData.wickets == 10) {
+            secondInningOvers = 20.0;
+        }
+        else {
+            secondInningOvers = Math.floor(secondInningData.balls / 6) + ((secondInningData.balls % 6) / 6);
+        }
+        let runRate = (firstInningData.runs / firstInningOvers) - (secondInningData.runs / secondInningOvers);
+        if (runRate < 0) {
+            runRate = (-1.0 * runRate);
+        }
+        pointsTable[teamA.teamId - 1].runRate = pointsTable[teamA.teamId - 1].runRate + runRate;
+        pointsTable[teamA.teamId - 1].netRunRate = Number((pointsTable[teamA.teamId - 1].runRate / pointsTable[teamA.teamId - 1].matchesPlayed).toFixed(3));
         pointsTable[teamB.teamId - 1].matchesPlayed = pointsTable[teamB.teamId - 1].matchesPlayed + 1;
         pointsTable[teamB.teamId - 1].matchesLost = pointsTable[teamB.teamId - 1].matchesLost + 1;
+        pointsTable[teamB.teamId - 1].runRate = pointsTable[teamB.teamId - 1].runRate - runRate;
+        pointsTable[teamB.teamId - 1].netRunRate = Number((pointsTable[teamB.teamId - 1].runRate / pointsTable[teamB.teamId - 1].matchesPlayed).toFixed(3));
         setPointsTable(pointsTable);
         localStorage.setItem("pointsTable", JSON.stringify(pointsTable));
+        for (let i = 0; i < firstInningBatsmanData.length; i++) {
+            const index = statistic.findIndex(obj => obj.playerId === firstInningBatsmanData[i].playerId);
+            statistic[index].battingStatistic.runs += firstInningBatsmanData[i].runs;
+            statistic[index].battingStatistic.balls += firstInningBatsmanData[i].balls;
+            statistic[index].battingStatistic.fours += firstInningBatsmanData[i].fours;
+            statistic[index].battingStatistic.sixes += firstInningBatsmanData[i].sixes;
+            statistic[index].battingStatistic.innings += 1;
+            if (firstInningBatsmanData[i].runs >= 50 && firstInningBatsmanData[i].runs < 100) {
+                statistic[index].battingStatistic.halfCentury += 1;
+            }
+            if (firstInningBatsmanData[i].runs >= 100) {
+                statistic[index].battingStatistic.century += 1;
+            }
+            if (firstInningBatsmanData[i].runs > statistic[index].battingStatistic.highestScore) {
+                statistic[index].battingStatistic.highestScore = firstInningBatsmanData[i].runs;
+            }
+        }
+        for (let i = 0; i < firstInningBowlerData.length; i++) {
+            const index = statistic.findIndex(obj => obj.playerId === firstInningBowlerData[i].playerId);
+            statistic[index].bowlingStatistic.balls += firstInningBowlerData[i].balls;
+            statistic[index].bowlingStatistic.runs += firstInningBowlerData[i].runs;
+            statistic[index].bowlingStatistic.wickets += firstInningBowlerData[i].wickets;
+            if (firstInningBowlerData[i].wickets >= 5) {
+                statistic[index].bowlingStatistic.fiveWickets += 1;
+            }
+            if (firstInningBowlerData[i].wickets > statistic[index].bowlingStatistic.bestBowlingWickets) {
+                statistic[index].bowlingStatistic.bestBowlingWickets = firstInningBowlerData[i].wickets;
+                statistic[index].bowlingStatistic.bestBowlingRuns = firstInningBowlerData[i].runs;
+            }
+            if (statistic[index].bowlingStatistic.bestBowlingRuns == 0) {
+                statistic[index].bowlingStatistic.bestBowlingRuns = firstInningBowlerData[i].runs;
+            }
+        }
+        for (let i = 0; i < secondInningBatsmanData.length; i++) {
+            const index = statistic.findIndex(obj => obj.playerId === secondInningBatsmanData[i].playerId);
+            statistic[index].battingStatistic.runs += secondInningBatsmanData[i].runs;
+            statistic[index].battingStatistic.balls += secondInningBatsmanData[i].balls;
+            statistic[index].battingStatistic.fours += secondInningBatsmanData[i].fours;
+            statistic[index].battingStatistic.sixes += secondInningBatsmanData[i].sixes;
+            statistic[index].battingStatistic.innings += 1;
+            if (secondInningBatsmanData[i].runs >= 50 && secondInningBatsmanData[i].runs < 100) {
+                statistic[index].battingStatistic.halfCentury += 1;
+            }
+            if (secondInningBatsmanData[i].runs >= 100) {
+                statistic[index].battingStatistic.century += 1;
+            }
+            if (secondInningBatsmanData[i].runs > statistic[index].battingStatistic.highestScore) {
+                statistic[index].battingStatistic.highestScore = secondInningBatsmanData[i].runs;
+            }
+        }
+        for (let i = 0; i < secondInningBowlerData.length; i++) {
+            const index = statistic.findIndex(obj => obj.playerId === secondInningBowlerData[i].playerId);
+            statistic[index].bowlingStatistic.balls += secondInningBowlerData[i].balls;
+            statistic[index].bowlingStatistic.runs += secondInningBowlerData[i].runs;
+            statistic[index].bowlingStatistic.wickets += secondInningBowlerData[i].wickets;
+            if (secondInningBowlerData[i].wickets >= 5) {
+                statistic[index].bowlingStatistic.fiveWickets += 1;
+            }
+            if (secondInningBowlerData[i].wickets > statistic[index].bowlingStatistic.bestBowlingWickets) {
+                statistic[index].bowlingStatistic.bestBowlingWickets = secondInningBowlerData[i].wickets;
+                statistic[index].bowlingStatistic.bestBowlingRuns = secondInningBowlerData[i].runs;
+            }
+            if (statistic[index].bowlingStatistic.bestBowlingRuns == 0) {
+                statistic[index].bowlingStatistic.bestBowlingRuns = secondInningBowlerData[i].runs;
+            }
+        }
+        setStatistic(statistic);
+        localStorage.setItem("statistic", JSON.stringify(statistic));
     }
     function generateOutcome(roleId) {
         const outcomes = [];

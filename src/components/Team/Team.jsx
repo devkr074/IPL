@@ -26,6 +26,18 @@ function Team() {
     localStorage.setItem("statistic", JSON.stringify([]));
     navigate("/main-menu");
   }
+  useEffect(()=>{
+      const preventNavigation=(event)=>{
+        event.prventDefault();
+        return false;
+      };
+      window.addEventListener('popstate',preventNavigation);
+      window.addEventListener('beforeunload',preventNavigation);
+      return()=>{
+        window.removeEventListener('popstate',preventNavigation);
+        window.removeEventListener('beforeunload',preventNavigation);
+      }
+    },[]);
   return (
     <>
       <div className={style.container} >
