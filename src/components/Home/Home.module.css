@@ -95,6 +95,37 @@
     padding: var(--padding);
 }
 
+.section:nth-child(4) .sectionContent {
+    grid-template-columns: 1fr;
+    grid-template-rows: 15% auto;
+    padding: var(--padding);
+    justify-self: center;
+}
+
+.section:nth-child(4) .sectionContent .details{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    border: var(--border);
+    border-radius: var(--border-radius);
+}
+
+.card img{
+    height: 120px;
+    border-radius: var(--border-radius);
+}
+
+.card span{
+    font-size: calc(var(--font-size)*1.1);
+}
+
 .section:nth-child(5) .sectionContent {
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr;

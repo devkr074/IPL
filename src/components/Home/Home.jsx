@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import style from "./Home.module.css"
-import poster from "../../assets/poster.png"
 function Home() {
     const [gameStatus, setGameStatus] = useState(false);
     const [nextMatch, setNextMatch] = useState([]);
@@ -39,7 +38,6 @@ function Home() {
             for (let i = 0; i < schedule.length; i++) {
                 if (schedule[i].matchStatusId == null) {
                     setNextMatch(schedule[i]);
-                    console.log(schedule[i]);
                     break;
                 }
             }
@@ -106,13 +104,15 @@ function Home() {
                         <div className={style.sectionContent}>
                             {(gameStatus) ?
                                 <>
-                                    <p>Match: {nextMatch.matchId}</p>
+                                    <div className={style.details}>
+                                        <span>Match: {nextMatch.matchId}</span>
+                                        <span>Venue: {venue[nextMatch.venueId - 1].venueCity}</span>
+                                    </div>
                                     <div className={style.card}>
                                         <img src={team[nextMatch.teamAId - 1].logo} alt="" />
                                         <span>vs</span>
                                         <img src={team[nextMatch.teamBId - 1].logo} alt="" />
                                     </div>
-                                    <p>Venue: {venue[nextMatch.venueId - 1].venueCity}</p>
                                 </> : <p className={style.errorMessage} >No Data Available Currently!</p>}
                         </div>
                     </div>
