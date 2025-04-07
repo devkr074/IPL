@@ -36,10 +36,7 @@ function MainMenu() {
             const teamA = team[schedule[i].teamAId - 1];
             const teamB = team[schedule[i].teamBId - 1];
             if (matchStatusId === null) {
-                if (isUserMatch(schedule[i])) {
-                    return;
-                }
-                else {
+               
                     for (let j = 0; j < 11; j++) {
                         const index = statistic.findIndex(obj => obj.playerId === player[(teamA.teamId - 1) * 11 + j].playerId);
                         if (index === -1) {
@@ -118,7 +115,7 @@ function MainMenu() {
                     }
                     simulateToss(teamA, teamB, schedule[i]);
                 }
-            }
+            
         }
     }, [schedule]);
     useEffect(() => {

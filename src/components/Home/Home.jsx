@@ -99,17 +99,14 @@ function Home() {
                 </div>
                 <div className={style.containerContent}>
                     <div className={style.section}>
-                        <div className={style.sectionHeader}>
-                            <p>Game Controller</p>
-                        </div>
-                        <div className={localStorage.getItem('gameStatus') ? style.sectionContent : style.sectionContent2}>
-                            {localStorage.getItem('gameStatus') ? <button className={style.button} onClick={handleResume} >Resume Game</button> : <></>}
-                            {localStorage.getItem('gameStatus') ? <button className={style.button} onClick={handleStart} >Restart Game</button> : <button className={style.button} onClick={handleStart} >Start Game</button>}
+                        <div className={style.sectionContent}>
+                            {localStorage.getItem('gameStatus') ? <button className={style.button} onClick={handleResume} >Resume Tournament</button> : <></>}
+                            {localStorage.getItem('gameStatus') ? <button className={style.button} onClick={handleStart} >Restart Tournament</button> : <button className={`${style.startBtn} ${style.button}`} onClick={handleStart} >Start Tournament</button>}
                         </div>
                     </div>
                     <div className={style.section}>
                         <div className={style.sectionHeader}>
-                            <p>Orange Cap</p>
+                            <p>Orange Cap 🟠</p>
                         </div>
                         <div className={style.sectionContent}>
                             {player.length > 0 && orangeCapHolder && orangeCapHolder.playerId ? (
@@ -118,18 +115,18 @@ function Home() {
                                     <div className={style.details}>
 
                                         <p>{player[orangeCapHolder.playerId - 1]?.playerName || "Unknown Player"}</p>
-                                        <p>{orangeCapHolder.battingStatistic?.runs || 0} Runs</p>
+                                        <span>{orangeCapHolder.battingStatistic?.runs || 0} Runs</span>
                                     </div>
                                 </>
                             ) : (
-                                <p>Tournament not Started Yet!</p>
+                                <p className={style.errorMessage} >Tournament not Started Yet!</p>
                             )}
                         </div>
 
                     </div>
                     <div className={style.section}>
                         <div className={style.sectionHeader}>
-                            <p>Purple Cap</p>
+                            <p>Purple Cap 🟣</p>
                         </div>
                         <div className={style.sectionContent}>
                             {player.length > 0 && purpleCapHolder && purpleCapHolder.playerId ? (
@@ -138,11 +135,11 @@ function Home() {
                                     <div className={style.details}>
 
                                         <p>{player[purpleCapHolder.playerId - 1]?.playerName || "Unknown Player"}</p>
-                                        <p>{purpleCapHolder.bowlingStatistic?.wickets || 0} Wickets</p>
+                                        <span>{purpleCapHolder.bowlingStatistic?.wickets || 0} Wickets</span>
                                     </div>
                                 </>
                             ) : (
-                                <p>Tournament not Started Yet!</p>
+                                <p className={style.errorMessage} >Tournament not Started Yet!</p>
                             )}
                         </div>
 
