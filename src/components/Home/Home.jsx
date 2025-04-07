@@ -101,17 +101,17 @@ function Home() {
                     <div className={style.section}>
                         <div className={style.sectionContent}>
                             {localStorage.getItem('gameStatus') ? <button className={style.button} onClick={handleResume} >Resume Tournament</button> : <></>}
-                            {localStorage.getItem('gameStatus') ? <button className={style.button} onClick={handleStart} >Restart Tournament</button> : <button className={`${style.startBtn} ${style.button}`} onClick={handleStart} >Start Tournament</button>}
+                            {localStorage.getItem('gameStatus') ? <button className={style.button} onClick={handleStart} >Restart Tournament</button> : <button className={`${style.button} ${style.startButton}`} onClick={handleStart} >Start Tournament</button>}
                         </div>
                     </div>
                     <div className={style.section}>
                         <div className={style.sectionHeader}>
-                            <p>Orange Cap 🟠</p>
+                            <p>Orange Cap</p>
                         </div>
                         <div className={style.sectionContent}>
                             {player.length > 0 && orangeCapHolder && orangeCapHolder.playerId ? (
                                 <>
-                                    <img src={player[orangeCapHolder.playerId - 1]?.profilePicture || ""} alt="" />
+                                    <img src={player[orangeCapHolder.playerId - 1]?.profilePicture || ""} title={player[orangeCapHolder.playerId - 1]?.playerName || ""} alt="" />
                                     <div className={style.details}>
 
                                         <p>{player[orangeCapHolder.playerId - 1]?.playerName || "Unknown Player"}</p>
@@ -119,19 +119,19 @@ function Home() {
                                     </div>
                                 </>
                             ) : (
-                                <p className={style.errorMessage} >Tournament not Started Yet!</p>
+                                <p className={style.errorMessage} >No Data Available Currently!</p>
                             )}
                         </div>
 
                     </div>
                     <div className={style.section}>
                         <div className={style.sectionHeader}>
-                            <p>Purple Cap 🟣</p>
+                            <p>Purple Cap</p>
                         </div>
                         <div className={style.sectionContent}>
                             {player.length > 0 && purpleCapHolder && purpleCapHolder.playerId ? (
                                 <>
-                                    <img src={player[purpleCapHolder.playerId - 1]?.profilePicture || ""} alt="" />
+                                    <img src={player[purpleCapHolder.playerId - 1]?.profilePicture || ""} title={player[purpleCapHolder.playerId - 1]?.playerName || ""} alt="" />
                                     <div className={style.details}>
 
                                         <p>{player[purpleCapHolder.playerId - 1]?.playerName || "Unknown Player"}</p>
@@ -139,7 +139,7 @@ function Home() {
                                     </div>
                                 </>
                             ) : (
-                                <p className={style.errorMessage} >Tournament not Started Yet!</p>
+                                <p className={style.errorMessage} >No Data Available Currently!</p>
                             )}
                         </div>
 
@@ -149,7 +149,7 @@ function Home() {
                             <p>Next Match</p>
                         </div>
                         <div className={style.sectionContent}>
-                            {!localStorage.getItem('gameStatus') ? <p>Tournament not Started Yet!</p> : <button className={style.button} onClick={handleStart} >Start</button>}
+                            {!localStorage.getItem('gameStatus') ? <p className={style.errorMessage} >Tournament not Started Yet!</p> : <button className={style.button} onClick={handleStart} >Start</button>}
                         </div>
                     </div>
                     <div className={style.section}>
@@ -157,9 +157,9 @@ function Home() {
                             <p>Table Topper</p>
                         </div>
                         <div className={style.sectionContent}>
-                            {(localStorage.getItem('totalMatchPlayed') == 0 || localStorage.getItem('totalMatchPlayed') == null) ? <p>Tournament not Started Yet!</p> :
+                            {(localStorage.getItem('totalMatchPlayed') == 0 || localStorage.getItem('totalMatchPlayed') == null) ? <p className={style.errorMessage} >No Data Available Currently!</p> :
                                 (pointsTable.map((rank) => {
-                                    return <img key={rank.teamId} src={team[team.findIndex(obj => obj.teamId === rank.teamId)].logo} />
+                                    return <img key={rank.teamId} title={team[team.findIndex(obj => obj.teamId === rank.teamId)].teamName} alt={team[team.findIndex(obj => obj.teamId === rank.teamId)].teamName} src={team[team.findIndex(obj => obj.teamId === rank.teamId)].logo} />
                                 }))
                             }
                         </div>
