@@ -48,8 +48,13 @@ function Home() {
         navigate("/main-menu");
     }
     function handleRestartTournament() {
-        localStorage.clear();
-        navigate("/team");
+        if (window.confirm("Really want to restart tournament.")) {
+            localStorage.clear();
+            navigate("/team");
+        }
+        else {
+            return;
+        }
     }
     function handleStartTournament() {
         navigate("/team");
