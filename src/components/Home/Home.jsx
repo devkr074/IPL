@@ -63,7 +63,7 @@ function Home() {
         <>
             <div className={style.container}>
                 <div className={style.containerHeader}>
-                    <p>Indian Premier League - IPL 2025</p>
+                    <p>IPL 2025 - Indian Premier League</p>
                 </div>
                 <div className={style.containerContent}>
                     <div className={style.section}>
