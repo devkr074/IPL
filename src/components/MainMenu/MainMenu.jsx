@@ -1069,7 +1069,7 @@ function MainMenu() {
             outcomes.push(...Array(8).fill(2));
             outcomes.push(...Array(2).fill(3));
             outcomes.push(...Array(18).fill(4));
-            outcomes.push(...Array(55).fill(5));
+            outcomes.push(...Array(5).fill(5));
             outcomes.push(...Array(10).fill(6));
             outcomes.push(...Array(7).fill(7));
             outcomes.push(...Array(25).fill(0));
@@ -1079,7 +1079,7 @@ function MainMenu() {
             outcomes.push(...Array(8).fill(2));
             outcomes.push(...Array(1).fill(3));
             outcomes.push(...Array(20).fill(4));
-            outcomes.push(...Array(57).fill(5));
+            outcomes.push(...Array(7).fill(5));
             outcomes.push(...Array(10).fill(6));
             outcomes.push(...Array(7).fill(7));
             outcomes.push(...Array(25).fill(0));

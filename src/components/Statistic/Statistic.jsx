@@ -5,6 +5,7 @@ function Statistic() {
     const [mostFifties, setMostFifties] = useState([]);
     const [mostCentury, setMostCentury] = useState([]);
     const [mostSixes, setMostSixes] = useState([]);
+    const [mostFours, setMostFours] = useState([]);
     const [mostWickets, setMostWickets] = useState([]);
     const [player, setPlayer] = useState([]);
     const [tab, setTab] = useState("Most Runs");
@@ -24,6 +25,8 @@ function Statistic() {
             setMostCentury(mostCentury);
             const mostSixes = statistic.filter((playerData) => (playerData.battingStatistic.sixes > 0)).sort((a, b) => a.battingStatistic.sixes == b.battingStatistic.sixes ? b.battingStatistic.runs - a.battingStatistic.runs : b.battingStatistic.sixes - a.battingStatistic.sixes).slice(0, Math.min(statistic.length, 10));
             setMostSixes(mostSixes);
+            const mostFours = statistic.filter((playerData) => (playerData.battingStatistic.fours > 0)).sort((a, b) => a.battingStatistic.fours == b.battingStatistic.fours ? b.battingStatistic.runs - a.battingStatistic.runs : b.battingStatistic.fours - a.battingStatistic.fours).slice(0, Math.min(statistic.length, 10));
+            setMostFours(mostFours);
             const mostWickets = statistic.filter((playerData) => (playerData.bowlingStatistic.wickets > 0)).sort((a, b) => a.bowlingStatistic.wickets == b.bowlingStatistic.wickets ? a.bowlingStatistic.runs - b.bowlingStatistic.runs : b.bowlingStatistic.wickets - a.bowlingStatistic.wickets).slice(0, Math.min(statistic.length, 10));
             setMostWickets(mostWickets);
         }
@@ -40,6 +43,7 @@ function Statistic() {
                         <option value="Most Runs">Most Runs</option>
                         <option value="Most Fifties">Most Fifties</option>
                         <option value="Most Century">Most Century</option>
+                        <option value="Most Fours">Most Fours</option>
                         <option value="Most Sixes">Most Sixes</option>
                         <option value="Most Wickets">Most Wickets</option>
                     </select>
@@ -91,6 +95,32 @@ function Statistic() {
                                             <td>{playerData.battingStatistic.innings}</td>
                                             <td>{playerData.battingStatistic.runs}</td>
                                             <td>{playerData.battingStatistic.halfCentury}</td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    ) : <p>No Data Available Currently!</p>)}
+                    {tab == "Most Fours" && ((totalMatchPlayed && mostFours.length > 0) ? (
+                        <div className={style.section}>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Batter</th>
+                                        <th>M</th>
+                                        <th>I</th>
+                                        <th>R</th>
+                                        <th>4s</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {mostFours.map((playerData, index) =>
+                                        <tr key={playerData.playerId}>
+                                            <td><span>{index + 1}</span><span>{player[playerData.playerId - 1].playerName}</span></td>
+                                            <td>{playerData.battingStatistic.matches}</td>
+                                            <td>{playerData.battingStatistic.innings}</td>
+                                            <td>{playerData.battingStatistic.runs}</td>
+                                            <td>{playerData.battingStatistic.fours}</td>
                                         </tr>
                                     )}
                                 </tbody>

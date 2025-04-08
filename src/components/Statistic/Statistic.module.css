@@ -45,3 +45,10 @@
     gap: var(--gap);
     padding: var(--padding);
 }
+
+table,tr,td,th{
+    padding: var(--padding);
+    text-align: left;
+    border: 2px solid;
+    border-collapse: collapse;
+}
