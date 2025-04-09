@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     user-select: none;
-    font-family: 'Poppins';
+    font-family: "Poppins";
 }
 
 body {
@@ -14,7 +14,7 @@ body {
 }
 
 #root {
-    background-image: url("assets/backgroundImage1.svg"), url("assets/backgroundImage2.svg");
+    background-image: url("assets/background1.svg"), url("assets/background2.svg");
     background-position: left bottom, right top;
     background-repeat: no-repeat, no-repeat;
     height: 100vh;
