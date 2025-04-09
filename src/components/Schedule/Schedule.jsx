@@ -22,6 +22,11 @@ function Schedule() {
   function isUserMatch(match) {
     return match.teamAId === userTeamId || match.teamBId === userTeamId;
   }
+  function handleMatch(match){
+    if(match.tossStatusId==null){
+      navigate(`/toss/${match.matchId}`);
+    }
+  }
   return (
     <div className={style.container}>
       <div className={style.section}>
@@ -34,7 +39,7 @@ function Schedule() {
           const teamB = team[match.teamBId - 1];
           const venueCity = venue[match.venueId - 1].venueCity;
           return (
-            <div key={match.matchId} className={style.card}>
+            <div key={match.matchId} onClick={()=>handleMatch(match)} className={style.card}>
               <p className={style.cardTitle}>Venue: {venueCity}</p>
               <div className={style.cardBody}>
                 <img src={teamA.logo} alt={teamA.teamName} height={80} />

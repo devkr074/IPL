@@ -7,6 +7,7 @@ import Schedule from "./components/Schedule/Schedule.jsx"
 import Statistic from "./components/Statistic/Statistic.jsx"
 import Squad from "./components/Squad/Squad.jsx";
 import PointsTable from "./components/PointsTable/PointsTable.jsx";
+import Toss from "./components/Toss/Toss.jsx";
 function App() {
   return (
     <Router>
@@ -18,6 +19,7 @@ function App() {
         <Route path="/statistic" element={<Statistic />} />
         <Route path="/squad" element={<Squad />} />
         <Route path="/points-table" element={<PointsTable />} />
+        <Route path="/toss/:matchId" element={<Toss />} />
       </Routes>
     </Router>
   );
