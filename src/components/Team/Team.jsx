@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import style from "./Team.module.css"
 import playOff from "../../data/playOff.json";
 import player from "../../data/player.json";
 import pointsTable from "../../data/pointsTable.json";
 import schedule from "../../data/schedule.json";
 import team from "../../data/team.json";
 import venue from "../../data/venue.json";
-import style from "./Team.module.css"
 function Team() {
   const [userTeamId, setUserTeamId] = useState(1);
   useEffect(() => {
-    document.title = "IPL - Teams";
+    document.title = "IPL - Team";
   }, []);
   const navigate = useNavigate();
   function handleNext() {
@@ -26,31 +26,32 @@ function Team() {
     localStorage.setItem("statistic", JSON.stringify([]));
     navigate("/main-menu");
   }
-  useEffect(()=>{
-      const preventNavigation=(event)=>{
-        event.prventDefault();
-        return false;
-      };
-      window.addEventListener('popstate',preventNavigation);
-      window.addEventListener('beforeunload',preventNavigation);
-      return()=>{
-        window.removeEventListener('popstate',preventNavigation);
-        window.removeEventListener('beforeunload',preventNavigation);
-      }
-    },[]);
+  useEffect(() => {
+    const preventNavigation = (event) => {
+      event.prventDefault();
+      return false;
+    };
+    window.addEventListener('popstate', preventNavigation);
+    window.addEventListener('beforeunload', preventNavigation);
+    return () => {
+      window.removeEventListener('popstate', preventNavigation);
+      window.removeEventListener('beforeunload', preventNavigation);
+    }
+  }, []);
   return (
     <>
       <div className={style.container} >
-        <div className={style.section}>
+        <div className={style.containerHeader}>
+          <p>IPL - Team</p>
+          <button className={style.button} onClick={handleNext}>NEXT</button>
+        </div>
+        <div className={style.sectionContent}>
           {team.map((team) => (
             <label key={team.teamId} className={`${style.card} ${userTeamId === team.teamId ? style.active : ""}`} title={team.teamName}>
               <input type="radio" name="team" value={team.teamId} checked={userTeamId === team.teamId} className={style.hideRadioMark} onChange={() => setUserTeamId(team.teamId)} />
               <img src={team.logo} alt={team.teamName} className={style.logo} />
             </label>
           ))}
-        </div>
-        <div className={style.section}>
-          <button className={style.button} onClick={handleNext}>NEXT</button>
         </div>
       </div>
     </>

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { FaRedo } from "react-icons/fa";
 import { FaPlay } from "react-icons/fa";
 import style from "./MainMenu.module.css";
-import trophy from "../../assets/trophy.png";
 function MainMenu() {
     const [player, setPlayer] = useState([]);
     const [pointsTable, setPointsTable] = useState([]);
@@ -1103,9 +1102,6 @@ function MainMenu() {
     return (
         <>
             <div className={style.container}>
-                <div className={style.section}>
-                    <img src={trophy} alt="IPL Trophy" className={style.trophy} />
-                </div>
                 <div className={style.section}>
                     <button className={style.button} onClick={handleContinue}><FaPlay size={44} />CONTINUE</button>
                     <div className={style.menuButtonContainer}>
