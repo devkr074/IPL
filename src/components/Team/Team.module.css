@@ -4,7 +4,6 @@
     display: grid;
     grid-template-rows: 10% auto;
     grid-template-columns: 1fr;
-    gap: var(--gap);
     padding: var(--padding-1);
 }
 
@@ -24,55 +23,54 @@
     color: var(--color);
 }
 
+.containerHeader button {
+    font-size: var(--font-size-2);
+    font-weight: var(--font-weight);
+    color: var(--color);
+    padding: 5px 20px;
+    border: none;
+    border-radius: 14px;
+    background-color: var(--background-color);
+    box-shadow: var(--box-shadow);
+    cursor: pointer;
+    outline: none;
+
+    &:hover {
+        color: #fff;
+        background-color: #000000;
+    }
+}
+
 .containerContent {
     overflow: auto;
     scrollbar-width: none;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     gap: var(--gap);
-    padding-block: var(--padding-1);
+    padding-block: var(--padding-2);
 }
 
 .card {
-    background-color: #fff;
-    border: 5px solid #fff;
-    border-radius: 8px;
-    padding: 16px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: var(--box-shadow);
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 5px solid #ffffff;
+    border-radius: var(--border-radius);
+    background-color: var(--background-color);
+    box-shadow: var(--box-shadow);
+    cursor: pointer;
 }
 
 .active {
     border: 5px solid #000000;
 }
 
-.hideRadioMark {
+.containerContent input {
     display: none;
 }
 
-.logo {
-    height: 160px;
-}
-
-.button {
-    font-size: var(--font-size-2);
-    font-weight: bold;
-    background-color: var(--background-color);
-    border: none;
-    border-radius: var(--border-radius);
-    padding: 5px 20px;
-    cursor: pointer;
-    outline: none;
-    box-shadow: var(--box-shadow);
-
-    &:hover {
-        color: #fff;
-        background-color: #000000;
-    }
+.containerContent img {
+    height: 150px;
 }
 
 @media screen and (max-width: 321px) {
@@ -82,7 +80,7 @@
         --font-size-3: 16px;
         --font-size-4: 20px;
         --font-size-5: 24px;
-        --gap: 10px;
+        --gap: 14px;
         --padding-1: 6px;
         --padding-2: 16px;
         --padding-3: 14px;
@@ -91,9 +89,10 @@
 
     .containerContent {
         grid-template-columns: 1fr 1fr;
+        padding-block-end: 60px;
     }
 
-    .logo {
+    .containerContent img {
         height: 100px;
     }
 }
@@ -105,7 +104,7 @@
         --font-size-3: 16px;
         --font-size-4: 20px;
         --font-size-5: 24px;
-        --gap: 10px;
+        --gap: 14px;
         --padding-1: 6px;
         --padding-2: 16px;
         --padding-3: 14px;
@@ -114,10 +113,11 @@
 
     .containerContent {
         grid-template-columns: 1fr 1fr;
+        padding-block-end: 60px;
     }
 
-    .logo {
-        height: 130px;
+    .containerContent img {
+        height: 120px;
     }
 }
 
@@ -128,28 +128,34 @@
         --font-size-3: 18px;
         --font-size-4: 20px;
         --font-size-5: 24px;
-        --gap: 16px;
+        --gap: 20px;
         --padding-1: 8px;
         --padding-2: 18px;
         --padding-3: 14px;
         --border-radius: 14px;
     }
-    
+
     .containerContent {
         grid-template-columns: 1fr 1fr;
+        padding-block-end: 60px;
     }
 
-    .logo {
+    .containerContent img {
         height: 130px;
     }
 }
 
 @media screen and (min-width: 426px) and (max-width: 769px) {
-    .containerContent {
-        grid-template-columns: 1fr 1fr 1fr;
+    :root {
+        --gap: 24px;
     }
 
-    .logo {
+    .containerContent {
+        grid-template-columns: 1fr 1fr 1fr;
+        padding-block-end: 60px;
+    }
+
+    .containerContent img {
         height: 140px;
     }
 }
