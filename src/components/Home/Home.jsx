@@ -76,7 +76,7 @@ function Home() {
                             {(gameStatus && totalMatchPlayed && orangeCap) ?
                                 <>
                                     <div className={style.imageContainer}>
-                                        <img src={player[orangeCap.playerId - 1].profilePicture} alt={player[orangeCap.playerId - 1].profilePicture} title={player[orangeCap.playerId - 1].playerName} />
+                                        <img src={player[orangeCap.playerId - 1].profilePicture} alt={player[orangeCap.playerId - 1].playerName} title={player[orangeCap.playerId - 1].playerName} />
                                     </div>
                                     <div className={style.detailsContainer}>
                                         <p>{player[orangeCap.playerId - 1].playerName}</p>
@@ -93,7 +93,7 @@ function Home() {
                             {(gameStatus && totalMatchPlayed && purpleCap) ?
                                 <>
                                     <div className={style.imageContainer}>
-                                        <img src={player[purpleCap.playerId - 1].profilePicture} alt={player[purpleCap.playerId - 1].profilePicture} title={player[purpleCap.playerId - 1].playerName} />
+                                        <img src={player[purpleCap.playerId - 1].profilePicture} alt={player[purpleCap.playerId - 1].playerName} title={player[purpleCap.playerId - 1].playerName} />
                                     </div>
                                     <div className={style.detailsContainer}>
                                         <p>{player[purpleCap.playerId - 1].playerName}</p>
@@ -114,9 +114,9 @@ function Home() {
                                         <span>Venue: {venue[nextMatch.venueId - 1].venueCity}</span>
                                     </div>
                                     <div className={style.imageContainer}>
-                                        <img src={team[nextMatch.teamAId - 1].logo} alt={team[nextMatch.teamAId - 1].logo} title={team[nextMatch.teamAId - 1].teamShortName} />
+                                        <img src={team[nextMatch.teamAId - 1].logo} alt={team[nextMatch.teamAId - 1].teamShortName} title={team[nextMatch.teamAId - 1].teamShortName} />
                                         <span>V/S</span>
-                                        <img src={team[nextMatch.teamBId - 1].logo} alt={team[nextMatch.teamBId - 1].logo} title={team[nextMatch.teamBId - 1].teamShortName} />
+                                        <img src={team[nextMatch.teamBId - 1].logo} alt={team[nextMatch.teamBId - 1].teamShortName} title={team[nextMatch.teamBId - 1].teamShortName} />
                                     </div>
                                 </> : <p className={style.altMessage} >No Data Available Currently!</p>}
                         </div>

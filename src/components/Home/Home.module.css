@@ -29,7 +29,7 @@
     grid-template-rows: 40% auto;
     grid-template-columns: 1fr 1fr 1fr;
     gap: var(--gap);
-    padding: var(--padding-2);
+    padding-block: var(--padding-2);
 }
 
 .section {
@@ -74,6 +74,11 @@
     box-shadow: var(--box-shadow);
     cursor: pointer;
     outline: none;
+
+    &:hover {
+        color: #fff;
+        background-color: #000000;
+    }
 }
 
 .startButton {
@@ -230,6 +235,10 @@
         --border-radius: 14px;
     }
 
+    .containerContent {
+        padding-block-end: 50px;
+    }
+
     .section {
         grid-column: span 3;
     }
@@ -270,6 +279,10 @@
         --border-radius: 14px;
     }
 
+    .containerContent {
+        padding-block-end: 50px;
+    }
+
     .section {
         grid-column: span 3;
     }
@@ -308,6 +321,10 @@
         --padding-2: 18px;
         --padding-3: 14px;
         --border-radius: 14px;
+    }
+
+    .containerContent {
+        padding-block-end: 50px;
     }
 
     .section {

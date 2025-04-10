@@ -1,32 +1,25 @@
 .container {
     height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    overflow: hidden;
-}
-.container {
-    height: 100vh;
     overflow: hidden;
     display: grid;
     grid-template-rows: 10% auto;
     grid-template-columns: 1fr;
     gap: var(--gap);
-    padding: var(--padding);
+    padding: var(--padding-1);
 }
 
 .containerHeader {
     display: flex;
     align-items: center;
-    padding: var(--padding);
+    justify-content: space-between;
+    padding: var(--padding-2);
     border-radius: var(--border-radius);
     background-color: var(--background-color);
     box-shadow: var(--box-shadow);
 }
 
 .containerHeader p {
-    font-size: var(--font-size);
+    font-size: var(--font-size-2);
     font-weight: var(--font-weight);
     color: var(--color);
 }
@@ -35,10 +28,9 @@
     overflow: auto;
     scrollbar-width: none;
     display: grid;
-    grid-template-rows: 40% auto;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     gap: var(--gap);
-    padding: var(--padding);
+    padding-block: var(--padding-1);
 }
 
 .card {
@@ -46,13 +38,16 @@
     border: 5px solid #fff;
     border-radius: 8px;
     padding: 16px;
-    margin: 25px;
     cursor: pointer;
     transition: all 0.3s ease;
+    box-shadow: var(--box-shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .active {
-    border-color: #3f51b5;
+    border: 5px solid #000000;
 }
 
 .hideRadioMark {
@@ -60,19 +55,101 @@
 }
 
 .logo {
-    height: 100px;
-    width: 100px;
+    height: 160px;
 }
 
 .button {
-    height: 80%;
-    font-size: 1.5em;
+    font-size: var(--font-size-2);
     font-weight: bold;
-    color: #fff;
-    background-color: #3f51b5;
+    background-color: var(--background-color);
     border: none;
-    border-radius: 10px;
-    padding: 0px 24px;
+    border-radius: var(--border-radius);
+    padding: 5px 20px;
     cursor: pointer;
     outline: none;
+    box-shadow: var(--box-shadow);
+
+    &:hover {
+        color: #fff;
+        background-color: #000000;
+    }
+}
+
+@media screen and (max-width: 321px) {
+    :root {
+        --font-size-1: 14px;
+        --font-size-2: 16px;
+        --font-size-3: 16px;
+        --font-size-4: 20px;
+        --font-size-5: 24px;
+        --gap: 10px;
+        --padding-1: 6px;
+        --padding-2: 16px;
+        --padding-3: 14px;
+        --border-radius: 14px;
+    }
+
+    .containerContent {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .logo {
+        height: 100px;
+    }
+}
+
+@media screen and (min-width: 321px) and (max-width: 376px) {
+    :root {
+        --font-size-1: 14px;
+        --font-size-2: 16px;
+        --font-size-3: 16px;
+        --font-size-4: 20px;
+        --font-size-5: 24px;
+        --gap: 10px;
+        --padding-1: 6px;
+        --padding-2: 16px;
+        --padding-3: 14px;
+        --border-radius: 14px;
+    }
+
+    .containerContent {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .logo {
+        height: 130px;
+    }
+}
+
+@media screen and (min-width: 376px) and (max-width: 426px) {
+    :root {
+        --font-size-1: 16px;
+        --font-size-2: 18px;
+        --font-size-3: 18px;
+        --font-size-4: 20px;
+        --font-size-5: 24px;
+        --gap: 16px;
+        --padding-1: 8px;
+        --padding-2: 18px;
+        --padding-3: 14px;
+        --border-radius: 14px;
+    }
+    
+    .containerContent {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .logo {
+        height: 130px;
+    }
+}
+
+@media screen and (min-width: 426px) and (max-width: 769px) {
+    .containerContent {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .logo {
+        height: 140px;
+    }
 }

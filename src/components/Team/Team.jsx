@@ -26,26 +26,14 @@ function Team() {
     localStorage.setItem("statistic", JSON.stringify([]));
     navigate("/main-menu");
   }
-  useEffect(() => {
-    const preventNavigation = (event) => {
-      event.prventDefault();
-      return false;
-    };
-    window.addEventListener('popstate', preventNavigation);
-    window.addEventListener('beforeunload', preventNavigation);
-    return () => {
-      window.removeEventListener('popstate', preventNavigation);
-      window.removeEventListener('beforeunload', preventNavigation);
-    }
-  }, []);
   return (
     <>
       <div className={style.container} >
         <div className={style.containerHeader}>
           <p>IPL - Team</p>
-          <button className={style.button} onClick={handleNext}>NEXT</button>
+          <button className={style.button} onClick={handleNext}>Next</button>
         </div>
-        <div className={style.sectionContent}>
+        <div className={style.containerContent}>
           {team.map((team) => (
             <label key={team.teamId} className={`${style.card} ${userTeamId === team.teamId ? style.active : ""}`} title={team.teamName}>
               <input type="radio" name="team" value={team.teamId} checked={userTeamId === team.teamId} className={style.hideRadioMark} onChange={() => setUserTeamId(team.teamId)} />
