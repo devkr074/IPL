@@ -1105,6 +1105,15 @@ function MainMenu() {
                 </div>
                 <div className={style.containerContent}>
                     <div className={style.section}>
+                        <div className={style.sectionHeader}>Next Match</div>
+                        <div className={style.sectionContainer}>
+                            <p>Hello</p>
+                            <p>Bro</p>
+                            <p>How are you</p>
+
+                        </div>
+                    </div>
+                    <div className={style.section}>
                         <button className={style.button} onClick={handleContinue}>Fixture</button>
                     </div>
                     <div className={style.section}>
