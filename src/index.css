@@ -26,3 +26,17 @@
     box-sizing: border-box;
     user-select: none;
 }
+
+body{
+    height: 100vh;
+}
+
+#root{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url(./assets/background1.svg),url(./assets/background2.svg);
+    background-position: top left,bottom right;
+    background-repeat: no-repeat,no-repeat;
+}

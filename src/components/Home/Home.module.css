@@ -1,33 +1,38 @@
 .container {
     display: grid;
-    grid-template-rows: 10% auto;
     grid-template-columns: 1fr;
-    padding: var(--padding-1)
+    height: 95vh;
+    width: 80vw;
+    overflow: auto;
+    border-radius: 20px;
+    display: grid;
+    grid-template-rows: 14% auto;
+    box-shadow: var(--box-shadow);
+    background-color: #fff;
 }
 
 .containerHeader {
     display: flex;
     align-items: center;
+    justify-content: center;
     padding: var(--padding-2);
-    border-radius: var(--border-radius);
-    background-color: var(--background-color);
     box-shadow: var(--box-shadow);
     position: sticky;
-    top: var(--padding-1)
+    top:0;
+    background-color: rgb(43, 50, 70);
 }
 
 .containerHeader p {
-    font-size: var(--font-size-2);
+    font-size: 28px;
     font-weight: var(--font-weight);
-    color: var(--color);
+    color: #fff;
 }
 
 .containerContent {
     display: grid;
-    grid-template-rows: 40% auto;
     grid-template-columns: 1fr 1fr 1fr;
     gap: var(--gap);
-    padding-block: var(--padding-2);
+    padding: var(--padding-1);
 }
 
 .section {
@@ -37,13 +42,14 @@
     border-radius: var(--border-radius);
     background-color: var(--background-color);
     box-shadow: var(--box-shadow);
+    overflow: hidden;
 }
 
 .sectionHeader {
     display: flex;
     align-items: center;
     padding: var(--padding-2);
-    border-bottom: var(--border);
+    background-color: rgb(57, 65, 87);
 }
 
 .sectionContent {
@@ -72,6 +78,7 @@
     box-shadow: var(--box-shadow);
     cursor: pointer;
     outline: none;
+    padding: var(--padding-2);
 
     &:hover {
         color: #fff;
@@ -92,9 +99,9 @@
 
 .section.section:nth-child(2) .sectionHeader p,
 .section.section:nth-child(3) .sectionHeader p {
-    font-size: var(--font-size-2);
+    font-size: 20px;
     font-weight: var(--font-weight);
-    color: var(--color);
+    color: #fff;
 }
 
 .section.section:nth-child(2) .sectionContent .imageContainer,
@@ -153,7 +160,7 @@
 
 .section:nth-child(4) .sectionContent {
     display: grid;
-    grid-template-rows: 25% auto;
+    grid-template-rows: 20% auto;
 }
 
 .section:nth-child(4) .sectionContent .detailsContainer {
@@ -161,6 +168,7 @@
     align-items: center;
     justify-content: space-between;
     padding: var(--padding-2);
+    border: 2px solid green;
 }
 
 .section:nth-child(4) .sectionContent .detailsContainer span {
@@ -173,6 +181,7 @@
     align-items: center;
     justify-content: space-between;
     padding-inline: var(--padding-2);
+    border: 2px solid orange;
 }
 
 .section:nth-child(4) .sectionContent .imageContainer img {
