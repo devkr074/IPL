@@ -1,5 +1,5 @@
 .container {
-  max-height: 95vh;
+  height: 95vh;
   width: 80vw;
   display: grid;
   grid-template-rows: 12% auto;
@@ -61,6 +61,7 @@
   border-radius: var(--border-radius-1);
   box-shadow: var(--box-shadow);
   cursor: pointer;
+  margin-block: 20px;
 }
 
 .active {
@@ -74,4 +75,103 @@
 
 .card img {
   height: 140px;
+}
+
+@media screen and (max-width: 321px) {
+  :root {
+    --font-size-1: 16px;
+    --font-size-2: 18px;
+    --font-size-3: 22px;
+  }
+
+  .container {
+    width: 95vw;
+  }
+
+  .containerContent {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+
+  .card {
+    grid-column: span 2;
+    margin: 0px;
+  }
+
+  .card img {
+    height: 80px;
+  }
+}
+
+@media screen and (min-width: 321px) and (max-width: 376px) {
+  :root {
+    --font-size-1: 16px;
+    --font-size-2: 18px;
+    --font-size-3: 22px;
+  }
+
+  .container {
+    width: 95vw;
+  }
+
+  .containerContent {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+
+  .card {
+    grid-column: span 2;
+    margin: 0px;
+  }
+
+  .card img {
+    height: 100px;
+  }
+}
+
+@media screen and (min-width: 376px) and (max-width: 426px) {
+  :root {
+    --font-size-1: 16px;
+    --font-size-2: 18px;
+    --font-size-3: 22px;
+  }
+
+  .container {
+    width: 95vw;
+  }
+
+  .containerContent {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+
+  .card {
+    grid-column: span 2;
+    margin: 0px;
+  }
+
+  .card img {
+    height: 120px;
+  }
+}
+
+@media screen and (min-width: 426px) and (max-width: 769px) {
+  :root {
+    --font-size-1: 16px;
+    --font-size-2: 18px;
+    --font-size-3: 22px;
+  }
+
+  .container {
+    width: 95vw;
+  }
+
+  .containerContent {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .card {
+    margin: 0px;
+  }
+
+  .card img {
+    height: 140px;
+  }
 }

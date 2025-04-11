@@ -24,7 +24,7 @@ function PointsTable() {
                                 <th>P</th>
                                 <th>W</th>
                                 <th>L</th>
-                                <th>NR</th>
+                                <th>T</th>
                                 <th>PTS</th>
                                 <th>NRR</th>
                             </tr>
@@ -32,7 +32,7 @@ function PointsTable() {
                         <tbody>
                             {pointsTable.map((teamData, index) =>
                                 <tr key={teamData.teamId}>
-                                    <td><span>{index + 1}</span><span>{team[teamData.teamId - 1].teamShortName}</span></td>
+                                    <td>{team[teamData.teamId - 1].teamShortName}</td>
                                     <td>{teamData.matchesPlayed}</td>
                                     <td>{teamData.matchesWon}</td>
                                     <td>{teamData.matchesLost}</td>

@@ -1105,8 +1105,10 @@ function MainMenu() {
                 </div>
                 <div className={style.containerContent}>
                     <div className={style.section}>
-                        <div className={style.sectionHeader}>Next Match</div>
-                        <div className={style.sectionContainer}>
+                        <div className={style.sectionHeader}>
+                            <p>Next Match</p>
+                        </div>
+                        <div className={style.sectionContent}>
                             <p>Hello</p>
                             <p>Bro</p>
                             <p>How are you</p>
