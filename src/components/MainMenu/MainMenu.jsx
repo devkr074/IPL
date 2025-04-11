@@ -118,17 +118,6 @@ function MainMenu() {
             }
         }
     }, [schedule]);
-    useEffect(() => {
-        function handleBackButton(e) {
-            e.preventDefault();
-            navigate("/");
-        }
-        window.history.pushState(null, "", window.location.pathname);
-        window.addEventListener("popstate", handleBackButton);
-        return () => {
-            window.removeEventListener("popstate", handleBackButton);
-        };
-    }, [navigate]);
     function handleContinue() {
         navigate("/schedule");
     }
