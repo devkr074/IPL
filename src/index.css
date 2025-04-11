@@ -3,19 +3,29 @@
 :root {
     --font-size-1: 18px;
     --font-size-2: 20px;
-    --font-size-3: 22px;
-    --font-size-4: 24px;
-    --font-size-5: 32px;
-    --font-weight: bold;
-    --color: #000;
+    --font-size-3: 28px;
+    --font-weight: 700;
+    --font-style: italic;
+    --color-1: #ffffff;
+    --color-2: #7c7a7a;
     --gap: 20px;
     --padding-1: 10px;
     --padding-2: 20px;
-    --padding-3: 40px;
-    --border: 2px solid #000;
-    --border-radius: 20px;
-    --background-color: #fff;
-    --box-shadow: 0 3px 8px rgba(0, 0, 0, 0.24);
+    --border-1: 2px solid #c2bcbcb3;
+    --border-2: 5px solid #ffffff;
+    --border-3: 5px solid #0a858e;
+    --border-radius-1: 10px;
+    --border-radius-2: 20px;
+    --border-radius-3: 50%;
+    --background-color-1: #ffffff;
+    --background-color-2: #2b3246;
+    --background-color-3: #41485b;
+    --background-color-4: #0a858e;
+    --background-color-5: #9a3c3c;
+    --background-color-6: #0a858e3a;
+    --box-shadow: 0 3px 8px #0000003d;
+    --transition: all 0.2s ease;
+    --scale: scale(1.02);
 }
 
 * {
@@ -27,16 +37,16 @@
     user-select: none;
 }
 
-body{
+body {
     height: 100vh;
 }
 
-#root{
+#root {
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: url(./assets/background1.svg),url(./assets/background2.svg);
-    background-position: top left,bottom right;
-    background-repeat: no-repeat,no-repeat;
+    background: url(./assets/background1.svg), url(./assets/background2.svg);
+    background-position: top left, bottom right;
+    background-repeat: no-repeat, no-repeat;
 }

@@ -110,7 +110,7 @@ function Home() {
                             {(gameStatus && nextMatch) ?
                                 <>
                                     <div className={style.detailsContainer}>
-                                        <span>Match: {nextMatch.matchId}</span>
+                                        <span>Match #{nextMatch.matchId}</span>
                                         <span>Venue: {venue[nextMatch.venueId - 1].venueCity}</span>
                                     </div>
                                     <div className={style.imageContainer}>
