@@ -26,6 +26,9 @@ function Team() {
     localStorage.setItem("statistic", JSON.stringify([]));
     navigate("/main-menu");
   }
+  function handleTeamChange(e) {
+    setUserTeamId(e.target.value);
+  }
   return (
     <>
       <div className={style.container} >
@@ -36,7 +39,7 @@ function Team() {
         <div className={style.containerContent}>
           {team.map((teamData) => (
             <label key={teamData.teamId} title={teamData.teamName} className={`${style.card} ${(userTeamId == teamData.teamId) ? style.active : ""}`}>
-              <input type="radio" name="team" value={teamData.teamId} checked={userTeamId == teamData.teamId} onChange={() => setUserTeamId(teamData.teamId)} />
+              <input type="radio" name="team" value={teamData.teamId} checked={userTeamId == teamData.teamId} onChange={handleTeamChange} />
               <img src={teamData.logo} alt={teamData.teamName} />
             </label>
           ))}

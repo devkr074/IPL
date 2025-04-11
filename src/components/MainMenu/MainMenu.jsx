@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaRedo } from "react-icons/fa";
-import { FaPlay } from "react-icons/fa";
 import style from "./MainMenu.module.css";
 function MainMenu() {
     const [player, setPlayer] = useState([]);
@@ -1102,14 +1100,26 @@ function MainMenu() {
     return (
         <>
             <div className={style.container}>
-                <div className={style.section}>
-                    <button className={style.button} onClick={handleContinue}><FaPlay size={44} />CONTINUE</button>
-                    <div className={style.menuButtonContainer}>
-                        <button className={style.menuButton} onClick={handleStatistic}>STATISTIC</button>
-                        <button className={style.menuButton} onClick={handleSquad}>SQUAD</button>
-                        <button className={style.menuButton} onClick={handlePointsTable}>POINTS TABLE</button>
+                <div className={style.containerHeader}>
+                    <p>IPL - Main Menu</p>
+                </div>
+                <div className={style.containerContent}>
+                    <div className={style.section}>
+                        <button className={style.button} onClick={handleContinue}>Fixture</button>
                     </div>
-                    <button className={style.restartButton} onClick={handleRestart}><FaRedo /></button>
+                    <div className={style.section}>
+                        <button className={style.button} onClick={handleSquad}>Squad</button>
+                        <button className={style.button} onClick={handleStatistic}>Venue</button>
+                    </div>
+                    <div className={style.section}>
+                        <button className={style.button} onClick={handlePointsTable}>Points Table</button>
+                    </div>
+                    <div className={style.section}>
+                        <button className={style.button}>Batting Statistic</button>
+                    </div>
+                    <div className={style.section}>
+                        <button className={style.button}>Bowling Statistic</button>
+                    </div>
                 </div>
             </div>
         </>

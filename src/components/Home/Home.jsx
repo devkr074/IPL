@@ -31,7 +31,7 @@ function Home() {
             setOrangeCap(orangeCap[0]);
             const purpleCap = statistic.filter((playerData) => (playerData.bowlingStatistic.wickets > 0)).sort((a, b) => a.bowlingStatistic.wickets == b.bowlingStatistic.wickets ? a.bowlingStatistic.runs - b.bowlingStatistic.runs : b.bowlingStatistic.wickets - a.bowlingStatistic.wickets).slice(0, Math.min(statistic.length, 1));
             setPurpleCap(purpleCap[0]);
-            const tableTopper = pointsTable.filter((teamData) => (teamData.matchesWon > 0)).sort((a, b) => a.points == b.points ? b.netRunRate - a.netRunRate : b.points - a.points).slice(0, Math.min(pointsTable.length, 4));
+            const tableTopper = pointsTable.filter((teamData) => (teamData.points > 0)).sort((a, b) => a.points == b.points ? b.netRunRate - a.netRunRate : b.points - a.points).slice(0, Math.min(pointsTable.length, 4));
             setTableTopper(tableTopper);
         }
         if (gameStatus) {

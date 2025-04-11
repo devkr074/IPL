@@ -1,6 +1,4 @@
 .container {
-    height: 100vh;
-    overflow: hidden;
     display: grid;
     grid-template-rows: 10% auto;
     grid-template-columns: 1fr;
@@ -14,6 +12,8 @@
     border-radius: var(--border-radius);
     background-color: var(--background-color);
     box-shadow: var(--box-shadow);
+    position: sticky;
+    top: var(--padding-1)
 }
 
 .containerHeader p {
@@ -23,8 +23,6 @@
 }
 
 .containerContent {
-    overflow: auto;
-    scrollbar-width: none;
     display: grid;
     grid-template-rows: 40% auto;
     grid-template-columns: 1fr 1fr 1fr;
@@ -235,10 +233,6 @@
         --border-radius: 14px;
     }
 
-    .containerContent {
-        padding-block-end: 60px;
-    }
-
     .section {
         grid-column: span 3;
     }
@@ -277,10 +271,6 @@
         --padding-2: 16px;
         --padding-3: 14px;
         --border-radius: 14px;
-    }
-
-    .containerContent {
-        padding-block-end: 60px;
     }
 
     .section {
@@ -323,10 +313,6 @@
         --border-radius: 14px;
     }
 
-    .containerContent {
-        padding-block-end: 60px;
-    }
-
     .section {
         grid-column: span 3;
     }
@@ -356,7 +342,6 @@
 @media screen and (min-width: 426px) and (max-width: 769px) {
     .containerContent {
         grid-template-columns: 1fr 1fr 1fr 1fr;
-        padding-block-end: 60px;
     }
 
     .section {
