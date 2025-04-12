@@ -50,160 +50,148 @@ function Statistic() {
                 </div>
                 <div className={style.containerContent}>
                     {tab == "Most Runs" && ((totalMatchPlayed && mostRuns.length > 0) ? (
-                        <div className={style.section}>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Batter</th>
-                                        <th>M</th>
-                                        <th>I</th>
-                                        <th>R</th>
-                                        <th>AVG</th>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Batter</th>
+                                    <th>M</th>
+                                    <th>I</th>
+                                    <th>R</th>
+                                    <th>AVG</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {mostRuns.map((playerData, index) =>
+                                    <tr key={playerData.playerId}>
+                                        <td><span>{index + 1}</span><span>{player[playerData.playerId - 1].playerName}</span></td>
+                                        <td>{playerData.battingStatistic.matches}</td>
+                                        <td>{playerData.battingStatistic.innings}</td>
+                                        <td>{playerData.battingStatistic.runs}</td>
+                                        <td>{(playerData.battingStatistic.runs / playerData.battingStatistic.innings).toFixed(2)}</td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {mostRuns.map((playerData, index) =>
-                                        <tr key={playerData.playerId}>
-                                            <td><span>{index + 1}</span><span>{player[playerData.playerId - 1].playerName}</span></td>
-                                            <td>{playerData.battingStatistic.matches}</td>
-                                            <td>{playerData.battingStatistic.innings}</td>
-                                            <td>{playerData.battingStatistic.runs}</td>
-                                            <td>{(playerData.battingStatistic.runs / playerData.battingStatistic.innings).toFixed(2)}</td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
+                                )}
+                            </tbody>
+                        </table>
                     ) : <p>No Data Available Currently!</p>)}
                     {tab == "Most Fifties" && ((totalMatchPlayed && mostFifties.length > 0) ? (
-                        <div className={style.section}>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Batter</th>
-                                        <th>M</th>
-                                        <th>I</th>
-                                        <th>R</th>
-                                        <th>50s</th>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Batter</th>
+                                    <th>M</th>
+                                    <th>I</th>
+                                    <th>R</th>
+                                    <th>50s</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {mostFifties.map((playerData, index) =>
+                                    <tr key={playerData.playerId}>
+                                        <td><span>{index + 1}</span><span>{player[playerData.playerId - 1].playerName}</span></td>
+                                        <td>{playerData.battingStatistic.matches}</td>
+                                        <td>{playerData.battingStatistic.innings}</td>
+                                        <td>{playerData.battingStatistic.runs}</td>
+                                        <td>{playerData.battingStatistic.halfCentury}</td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {mostFifties.map((playerData, index) =>
-                                        <tr key={playerData.playerId}>
-                                            <td><span>{index + 1}</span><span>{player[playerData.playerId - 1].playerName}</span></td>
-                                            <td>{playerData.battingStatistic.matches}</td>
-                                            <td>{playerData.battingStatistic.innings}</td>
-                                            <td>{playerData.battingStatistic.runs}</td>
-                                            <td>{playerData.battingStatistic.halfCentury}</td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
+                                )}
+                            </tbody>
+                        </table>
                     ) : <p>No Data Available Currently!</p>)}
                     {tab == "Most Fours" && ((totalMatchPlayed && mostFours.length > 0) ? (
-                        <div className={style.section}>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Batter</th>
-                                        <th>M</th>
-                                        <th>I</th>
-                                        <th>R</th>
-                                        <th>4s</th>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Batter</th>
+                                    <th>M</th>
+                                    <th>I</th>
+                                    <th>R</th>
+                                    <th>4s</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {mostFours.map((playerData, index) =>
+                                    <tr key={playerData.playerId}>
+                                        <td><span>{index + 1}</span><span>{player[playerData.playerId - 1].playerName}</span></td>
+                                        <td>{playerData.battingStatistic.matches}</td>
+                                        <td>{playerData.battingStatistic.innings}</td>
+                                        <td>{playerData.battingStatistic.runs}</td>
+                                        <td>{playerData.battingStatistic.fours}</td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {mostFours.map((playerData, index) =>
-                                        <tr key={playerData.playerId}>
-                                            <td><span>{index + 1}</span><span>{player[playerData.playerId - 1].playerName}</span></td>
-                                            <td>{playerData.battingStatistic.matches}</td>
-                                            <td>{playerData.battingStatistic.innings}</td>
-                                            <td>{playerData.battingStatistic.runs}</td>
-                                            <td>{playerData.battingStatistic.fours}</td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
+                                )}
+                            </tbody>
+                        </table>
                     ) : <p>No Data Available Currently!</p>)}
                     {tab == "Most Sixes" && ((totalMatchPlayed && mostSixes.length > 0) ? (
-                        <div className={style.section}>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Batter</th>
-                                        <th>M</th>
-                                        <th>I</th>
-                                        <th>R</th>
-                                        <th>6s</th>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Batter</th>
+                                    <th>M</th>
+                                    <th>I</th>
+                                    <th>R</th>
+                                    <th>6s</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {mostSixes.map((playerData, index) =>
+                                    <tr key={playerData.playerId}>
+                                        <td><span>{index + 1}</span><span>{player[playerData.playerId - 1].playerName}</span></td>
+                                        <td>{playerData.battingStatistic.matches}</td>
+                                        <td>{playerData.battingStatistic.innings}</td>
+                                        <td>{playerData.battingStatistic.runs}</td>
+                                        <td>{playerData.battingStatistic.sixes}</td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {mostSixes.map((playerData, index) =>
-                                        <tr key={playerData.playerId}>
-                                            <td><span>{index + 1}</span><span>{player[playerData.playerId - 1].playerName}</span></td>
-                                            <td>{playerData.battingStatistic.matches}</td>
-                                            <td>{playerData.battingStatistic.innings}</td>
-                                            <td>{playerData.battingStatistic.runs}</td>
-                                            <td>{playerData.battingStatistic.sixes}</td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
+                                )}
+                            </tbody>
+                        </table>
                     ) : <p>No Data Available Currently!</p>)}
                     {tab == "Most Century" && ((totalMatchPlayed && mostCentury.length > 0) ? (
-                        <div className={style.section}>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Batter</th>
-                                        <th>M</th>
-                                        <th>I</th>
-                                        <th>R</th>
-                                        <th>100s</th>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Batter</th>
+                                    <th>M</th>
+                                    <th>I</th>
+                                    <th>R</th>
+                                    <th>100s</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {mostCentury.map((playerData, index) =>
+                                    <tr key={playerData.playerId}>
+                                        <td><span>{index + 1}</span><span>{player[playerData.playerId - 1].playerName}</span></td>
+                                        <td>{playerData.battingStatistic.matches}</td>
+                                        <td>{playerData.battingStatistic.innings}</td>
+                                        <td>{playerData.battingStatistic.runs}</td>
+                                        <td>{playerData.battingStatistic.century}</td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {mostCentury.map((playerData, index) =>
-                                        <tr key={playerData.playerId}>
-                                            <td><span>{index + 1}</span><span>{player[playerData.playerId - 1].playerName}</span></td>
-                                            <td>{playerData.battingStatistic.matches}</td>
-                                            <td>{playerData.battingStatistic.innings}</td>
-                                            <td>{playerData.battingStatistic.runs}</td>
-                                            <td>{playerData.battingStatistic.century}</td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
+                                )}
+                            </tbody>
+                        </table>
                     ) : <p>No Data Available Currently!</p>)}
                     {tab == "Most Wickets" && ((totalMatchPlayed && mostWickets.length > 0) ? (
-                        <div className={style.section}>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Bowler</th>
-                                        <th>M</th>
-                                        <th>O</th>
-                                        <th>W</th>
-                                        <th>AVG</th>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Bowler</th>
+                                    <th>M</th>
+                                    <th>O</th>
+                                    <th>W</th>
+                                    <th>AVG</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {mostWickets.map((playerData, index) =>
+                                    <tr key={playerData.playerId}>
+                                        <td><span>{index + 1}</span><span>{player[playerData.playerId - 1].playerName}</span></td>
+                                        <td>{playerData.bowlingStatistic.matches}</td>
+                                        <td>{Math.floor(playerData.bowlingStatistic.balls / 6)}.{playerData.bowlingStatistic.balls % 6}</td>
+                                        <td>{playerData.bowlingStatistic.wickets}</td>
+                                        <td>{(playerData.bowlingStatistic.runs / playerData.bowlingStatistic.wickets).toFixed(2)}</td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {mostWickets.map((playerData, index) =>
-                                        <tr key={playerData.playerId}>
-                                            <td><span>{index + 1}</span><span>{player[playerData.playerId - 1].playerName}</span></td>
-                                            <td>{playerData.bowlingStatistic.matches}</td>
-                                            <td>{Math.floor(playerData.bowlingStatistic.balls / 6)}.{playerData.bowlingStatistic.balls % 6}</td>
-                                            <td>{playerData.bowlingStatistic.wickets}</td>
-                                            <td>{(playerData.bowlingStatistic.runs / playerData.bowlingStatistic.wickets).toFixed(2)}</td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
+                                )}
+                            </tbody>
+                        </table>
                     ) : <p>No Data Available Currently!</p>)}
                 </div>
             </div>

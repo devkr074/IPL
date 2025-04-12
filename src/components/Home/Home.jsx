@@ -6,38 +6,22 @@ function Home() {
     const [orangeCap, setOrangeCap] = useState([]);
     const [purpleCap, setPurpleCap] = useState([]);
     const [nextMatch, setNextMatch] = useState([]);
+    const [winner, setWinner] = useState([]);
     const [tableTopper, setTableTopper] = useState([]);
-    const [player, setPlayer] = useState([]);
-    const [team, setTeam] = useState([]);
-    const [totalMatchPlayed, setTotalMatchPlayed] = useState(null);
-    const [venue, setVenue] = useState([]);
     useEffect(() => {
         document.title = "IPL - Indian Premier League";
-        const player = JSON.parse(localStorage.getItem("player"));
-        const team = JSON.parse(localStorage.getItem("team"));
-        const totalMatchPlayed = Number(localStorage.getItem("totalMatchPlayed"));
-        const venue = JSON.parse(localStorage.getItem("venue"));
-        const pointsTable = JSON.parse(localStorage.getItem("pointsTable"));
-        const schedule = JSON.parse(localStorage.getItem("schedule"));
-        const statistic = JSON.parse(localStorage.getItem("statistic"));
         const gameStatus = localStorage.getItem("gameStatus");
-        setPlayer(player);
-        setTeam(team);
-        setTotalMatchPlayed(totalMatchPlayed);
-        setVenue(venue);
+        const orangeCap = JSON.parse(localStorage.getItem("orangeCap"));
+        const purpleCap = JSON.parse(localStorage.getItem("purpleCap"));
+        const nextMatch = JSON.parse(localStorage.getItem("nextMatch"));
+        const winner = JSON.parse(localStorage.getItem("winner"));
+        const tableTopper = JSON.parse(localStorage.getItem("tableTopper"));
         setGameStatus(gameStatus);
-        if (gameStatus && totalMatchPlayed) {
-            const orangeCap = statistic.filter((playerData) => (playerData.battingStatistic.innings > 0)).sort((a, b) => a.battingStatistic.runs == b.battingStatistic.runs ? a.battingStatistic.innings - b.battingStatistic.innings : b.battingStatistic.runs - a.battingStatistic.runs).slice(0, Math.min(statistic.length, 1));
-            setOrangeCap(orangeCap[0]);
-            const purpleCap = statistic.filter((playerData) => (playerData.bowlingStatistic.wickets > 0)).sort((a, b) => a.bowlingStatistic.wickets == b.bowlingStatistic.wickets ? a.bowlingStatistic.runs - b.bowlingStatistic.runs : b.bowlingStatistic.wickets - a.bowlingStatistic.wickets).slice(0, Math.min(statistic.length, 1));
-            setPurpleCap(purpleCap[0]);
-            const tableTopper = pointsTable.filter((teamData) => (teamData.points > 0)).sort((a, b) => a.points == b.points ? b.netRunRate - a.netRunRate : b.points - a.points).slice(0, Math.min(pointsTable.length, 4));
-            setTableTopper(tableTopper);
-        }
-        if (gameStatus) {
-            const nextMatch = schedule.filter((matchData) => (matchData.matchStatusId == null)).slice(0, Math.min(schedule.length, 1));
-            setNextMatch(nextMatch[0]);
-        }
+        setOrangeCap(orangeCap);
+        setPurpleCap(purpleCap);
+        setNextMatch(nextMatch);
+        setWinner(winner);
+        setTableTopper(tableTopper);
     }, []);
     const navigate = useNavigate();
     function handleStartTournament() {
@@ -73,14 +57,14 @@ function Home() {
                             <p>Orange Cap</p>
                         </div>
                         <div className={style.sectionContent}>
-                            {(gameStatus && totalMatchPlayed && orangeCap) ?
+                            {orangeCap ?
                                 <>
                                     <div className={style.imageContainer}>
-                                        <img src={player[orangeCap.playerId - 1].profilePicture} alt={player[orangeCap.playerId - 1].playerName} title={player[orangeCap.playerId - 1].playerName} />
+                                        <img src={orangeCap.profilePicture} alt={orangeCap.playerName} title={orangeCap.playerName} />
                                     </div>
                                     <div className={style.detailsContainer}>
-                                        <p>{player[orangeCap.playerId - 1].playerName}</p>
-                                        <span>{orangeCap.battingStatistic.runs} {(orangeCap.battingStatistic.runs > 1) ? "Runs" : "Run"}</span>
+                                        <p>{orangeCap.playerName}</p>
+                                        <span>{orangeCap.runs} {(orangeCap.runs > 1) ? "Runs" : "Run"}</span>
                                     </div>
                                 </> : <p className={style.altMessage} >No Data Available Currently!</p>}
                         </div>
@@ -90,33 +74,33 @@ function Home() {
                             <p>Purple Cap</p>
                         </div>
                         <div className={style.sectionContent}>
-                            {(gameStatus && totalMatchPlayed && purpleCap) ?
+                            {purpleCap ?
                                 <>
                                     <div className={style.imageContainer}>
-                                        <img src={player[purpleCap.playerId - 1].profilePicture} alt={player[purpleCap.playerId - 1].playerName} title={player[purpleCap.playerId - 1].playerName} />
+                                        <img src={purpleCap.profilePicture} alt={purpleCap.playerName} title={purpleCap.playerName} />
                                     </div>
                                     <div className={style.detailsContainer}>
-                                        <p>{player[purpleCap.playerId - 1].playerName}</p>
-                                        <span>{purpleCap.bowlingStatistic.wickets} {(purpleCap.bowlingStatistic.wickets > 1) ? "Wickets" : "Wicket"}</span>
+                                        <p>{purpleCap.playerName}</p>
+                                        <span>{purpleCap.wickets} {(purpleCap.wickets > 1) ? "Wickets" : "Wicket"}</span>
                                     </div>
                                 </> : <p className={style.altMessage} >No Data Available Currently!</p>}
                         </div>
                     </div>
                     <div className={style.section}>
                         <div className={style.sectionHeader}>
-                            <p>Next Match</p>
+                            <p>{winner ? "Winner" : "Next Match"}</p>
                         </div>
                         <div className={style.sectionContent}>
-                            {(gameStatus && nextMatch) ?
+                            {nextMatch ?
                                 <>
                                     <div className={style.detailsContainer}>
                                         <span>Match #{nextMatch.matchId}</span>
-                                        <span>Venue: {venue[nextMatch.venueId - 1].venueCity}</span>
+                                        <span>Venue: {nextMatch.venueCity}</span>
                                     </div>
                                     <div className={style.imageContainer}>
-                                        <img src={team[nextMatch.teamAId - 1].logo} alt={team[nextMatch.teamAId - 1].teamShortName} title={team[nextMatch.teamAId - 1].teamShortName} />
+                                        <img src={nextMatch.teamALogo} alt={nextMatch.teamAShortName} title={nextMatch.teamAShortName} />
                                         <span>V/S</span>
-                                        <img src={team[nextMatch.teamBId - 1].logo} alt={team[nextMatch.teamBId - 1].teamShortName} title={team[nextMatch.teamBId - 1].teamShortName} />
+                                        <img src={nextMatch.teamBLogo} alt={nextMatch.teamBShortName} title={nextMatch.teamBShortName} />
                                     </div>
                                 </> : <p className={style.altMessage} >No Data Available Currently!</p>}
                         </div>
@@ -126,9 +110,9 @@ function Home() {
                             <p>Table Topper</p>
                         </div>
                         <div className={style.sectionContent}>
-                            {(gameStatus && totalMatchPlayed && tableTopper.length > 0) ? <div className={style.imageContainer}>
+                            {tableTopper ? <div className={style.imageContainer}>
                                 {tableTopper.map((teamData) =>
-                                    <img key={teamData.teamId} src={team[teamData.teamId - 1].logo} alt={team[teamData.teamId - 1].teamShortName} title={team[teamData.teamId - 1].teamShortName} />
+                                    <img key={teamData.teamId} src={teamData.logo} alt={teamData.teamShortName} title={teamData.teamShortName} />
                                 )}</div> : <p className={style.altMessage} >No Data Available Currently!</p>}
                         </div>
                     </div>

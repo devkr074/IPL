@@ -5,24 +5,27 @@ function MainMenu() {
     const [player, setPlayer] = useState([]);
     const [pointsTable, setPointsTable] = useState([]);
     const [schedule, setSchedule] = useState([]);
-    const [statistic, setStatistic] = useState([]);
+    const [battingStatistic, setBattingStatistic] = useState([]);
+    const [bowlingStatistic, setBowlingStatistic] = useState([]);
     const [team, setTeam] = useState([]);
     const [totalMatchPlayed, setTotalMatchPlayed] = useState(null);
     const [userTeamId, setUserTeamId] = useState(null);
     const navigate = useNavigate();
     useEffect(() => {
         document.title = "IPL - Main Menu";
+        const userTeamId = Number(localStorage.getItem("userTeamId"));
+        const totalMatchPlayed = Number(localStorage.getItem("totalMatchPlayed"));
         const player = JSON.parse(localStorage.getItem("player"));
         const pointsTable = JSON.parse(localStorage.getItem("pointsTable"));
         const schedule = JSON.parse(localStorage.getItem("schedule"));
-        const statistic = JSON.parse(localStorage.getItem("statistic"));
+        const battingStatistic = JSON.parse(localStorage.getItem("battingStatistic"));
+        const bowlingStatistic = JSON.parse(localStorage.getItem("bowlingStatistic"));
         const team = JSON.parse(localStorage.getItem("team"));
-        const totalMatchPlayed = Number(localStorage.getItem("totalMatchPlayed"));
-        const userTeamId = Number(localStorage.getItem("userTeamId"));
         setPlayer(player);
         setPointsTable(pointsTable);
         setSchedule(schedule);
-        setStatistic(statistic);
+        setBattingStatistic(battingStatistic);
+        setBowlingStatistic(bowlingStatistic);
         setTeam(team);
         setTotalMatchPlayed(totalMatchPlayed);
         setUserTeamId(userTeamId);
@@ -38,35 +41,33 @@ function MainMenu() {
                 }
                 else {
                     for (let j = 0; j < 11; j++) {
-                        const index = statistic.findIndex(obj => obj.playerId === player[(teamA.teamId - 1) * 11 + j].playerId);
+                        const index = battingStatistic.findIndex(obj => obj.playerId === player[(teamA.teamId - 1) * 11 + j].playerId);
                         if (index === -1) {
-                            statistic.push({
+                            battingStatistic.push({
                                 playerId: player[(teamA.teamId - 1) * 11 + j].playerId,
-                                battingStatistic: {
-                                    matches: 1,
-                                    innings: 0,
-                                    runs: 0,
-                                    balls: 0,
-                                    fours: 0,
-                                    sixes: 0,
-                                    halfCentury: 0,
-                                    century: 0,
-                                    highestScore: 0,
-                                    highestScoreOpponentTeam: ""
-                                },
-                                bowlingStatistic: {
-                                    matches: 1,
-                                    balls: 0,
-                                    runs: 0,
-                                    wickets: 0,
-                                    fiveWickets: 0,
-                                    bestBowlingWickets: 0,
-                                    bestBowlingRuns: 0,
-                                    bestBowlingOpponent: ""
-                                }
+                                matches: 1,
+                                innings: 0,
+                                runs: 0,
+                                balls: 0,
+                                fours: 0,
+                                sixes: 0,
+                                halfCentury: 0,
+                                century: 0,
+                                highestScore: 0,
+                                highestScoreOpponentTeam: ""
                             });
-                            setStatistic([...statistic, statistic]);
-                            localStorage.setItem("statistic", JSON.stringify(statistic));
+                            bowlingStatistic.push({
+                                matches: 1,
+                                balls: 0,
+                                runs: 0,
+                                wickets: 0,
+                                fiveWickets: 0,
+                                bestBowlingWickets: 0,
+                                bestBowlingRuns: 0,
+                                bestBowlingOpponent: ""
+                            });
+                            setBattingStatistic([...battingStatistic, battingStatistic]);
+                            localStorage.setItem("battingStatistic", JSON.stringify(battingStatistic));
                         }
                         else {
                             statistic[index].battingStatistic.matches = statistic[index].battingStatistic.matches + 1;

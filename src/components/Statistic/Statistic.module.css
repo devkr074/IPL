@@ -27,10 +27,6 @@
     color: var(--color-1);
 }
 
-.containerContent {
-    gap: var(--gap);
-}
-
 .containerContent table {
     height: 100%;
     width: 100%;
@@ -40,25 +36,45 @@
 table thead {
     height: 50px;
     background-color: var(--background-color-3);
-    font-size: var(--font-size-2);
+    font-size: var(--font-size-1);
     color: var(--color-1);
     position: sticky;
     top: 60px;
+}
+
+table thead tr th {
+    text-align: center;
+}
+
+table thead tr th:nth-child(1) {
+    text-align: left;
+    padding-inline: 20px;
+}
+
+table tbody tr:nth-child(1),
+table tbody tr:nth-child(2),
+table tbody tr:nth-child(3),
+table tbody tr:nth-child(4) {
+    font-weight: normal;
 }
 
 table tbody tr:not(:last-child) {
     border-bottom: var(--border-1);
 }
 
-table thead tr th:nth-child(1){
-    text-align: left;
-    padding-inline: 20px;
+table tbody tr:hover {
+    background-color: var(--background-color-7);
+
+}
+
+table tbody tr td {
+    text-align: center;
+    font-size: 16px;
 }
 
 table tbody tr td:nth-child(1) {
-    padding-inline: 20px;
     text-align: left;
-    font-size: var(--font-size-1);
+    padding-inline: 20px;
 }
 
 table tbody tr td:nth-child(2),
@@ -67,18 +83,99 @@ table tbody tr td:nth-child(4),
 table tbody tr td:nth-child(5),
 table tbody tr td:nth-child(6),
 table tbody tr td:nth-child(7) {
-    width: 80px;
+    width: 70px;
 }
 
-td{
-    text-align: center;
+
+
+@media screen and (max-width: 321px) {
+    :root {
+        --font-size-1: 12px;
+        --font-size-2: 18px;
+        --font-size-3: 22px;
+    }
+
+    .container {
+        width: 95vw;
+    }
+
+    table tbody tr td {
+        font-size: 12px;
+    }
+
+    table tbody tr td:nth-child(2),
+    table tbody tr td:nth-child(3),
+    table tbody tr td:nth-child(4),
+    table tbody tr td:nth-child(5),
+    table tbody tr td:nth-child(6) {
+        width: 30px;
+    }
 }
 
-table tbody tr:nth-child(1),
-table tbody tr:nth-child(2),table tbody tr:nth-child(3),table tbody tr:nth-child(4){
-    font-weight: var(--font-weight);
+@media screen and (min-width: 321px) and (max-width: 376px) {
+    :root {
+        --font-size-1: 13px;
+        --font-size-2: 18px;
+        --font-size-3: 22px;
+    }
+
+    .container {
+        width: 95vw;
+    }
+
+    table tbody tr td {
+        font-size: 13px;
+    }
+
+    table tbody tr td:nth-child(2),
+    table tbody tr td:nth-child(3),
+    table tbody tr td:nth-child(4),
+    table tbody tr td:nth-child(5),
+    table tbody tr td:nth-child(6) {
+        width: 35px;
+    }
 }
 
-table tbody tr:hover{
-    background-color: #f4f4f4;
-}  
+@media screen and (min-width: 376px) and (max-width: 426px) {
+    :root {
+        --font-size-1: 14px;
+        --font-size-2: 18px;
+        --font-size-3: 22px;
+    }
+
+    .container {
+        width: 95vw;
+    }
+
+    table tbody tr td {
+        font-size: 14px;
+    }
+
+    table tbody tr td:nth-child(2),
+    table tbody tr td:nth-child(3),
+    table tbody tr td:nth-child(4),
+    table tbody tr td:nth-child(5),
+    table tbody tr td:nth-child(6) {
+        width: 40px;
+    }
+}
+
+@media screen and (min-width: 426px) and (max-width: 769px) {
+    :root {
+        --font-size-1: 16px;
+        --font-size-2: 18px;
+        --font-size-3: 22px;
+    }
+
+    .container {
+        width: 70vw;
+    }
+
+    table tbody tr td:nth-child(2),
+    table tbody tr td:nth-child(3),
+    table tbody tr td:nth-child(4),
+    table tbody tr td:nth-child(5),
+    table tbody tr td:nth-child(6) {
+        width: 65px;
+    }
+}

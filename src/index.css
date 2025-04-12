@@ -17,12 +17,14 @@
     --border-radius-1: 10px;
     --border-radius-2: 20px;
     --border-radius-3: 50%;
+    --margin: 20px;
     --background-color-1: #ffffff;
     --background-color-2: #2b3246;
     --background-color-3: #41485b;
     --background-color-4: #0a858e;
     --background-color-5: #9a3c3c;
     --background-color-6: #0a858e3a;
+    --background-color-7: #c2bcbcb3;
     --box-shadow: 0 3px 8px #0000003d;
     --transition: all 0.2s ease;
     --scale: scale(1.02);
