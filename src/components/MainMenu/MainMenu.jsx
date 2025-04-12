@@ -52,8 +52,8 @@ function MainMenu() {
                         schedule[i].tossResult = `${team[schedule[i].awayTeamId - 1].teamShortName} elected to ${optOutcome} first`;
                         setSchedule(schedule);
                         localStorage.setItem("schedule", JSON.stringify(schedule));
-                        setMatchData(schedule[i]);
-                        target = simulateInning(schedule[i].awayTeamId, schedule[i].homeTeamId, schedule[i], player, 1, null);
+                        setMatchData();
+                        target = simulateInning(1, schedule[i]);
                     }
                     else {
                         schedule[i].tossStatusId = 1;
@@ -61,7 +61,7 @@ function MainMenu() {
                         setSchedule(schedule);
                         localStorage.setItem("schedule", JSON.stringify(schedule));
                         setMatchData(schedule[i]);
-                        target = simulateInning(schedule[i].homeTeamId, schedule[i].awayTeamId, schedule[i], player, 1, null);
+                        target = simulateInning(1, schedule[i]);
                     }
                     // for (let j = 0; j < 11; j++) {
                     //     const index = battingStatistic.findIndex(obj => obj.playerId === player[(teamA.teamId - 1) * 11 + j].playerId);
@@ -237,41 +237,6 @@ function MainMenu() {
     //     "Excellent bowling—another dot ball forces the batter to rethink their strategy!",
     //     "It's a dot ball, and every single one counts. The fielding side is gaining the upper hand with this disciplined approach."
     // ];
-
-    // function simulateToss(teamA, teamB, match) {
-    //     const random = Math.round(Math.random());
-    //     match.tossStatusId = 1;
-    //     if (random === 0) {
-    //         const random = Math.round(Math.random());
-    //         if (random === 0) {
-    //             match.tossResult = `${teamA.teamShortName} elected to Bat first`;
-    //             setSchedule(schedule);
-    //             localStorage.setItem("schedule", JSON.stringify(schedule));
-    //             startFirstInning(teamA, teamB, match);
-    //         }
-    //         else if (random == 1) {
-    //             match.tossResult = `${teamA.teamShortName} elected to Ball first`;
-    //             setSchedule(schedule);
-    //             localStorage.setItem("schedule", JSON.stringify(schedule));
-    //             startFirstInning(teamB, teamA, match);
-    //         }
-    //     }
-    //     if (random == 1) {
-    //         const random = Math.round(Math.random());
-    //         if (random == 0) {
-    //             match.tossResult = `${teamB.teamShortName} elected to Bat first`;
-    //             setSchedule(schedule);
-    //             localStorage.setItem("schedule", JSON.stringify(schedule));
-    //             startFirstInning(teamB, teamA, match);
-    //         }
-    //         else if (random == 1) {
-    //             match.tossResult = `${teamB.teamShortName} elected to Ball first`;
-    //             setSchedule(schedule);
-    //             localStorage.setItem("schedule", JSON.stringify(schedule));
-    //             startFirstInning(teamA, teamB, match);
-    //         }
-    //     }
-    // }
     // let firstInningData;
     // let firstInningBatsmanData;
     // let firstInningBowlerData;
