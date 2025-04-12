@@ -5,6 +5,7 @@ import isUserMatch from "../../utils/isUserMatch.js";
 import simulateToss from "../../utils/simulateToss.js";
 import simulateOpt from "../../utils/simulateOpt.js";
 import simulateInning from "../../utils/simulateInning.js";
+import setMatchData from "../../utils/setMatchData.js";
 function MainMenu() {
     const [player, setPlayer] = useState([]);
     const [pointsTable, setPointsTable] = useState([]);
@@ -51,6 +52,7 @@ function MainMenu() {
                         schedule[i].tossResult = `${team[schedule[i].awayTeamId - 1].teamShortName} elected to ${optOutcome} first`;
                         setSchedule(schedule);
                         localStorage.setItem("schedule", JSON.stringify(schedule));
+                        setMatchData(schedule[i]);
                         target = simulateInning(schedule[i].awayTeamId, schedule[i].homeTeamId, schedule[i], player, 1, null);
                     }
                     else {
@@ -58,6 +60,7 @@ function MainMenu() {
                         schedule[i].tossResult = `${team[schedule[i].homeTeamId - 1].teamShortName} elected to ${optOutcome} first`;
                         setSchedule(schedule);
                         localStorage.setItem("schedule", JSON.stringify(schedule));
+                        setMatchData(schedule[i]);
                         target = simulateInning(schedule[i].homeTeamId, schedule[i].awayTeamId, schedule[i], player, 1, null);
                     }
                     // for (let j = 0; j < 11; j++) {
