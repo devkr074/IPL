@@ -1,65 +1,65 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import style from "./MainMenu.module.css";
-import isUserMatch from "../../utils/isUserMatch.js";
-import simulateToss from "../../utils/simulateToss.js";
-import simulateOpt from "../../utils/simulateOpt.js";
+import getIsUserMatch from "../../utils/getIsUserMatch.js";
+import getTossOutcome from "../../utils/getTossOutcome.js";
+import getOptionOutcome from "../../utils/getOptionOucome.js";
 import setMatchData from "../../utils/setMatchData.js";
-import simulateInning from "../../utils/simulateInning.js";
 function MainMenu() {
-    const [totalMatchPlayed, setTotalMatchPlayed] = useState(null);
     const [schedule, setSchedule] = useState([]);
     const [team, setTeam] = useState([]);
+    const [player, setPlayer] = useState([]);
+    const [battingStatistic, setBattingStatistic] = useState([]);
+    const [bowlingStatistic, setBowlingStatistic] = useState([]);
     const navigate = useNavigate();
     useEffect(() => {
         document.title = "IPL - Main Menu";
-        const totalMatchPlayed = Number(localStorage.getItem("totalMatchPlayed"));
         const schedule = JSON.parse(localStorage.getItem("schedule"));
         const team = JSON.parse(localStorage.getItem("team"));
-        setTotalMatchPlayed(totalMatchPlayed);
+        const player = JSON.parse(localStorage.getItem("player"));
+        const battingStatistic = JSON.parse(localStorage.getItem("battingStatistics"));
+        const bowlingStatistic = JSON.parse(localStorage.getItem("bowlingStatistic"));
         setSchedule(schedule);
         setTeam(team);
+        setPlayer(player);
+        setBattingStatistic(battingStatistic);
+        setBowlingStatistic(bowlingStatistic);
     }, []);
     useEffect(() => {
-        schedule.forEach((match) => {
+        for (let i = 0; i < schedule.length; i++) {
+            const match = schedule[i];
             const matchStatusId = match.matchStatusId;
-            if (matchStatusId === null) {
-                if (isUserMatch(match)) {
-                    return;
-                }
-                else {
-                    const tossCall = (Math.random() < 0.5) ? "Heads" : "Tails";
-                    const tossOutcome = simulateToss();
-                    const optOutcome = simulateOpt();
+
+            if (matchStatusId == null) {
+                if (getIsUserMatch(match)) {
+                    break;
+                } else {
+                    const tossCall = Math.random() < 0.5 ? "Heads" : "Tails";
+                    const tossOutcome = getTossOutcome();
+                    const optionOutcome = getOptionOutcome();
+                    match.tossStatusId = 1;
                     if (tossCall === tossOutcome) {
-                        match.tossStatusId = 1;
-                        match.tossResult = `${team[match.awayTeamId - 1].teamShortName} elected to ${optOutcome} first`;
+                        match.tossResult = `${team[match.awayTeamId - 1].teamShortName} elected to ${optionOutcome} first`;
                         setSchedule(schedule);
                         localStorage.setItem("schedule", JSON.stringify(schedule));
-                        if (optOutcome == 'Bat') {
-                            setMatchData(match.awayTeamId, match.homeTeamId, match, team);
+                        if (optionOutcome === "Bat") {
+                            setMatchData(match.awayTeamId, match.homeTeamId, match, team, player, battingStatistic, bowlingStatistic);
+                        } else {
+                            setMatchData(match.homeTeamId, match.awayTeamId, match, team, player, battingStatistic, bowlingStatistic);
                         }
-                        else {
-                            setMatchData(match.homeTeamId, match.awayTeamId, match, team);
-                        }
-                    }
-                    else {
-                        match.tossStatusId = 1;
-                        match.tossResult = `${team[match.homeTeamId - 1].teamShortName} elected to ${optOutcome} first`;
+                    } else {
+                        match.tossResult = `${team[match.homeTeamId - 1].teamShortName} elected to ${optionOutcome} first`;
                         setSchedule(schedule);
                         localStorage.setItem("schedule", JSON.stringify(schedule));
-                        if (optOutcome == 'Bat') {
-                            setMatchData(match.homeTeamId, match.awayTeamId, match, team);
-                        }
-                        else {
-                            setMatchData(match.awayTeamId, match.homeTeamId, match, team);
+                        if (optionOutcome === "Bat") {
+                            setMatchData(match.homeTeamId, match.awayTeamId, match, team, player, battingStatistic, bowlingStatistic);
+                        } else {
+                            setMatchData(match.awayTeamId, match.homeTeamId, match, team, player, battingStatistic, bowlingStatistic);
                         }
                     }
-                    simulateInning(1, match);
-                    simulateInning(2, match);
                 }
             }
-        });
+        }
     }, [schedule]);
     function handleFixture() {
         navigate("/schedule");
@@ -91,9 +91,7 @@ function MainMenu() {
                             <p>Next Match</p>
                         </div>
                         <div className={style.sectionContent}>
-                            <p>Hello</p>
-                            <p>Bro</p>
-                            <p>How are you</p>
+                            <p>Section Content</p>
                         </div>
                     </div>
                     <div className={style.section}>

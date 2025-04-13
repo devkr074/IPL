@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import style from "./Statistic.module.css"
-function Statistic() {
+import style from "./BattingStatistic.module.css"
+function BattingStatistic() {
     const [mostRuns, setMostRuns] = useState([]);
     const [mostFifties, setMostFifties] = useState([]);
     const [mostCentury, setMostCentury] = useState([]);
@@ -198,4 +198,4 @@ function Statistic() {
         </>
     );
 }
-export default Statistic;
+export default BattingStatistic;

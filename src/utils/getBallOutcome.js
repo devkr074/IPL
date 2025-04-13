@@ -1,4 +1,4 @@
-function generateOutcome(roleId) {
+function getBallOutcome(roleId) {
     const outcomes = [];
     if (roleId === 1) {
         outcomes.push(...Array(45).fill(1));
@@ -36,3 +36,4 @@ function generateOutcome(roleId) {
     }
     return outcomes[Math.floor(Math.random() * outcomes.length)];
 }
+export default getBallOutcome;
