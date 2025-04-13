@@ -5,6 +5,7 @@ import getIsUserMatch from "../../utils/getIsUserMatch.js";
 import getTossOutcome from "../../utils/getTossOutcome.js";
 import getOptionOutcome from "../../utils/getOptionOucome.js";
 import setMatchData from "../../utils/setMatchData.js";
+import simulateMatch from "../../utils/simulateMatch.js";
 function MainMenu() {
     const [schedule, setSchedule] = useState([]);
     const [team, setTeam] = useState([]);
@@ -17,8 +18,8 @@ function MainMenu() {
         const schedule = JSON.parse(localStorage.getItem("schedule"));
         const team = JSON.parse(localStorage.getItem("team"));
         const player = JSON.parse(localStorage.getItem("player"));
-        const battingStatistic = JSON.parse(localStorage.getItem("battingStatistics"));
-        const bowlingStatistic = JSON.parse(localStorage.getItem("bowlingStatistic"));
+        const battingStatistic = JSON.parse(localStorage.getItem("battingStatistics")) || [];
+        const bowlingStatistic = JSON.parse(localStorage.getItem("bowlingStatistic")) || [];
         setSchedule(schedule);
         setTeam(team);
         setPlayer(player);
@@ -29,7 +30,6 @@ function MainMenu() {
         for (let i = 0; i < schedule.length; i++) {
             const match = schedule[i];
             const matchStatusId = match.matchStatusId;
-
             if (matchStatusId == null) {
                 if (getIsUserMatch(match)) {
                     break;
@@ -47,6 +47,7 @@ function MainMenu() {
                         } else {
                             setMatchData(match.homeTeamId, match.awayTeamId, match, team, player, battingStatistic, bowlingStatistic);
                         }
+                        simulateMatch(1, match.matchId, 500);
                     } else {
                         match.tossResult = `${team[match.homeTeamId - 1].teamShortName} elected to ${optionOutcome} first`;
                         setSchedule(schedule);
@@ -56,6 +57,7 @@ function MainMenu() {
                         } else {
                             setMatchData(match.awayTeamId, match.homeTeamId, match, team, player, battingStatistic, bowlingStatistic);
                         }
+                        simulateMatch(1, match.matchId, 500);
                     }
                 }
             }
