@@ -169,9 +169,33 @@ function setMatchData(battingTeam, bowlingTeam, match, team, player, battingStat
         inning1Commentary: [],
         inning2Commentary: [],
         isSuperOver: false,
-        superOverCommentary: [],
+        superOverInning1:{
+            teamId: bowlingTeam,
+            teamShortName: team[bowlingTeam - 1].teamShortName,
+            teamName: team[bowlingTeam - 1].teamName,
+            runs: 0,
+            wickets: 0,
+            balls: 0,
+            striker: player[(bowlingTeam - 1) * 11].playerId,
+            nonStriker: player[((bowlingTeam - 1) * 11) + 1].playerId,
+            played: player[((bowlingTeam - 1) * 11) + 1].playerId,
+            currentBowler: player[((battingTeam - 1) * 11) + 10].playerId
+        },
+        superOverInning2:{
+            teamId: battingTeam,
+            teamShortName: team[battingTeam - 1].teamShortName,
+            teamName: team[battingTeam - 1].teamName,
+            runs: 0,
+            wickets: 0,
+            balls: 0,
+            striker: player[(battingTeam - 1) * 11].playerId,
+            nonStriker: player[((battingTeam - 1) * 11) + 1].playerId,
+            played: player[((battingTeam - 1) * 11) + 1].playerId,
+            currentBowler: player[((bowlingTeam - 1) * 11) + 10].playerId
+        },
+        superOverInning1Commentary: [],
+        superOverInning2Commentary: []
     };
-
     localStorage.setItem(`match-${match.matchId}`, JSON.stringify(matchData));
     localStorage.setItem("battingStatistic", JSON.stringify(battingStatistic));
     localStorage.setItem("bowlingStatistic", JSON.stringify(bowlingStatistic));

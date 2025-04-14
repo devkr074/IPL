@@ -1,15 +1,15 @@
 import getBallOutcome from "./getBallOutcome.js";
 import getBallCommentary from "./getBallCommentary.js";
 import getNewBowler from "./getNewBowler.js";
-import setResultData from "./setResultData.js";
-function simulateMatch(inning, matchId, timeout) {
+async function simulateMatch(inning, matchId, timeout) {
+    const schedule = JSON.parse(localStorage.getItem("schedule"));
     const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
     const battingStatistic = JSON.parse(localStorage.getItem("battingStatistic"));
     const bowlingStatistic = JSON.parse(localStorage.getItem("bowlingStatistic"));
-    const schedule = JSON.parse(localStorage.getItem("schedule"));
-
     const player = JSON.parse(localStorage.getItem("player"));
     while (matchData[`inning${inning}`].balls < 120 && matchData[`inning${inning}`].wickets < 10 && (inning == 2 ? (matchData.inning1.runs >= matchData.inning2.runs) : true)) {
+        await new Promise(resolve => setTimeout(resolve, timeout));
+        console.log(inning,matchData[`inning${inning}`].balls, matchData[`inning${inning}`].wickets, matchData[`inning${inning}`].runs);
         const ballOutcome = getBallOutcome(player[matchData[`inning${inning}`].striker - 1].roleId);
         if ((!matchData[`inning${inning}`].isLastBallExtra) && (matchData[`inning${inning}`].balls % 6 == 0) && (matchData[`inning${inning}`].balls != 0)) {
             let temp = matchData[`inning${inning}`].striker;
@@ -157,8 +157,6 @@ function simulateMatch(inning, matchId, timeout) {
             matchData[`inning${inning}Batsman`][strikerIndexMatchData].balls++;
             battingStatistic[strikerIndexStatistic].balls++;
             matchData[`inning${inning}Batsman`][strikerIndexMatchData].isNotOut = false;
-            matchData[`inning${inning}`].striker = matchData[`inning${inning}`].played + 1;
-            matchData[`inning${inning}`].played = matchData[`inning${inning}`].striker;
             matchData[`inning${inning}Commentary`].push(
                 {
                     ball: matchData[`inning${inning}`].balls,
@@ -168,6 +166,11 @@ function simulateMatch(inning, matchId, timeout) {
                     commentary: getBallCommentary(ballOutcome)
                 }
             )
+            localStorage.setItem("match", JSON.stringify(matchData));
+            if (matchData[`inning${inning}`].wickets != 10) {
+                matchData[`inning${inning}`].striker = matchData[`inning${inning}`].played + 1;
+                matchData[`inning${inning}`].played = matchData[`inning${inning}`].striker;
+            }
         }
         else if (ballOutcome == 6) {
             matchData[`inning${inning}`].balls++;
@@ -211,6 +214,8 @@ function simulateMatch(inning, matchId, timeout) {
         localStorage.setItem("battingStatistic", JSON.stringify(battingStatistic));
         localStorage.setItem("bowlingStatistic", JSON.stringify(bowlingStatistic));
     }
-    setResultData(matchId);
+    if (inning == 1) {
+        simulateMatch(2, matchId, 1);
+    }
 }
 export default simulateMatch;
