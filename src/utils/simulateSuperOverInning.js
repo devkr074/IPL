@@ -1,18 +1,17 @@
 import getBallOutcome from "./getBallOutcome.js";
 import getBallCommentary from "./getBallCommentary.js";
-function simulateSuperOver(inning, matchId, timeout) {
-
+function simulateSuperOverInning(inning, matchId) {
     const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
-    const player = JSON.parse(localStorage.getItem("player"));
-    while (matchData[`superOverInning${inning}`].balls < 6 && matchData[`superOverInning${inning}`].wickets < 2 && (inning == 2 ? (matchData.superOverInning1.runs >= matchData.superOverInning2.runs) : true)) {
-        const ballOutcome = getBallOutcome(player[matchData[`superOverInning${inning}`].striker - 1].roleId);
+    const squad = JSON.parse(localStorage.getItem("squad"));
+    if (matchData[`superOverInning${inning}`].balls < 6 && matchData[`superOverInning${inning}`].wickets < 2 && (inning == 2 ? (matchData.superOverInning1.runs >= matchData.superOverInning2.runs) : true)) {
+        const ballOutcome = getBallOutcome(squad[matchData[`superOverInning${inning}`].strikerId - 1].roleId);
         if (ballOutcome == 0) {
             matchData[`superOverInning${inning}`].balls++;
             matchData[`superOverInning${inning}Commentary`].push(
                 {
                     ball: matchData[`superOverInning${inning}`].balls,
-                    bowlerName: player[matchData[`superOverInning${inning}`].currentBowler - 1].playerName,
-                    batsmanName: player[matchData[`superOverInning${inning}`].striker - 1].playerName,
+                    bowlerName: squad[matchData[`superOverInning${inning}`].currentBowlerId - 1].playerName,
+                    batsmanName: squad[matchData[`superOverInning${inning}`].strikerId - 1].playerName,
                     outcome: "Dot Ball",
                     commentary: getBallCommentary(ballOutcome)
                 }
@@ -24,15 +23,15 @@ function simulateSuperOver(inning, matchId, timeout) {
             matchData[`superOverInning${inning}Commentary`].push(
                 {
                     ball: matchData[`superOverInning${inning}`].balls,
-                    bowlerName: player[matchData[`superOverInning${inning}`].currentBowler - 1].playerName,
-                    batsmanName: player[matchData[`superOverInning${inning}`].striker - 1].playerName,
+                    bowlerName: squad[matchData[`superOverInning${inning}`].currentBowlerId - 1].playerName,
+                    batsmanName: squad[matchData[`superOverInning${inning}`].strikerId - 1].playerName,
                     outcome: "1 Run",
                     commentary: getBallCommentary(ballOutcome)
                 }
             )
-            let temp = matchData[`superOverInning${inning}`].striker;
-            matchData[`superOverInning${inning}`].striker = matchData[`superOverInning${inning}`].nonStriker;
-            matchData[`superOverInning${inning}`].nonStriker = temp;
+            let temp = matchData[`superOverInning${inning}`].strikerId;
+            matchData[`superOverInning${inning}`].strikerId = matchData[`superOverInning${inning}`].nonStrikerId;
+            matchData[`superOverInning${inning}`].nonStrikerId = temp;
         }
         else if (ballOutcome == 2) {
             matchData[`superOverInning${inning}`].balls++;
@@ -40,8 +39,8 @@ function simulateSuperOver(inning, matchId, timeout) {
             matchData[`superOverInning${inning}Commentary`].push(
                 {
                     ball: matchData[`superOverInning${inning}`].balls,
-                    bowlerName: player[matchData[`superOverInning${inning}`].currentBowler - 1].playerName,
-                    batsmanName: player[matchData[`superOverInning${inning}`].striker - 1].playerName,
+                    bowlerName: squad[matchData[`superOverInning${inning}`].currentBowlerId - 1].playerName,
+                    batsmanName: squad[matchData[`superOverInning${inning}`].strikerId - 1].playerName,
                     outcome: "2 Runs",
                     commentary: getBallCommentary(ballOutcome)
                 }
@@ -53,15 +52,15 @@ function simulateSuperOver(inning, matchId, timeout) {
             matchData[`superOverInning${inning}Commentary`].push(
                 {
                     ball: matchData[`superOverInning${inning}`].balls,
-                    bowlerName: player[matchData[`superOverInning${inning}`].currentBowler - 1].playerName,
-                    batsmanName: player[matchData[`superOverInning${inning}`].striker - 1].playerName,
+                    bowlerName: squad[matchData[`superOverInning${inning}`].currentBowlerId - 1].playerName,
+                    batsmanName: squad[matchData[`superOverInning${inning}`].strikerId - 1].playerName,
                     outcome: "3 Runs",
                     commentary: getBallCommentary(ballOutcome)
                 }
             )
-            let temp = matchData[`superOverInning${inning}`].striker;
-            matchData[`superOverInning${inning}`].striker = matchData[`superOverInning${inning}`].nonStriker;
-            matchData[`superOverInning${inning}`].nonStriker = temp;
+            let temp = matchData[`superOverInning${inning}`].strikerId;
+            matchData[`superOverInning${inning}`].strikerId = matchData[`superOverInning${inning}`].nonStrikerId;
+            matchData[`superOverInning${inning}`].nonStrikerId = temp;
         }
         else if (ballOutcome == 4) {
             matchData[`superOverInning${inning}`].balls++;
@@ -69,8 +68,8 @@ function simulateSuperOver(inning, matchId, timeout) {
             matchData[`superOverInning${inning}Commentary`].push(
                 {
                     ball: matchData[`superOverInning${inning}`].balls,
-                    bowlerName: player[matchData[`superOverInning${inning}`].currentBowler - 1].playerName,
-                    batsmanName: player[matchData[`superOverInning${inning}`].striker - 1].playerName,
+                    bowlerName: squad[matchData[`superOverInning${inning}`].currentBowlerId - 1].playerName,
+                    batsmanName: squad[matchData[`superOverInning${inning}`].strikerId - 1].playerName,
                     outcome: "4 Runs",
                     commentary: getBallCommentary(ballOutcome)
                 }
@@ -82,14 +81,14 @@ function simulateSuperOver(inning, matchId, timeout) {
             matchData[`superOverInning${inning}Commentary`].push(
                 {
                     ball: matchData[`superOverInning${inning}`].balls,
-                    bowlerName: player[matchData[`superOverInning${inning}`].currentBowler - 1].playerName,
-                    batsmanName: player[matchData[`superOverInning${inning}`].striker - 1].playerName,
+                    bowlerName: squad[matchData[`superOverInning${inning}`].currentBowlerId - 1].playerName,
+                    batsmanName: squad[matchData[`superOverInning${inning}`].strikerId - 1].playerName,
                     outcome: "Out",
                     commentary: getBallCommentary(ballOutcome)
                 }
             )
-            matchData[`superOverInning${inning}`].striker = matchData[`superOverInning${inning}`].played + 1;
-            matchData[`superOverInning${inning}`].played = matchData[`superOverInning${inning}`].striker;
+            matchData[`superOverInning${inning}`].strikerId = matchData[`superOverInning${inning}`].playedId + 1;
+            matchData[`superOverInning${inning}`].playedId = matchData[`superOverInning${inning}`].strikerId;
         }
         else if (ballOutcome == 6) {
             matchData[`superOverInning${inning}`].balls++;
@@ -97,8 +96,8 @@ function simulateSuperOver(inning, matchId, timeout) {
             matchData[`superOverInning${inning}Commentary`].push(
                 {
                     ball: matchData[`superOverInning${inning}`].balls,
-                    bowlerName: player[matchData[`superOverInning${inning}`].currentBowler - 1].playerName,
-                    batsmanName: player[matchData[`superOverInning${inning}`].striker - 1].playerName,
+                    bowlerName: squad[matchData[`superOverInning${inning}`].currentBowlerId - 1].playerName,
+                    batsmanName: squad[matchData[`superOverInning${inning}`].strikerId - 1].playerName,
                     outcome: "6 Runs",
                     commentary: getBallCommentary(ballOutcome)
                 }
@@ -110,8 +109,8 @@ function simulateSuperOver(inning, matchId, timeout) {
             matchData[`superOverInning${inning}Commentary`].push(
                 {
                     ball: matchData[`superOverInning${inning}`].balls,
-                    bowlerName: player[matchData[`superOverInning${inning}`].currentBowler - 1].playerName,
-                    batsmanName: player[matchData[`superOverInning${inning}`].striker - 1].playerName,
+                    bowlerName: squad[matchData[`superOverInning${inning}`].currentBowlerId - 1].playerName,
+                    batsmanName: squad[matchData[`superOverInning${inning}`].strikerId - 1].playerName,
                     outcome: "Wide",
                     commentary: getBallCommentary(ballOutcome)
                 }
@@ -119,9 +118,10 @@ function simulateSuperOver(inning, matchId, timeout) {
             matchData[`superOverInning${inning}`].balls--;
         }
         localStorage.setItem(`match-${matchId}`, JSON.stringify(matchData));
+        simulateSuperOverInning(inning, matchId)
     }
-    if (inning == 1) {
-        simulateSuperOver(2, matchId, 0);
+    else if (inning == 1) {
+        simulateSuperOverInning(2, matchId);
     }
 }
-export default simulateSuperOver;
+export default simulateSuperOverInning;

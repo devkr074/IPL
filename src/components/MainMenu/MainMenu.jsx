@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import style from "./MainMenu.module.css";
 import setMatchData from "../../utils/setMatchData.js";
 import simulateInning from "../../utils/simulateInning.js";
-import simulateSuperOver from "../../utils/simulateSuperOver.js";
+import simulateSuperOverInning from "../../utils/simulateSuperOverInning.js";
 function MainMenu() {
     const [userTeamId, setUserTeamId] = useState(null);
     const [fixture, setFixture] = useState([]);
@@ -30,7 +30,6 @@ function MainMenu() {
             const tossStatus = match.tossStatus;
             if (tossStatus === "upcoming") {
                 if (isUserMatch(match)) {
-                    saveNextMatch(match);
                     break;
                 }
                 else {
@@ -44,10 +43,18 @@ function MainMenu() {
                         if (optionOutcome === "Bat") {
                             setMatchData(match.awayTeamId, match.homeTeamId, match);
                             simulateInning(1, match.matchId);
+                            const matchData = JSON.parse(localStorage.getItem(`match-${match.matchId}`));
+                            if (matchData.inning1.runs === matchData.inning2.runs) {
+                                simulateSuperOverInning(1, match.matchId);
+                            }
                             saveResult(match.matchId);
                         } else {
                             setMatchData(match.homeTeamId, match.awayTeamId, match);
                             simulateInning(1, match.matchId);
+                            const matchData = JSON.parse(localStorage.getItem(`match-${match.matchId}`));
+                            if (matchData.inning1.runs === matchData.inning2.runs) {
+                                simulateSuperOverInning(1, match.matchId);
+                            }
                             saveResult(match.matchId);
                         }
                     } else {
@@ -56,10 +63,18 @@ function MainMenu() {
                         if (optionOutcome === "Bat") {
                             setMatchData(match.homeTeamId, match.awayTeamId, match);
                             simulateInning(1, match.matchId);
+                            const matchData = JSON.parse(localStorage.getItem(`match-${match.matchId}`));
+                            if (matchData.inning1.runs === matchData.inning2.runs) {
+                                simulateSuperOverInning(1, match.matchId);
+                            }
                             saveResult(match.matchId);
                         } else {
                             setMatchData(match.awayTeamId, match.homeTeamId, match);
                             simulateInning(1, match.matchId);
+                            const matchData = JSON.parse(localStorage.getItem(`match-${match.matchId}`));
+                            if (matchData.inning1.runs === matchData.inning2.runs) {
+                                simulateSuperOverInning(1, match.matchId);
+                            }
                             saveResult(match.matchId);
                         }
                     }
@@ -69,11 +84,6 @@ function MainMenu() {
     }
     function isUserMatch(match) {
         return ((match.homeTeamId === userTeamId) || (match.awayTeamId === userTeamId));
-    }
-    function saveNextMatch(match) {
-        const nextMatches = JSON.parse(localStorage.getItem("nextMatch")) || [];
-        nextMatches.push(match);
-        localStorage.setItem("nextMatch", JSON.stringify(nextMatches));
     }
     function getTossCall() {
         return (Math.random() < 0.5) ? "Heads" : "Tails"
@@ -89,57 +99,91 @@ function MainMenu() {
         fixture[matchId - 1].matchStatus = "completed";
         if (matchData.inning1.runs > matchData.inning2.runs) {
             fixture[matchId - 1].matchResult = `${matchData.inning1.teamShortName} won by ${matchData.inning1.runs - matchData.inning2.runs} ${(matchData.inning1.runs - matchData.inning2.runs) > 1 ? "Runs" : "Run"}`;
-            savePointsTable(1, 2, matchData, false, false)
+            savePointsTable(1, 2, matchData, matchId, false, false)
         }
         else if (matchData.inning2.runs > matchData.inning1.runs) {
             fixture[matchId - 1].matchResult = `${matchData.inning2.teamShortName} won by ${10 - matchData.inning2.wickets} ${(10 - matchData.inning2.wickets) > 1 ? "Wickets" : "Wicket"}`;
-            savePointsTable(2, 1, matchData, false, false);
+            savePointsTable(2, 1, matchData, matchId, false, false);
         }
         else {
-            if (matchData.superOverInning1 > matchData.superOverInning2) {
+            if (matchData.superOverInning1.runs > matchData.superOverInning2.runs) {
                 fixture[matchId - 1].matchResult = `${matchData.superOverInning1.teamShortName} won Super Over`;
-                savePointsTable(1, 2, matchData, true, false);
+                savePointsTable(1, 2, matchData, matchId, true, false);
             }
-            else if (matchData.superOverInning2 > matchData.superOverInning1) {
+            else if (matchData.superOverInning2.runs > matchData.superOverInning1.runs) {
                 fixture[matchId - 1].matchResult = `${matchData.superOverInning2.teamShortName} won Super Over`;
-                savePointsTable(2, 1, matchData, true, false);
+                savePointsTable(2, 1, matchData, matchId, true, false);
             }
             else {
                 fixture[matchId - 1].matchResult = "Match Tied";
-                savePointsTable(1, 2, matchData, true, true);
+                savePointsTable(1, 2, matchData, matchId, true, true);
+            }
+        }
+        if (matchId === 70) {
+            fixture[matchId].homeTeamId = pointsTable[0].teamId;
+            fixture[matchId].awayTeamId = pointsTable[1].teamId;
+            fixture[matchId + 1].homeTeamId = pointsTable[2].teamId;
+            fixture[matchId + 1].awayTeamId = pointsTable[3].teamId;
+        }
+        else if (matchId === 71) {
+            if (matchData.inning1.runs > matchData.inning2.runs) {
+                fixture[matchId + 1].awayTeamId = matchData.inning2.teamId;
+                fixture[matchId + 2].homeTeamId = matchData.inning1.teamId;
+            }
+            else {
+                fixture[matchId + 1].awayTeamId = matchData.inning1.teamId;
+                fixture[matchId + 2].homeTeamId = matchData.inning2.teamId;
+            }
+        }
+        else if (matchId == 72) {
+            if (matchData.inning1.runs > matchData.inning2.runs) {
+                fixture[matchId].homeTeamId = matchData.inning1.teamId;
+            }
+            else {
+                fixture[matchId].homeTeamId = matchData.inning2.teamId;
+            }
+        }
+        else if (matchId === 73) {
+            if (matchData.inning1.runs > matchData.inning2.runs) {
+                fixture[matchId].awayTeamId = matchData.inning1.teamId;
+            }
+            else {
+                fixture[matchId].awayTeamId = matchData.inning2.teamId;
             }
         }
         localStorage.setItem("fixture", JSON.stringify(fixture));
         setFixture(fixture);
     }
-    function savePointsTable(winningTeamInning, losingTeamInning, matchData, isSuperOver, isTied) {
-        const winningTeamIndex = pointsTable.findIndex((t) => t.teamId === matchData[`inning${winningTeamInning}`].teamId);
-        const losingTeamIndex = pointsTable.findIndex((t) => t.teamId === matchData[`inning${losingTeamInning}`].teamId);
-        pointsTable[winningTeamIndex].matchesPlayed += 1;
-        pointsTable[losingTeamIndex].matchesPlayed += 1;
-        if (isTied) {
-            pointsTable[winningTeamIndex].matchesTied += 1;
-            pointsTable[losingTeamIndex].matchesTied += 1;
-        }
-        else {
-            pointsTable[winningTeamIndex].matchesWon += 1;
-            pointsTable[winningTeamIndex].points += 2;
-            pointsTable[losingTeamIndex].matchesLost += 1;
-        }
-        if (!isSuperOver) {
-            pointsTable[winningTeamIndex].runRate = pointsTable[winningTeamIndex].runRate + (matchData[`inning${winningTeamInning}`].runs / Math.floor(matchData[`inning${winningTeamInning}`].balls / 6) + ((matchData[`inning${winningTeamInning}`].balls % 6) / 6)) - (matchData[`inning${losingTeamInning}`].runs / Math.floor(matchData[`inning${losingTeamInning}`].balls / 6) + ((matchData[`inning${losingTeamInning}`].balls % 6) / 6));
-            pointsTable[losingTeamIndex].runRate = pointsTable[losingTeamIndex].runRate + (matchData[`inning${losingTeamInning}`].runs / Math.floor(matchData[`inning${losingTeamInning}`].balls / 6) + ((matchData[`inning${losingTeamInning}`].balls % 6) / 6)) - (matchData[`inning${winningTeamInning}`].runs / Math.floor(matchData[`inning${winningTeamInning}`].balls / 6) + ((matchData[`inning${winningTeamInning}`].balls % 6) / 6));
-        }
-        pointsTable[winningTeamIndex].netRunRate = pointsTable[winningTeamIndex].runRate / pointsTable[winningTeamIndex].matchesPlayed;
-        pointsTable[losingTeamIndex].netRunRate = pointsTable[losingTeamIndex].runRate / pointsTable[losingTeamIndex].matchesPlayed;
-        pointsTable.sort((a, b) => {
-            if (a.points === b.points) {
-                return b.netRunRate - a.netRunRate;
+    function savePointsTable(winningTeamInning, losingTeamInning, matchData, matchId, isSuperOver, isTied) {
+        if (matchId <= 70) {
+            const winningTeamIndex = pointsTable.findIndex((t) => t.teamId === matchData[`inning${winningTeamInning}`].teamId);
+            const losingTeamIndex = pointsTable.findIndex((t) => t.teamId === matchData[`inning${losingTeamInning}`].teamId);
+            pointsTable[winningTeamIndex].matchesPlayed += 1;
+            pointsTable[losingTeamIndex].matchesPlayed += 1;
+            if (isTied) {
+                pointsTable[winningTeamIndex].matchesTied += 1;
+                pointsTable[losingTeamIndex].matchesTied += 1;
             }
-            return b.points - a.points;
-        });
-        localStorage.setItem("pointsTable", JSON.stringify(pointsTable));
-        setPointsTable(pointsTable);
+            else {
+                pointsTable[winningTeamIndex].matchesWon += 1;
+                pointsTable[winningTeamIndex].points += 2;
+                pointsTable[losingTeamIndex].matchesLost += 1;
+            }
+            if (!isSuperOver) {
+                pointsTable[winningTeamIndex].runRate = pointsTable[winningTeamIndex].runRate + (matchData[`inning${winningTeamInning}`].runs / (Math.floor(matchData[`inning${winningTeamInning}`].balls / 6) + ((matchData[`inning${winningTeamInning}`].balls % 6) / 6))) - (matchData[`inning${losingTeamInning}`].runs / (Math.floor(matchData[`inning${losingTeamInning}`].balls / 6) + ((matchData[`inning${losingTeamInning}`].balls % 6) / 6)));
+                pointsTable[losingTeamIndex].runRate = pointsTable[losingTeamIndex].runRate + (matchData[`inning${losingTeamInning}`].runs / (Math.floor(matchData[`inning${losingTeamInning}`].balls / 6) + ((matchData[`inning${losingTeamInning}`].balls % 6) / 6))) - (matchData[`inning${winningTeamInning}`].runs / (Math.floor(matchData[`inning${winningTeamInning}`].balls / 6) + ((matchData[`inning${winningTeamInning}`].balls % 6) / 6)));
+            }
+            pointsTable[winningTeamIndex].netRunRate = pointsTable[winningTeamIndex].runRate / pointsTable[winningTeamIndex].matchesPlayed;
+            pointsTable[losingTeamIndex].netRunRate = pointsTable[losingTeamIndex].runRate / pointsTable[losingTeamIndex].matchesPlayed;
+            pointsTable.sort((a, b) => {
+                if (a.points === b.points) {
+                    return b.netRunRate - a.netRunRate;
+                }
+                return b.points - a.points;
+            });
+            localStorage.setItem("pointsTable", JSON.stringify(pointsTable));
+            setPointsTable(pointsTable);
+        }
     }
     function handleFixture() {
         navigate("/fixture");

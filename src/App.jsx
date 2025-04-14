@@ -9,8 +9,6 @@ import Venues from "./components/Venues/Venues.jsx"
 import PointsTable from "./components/PointsTable/PointsTable.jsx";
 import BattingStatistic from "./components/BattingStatistic/BattingStatistic.jsx";
 import BowlingStatistic from "./components/BowlingStatistic/BowlingStatistic.jsx";
-import Toss from "./components/Toss/Toss.jsx";
-import Match from "./components/Match/Match.jsx";
 function App() {
   return (
     <Router>
@@ -21,11 +19,9 @@ function App() {
         <Route path="/fixture" element={<Fixture />} />
         <Route path="/squad" element={<Squad />} />
         <Route path="/points-table" element={<PointsTable />} />
-        <Route path="/venues" element={<Venues />} />
+        <Route path="/venue" element={<Venues />} />
         <Route path="/batting-statistic" element={<BattingStatistic />} />
         <Route path="/bowling-statistic" element={<BowlingStatistic />} />
-        <Route path="/toss/:matchId" element={<Toss />} />
-        <Route path="/match/:matchId" element={<Match />} />
       </Routes>
     </Router>
   );

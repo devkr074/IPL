@@ -195,7 +195,7 @@ function setMatchData(battingTeam, bowlingTeam, match) {
             strikerId: squad[(battingTeam - 1) * 11].playerId,
             nonStrikerId: squad[((battingTeam - 1) * 11) + 1].playerId,
             playedId: squad[((battingTeam - 1) * 11) + 1].playerId,
-            currentBowler: squad[((bowlingTeam - 1) * 11) + 10].playerId
+            currentBowlerId: squad[((bowlingTeam - 1) * 11) + 10].playerId
         },
         superOverInning2Commentary: []
     };
