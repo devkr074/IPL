@@ -1,11 +1,11 @@
-function getNewBowler(inning, matchId, currentBowler) {
+function getNewBowler(inning, matchId, currentBowlerId) {
     const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
     const randomBowler = Math.floor(Math.random() * matchData[`inning${inning}Bowler`].length);
-    if ((matchData[`inning${inning}Bowler`][randomBowler].playerId !== currentBowler) && (matchData[`inning${inning}Bowler`][randomBowler].balls < 24)) {
+    if ((matchData[`inning${inning}Bowler`][randomBowler].playerId !== currentBowlerId) && (matchData[`inning${inning}Bowler`][randomBowler].balls < 24)) {
         return matchData[`inning${inning}Bowler`][randomBowler].playerId;
     }
     else {
-        return getNewBowler(inning, matchId, currentBowler);
+        return getNewBowler(inning, matchId, currentBowlerId);
     }
 }
-export default getNewBowler
+export default getNewBowler;

@@ -5,7 +5,7 @@ function PointsTable() {
     const [team, setTeam] = useState([]);
     useEffect(() => {
         const pointsTable = JSON.parse(localStorage.getItem("pointsTable"));
-        const team = JSON.parse(localStorage.getItem("team"));
+        const team = JSON.parse(localStorage.getItem("teams"));
         pointsTable.sort((a, b) => a.points == b.points ? b.netRunRate - a.netRunRate : b.points - a.points);
         setPointsTable(pointsTable);
         setTeam(team);

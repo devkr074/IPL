@@ -1,46 +1,51 @@
-function setMatchData(battingTeam, bowlingTeam, match, team, player, battingStatistic, bowlingStatistic) {
+function setMatchData(battingTeam, bowlingTeam, match) {
+    const teams = JSON.parse(localStorage.getItem("teams"));
+    const squad = JSON.parse(localStorage.getItem("squad"));
+    const battingStatistics = JSON.parse(localStorage.getItem("battingStatistics"));
+    const bowlingStatistics = JSON.parse(localStorage.getItem("bowlingStatistics"));
     let inning1Batsman = [];
     let inning2Bowler = [];
     for (let i = 0; i < 11; i++) {
-        const battingTeamPlayer = player[(battingTeam - 1) * 11 + i];
-        const battingIndex = battingStatistic.findIndex(stat => stat.playerId === battingTeamPlayer.playerId);
-        const bowlingIndex = bowlingStatistic.findIndex(stat => stat.playerId === battingTeamPlayer.playerId);
-        if (battingIndex === -1) {
-            battingStatistic.push({
+        const battingTeamPlayer = squad[(battingTeam - 1) * 11 + i];
+        const batsmanIndex = battingStatistics.findIndex(p => p.playerId === battingTeamPlayer.playerId);
+        const bowlerIndex = bowlingStatistics.findIndex(p => p.playerId === battingTeamPlayer.playerId);
+        if (batsmanIndex === -1) {
+            battingStatistics.push({
                 playerId: battingTeamPlayer.playerId,
                 matches: 1,
-                innings: 0,
+                innings: (i === 0 || i === 1) ? 1 : 0,
                 runs: 0,
                 balls: 0,
                 fours: 0,
                 sixes: 0,
-                halfCentury: 0,
-                century: 0,
+                halfCenturies: 0,
+                centuries: 0,
                 notOut: 0,
                 highestScoreRuns: 0,
                 highestScoreBalls: 0,
-                highestScoreOpponentTeam: "",
+                highestScoreOpponentTeam: null,
             });
-        } else if (i == 0 || i == 1) {
-            battingStatistic[battingIndex].matches += 1;
-            battingStatistic[battingIndex].innings += 1;
+        }
+        else if (i === 0 || i === 1) {
+            battingStatistics[batsmanIndex].matches += 1;
+            battingStatistics[batsmanIndex].innings += 1;
         }
         else {
-            battingStatistic[battingIndex].matches += 1;
+            battingStatistics[batsmanIndex].matches += 1;
         }
-        if ((bowlingIndex === -1) && (battingTeamPlayer.roleId === 2 || battingTeamPlayer.roleId === 3)) {
-            bowlingStatistic.push({
+        if ((bowlerIndex === -1) && (battingTeamPlayer.roleId === 2 || battingTeamPlayer.roleId === 3)) {
+            bowlingStatistics.push({
                 playerId: battingTeamPlayer.playerId,
                 matches: 1,
                 runs: 0,
                 wickets: 0,
                 bestBowlingWickets: 0,
                 bestBowlingRuns: 0,
-                bestBowlingOpponentTeam: "",
+                bestBowlingOpponentTeam: null,
             });
         }
-        else if ((bowlingIndex !== -1)) {
-            bowlingStatistic[bowlingIndex].matches += 1;
+        else if ((bowlerIndex !== -1)) {
+            bowlingStatistics[bowlerIndex].matches += 1;
         }
         inning1Batsman.push({
             playerId: battingTeamPlayer.playerId,
@@ -48,9 +53,8 @@ function setMatchData(battingTeam, bowlingTeam, match, team, player, battingStat
             balls: 0,
             fours: 0,
             sixes: 0,
-            strikeRate: 0,
             isNotOut: true,
-            isDidNotBat: true,
+            didNotBat: (i === 0 || i === 1) ? false : true,
         });
         if (battingTeamPlayer.roleId === 2 || battingTeamPlayer.roleId === 3) {
             inning2Bowler.push({
@@ -64,44 +68,45 @@ function setMatchData(battingTeam, bowlingTeam, match, team, player, battingStat
     let inning2Batsman = [];
     let inning1Bowler = [];
     for (let i = 0; i < 11; i++) {
-        const bowlingTeamPlayer = player[(bowlingTeam - 1) * 11 + i];
-        const battingIndex = battingStatistic.findIndex(stat => stat.playerId === bowlingTeamPlayer.playerId);
-        const bowlingIndex = bowlingStatistic.findIndex(stat => stat.playerId === bowlingTeamPlayer.playerId);
-        if (battingIndex === -1) {
-            battingStatistic.push({
+        const bowlingTeamPlayer = squad[(bowlingTeam - 1) * 11 + i];
+        const batsmanIndex = battingStatistics.findIndex(p => p.playerId === bowlingTeamPlayer.playerId);
+        const bowlerIndex = bowlingStatistics.findIndex(p => p.playerId === bowlingTeamPlayer.playerId);
+        if (batsmanIndex === -1) {
+            battingStatistics.push({
                 playerId: bowlingTeamPlayer.playerId,
                 matches: 1,
-                innings: 0,
+                innings: (i === 0 || i === 1) ? 1 : 0,
                 runs: 0,
                 balls: 0,
                 fours: 0,
                 sixes: 0,
-                halfCentury: 0,
-                century: 0,
+                halfCenturies: 0,
+                centuries: 0,
                 notOut: 0,
                 highestScoreRuns: 0,
                 highestScoreBalls: 0,
-                highestScoreOpponentTeam: "",
+                highestScoreOpponentTeam: null,
             });
-        } else if (i == 0 || i == 1) {
-            battingStatistic[battingIndex].matches += 1;
-            battingStatistic[battingIndex].innings += 1;
+        }
+        else if (i == 0 || i == 1) {
+            battingStatistics[batsmanIndex].matches += 1;
+            battingStatistics[batsmanIndex].innings += 1;
         }
         else {
-            battingStatistic[battingIndex].matches += 1;
+            battingStatistics[batsmanIndex].matches += 1;
         }
-        if ((bowlingIndex === -1) && (bowlingTeamPlayer.roleId === 2 || bowlingTeamPlayer.roleId === 3)) {
-            bowlingStatistic.push({
+        if ((bowlerIndex === -1) && (bowlingTeamPlayer.roleId === 2 || bowlingTeamPlayer.roleId === 3)) {
+            bowlingStatistics.push({
                 playerId: bowlingTeamPlayer.playerId,
                 matches: 1,
                 runs: 0,
                 wickets: 0,
                 bestBowlingWickets: 0,
                 bestBowlingRuns: 0,
-                bestBowlingOpponentTeam: "",
+                bestBowlingOpponentTeam: null,
             });
-        } else if ((bowlingIndex !== -1)) {
-            bowlingStatistic[bowlingIndex].matches += 1;
+        } else if ((bowlerIndex !== -1)) {
+            bowlingStatistics[bowlerIndex].matches += 1;
         }
         inning2Batsman.push({
             playerId: bowlingTeamPlayer.playerId,
@@ -109,11 +114,9 @@ function setMatchData(battingTeam, bowlingTeam, match, team, player, battingStat
             balls: 0,
             fours: 0,
             sixes: 0,
-            strikeRate: 0,
             isNotOut: true,
-            isDidNotBat: true,
+            didNotBat: (i === 0 || i === 1) ? false : true,
         });
-
         if (bowlingTeamPlayer.roleId === 2 || bowlingTeamPlayer.roleId === 3) {
             inning1Bowler.push({
                 playerId: bowlingTeamPlayer.playerId,
@@ -126,78 +129,78 @@ function setMatchData(battingTeam, bowlingTeam, match, team, player, battingStat
     const matchData = {
         inning1: {
             teamId: battingTeam,
-            teamShortName: team[battingTeam - 1].teamShortName,
-            teamName: team[battingTeam - 1].teamName,
+            teamShortName: teams[battingTeam - 1].teamShortName,
+            teamName: teams[battingTeam - 1].teamName,
             runs: 0,
-            wickets: 0,
-            striker: player[(battingTeam - 1) * 11].playerId,
-            nonStriker: player[((battingTeam - 1) * 11) + 1].playerId,
-            played: player[((battingTeam - 1) * 11) + 1].playerId,
-            currentBowler: player[((bowlingTeam - 1) * 11) + 10].playerId,
-            lastBowler: null,
-            isLastBallExtra: false,
             balls: 0,
+            wickets: 0,
+            extras: 0,
             wide: 0,
             noBall: 0,
             legBye: 0,
             bye: 0,
-            extras: 0,
+            isLastBallExtra: false,
+            strikerId: squad[(battingTeam - 1) * 11].playerId,
+            nonStrikerId: squad[((battingTeam - 1) * 11) + 1].playerId,
+            playedId: squad[((battingTeam - 1) * 11) + 1].playerId,
+            currentBowlerId: squad[((bowlingTeam - 1) * 11) + 10].playerId,
+            lastBowlerId: null
         },
         inning2: {
             teamId: bowlingTeam,
-            teamShortName: team[bowlingTeam - 1].teamShortName,
-            teamName: team[bowlingTeam - 1].teamName,
+            teamShortName: teams[bowlingTeam - 1].teamShortName,
+            teamName: teams[bowlingTeam - 1].teamName,
             runs: 0,
-            wickets: 0,
-            striker: player[(bowlingTeam - 1) * 11].playerId,
-            nonStriker: player[((bowlingTeam - 1) * 11) + 1].playerId,
-            played: player[((bowlingTeam - 1) * 11) + 1].playerId,
-            currentBowler: player[((battingTeam - 1) * 11) + 10].playerId,
-            lastBowler: null,
-            isLastBallExtra: false,
             balls: 0,
+            wickets: 0,
+            extras: 0,
             wide: 0,
             noBall: 0,
             legBye: 0,
             bye: 0,
-            extras: 0,
+            isLastBallExtra: false,
+            strikerId: squad[(bowlingTeam - 1) * 11].playerId,
+            nonStrikerId: squad[((bowlingTeam - 1) * 11) + 1].playerId,
+            playedId: squad[((bowlingTeam - 1) * 11) + 1].playerId,
+            currentBowlerId: squad[((battingTeam - 1) * 11) + 10].playerId,
+            lastBowlerId: null
         },
         inning1Batsman: inning1Batsman,
-        inning2Batsman: inning2Batsman,
         inning1Bowler: inning1Bowler,
-        inning2Bowler: inning2Bowler,
         inning1Commentary: [],
+        inning2Batsman: inning2Batsman,
+        inning2Bowler: inning2Bowler,
         inning2Commentary: [],
         isSuperOver: false,
-        superOverInning1:{
+        superOverInning1: {
             teamId: bowlingTeam,
-            teamShortName: team[bowlingTeam - 1].teamShortName,
-            teamName: team[bowlingTeam - 1].teamName,
+            teamShortName: teams[bowlingTeam - 1].teamShortName,
+            teamName: teams[bowlingTeam - 1].teamName,
             runs: 0,
-            wickets: 0,
             balls: 0,
-            striker: player[(bowlingTeam - 1) * 11].playerId,
-            nonStriker: player[((bowlingTeam - 1) * 11) + 1].playerId,
-            played: player[((bowlingTeam - 1) * 11) + 1].playerId,
-            currentBowler: player[((battingTeam - 1) * 11) + 10].playerId
-        },
-        superOverInning2:{
-            teamId: battingTeam,
-            teamShortName: team[battingTeam - 1].teamShortName,
-            teamName: team[battingTeam - 1].teamName,
-            runs: 0,
             wickets: 0,
-            balls: 0,
-            striker: player[(battingTeam - 1) * 11].playerId,
-            nonStriker: player[((battingTeam - 1) * 11) + 1].playerId,
-            played: player[((battingTeam - 1) * 11) + 1].playerId,
-            currentBowler: player[((bowlingTeam - 1) * 11) + 10].playerId
+            strikerId: squad[(bowlingTeam - 1) * 11].playerId,
+            nonStrikerId: squad[((bowlingTeam - 1) * 11) + 1].playerId,
+            playedId: squad[((bowlingTeam - 1) * 11) + 1].playerId,
+            currentBowlerId: squad[((battingTeam - 1) * 11) + 10].playerId
         },
         superOverInning1Commentary: [],
+        superOverInning2: {
+            teamId: battingTeam,
+            teamShortName: teams[battingTeam - 1].teamShortName,
+            teamName: teams[battingTeam - 1].teamName,
+            runs: 0,
+            balls: 0,
+            wickets: 0,
+            strikerId: squad[(battingTeam - 1) * 11].playerId,
+            nonStrikerId: squad[((battingTeam - 1) * 11) + 1].playerId,
+            playedId: squad[((battingTeam - 1) * 11) + 1].playerId,
+            currentBowler: squad[((bowlingTeam - 1) * 11) + 10].playerId
+        },
         superOverInning2Commentary: []
     };
     localStorage.setItem(`match-${match.matchId}`, JSON.stringify(matchData));
-    localStorage.setItem("battingStatistic", JSON.stringify(battingStatistic));
-    localStorage.setItem("bowlingStatistic", JSON.stringify(bowlingStatistic));
+    localStorage.setItem("battingStatistics", JSON.stringify(battingStatistics));
+    localStorage.setItem("bowlingStatistics", JSON.stringify(bowlingStatistics));
 }
 export default setMatchData;
