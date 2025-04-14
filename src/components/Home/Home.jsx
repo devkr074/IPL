@@ -25,7 +25,7 @@ function Home() {
     }, []);
     const navigate = useNavigate();
     function handleStartTournament() {
-        navigate("/team");
+        navigate("/teams");
     }
     function handleResumeTournament() {
         navigate("/main-menu");
@@ -33,7 +33,7 @@ function Home() {
     function handleRestartTournament() {
         if (window.confirm("Really want to Restart IPL Tournament?")) {
             localStorage.clear();
-            navigate("/team");
+            navigate("/teams");
         }
         else {
             return;
@@ -57,7 +57,7 @@ function Home() {
                             <p>Orange Cap</p>
                         </div>
                         <div className={style.sectionContent}>
-                            {orangeCap ?
+                            {(orangeCap && orangeCap.length) ?
                                 <>
                                     <div className={style.imageContainer}>
                                         <img src={orangeCap.profilePicture} alt={orangeCap.playerName} title={orangeCap.playerName} />
@@ -74,7 +74,7 @@ function Home() {
                             <p>Purple Cap</p>
                         </div>
                         <div className={style.sectionContent}>
-                            {purpleCap ?
+                            {(purpleCap && purpleCap.length) ?
                                 <>
                                     <div className={style.imageContainer}>
                                         <img src={purpleCap.profilePicture} alt={purpleCap.playerName} title={purpleCap.playerName} />
@@ -88,10 +88,10 @@ function Home() {
                     </div>
                     <div className={style.section}>
                         <div className={style.sectionHeader}>
-                            <p>{winner ? "Winner" : "Next Match"}</p>
+                            <p>{(winner && winner.length) ? "Winner" : "Next Match"}</p>
                         </div>
                         <div className={style.sectionContent}>
-                            {nextMatch ?
+                            {(nextMatch && nextMatch.length) ?
                                 <>
                                     <div className={style.detailsContainer}>
                                         <span>Match #{nextMatch.matchId}</span>
@@ -110,10 +110,12 @@ function Home() {
                             <p>Table Topper</p>
                         </div>
                         <div className={style.sectionContent}>
-                            {tableTopper ? <div className={style.imageContainer}>
-                                {tableTopper.map((teamData) =>
-                                    <img key={teamData.teamId} src={teamData.logo} alt={teamData.teamShortName} title={teamData.teamShortName} />
-                                )}</div> : <p className={style.altMessage} >No Data Available Currently!</p>}
+                            {(gameStatus && tableTopper.length) ?
+                                <div className={style.imageContainer}>
+                                    {tableTopper.map((teamData) =>
+                                        <img key={teamData.teamId} src={teamData.logo} alt={teamData.teamShortName} title={teamData.teamShortName} />
+                                    )}
+                                </div> : <p className={style.altMessage} >No Data Available Currently!</p>}
                         </div>
                     </div>
                 </div>

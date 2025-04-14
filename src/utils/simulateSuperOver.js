@@ -1,11 +1,10 @@
 import getBallOutcome from "./getBallOutcome.js";
 import getBallCommentary from "./getBallCommentary.js";
-async function simulateSuperOver(inning, matchId, timeout) {
+function simulateSuperOver(inning, matchId, timeout) {
 
     const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
     const player = JSON.parse(localStorage.getItem("player"));
     while (matchData[`superOverInning${inning}`].balls < 6 && matchData[`superOverInning${inning}`].wickets < 2 && (inning == 2 ? (matchData.superOverInning1.runs >= matchData.superOverInning2.runs) : true)) {
-        await new Promise(resolve => setTimeout(resolve, timeout));
         const ballOutcome = getBallOutcome(player[matchData[`superOverInning${inning}`].striker - 1].roleId);
         if (ballOutcome == 0) {
             matchData[`superOverInning${inning}`].balls++;
@@ -122,7 +121,7 @@ async function simulateSuperOver(inning, matchId, timeout) {
         localStorage.setItem(`match-${matchId}`, JSON.stringify(matchData));
     }
     if (inning == 1) {
-        simulateSuperOver(2, matchId, 1);
+        simulateSuperOver(2, matchId, 0);
     }
 }
 export default simulateSuperOver;

@@ -1,0 +1,17 @@
+.container {
+    height: 95vh;
+    width: 80vw;
+    border-radius: var(--border-radius-2);
+    background-color: var(--background-color-1);
+    box-shadow: var(--box-shadow);
+    overflow: auto;
+    scrollbar-width: none;
+}
+
+
+.card{
+    height: 200px;
+    width: 400px;
+    box-shadow: var(--box-shadow);
+    margin: 20px;
+}
