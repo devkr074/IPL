@@ -24,13 +24,12 @@ function Teams() {
     localStorage.setItem("gameStatus", true);
     localStorage.setItem("orangeCap", JSON.stringify([]));
     localStorage.setItem("purpleCap", JSON.stringify([]));
-    localStorage.setItem("nextMatch", JSON.stringify([]));
-    localStorage.setItem("winner", null);
+    localStorage.setItem("nextMatchId", null);
+    localStorage.setItem("winnerTeamId", null);
     localStorage.setItem("tableTopper", JSON.stringify([]));
     localStorage.setItem("battingStatistics", JSON.stringify([]));
     localStorage.setItem("bowlingStatistics", JSON.stringify([]));
     localStorage.setItem("userTeamId", userTeamId);
-    localStorage.setItem("totalMatchesPlayed", 0);
     navigate("/main-menu");
   }
   return (

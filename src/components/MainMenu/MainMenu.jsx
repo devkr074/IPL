@@ -30,6 +30,7 @@ function MainMenu() {
             const tossStatus = match.tossStatus;
             if (tossStatus === "upcoming") {
                 if (isUserMatch(match)) {
+                    localStorage.setItem("nextMatchId", match.matchId);
                     break;
                 }
                 else {
@@ -47,6 +48,7 @@ function MainMenu() {
                             if (matchData.inning1.runs === matchData.inning2.runs) {
                                 simulateSuperOverInning(1, match.matchId);
                             }
+                            localStorage.setItem("nextMatchId", match.matchId + 1);
                             saveResult(match.matchId);
                         } else {
                             setMatchData(match.homeTeamId, match.awayTeamId, match);
@@ -55,6 +57,7 @@ function MainMenu() {
                             if (matchData.inning1.runs === matchData.inning2.runs) {
                                 simulateSuperOverInning(1, match.matchId);
                             }
+                            localStorage.setItem("nextMatchId", match.matchId + 1);
                             saveResult(match.matchId);
                         }
                     } else {
@@ -67,6 +70,7 @@ function MainMenu() {
                             if (matchData.inning1.runs === matchData.inning2.runs) {
                                 simulateSuperOverInning(1, match.matchId);
                             }
+                            localStorage.setItem("nextMatchId", match.matchId + 1);
                             saveResult(match.matchId);
                         } else {
                             setMatchData(match.awayTeamId, match.homeTeamId, match);
@@ -75,6 +79,7 @@ function MainMenu() {
                             if (matchData.inning1.runs === matchData.inning2.runs) {
                                 simulateSuperOverInning(1, match.matchId);
                             }
+                            localStorage.setItem("nextMatchId", match.matchId + 1);
                             saveResult(match.matchId);
                         }
                     }
@@ -152,11 +157,12 @@ function MainMenu() {
             }
         }
         else if (matchId === 74) {
+            localStorage.setItem("nextMatchId", null);
             if ((matchData.inning1.runs > matchData.inning2.runs) || (matchData.superOverInning2.runs > matchData.superOverInning1.runs)) {
-                localStorage.setItem("winner", matchData.inning1.teamId);
+                localStorage.setItem("winnerTeamId", matchData.inning1.teamId);
             }
             else {
-                localStorage.setItem("winner", matchData.inning2.teamId);
+                localStorage.setItem("winnerTeamId", matchData.inning2.teamId);
             }
         }
         localStorage.setItem("fixture", JSON.stringify(fixture));
