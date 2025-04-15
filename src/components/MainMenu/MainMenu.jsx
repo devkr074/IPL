@@ -126,7 +126,7 @@ function MainMenu() {
             fixture[matchId + 1].awayTeamId = pointsTable[3].teamId;
         }
         else if (matchId === 71) {
-            if (matchData.inning1.runs > matchData.inning2.runs) {
+            if ((matchData.inning1.runs > matchData.inning2.runs) || (matchData.superOverInning2.runs > matchData.superOverInning1.runs)) {
                 fixture[matchId + 1].awayTeamId = matchData.inning2.teamId;
                 fixture[matchId + 2].homeTeamId = matchData.inning1.teamId;
             }
@@ -136,7 +136,7 @@ function MainMenu() {
             }
         }
         else if (matchId == 72) {
-            if (matchData.inning1.runs > matchData.inning2.runs) {
+            if ((matchData.inning1.runs > matchData.inning2.runs) || (matchData.superOverInning2.runs > matchData.superOverInning1.runs)) {
                 fixture[matchId].homeTeamId = matchData.inning1.teamId;
             }
             else {
@@ -144,11 +144,19 @@ function MainMenu() {
             }
         }
         else if (matchId === 73) {
-            if (matchData.inning1.runs > matchData.inning2.runs) {
+            if ((matchData.inning1.runs > matchData.inning2.runs) || (matchData.superOverInning2.runs > matchData.superOverInning1.runs)) {
                 fixture[matchId].awayTeamId = matchData.inning1.teamId;
             }
             else {
                 fixture[matchId].awayTeamId = matchData.inning2.teamId;
+            }
+        }
+        else if (matchId === 74) {
+            if ((matchData.inning1.runs > matchData.inning2.runs) || (matchData.superOverInning2.runs > matchData.superOverInning1.runs)) {
+                localStorage.setItem("winner", matchData.inning1.teamId);
+            }
+            else {
+                localStorage.setItem("winner", matchData.inning2.teamId);
             }
         }
         localStorage.setItem("fixture", JSON.stringify(fixture));
@@ -183,6 +191,9 @@ function MainMenu() {
             });
             localStorage.setItem("pointsTable", JSON.stringify(pointsTable));
             setPointsTable(pointsTable);
+            const tableTopperLength = pointsTable.filter((t) => (t.points > 0)).length;
+            const tableTopper = pointsTable.slice(0, Math.min(tableTopperLength, 4));
+            localStorage.setItem("tableTopper", JSON.stringify(tableTopper));
         }
     }
     function handleFixture() {
