@@ -22,8 +22,8 @@ function Teams() {
     localStorage.setItem("pointsTable", JSON.stringify(pointsTable));
     localStorage.setItem("teams", JSON.stringify(teams));
     localStorage.setItem("gameStatus", true);
-    localStorage.setItem("orangeCap", JSON.stringify([]));
-    localStorage.setItem("purpleCap", JSON.stringify([]));
+    localStorage.setItem("orangeCapId", null);
+    localStorage.setItem("purpleCapId", null);
     localStorage.setItem("nextMatchId", null);
     localStorage.setItem("winnerTeamId", null);
     localStorage.setItem("tableTopper", JSON.stringify([]));
