@@ -243,9 +243,9 @@ function simulateInning(inning, matchId) {
         localStorage.setItem("bowlingStatistics", JSON.stringify(bowlingStatistics));
 
         // Continue the inning simulation
-        setTimeout(() => simulateInning(inning, matchId), 100); // Simulate ball间隔
+        setTimeout(() => simulateInning(inning, matchId), 100);
     } else if (inning === 1) {
-        setTimeout(() => simulateInning(2, matchId), 500); // 短暂延迟后开始第二局
+        setTimeout(() => simulateInning(2, matchId), 500);
     }
 }
 export default simulateInning;
