@@ -1,4 +1,4 @@
-function getCommentary(ballOutcome) {
+function getCommentary(isFreeHit, ballOutcome) {
   const commentary = {
     0: [
       "The bowler’s precision has tied the batsman down—dot ball and pressure mounting!",
@@ -186,25 +186,22 @@ function getCommentary(ballOutcome) {
       "Making the most of the free hit, the batter smartly runs between the wickets to secure 2 valuable runs, adding to the team's tally.",
       "Displaying excellent running between the wickets, the batter maximizes the free hit by securing 3 impressive runs.",
       "With precision and power, the batter smashes the free hit to the boundary for a fantastic 4 runs.",
-      "What a colossal strike! The ball sails over the boundary for six!",
-      "He's gone! A brilliant catch in the deep, and the batsman has to walk back.",
-      "That’s plumb! The ball hits the pads, and the batsman is given out LBW.",
-      "Bowled on a free hit! The stumps are down, but the batter stays—drama unfolds as the game goes on!",
-      "LBW on a free hit! The appeal goes up, but the batter stays—an unusual twist in the game’s drama!",
       "Caught on a free hit! The fielder takes it, but the batter is safe—what a rare moment in cricket!",
-      "Run out on a free hit! The batter gambled for the run but fell short—dismissal is certain, and the fielding side celebrates!",
-      "Dot ball on a free hit! No runs scored, the bowler holds their nerve, and the batter misses an opportunity—great pressure play!",
-      "Through the gate and onto the stumps—what a brilliant delivery!",
-      "Quick as lightning! The keeper whips off the bails, and the batsman is stumped!",
       "Six runs on a free hit! The batter seizes the opportunity, sending the ball soaring into the stands—what a stunning strike under pressure!",
-      "Four runs on a free hit! The batter pierces the field with precision, sending the ball racing to the boundary—an excellent display of skill!",
-      "A quick single on the free hit! The batter keeps the scoreboard ticking with smart running.",
-      "Two runs on the free hit! Excellent placement and good running between the wickets.",
-      "Three runs on the free hit! Outstanding running and sharp awareness to capitalize on the opportunity.",
-      "What a direct hit! The batsman is caught short of his crease—run out!"
+      "LBW on a free hit! The appeal goes up, but the batter stays—an unusual twist in the game’s drama!",
+      "Bowled on a free hit! The stumps are down, but the batter stays—drama unfolds as the game goes on!",
+      "Keeper gets a great chance but unfortunately it's a free hit",
+      "Run out on a free hit! The batter gambled for the run but fell short—dismissal is certain, and the fielding side celebrates!",
+      "This one is too far. Another chance for batsman still a Free-hit.",
+      "Another one 2 consecutive No Ball. Again a free hit chance.",
+      "Batsman couldn't get to it just a single through leg bye.",
+      "Great delievery but Keeper couldn't get it. Single through bye.",
     ]
   };
   const commentaryArray = commentary[ballOutcome];
+  if (isFreeHit) {
+    return commentary[15][ballOutcome];
+  }
   return commentaryArray[Math.floor(Math.random() * commentaryArray.length)];
 }
 export default getCommentary;

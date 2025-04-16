@@ -169,8 +169,7 @@ function setMatchData(battingTeam, bowlingTeam, match) {
             strikerId: squad[(battingTeam - 1) * 11].playerId,
             nonStrikerId: squad[((battingTeam - 1) * 11) + 1].playerId,
             playedId: squad[((battingTeam - 1) * 11) + 1].playerId,
-            currentBowlerId: squad[((bowlingTeam - 1) * 11) + 10].playerId,
-            lastBowlerId: null
+            currentBowlerId: squad[((bowlingTeam - 1) * 11) + 10].playerId
         },
         inning2: {
             teamId: bowlingTeam,
@@ -190,8 +189,7 @@ function setMatchData(battingTeam, bowlingTeam, match) {
             strikerId: squad[(bowlingTeam - 1) * 11].playerId,
             nonStrikerId: squad[((bowlingTeam - 1) * 11) + 1].playerId,
             playedId: squad[((bowlingTeam - 1) * 11) + 1].playerId,
-            currentBowlerId: squad[((battingTeam - 1) * 11) + 10].playerId,
-            lastBowlerId: null
+            currentBowlerId: squad[((battingTeam - 1) * 11) + 10].playerId
         },
         inning1Batsman: inning1Batsman,
         inning1Bowler: inning1Bowler,
