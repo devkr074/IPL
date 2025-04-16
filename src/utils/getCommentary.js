@@ -84,7 +84,7 @@ function getCommentary(ballOutcome) {
       "SIX! The ball sails away!",
       "An enormous SIX!",
     ],
-    7: [
+    11: [
       "WIDE! That's an extra run.",
       "The umpire signals WIDE.",
       "WIDE ball, extra conceded.",
@@ -96,7 +96,7 @@ function getCommentary(ballOutcome) {
       "WIDE! The extra run is added.",
       "WIDE! The bowler has to reload.",
     ],
-    8: [
+    7: [
       "LBW! And the batter is out.",
       "OUT! LBW decision.",
       "LBW! No doubt about that one.",
@@ -108,7 +108,7 @@ function getCommentary(ballOutcome) {
       "OUT! LBW, a clear decision.",
       "LBW! The bowler celebrates!",
     ],
-    9: [
+    8: [
       "BOWLED! The stumps are shattered.",
       "OUT! Bowled him!",
       "Bowled! The batter has no answer.",
@@ -132,7 +132,7 @@ function getCommentary(ballOutcome) {
       "OUT! Run out, a brilliant effort.",
       "Run out! The batter is dismissed.",
     ],
-    11: [
+    12: [
       "NO BALL! Free hit coming up.",
       "It's a NO BALL! Extra run.",
       "NO BALL! The bowler oversteps.",
@@ -144,7 +144,7 @@ function getCommentary(ballOutcome) {
       "A NO BALL! Run and a free hit.",
       "NO BALL! The batter survives.",
     ],
-    12: [
+    9: [
       "STUMPED! The batter is out of his crease.",
       "OUT! Stumped by the keeper.",
       "Stumped! The batter is dismissed.",

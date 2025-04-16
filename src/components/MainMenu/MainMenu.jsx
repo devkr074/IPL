@@ -28,7 +28,8 @@ function MainMenu() {
         for (let i = 0; i < fixture.length; i++) {
             const match = fixture[i];
             const tossStatus = match.tossStatus;
-            if (tossStatus === "upcoming") {
+            const matchStatus = match.matchStatus;
+            if (tossStatus !== "completed" && matchStatus !== "completed") {
                 if (isUserMatch(match)) {
                     localStorage.setItem("nextMatchId", match.matchId);
                     break;
@@ -48,7 +49,6 @@ function MainMenu() {
                             if (matchData.inning1.runs === matchData.inning2.runs) {
                                 simulateSuperOverInning(1, match.matchId);
                             }
-                            localStorage.setItem("nextMatchId", match.matchId + 1);
                             saveResult(match.matchId);
                         } else {
                             setMatchData(match.homeTeamId, match.awayTeamId, match);
@@ -57,7 +57,6 @@ function MainMenu() {
                             if (matchData.inning1.runs === matchData.inning2.runs) {
                                 simulateSuperOverInning(1, match.matchId);
                             }
-                            localStorage.setItem("nextMatchId", match.matchId + 1);
                             saveResult(match.matchId);
                         }
                     } else {
@@ -70,7 +69,6 @@ function MainMenu() {
                             if (matchData.inning1.runs === matchData.inning2.runs) {
                                 simulateSuperOverInning(1, match.matchId);
                             }
-                            localStorage.setItem("nextMatchId", match.matchId + 1);
                             saveResult(match.matchId);
                         } else {
                             setMatchData(match.awayTeamId, match.homeTeamId, match);
@@ -79,7 +77,6 @@ function MainMenu() {
                             if (matchData.inning1.runs === matchData.inning2.runs) {
                                 simulateSuperOverInning(1, match.matchId);
                             }
-                            localStorage.setItem("nextMatchId", match.matchId + 1);
                             saveResult(match.matchId);
                         }
                     }

@@ -6,201 +6,240 @@ function simulateInning(inning, matchId) {
     const battingStatistics = JSON.parse(localStorage.getItem("battingStatistics")) || [];
     const bowlingStatistics = JSON.parse(localStorage.getItem("bowlingStatistics")) || [];
     const squad = JSON.parse(localStorage.getItem("squad")) || [];
-    const currentInningData = matchData[`inning${inning}`];
-    const isSecondInning = (inning === 2);
-    const targetReached = isSecondInning && currentInningData.runs > matchData.inning1.runs;
-    const oversCompleted = Math.floor(currentInningData.balls / 6);
-    const maxOversReached = oversCompleted >= 20;
-    if (currentInningData.wickets < 10 && !maxOversReached && !targetReached) {
-
-        const striker = squad[currentInningData.strikerId - 1];
-        const bowler = squad[currentInningData.currentBowlerId - 1];
-
+    if ((matchData[`inning${inning}`].wickets < 10) && (matchData[`inning${inning}`].balls < 120) && ((inning === 2) ? (matchData.inning1.runs >= matchData.inning2.runs) : true)) {
+        const striker = squad[matchData[`inning${inning}`].strikerId - 1];
+        const bowler = squad[matchData[`inning${inning}`].currentBowlerId - 1];
         const ballOutcome = getBallOutcome(striker.roleId);
-        if (!currentInningData.isLastBallExtra && currentInningData.balls % 6 === 0 && currentInningData.balls !== 0) {
-            swapPlayer(currentInningData);
-            currentInningData.currentBowlerId = getNewBowler(inning, matchId, currentInningData.currentBowlerId);
+        if (!matchData[`inning${inning}`].isLastBallExtra && matchData[`inning${inning}`].balls % 6 === 0 && matchData[`inning${inning}`].balls !== 0) {
+            swapPlayer(matchData[`inning${inning}`]);
+            matchData[`inning${inning}`].currentBowlerId = getNewBowler(inning, matchId, matchData[`inning${inning}`].currentBowlerId);
         }
 
-        const strikerIndexMatchData = matchData[`inning${inning}Batsman`].findIndex(p => p.playerId === currentInningData.strikerId);
-        const strikerIndexStatistic = battingStatistics.findIndex(p => p.playerId === currentInningData.strikerId);
-        const currentBowlerIndexMatchData = matchData[`inning${inning}Bowler`].findIndex(p => p.playerId === currentInningData.currentBowlerId);
-        const currentBowlerIndexStatistic = bowlingStatistics.findIndex(p => p.playerId === currentInningData.currentBowlerId);
+        const strikerIndexMatchData = matchData[`inning${inning}Batsman`].findIndex(p => p.playerId === matchData[`inning${inning}`].strikerId);
+        const strikerIndexStatistics = battingStatistics.findIndex(p => p.playerId === matchData[`inning${inning}`].strikerId);
+        const bowlerIndexMatchData = matchData[`inning${inning}Bowler`].findIndex(p => p.playerId === matchData[`inning${inning}`].currentBowlerId);
+        const bowlerIndexStatistics = bowlingStatistics.findIndex(p => p.playerId === matchData[`inning${inning}`].currentBowlerId);
 
-        const updateCommonStats = () => {
-            currentInningData.balls++;
-            currentInningData.isLastBallExtra = false;
-            matchData[`inning${inning}Bowler`][currentBowlerIndexMatchData].balls++;
-            bowlingStatistics[currentBowlerIndexStatistic].balls++;
-            matchData[`inning${inning}Batsman`][strikerIndexMatchData].balls++;
-            battingStatistics[strikerIndexStatistic].balls++;
-        };
-
-        const addCommentary = (outcomeText, commentaryText) => {
-            matchData[`inning${inning}Commentary`].push({
-                ball: currentInningData.balls,
-                bowlerName: bowler.playerName,
-                batsmanName: striker.playerName,
-                outcome: outcomeText,
-                commentary: commentaryText,
-            });
-        };
 
         switch (ballOutcome) {
             case 0:
-                updateCommonStats();
-                addCommentary("no run. ", getCommentary(0));
+                matchData[`inning${inning}`].balls++;
+                matchData[`inning${inning}Batsman`][strikerIndexMatchData].balls++;
+                battingStatistics[strikerIndexStatistics].balls++;
+                matchData[`inning${inning}Bowler`][bowlerIndexMatchData].balls++;
+                bowlingStatistics[bowlerIndexStatistics].balls++;
+                matchData[`inning${inning}Commentary`].push({
+                    ball: matchData[`inning${inning}`].balls,
+                    batsman: striker.playerName,
+                    bowler: bowler.playerName,
+                    outcome: "no run. ",
+                    commentary: getCommentary(ballOutcome)
+                });
                 saveData(matchId, matchData, battingStatistics, bowlingStatistics);
                 break;
             case 1:
-                updateCommonStats();
-                currentInningData.runs++;
-                matchData[`inning${inning}Bowler`][currentBowlerIndexMatchData].runs++;
-                bowlingStatistics[currentBowlerIndexStatistic].runs++;
+                matchData[`inning${inning}`].runs++;
+                matchData[`inning${inning}`].balls++;
                 matchData[`inning${inning}Batsman`][strikerIndexMatchData].runs++;
-                battingStatistics[strikerIndexStatistic].runs++;
-                addCommentary("1 Run. ", getCommentary(1));
-                swapPlayer(currentInningData);
+                matchData[`inning${inning}Batsman`][strikerIndexMatchData].balls++;
+                battingStatistics[strikerIndexStatistics].runs++;
+                battingStatistics[strikerIndexStatistics].balls++;
+                matchData[`inning${inning}Bowler`][bowlerIndexMatchData].runs++;
+                matchData[`inning${inning}Bowler`][bowlerIndexMatchData].balls++;
+                bowlingStatistics[bowlerIndexStatistics].runs++;
+                bowlingStatistics[bowlerIndexStatistics].balls++;
+                matchData[`inning${inning}Commentary`].push({
+                    ball: matchData[`inning${inning}`].balls,
+                    batsman: striker.playerName,
+                    bowler: bowler.playerName,
+                    outcome: "1 run. ",
+                    commentary: getCommentary(ballOutcome)
+                });
+                swapPlayer(inning, matchData);
                 saveData(matchId, matchData, battingStatistics, bowlingStatistics);
                 break;
             case 2:
-                updateCommonStats();
-                currentInningData.runs += 2;
-                matchData[`inning${inning}Bowler`][currentBowlerIndexMatchData].runs += 2;
-                bowlingStatistics[currentBowlerIndexStatistic].runs += 2;
+                matchData[`inning${inning}`].runs += 2;
+                matchData[`inning${inning}`].balls++;
                 matchData[`inning${inning}Batsman`][strikerIndexMatchData].runs += 2;
-                battingStatistics[strikerIndexStatistic].runs += 2;
-                addCommentary("2 Runs. ", getCommentary(2));
+                matchData[`inning${inning}Batsman`][strikerIndexMatchData].balls++;
+                battingStatistics[strikerIndexStatistics].runs += 2;
+                battingStatistics[strikerIndexStatistics].balls++;
+                matchData[`inning${inning}Bowler`][bowlerIndexMatchData].runs += 2;
+                matchData[`inning${inning}Bowler`][bowlerIndexMatchData].balls++;
+                bowlingStatistics[bowlerIndexStatistics].runs += 2;
+                bowlingStatistics[bowlerIndexStatistics].balls++;
+                matchData[`inning${inning}Commentary`].push({
+                    ball: matchData[`inning${inning}`].balls,
+                    batsman: striker.playerName,
+                    bowler: bowler.playerName,
+                    outcome: "2 run. ",
+                    commentary: getCommentary(ballOutcome)
+                });
                 saveData(matchId, matchData, battingStatistics, bowlingStatistics);
                 break;
             case 3:
-                updateCommonStats();
-                currentInningData.runs += 3;
-                matchData[`inning${inning}Bowler`][currentBowlerIndexMatchData].runs += 3;
-                bowlingStatistics[currentBowlerIndexStatistic].runs += 3;
+                matchData[`inning${inning}`].runs += 3;
+                matchData[`inning${inning}`].balls++;
                 matchData[`inning${inning}Batsman`][strikerIndexMatchData].runs += 3;
-                battingStatistics[strikerIndexStatistic].runs += 3;
-                addCommentary("3 Runs. ", getCommentary(3));
-                swapPlayer(currentInningData);
+                matchData[`inning${inning}Batsman`][strikerIndexMatchData].balls++;
+                battingStatistics[strikerIndexStatistics].runs += 3;
+                battingStatistics[strikerIndexStatistics].balls++;
+                matchData[`inning${inning}Bowler`][bowlerIndexMatchData].runs += 3;
+                matchData[`inning${inning}Bowler`][bowlerIndexMatchData].balls++;
+                bowlingStatistics[bowlerIndexStatistics].runs += 3;
+                bowlingStatistics[bowlerIndexStatistics].balls++;
+                matchData[`inning${inning}Commentary`].push({
+                    ball: matchData[`inning${inning}`].balls,
+                    batsman: striker.playerName,
+                    bowler: bowler.playerName,
+                    outcome: "3 run. ",
+                    commentary: getCommentary(ballOutcome)
+                });
+                swapPlayer(inning, matchData);
                 saveData(matchId, matchData, battingStatistics, bowlingStatistics);
                 break;
             case 4:
-                updateCommonStats();
-                currentInningData.runs += 4;
-                matchData[`inning${inning}Bowler`][currentBowlerIndexMatchData].runs += 4;
-                bowlingStatistics[currentBowlerIndexStatistic].runs += 4;
+                matchData[`inning${inning}`].runs += 4;
+                matchData[`inning${inning}`].balls++;
                 matchData[`inning${inning}Batsman`][strikerIndexMatchData].runs += 4;
+                matchData[`inning${inning}Batsman`][strikerIndexMatchData].balls++;
+                battingStatistics[strikerIndexStatistics].runs += 4;
+                battingStatistics[strikerIndexStatistics].balls++;
                 matchData[`inning${inning}Batsman`][strikerIndexMatchData].fours++;
-                battingStatistics[strikerIndexStatistic].runs += 4;
-                battingStatistics[strikerIndexStatistic].fours++;
-                addCommentary("FOUR. ", getCommentary(4));
+                battingStatistics[strikerIndexStatistics].fours++;
+                matchData[`inning${inning}Bowler`][bowlerIndexMatchData].runs += 4;
+                matchData[`inning${inning}Bowler`][bowlerIndexMatchData].balls++;
+                bowlingStatistics[bowlerIndexStatistics].runs += 4;
+                bowlingStatistics[bowlerIndexStatistics].balls++;
+                matchData[`inning${inning}Commentary`].push({
+                    ball: matchData[`inning${inning}`].balls,
+                    batsman: striker.playerName,
+                    bowler: bowler.playerName,
+                    outcome: "FOUR. ",
+                    commentary: getCommentary(ballOutcome)
+                });
                 saveData(matchId, matchData, battingStatistics, bowlingStatistics);
                 break;
             case 6:
-                updateCommonStats();
-                currentInningData.runs += 6;
-                matchData[`inning${inning}Bowler`][currentBowlerIndexMatchData].runs += 6;
-                bowlingStatistics[currentBowlerIndexStatistic].runs += 6;
+                matchData[`inning${inning}`].runs += 6;
+                matchData[`inning${inning}`].balls++;
                 matchData[`inning${inning}Batsman`][strikerIndexMatchData].runs += 6;
+                matchData[`inning${inning}Batsman`][strikerIndexMatchData].balls++;
+                battingStatistics[strikerIndexStatistics].runs += 6;
+                battingStatistics[strikerIndexStatistics].balls++;
                 matchData[`inning${inning}Batsman`][strikerIndexMatchData].sixes++;
-                battingStatistics[strikerIndexStatistic].runs += 6;
-                battingStatistics[strikerIndexStatistic].sixes++;
-                addCommentary("SIX. ", getCommentary(6));
+                battingStatistics[strikerIndexStatistics].sixes++;
+                matchData[`inning${inning}Bowler`][bowlerIndexMatchData].runs += 6;
+                matchData[`inning${inning}Bowler`][bowlerIndexMatchData].balls++;
+                bowlingStatistics[bowlerIndexStatistics].runs += 6;
+                bowlingStatistics[bowlerIndexStatistics].balls++;
+                matchData[`inning${inning}Commentary`].push({
+                    ball: matchData[`inning${inning}`].balls,
+                    batsman: striker.playerName,
+                    bowler: bowler.playerName,
+                    outcome: "SIX. ",
+                    commentary: getCommentary(ballOutcome)
+                });
                 saveData(matchId, matchData, battingStatistics, bowlingStatistics);
                 break;
+
+
+            /**Start From Here */
+
             case 5:
                 updateCommonStats();
-                currentInningData.wickets++;
-                matchData[`inning${inning}Bowler`][currentBowlerIndexMatchData].wickets++;
-                bowlingStatistics[currentBowlerIndexStatistic].wickets++;
-                matchData[`inning${inning}Batsman`][strikerIndexMatchData].wicketById = bowler.playerId;
-                matchData[`inning${inning}Batsman`][strikerIndexMatchData].caughtById = getRandomFielderId(inning, squad);
-                matchData[`inning${inning}Batsman`][strikerIndexMatchData].wicketTypeId = 1;
+                matchData[`inning${inning}`].wickets++;
+                matchData[`inning${inning}Bowler`][bowlerIndexMatchData].wickets++;
+                bowlingStatistics[bowlerIndexStatistics].wickets++;
+                matchData[`inning${inning}Batsman`][strikerIndexMatchData].bowling = bowler.playerId;
+                matchData[`inning${inning}Batsman`][strikerIndexMatchData].caught = getRandomFielderId(inning, matchData, squad);
+                matchData[`inning${inning}Batsman`][strikerIndexMatchData].wicketType = 1;
                 addCommentary("OUT. ", getCommentary(5));
-                getNewStriker(inning, matchData, currentInningData, strikerIndexMatchData, strikerIndexStatistic, battingStatistics);
+                getNewStriker(inning, matchData, matchData[`inning${inning}`], strikerIndexMatchData, strikerIndexStatistics, battingStatistics);
                 saveData(matchId, matchData, battingStatistics, bowlingStatistics);
                 break;
             case 7:
                 updateCommonStats();
-                currentInningData.wickets++;
-                matchData[`inning${inning}Bowler`][currentBowlerIndexMatchData].wickets++;
-                bowlingStatistics[currentBowlerIndexStatistic].wickets++;
-                matchData[`inning${inning}Batsman`][strikerIndexMatchData].wicketById = bowler.playerId;
-                matchData[`inning${inning}Batsman`][strikerIndexMatchData].wicketTypeId = 2;
+                matchData[`inning${inning}`].wickets++;
+                matchData[`inning${inning}Bowler`][bowlerIndexMatchData].wickets++;
+                bowlingStatistics[bowlerIndexStatistics].wickets++;
+                matchData[`inning${inning}Batsman`][strikerIndexMatchData].bowling = bowler.playerId;
+                matchData[`inning${inning}Batsman`][strikerIndexMatchData].wicketType = 2;
                 addCommentary("OUT. ", getCommentary(7));
-                getNewStriker(inning, matchData, currentInningData, strikerIndexMatchData, strikerIndexStatistic, battingStatistics);
+                getNewStriker(inning, matchData, matchData[`inning${inning}`], strikerIndexMatchData, strikerIndexStatistics, battingStatistics);
                 saveData(matchId, matchData, battingStatistics, bowlingStatistics);
                 break;
             case 8:
                 updateCommonStats();
-                currentInningData.wickets++;
-                matchData[`inning${inning}Bowler`][currentBowlerIndexMatchData].wickets++;
-                bowlingStatistics[currentBowlerIndexStatistic].wickets++;
-                matchData[`inning${inning}Batsman`][strikerIndexMatchData].wicketById = bowler.playerId;
-                matchData[`inning${inning}Batsman`][strikerIndexMatchData].wicketTypeId = 3;
+                matchData[`inning${inning}`].wickets++;
+                matchData[`inning${inning}Bowler`][bowlerIndexMatchData].wickets++;
+                bowlingStatistics[bowlerIndexStatistics].wickets++;
+                matchData[`inning${inning}Batsman`][strikerIndexMatchData].bowling = bowler.playerId;
+                matchData[`inning${inning}Batsman`][strikerIndexMatchData].wicketType = 3;
                 addCommentary("OUT. ", getCommentary(8));
-                getNewStriker(inning, matchData, currentInningData, strikerIndexMatchData, strikerIndexStatistic, battingStatistics);
+                getNewStriker(inning, matchData, matchData[`inning${inning}`], strikerIndexMatchData, strikerIndexStatistics, battingStatistics);
                 saveData(matchId, matchData, battingStatistics, bowlingStatistics);
                 break;
             case 9:
                 updateCommonStats();
-                currentInningData.wickets++;
-                matchData[`inning${inning}Bowler`][currentBowlerIndexMatchData].wickets++;
-                bowlingStatistics[currentBowlerIndexStatistic].wickets++;
-                matchData[`inning${inning}Batsman`][strikerIndexMatchData].wicketById = bowler.playerId;
-                matchData[`inning${inning}Batsman`][strikerIndexMatchData].stumpedByIdById = matchData[`inning${(inning === 1) ? 1 : 2}`].wicketKeeperId;
-                matchData[`inning${inning}Batsman`][strikerIndexMatchData].wicketTypeId = 4;
+                matchData[`inning${inning}`].wickets++;
+                matchData[`inning${inning}Bowler`][bowlerIndexMatchData].wickets++;
+                bowlingStatistics[bowlerIndexStatistics].wickets++;
+                matchData[`inning${inning}Batsman`][strikerIndexMatchData].bowling = bowler.playerId;
+                matchData[`inning${inning}Batsman`][strikerIndexMatchData].stumped = matchData[`inning${(inning === 1) ? "1" : "2"}`].wicketKeeperId;
+                matchData[`inning${inning}Batsman`][strikerIndexMatchData].wicketType = 4;
                 addCommentary("OUT. ", getCommentary(9));
-                getNewStriker(inning, matchData, currentInningData, strikerIndexMatchData, strikerIndexStatistic, battingStatistics);
+                getNewStriker(inning, matchData, matchData[`inning${inning}`], strikerIndexMatchData, strikerIndexStatistics, battingStatistics);
                 saveData(matchId, matchData, battingStatistics, bowlingStatistics);
                 break;
             case 10:
                 updateCommonStats();
-                matchData[`inning${inning}Batsman`][strikerIndexMatchData].runOutById = getRandomFielderId(inning, squad);
-                matchData[`inning${inning}Batsman`][strikerIndexMatchData].wicketTypeId = 5;
+                matchData[`inning${inning}Batsman`][strikerIndexMatchData].runOut = getRandomFielderId(inning, squad);
+                matchData[`inning${inning}Batsman`][strikerIndexMatchData].wicketType = 5;
                 addCommentary("OUT. ", getCommentary(10));
-                getNewStriker(inning, matchData, currentInningData, strikerIndexMatchData, strikerIndexStatistic, battingStatistics);
+                getNewStriker(inning, matchData, matchData[`inning${inning}`], strikerIndexMatchData, strikerIndexStatistics, battingStatistics);
                 saveData(matchId, matchData, battingStatistics, bowlingStatistics);
                 break;
             case 11:
-                currentInningData.runs++;
-                currentInningData.extras++;
-                currentInningData.wide++;
-                currentInningData.isLastBallExtra = true;
-                matchData[`inning${inning}Bowler`][currentBowlerIndexMatchData].runs++;
-                bowlingStatistics[currentBowlerIndexStatistic].runs++;
+                matchData[`inning${inning}`].runs++;
+                matchData[`inning${inning}`].extras++;
+                matchData[`inning${inning}`].wide++;
+                matchData[`inning${inning}`].isLastBallExtra = true;
+                matchData[`inning${inning}Bowler`][bowlerIndexMatchData].runs++;
+                bowlingStatistics[bowlerIndexStatistics].runs++;
                 matchData[`inning${inning}Batsman`][strikerIndexMatchData].balls++;
-                battingStatistics[strikerIndexStatistic].balls++;
+                battingStatistics[strikerIndexStatistics].balls++;
                 addCommentary("Wide. ", getCommentary(11));
                 saveData(matchId, matchData, battingStatistics, bowlingStatistics);
                 break;
             case 12:
-                currentInningData.runs++;
-                currentInningData.extras++;
-                currentInningData.noBall++;
-                currentInningData.isLastBallExtra = true;
-                currentInningData.isFreeHit = true;
-                matchData[`inning${inning}Bowler`][currentBowlerIndexMatchData].runs++;
-                bowlingStatistics[currentBowlerIndexStatistic].runs++;
+                matchData[`inning${inning}`].runs++;
+                matchData[`inning${inning}`].extras++;
+                matchData[`inning${inning}`].noBall++;
+                matchData[`inning${inning}`].isLastBallExtra = true;
+                matchData[`inning${inning}`].isFreeHit = true;
+                matchData[`inning${inning}Bowler`][bowlerIndexMatchData].runs++;
+                bowlingStatistics[bowlerIndexStatistics].runs++;
                 addCommentary("No Ball. ", getCommentary(12));
                 saveData(matchId, matchData, battingStatistics, bowlingStatistics);
                 break;
             case 13:
                 updateCommonStats();
-                currentInningData.runs++;
-                currentInningData.extras++;
-                currentInningData.legBye++;
+                matchData[`inning${inning}`].runs++;
+                matchData[`inning${inning}`].extras++;
+                matchData[`inning${inning}`].legBye++;
                 addCommentary("1 Run. ", getCommentary(13));
-                swapPlayer(currentInningData);
+                swapPlayer(matchData[`inning${inning}`]);
                 saveData(matchId, matchData, battingStatistics, bowlingStatistics);
                 break;
             case 14:
                 updateCommonStats();
-                currentInningData.runs++;
-                currentInningData.extras++;
-                currentInningData.bye++;
+                matchData[`inning${inning}`].runs++;
+                matchData[`inning${inning}`].extras++;
+                matchData[`inning${inning}`].bye++;
                 addCommentary("1 Run. ", getCommentary(14));
-                swapPlayer(currentInningData);
+                swapPlayer(matchData[`inning${inning}`]);
                 saveData(matchId, matchData, battingStatistics, bowlingStatistics);
                 break;
         }
@@ -212,32 +251,31 @@ function simulateInning(inning, matchId) {
 }
 export default simulateInning;
 
-function getNewStriker(inning, matchData, currentInningData, strikerIndexMatchData, strikerIndexStatistic, battingStatistics) {
-    if (currentInningData.wickets != 10) {
-        matchData[`inning${inning}Batsman`][strikerIndexMatchData].isNotOut = false;
-        battingStatistics[strikerIndexStatistic].innings++;
-        currentInningData.strikerId = currentInningData.playedId + 1;
-        currentInningData.playedId++;
-        matchData[`inning${inning}Batsman`][strikerIndexMatchData + 1].didNotBat = false;
+function getNewStriker(inning, matchData, matchData[`inning${inning}`], strikerIndexMatchData, strikerIndexStatistics, battingStatistics) {
+    if (matchData[`inning${ inning }`].wickets != 10) {
+        matchData[`inning${ inning }Batsman`][strikerIndexMatchData].isNotOut = false;
+        battingStatistics[strikerIndexStatistics].innings++;
+        matchData[`inning${ inning }`].strikerId = matchData[`inning${ inning }`].playedId + 1;
+        matchData[`inning${ inning }`].playedId++;
+        matchData[`inning${ inning }Batsman`][strikerIndexMatchData + 1].didNotBat = false;
     }
 }
 
-function swapPlayer(currentInningData) {
-    let temp = currentInningData.strikerId;
-    currentInningData.strikerId = currentInningData.nonStrikerId;
-    currentInningData.nonStrikerId = temp;
+function swapPlayer(inning,matchData) {
+    let temp = matchData[`inning${ inning }`].strikerId;
+    matchData[`inning${ inning }`].strikerId = matchData[`inning${ inning }`].nonStrikerId;
+    matchData[`inning${ inning }`].nonStrikerId = temp;
 }
 
 function saveData(matchId, matchData, battingStatistics, bowlingStatistics) {
-    localStorage.setItem(`match-${matchId}`, JSON.stringify(matchData));
+    localStorage.setItem(`match-${ matchId } `, JSON.stringify(matchData));
     localStorage.setItem("battingStatistics", JSON.stringify(battingStatistics));
     localStorage.setItem("bowlingStatistics", JSON.stringify(bowlingStatistics));
 }
 
-function getRandomFielderId(inning, squad) {
-    const matchData = JSON.parse(localStorage.getItem(`match-${inning}`));
-    const fieldingTeamId = (inning === 1) ? matchData?.inning2.teamId : matchData?.inning1.teamId;
+function getRandomFielderId(inning,matchData, squad) {
+    const fieldingTeamId = (inning === 1) ? matchData.inning2.teamId : matchData.inning1.teamId;
     const fielders = squad.filter((p) => Math.floor((p.teamId - 1) / 11) + 1 === fieldingTeamId);
     const randomIndex = Math.floor(Math.random() * fielders.length);
-    return fielders[randomIndex]?.playerId;
+    return fielders[randomIndex].playerId;
 }

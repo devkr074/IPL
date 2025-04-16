@@ -3,124 +3,152 @@ function setMatchData(battingTeam, bowlingTeam, match) {
     const squad = JSON.parse(localStorage.getItem("squad")) || [];
     const battingStatistics = JSON.parse(localStorage.getItem("battingStatistics")) || [];
     const bowlingStatistics = JSON.parse(localStorage.getItem("bowlingStatistics")) || [];
-    let battingTeamCaptainId = null;
     let battingTeamWicketKeeperId = null;
-    let bowlingTeamCaptainId = null;
     let bowlingTeamWicketKeeperId = null;
-    const inning1Batsman = [];
-    const inning2Bowler = [];
-    const processTeam = (teamId, isBattingTeam) => {
-        const startIndex = (teamId - 1) * 11;
-        const teamPlayers = Array.from({ length: 11 }, (_, i) => squad[startIndex + i]);
-        const batsmen = [];
-        const bowlers = [];
-        let captainId = null;
-        let wicketKeeperId = null;
-        teamPlayers.forEach((player, index) => {
-            if (!player) return;
-            if (player.isCaptain) captainId = player.playerId;
-            if (player.isWicketKeeper) wicketKeeperId = player.playerId;
-            const batsmanIndex = battingStatistics.findIndex((p) => p.playerId === player.playerId);
-            const bowlerIndex = bowlingStatistics.findIndex((p) => p.playerId === player.playerId);
-            if (batsmanIndex === -1) {
-                battingStatistics.push({
-                    playerId: player.playerId,
-                    matches: 1,
-                    innings: (index === 0 || index === 1) ? 1 : 0,
-                    runs: 0,
-                    balls: 0,
-                    fours: 0,
-                    sixes: 0,
-                    halfCenturies: 0,
-                    centuries: 0,
-                    notOut: 0,
-                    highestScoreRuns: 0,
-                    highestScoreBalls: 0,
-                    highestScoreOpponentTeam: null,
-                });
-            } else {
-                battingStatistics[batsmanIndex].matches += 1;
-                if (index === 0 || index === 1) {
-                    battingStatistics[batsmanIndex].innings += 1;
-                }
-            }
-            const batsmanInningData = {
-                playerId: player.playerId,
+    let inning1Batsman = [];
+    let inning2Bowler = [];
+    let inning2Batsman = [];
+    let inning1Bowler = [];
+    for (let i = 0; i < 11; i++) {
+        const battingTeamPlayer = squad[(battingTeam - 1) * 11 + i];
+        battingTeamWicketKeeperId = (battingTeamPlayer.isWicketKeeper) ? battingTeamPlayer.playerId : null;
+        const batsmanIndex = battingStatistics.findIndex(p => p.playerId === battingTeamPlayer.playerId);
+        const bowlerIndex = bowlingStatistics.findIndex(p => p.playerId === battingTeamPlayer.playerId);
+        if (batsmanIndex === -1) {
+            battingStatistics.push({
+                playerId: battingTeamPlayer.playerId,
+                matches: 1,
+                innings: (i === 0 || i === 1) ? 1 : 0,
                 runs: 0,
                 balls: 0,
                 fours: 0,
                 sixes: 0,
-                isNotOut: true,
-                didNotBat: !(index === 0 || index === 1),
-                wicketById: null,
-                caughtById: null,
-                runOutById: null,
-                stumpedById: null,
-                wicketTypeId: null,
-                points: 0,
-            };
-            batsmen.push(batsmanInningData);
-            if ((player.roleId === 2 || player.roleId === 3)) {
-                if (bowlerIndex === -1) {
-                    bowlingStatistics.push({
-                        playerId: player.playerId,
-                        matches: 1,
-                        runs: 0,
-                        wickets: 0,
-                        bestBowlingWickets: 0,
-                        bestBowlingRuns: 0,
-                        bestBowlingOpponentTeam: null,
-                    });
-                } else {
-                    bowlingStatistics[bowlerIndex].matches += 1;
-                }
-                bowlers.push({
-                    playerId: player.playerId,
-                    runs: 0,
-                    balls: 0,
-                    wickets: 0,
-                    points: 0,
-                });
-            }
+                halfCenturies: 0,
+                centuries: 0,
+                notOut: 0,
+                highestScoreRuns: 0,
+                highestScoreBalls: 0,
+                highestScoreOpponentTeam: null,
+            });
+        }
+        else if (i === 0 || i === 1) {
+            battingStatistics[batsmanIndex].matches += 1;
+            battingStatistics[batsmanIndex].innings += 1;
+        }
+        else {
+            battingStatistics[batsmanIndex].matches += 1;
+        }
+        if ((bowlerIndex === -1) && (battingTeamPlayer.roleId === 2 || battingTeamPlayer.roleId === 3)) {
+            bowlingStatistics.push({
+                playerId: battingTeamPlayer.playerId,
+                matches: 1,
+                runs: 0,
+                wickets: 0,
+                bestBowlingWickets: 0,
+                bestBowlingRuns: 0,
+                bestBowlingOpponentTeam: null,
+            });
+        }
+        else if ((bowlerIndex !== -1)) {
+            bowlingStatistics[bowlerIndex].matches += 1;
+        }
+        inning1Batsman.push({
+            playerId: battingTeamPlayer.playerId,
+            runs: 0,
+            balls: 0,
+            fours: 0,
+            sixes: 0,
+            isNotOut: true,
+            didNotBat: (i === 0 || i === 1) ? false : true,
+            bowling: null,
+            caught: null,
+            runOut: null,
+            stumped: null,
+            wicketType: null,
+            points: 0
         });
-        return { captainId, wicketKeeperId, batsmen, bowlers };
-    };
-    const battingTeamData = processTeam(battingTeam, true);
-    battingTeamCaptainId = battingTeamData.captainId;
-    battingTeamWicketKeeperId = battingTeamData.wicketKeeperId;
-    inning1Batsman.push(...battingTeamData.batsmen);
-    inning2Bowler.push(...battingTeamData.bowlers);
-    const bowlingTeamData = processTeam(bowlingTeam, false);
-    bowlingTeamCaptainId = bowlingTeamData.captainId;
-    bowlingTeamWicketKeeperId = bowlingTeamData.wicketKeeperId;
-    const inning2Batsman = bowlingTeamData.batsmen;
-    const inning1Bowler = bowlingTeamData.bowlers;
-    const getTeamInfo = (teamId) => {
-        const team = teams.find((t) => t.teamId === teamId);
-        return team
-            ? {
-                teamId: team.teamId,
-                teamShortName: team.teamShortName,
-                teamName: team.teamName,
-            }
-            : { teamId: null, teamShortName: null, teamName: null };
-    };
-    const battingTeamInfo = getTeamInfo(battingTeam);
-    const bowlingTeamInfo = getTeamInfo(bowlingTeam);
-    const getInitialStrikerNonStriker = (teamId) => {
-        const startIndex = (teamId - 1) * 11;
-        return {
-            strikerId: squad[startIndex]?.playerId || null,
-            nonStrikerId: squad[startIndex + 1]?.playerId || null,
-            playedId: squad[startIndex + 1]?.playerId || null,
-        };
-    };
-    const battingOrder = getInitialStrikerNonStriker(battingTeam);
-    const bowlingOrder = getInitialStrikerNonStriker(bowlingTeam);
+        if (battingTeamPlayer.roleId === 2 || battingTeamPlayer.roleId === 3) {
+            inning2Bowler.push({
+                playerId: battingTeamPlayer.playerId,
+                runs: 0,
+                balls: 0,
+                wickets: 0,
+                points: 0
+            });
+        }
+    }
+    for (let i = 0; i < 11; i++) {
+        const bowlingTeamPlayer = squad[(bowlingTeam - 1) * 11 + i];
+        bowlingTeamWicketKeeperId = (bowlingTeamPlayer.isWicketKeeper) ? bowlingTeamPlayer.playerId : null;
+        const batsmanIndex = battingStatistics.findIndex(p => p.playerId === bowlingTeamPlayer.playerId);
+        const bowlerIndex = bowlingStatistics.findIndex(p => p.playerId === bowlingTeamPlayer.playerId);
+        if (batsmanIndex === -1) {
+            battingStatistics.push({
+                playerId: bowlingTeamPlayer.playerId,
+                matches: 1,
+                innings: (i === 0 || i === 1) ? 1 : 0,
+                runs: 0,
+                balls: 0,
+                fours: 0,
+                sixes: 0,
+                halfCenturies: 0,
+                centuries: 0,
+                notOut: 0,
+                highestScoreRuns: 0,
+                highestScoreBalls: 0,
+                highestScoreOpponentTeam: null,
+            });
+        }
+        else if (i == 0 || i == 1) {
+            battingStatistics[batsmanIndex].matches += 1;
+            battingStatistics[batsmanIndex].innings += 1;
+        }
+        else {
+            battingStatistics[batsmanIndex].matches += 1;
+        }
+        if ((bowlerIndex === -1) && (bowlingTeamPlayer.roleId === 2 || bowlingTeamPlayer.roleId === 3)) {
+            bowlingStatistics.push({
+                playerId: bowlingTeamPlayer.playerId,
+                matches: 1,
+                runs: 0,
+                wickets: 0,
+                bestBowlingWickets: 0,
+                bestBowlingRuns: 0,
+                bestBowlingOpponentTeam: null
+            });
+        } else if ((bowlerIndex !== -1)) {
+            bowlingStatistics[bowlerIndex].matches += 1;
+        }
+        inning2Batsman.push({
+            playerId: bowlingTeamPlayer.playerId,
+            runs: 0,
+            balls: 0,
+            fours: 0,
+            sixes: 0,
+            isNotOut: true,
+            didNotBat: (i === 0 || i === 1) ? false : true,
+            bowling: null,
+            caught: null,
+            runOut: null,
+            stumped: null,
+            wicketType: null,
+            points: 0
+        });
+        if (bowlingTeamPlayer.roleId === 2 || bowlingTeamPlayer.roleId === 3) {
+            inning1Bowler.push({
+                playerId: bowlingTeamPlayer.playerId,
+                runs: 0,
+                balls: 0,
+                wickets: 0,
+                points: 0
+            });
+        }
+    }
     const matchData = {
         inning1: {
-            ...battingTeamInfo,
-            captainId: battingTeamCaptainId,
+            teamId: battingTeam,
+            teamName: teams[battingTeam - 1].teamName,
+            teamShortName: teams[battingTeam - 1].teamShortName,
             wicketKeeperId: battingTeamWicketKeeperId,
             runs: 0,
             balls: 0,
@@ -132,15 +160,16 @@ function setMatchData(battingTeam, bowlingTeam, match) {
             bye: 0,
             isLastBallExtra: false,
             isFreeHit: false,
-            strikerId: battingOrder.strikerId,
-            nonStrikerId: battingOrder.nonStrikerId,
-            playedId: battingOrder.playedId,
-            currentBowlerId: squad[((bowlingTeam - 1) * 11) + 10]?.playerId || null,
-            lastBowlerId: null,
+            strikerId: squad[(battingTeam - 1) * 11].playerId,
+            nonStrikerId: squad[((battingTeam - 1) * 11) + 1].playerId,
+            playedId: squad[((battingTeam - 1) * 11) + 1].playerId,
+            currentBowlerId: squad[((bowlingTeam - 1) * 11) + 10].playerId,
+            lastBowlerId: null
         },
         inning2: {
-            ...bowlingTeamInfo,
-            captainId: bowlingTeamCaptainId,
+            teamId: bowlingTeam,
+            teamName: teams[bowlingTeam - 1].teamName,
+            teamShortName: teams[bowlingTeam - 1].teamShortName,
             wicketKeeperId: bowlingTeamWicketKeeperId,
             runs: 0,
             balls: 0,
@@ -152,41 +181,44 @@ function setMatchData(battingTeam, bowlingTeam, match) {
             bye: 0,
             isLastBallExtra: false,
             isFreeHit: false,
-            strikerId: bowlingOrder.strikerId,
-            nonStrikerId: bowlingOrder.nonStrikerId,
-            playedId: bowlingOrder.playedId,
-            currentBowlerId: squad[((battingTeam - 1) * 11) + 10]?.playerId || null,
-            lastBowlerId: null,
+            strikerId: squad[(bowlingTeam - 1) * 11].playerId,
+            nonStrikerId: squad[((bowlingTeam - 1) * 11) + 1].playerId,
+            playedId: squad[((bowlingTeam - 1) * 11) + 1].playerId,
+            currentBowlerId: squad[((battingTeam - 1) * 11) + 10].playerId,
+            lastBowlerId: null
         },
-        inning1Batsman,
-        inning1Bowler,
+        inning1Batsman: inning1Batsman,
+        inning1Bowler: inning1Bowler,
         inning1Commentary: [],
-        inning2Batsman,
-        inning2Bowler,
+        inning2Batsman: inning2Batsman,
+        inning2Bowler: inning2Bowler,
         inning2Commentary: [],
-        isSuperOver: false,
         superOverInning1: {
-            ...bowlingTeamInfo,
+            teamId: bowlingTeam,
+            teamName: teams[bowlingTeam - 1].teamName,
+            teamShortName: teams[bowlingTeam - 1].teamShortName,
             runs: 0,
             balls: 0,
             wickets: 0,
-            strikerId: bowlingOrder.strikerId,
-            nonStrikerId: bowlingOrder.nonStrikerId,
-            playedId: bowlingOrder.playedId,
-            currentBowlerId: squad[((battingTeam - 1) * 11) + 10]?.playerId || null,
+            strikerId: squad[(bowlingTeam - 1) * 11].playerId,
+            nonStrikerId: squad[((bowlingTeam - 1) * 11) + 1].playerId,
+            playedId: squad[((bowlingTeam - 1) * 11) + 1].playerId,
+            currentBowlerId: squad[((battingTeam - 1) * 11) + 10].playerId
         },
         superOverInning1Commentary: [],
         superOverInning2: {
-            ...battingTeamInfo,
+            teamId: battingTeam,
+            teamName: teams[battingTeam - 1].teamName,
+            teamShortName: teams[battingTeam - 1].teamShortName,
             runs: 0,
             balls: 0,
             wickets: 0,
-            strikerId: battingOrder.strikerId,
-            nonStrikerId: battingOrder.nonStrikerId,
-            playedId: battingOrder.playedId,
-            currentBowlerId: squad[((bowlingTeam - 1) * 11) + 10]?.playerId || null,
+            strikerId: squad[(battingTeam - 1) * 11].playerId,
+            nonStrikerId: squad[((battingTeam - 1) * 11) + 1].playerId,
+            playedId: squad[((battingTeam - 1) * 11) + 1].playerId,
+            currentBowlerId: squad[((bowlingTeam - 1) * 11) + 10].playerId
         },
-        superOverInning2Commentary: [],
+        superOverInning2Commentary: []
     };
     localStorage.setItem(`match-${match.matchId}`, JSON.stringify(matchData));
     localStorage.setItem("battingStatistics", JSON.stringify(battingStatistics));
