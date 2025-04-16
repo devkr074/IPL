@@ -30,11 +30,7 @@ function MainMenu() {
             const tossStatus = match.tossStatus;
             const matchStatus = match.matchStatus;
             if (tossStatus !== "completed" && matchStatus !== "completed") {
-                if (isUserMatch(match)) {
-                    localStorage.setItem("nextMatchId", match.matchId);
-                    break;
-                }
-                else {
+                
                     const tossCall = getTossCall();
                     const tossOutcome = getTossOutcome();
                     const optionOutcome = getOptionOutcome();
@@ -80,7 +76,7 @@ function MainMenu() {
                             saveResult(match.matchId);
                         }
                     }
-                }
+                
             }
         }
     }

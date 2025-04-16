@@ -1,99 +1,277 @@
-import getBallOutcome from "./getBallOutcome.js";
 import getCommentary from "./getCommentary.js";
-
+import getBallOutcome from "./getBallOutcome.js";
 function simulateSuperOverInning(inning, matchId) {
-    const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
-    const squad = JSON.parse(localStorage.getItem("squad"));
-    const currentInningData = matchData[`superOverInning${inning}`];
-
-    if (currentInningData.balls < 6 && currentInningData.wickets < 2 && (inning === 2 ? currentInningData.runs < matchData.superOverInning1.runs : true)) {
-        const striker = squad[currentInningData.strikerId - 1];
-        const bowler = squad[currentInningData.currentBowlerId - 1];
-
-        if (!striker || !bowler) {
-            console.error("Striker or Bowler not found");
-            return;
-        }
+    const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`)) || [];
+    const squad = JSON.parse(localStorage.getItem("squad")) || [];
+    if ((matchData[`superOverInning${inning}`].wickets < 2) && (matchData[`superOverInning${inning}`].balls < 6) && ((inning === 2) ? (matchData.superOverInning1.runs >= matchData.superOverInning2.runs) : true)) {
+        const striker = squad[matchData[`superOverInning${inning}`].strikerId - 1];
+        const bowler = squad[matchData[`superOverInning${inning}`].currentBowlerId - 1];
         const ballOutcome = getBallOutcome(striker.roleId);
-
-        const getDismissalType = (outcome) => {
-            switch (outcome) {
-                case 5: return "caught";
-                case 8: return "bowled";
-                case 7: return "lbw";
-                case 9: return "stumped";
-                case 10: return "run out";
-                default: return "out";
-            }
-        };
-
-        const আউটাহওয়া = [5, 7, 8, 9, 10];
-        if (আউটাহওয়া.includes(ballOutcome)) {
-            currentInningData.wickets++;
-            if (ballOutcome === 5) { // Caught
-                currentInningData.caughtById = getRandomFielderId(inning, matchId, currentInningData.strikerId, currentInningData.currentBowlerId);
-            }
-            else if (ballOutcome === 9) {
-                currentInningData.stumpedById = getWicketKeeperId(inning === 1 ? 2 : 1, matchId);
-            }
-
-            if (ballOutcome !== 10) {
-                currentInningData.wicketById = currentInningData.currentBowlerId;
-            }
-            currentInningData.wicketTypeId = ballOutcome;
-
-            if (currentInningData.wickets < 2) {
-                currentInningData.strikerId = matchData[`superOverInning${inning}`].playedId + 1;
-                currentInningData.playedId = currentInningData.strikerId;
-            }
-        } else {
-            currentInningData.balls++;
-            currentInningData.runs += (ballOutcome === 4 || ballOutcome === 6) ? ballOutcome : (ballOutcome >= 0 && ballOutcome <= 3) ? ballOutcome : 0;
-
-            const outcomeText =
-                ballOutcome === 0 ? "Dot Ball"
-                    : ballOutcome === 1 ? "1 Run"
-                        : ballOutcome === 2 ? "2 Runs"
-                            : ballOutcome === 3 ? "3 Runs"
-                                : ballOutcome === 4 ? "4 Runs"
-                                    : ballOutcome === 6 ? "6 Runs"
-                                        : ballOutcome === 7 ? "Wide"
-                                            : ballOutcome === 11 ? "No Ball"
-                                                : "Other";
-
-
-            if (ballOutcome === 1 || ballOutcome === 3) {
-                const temp = currentInningData.strikerId;
-                currentInningData.strikerId = currentInningData.nonStrikerId;
-                currentInningData.nonStrikerId = temp;
-            }
-            if (ballOutcome === 7) {
-                currentInningData.balls--;
-            }
+        switch (ballOutcome) {
+            case 0:
+                matchData[`superOverInning${inning}`].balls++;
+                matchData[`superOverInning${inning}Commentary`].push({
+                    ball: matchData[`superOverInning${inning}`].balls,
+                    batsman: striker.playerName,
+                    bowler: bowler.playerName,
+                    outcome: "no run",
+                    runs: matchData[`superOverInning${inning}`].runs,
+                    wickets: matchData[`superOverInning${inning}`].wickets,
+                    commentary: getCommentary(matchData[`superOverInning${inning}`].isFreeHit, ballOutcome)
+                });
+                matchData[`superOverInning${inning}`].isFreeHit = false;
+                break;
+            case 1:
+                matchData[`superOverInning${inning}`].runs++;
+                matchData[`superOverInning${inning}`].balls++;
+                matchData[`superOverInning${inning}Commentary`].push({
+                    ball: matchData[`superOverInning${inning}`].balls,
+                    batsman: striker.playerName,
+                    bowler: bowler.playerName,
+                    outcome: "1 run",
+                    runs: matchData[`superOverInning${inning}`].runs,
+                    wickets: matchData[`superOverInning${inning}`].wickets,
+                    commentary: getCommentary(matchData[`superOverInning${inning}`].isFreeHit, ballOutcome)
+                });
+                matchData[`superOverInning${inning}`].isFreeHit = false;
+                swapPlayer(inning, matchData);
+                break;
+            case 2:
+                matchData[`superOverInning${inning}`].runs += 2;
+                matchData[`superOverInning${inning}`].balls++;
+                matchData[`superOverInning${inning}Commentary`].push({
+                    ball: matchData[`superOverInning${inning}`].balls,
+                    batsman: striker.playerName,
+                    bowler: bowler.playerName,
+                    outcome: "2 runs",
+                    runs: matchData[`superOverInning${inning}`].runs,
+                    wickets: matchData[`superOverInning${inning}`].wickets,
+                    commentary: getCommentary(matchData[`superOverInning${inning}`].isFreeHit, ballOutcome)
+                });
+                matchData[`superOverInning${inning}`].isFreeHit = false;
+                break;
+            case 3:
+                matchData[`superOverInning${inning}`].runs += 3;
+                matchData[`superOverInning${inning}`].balls++;
+                matchData[`superOverInning${inning}Commentary`].push({
+                    ball: matchData[`superOverInning${inning}`].balls,
+                    batsman: striker.playerName,
+                    bowler: bowler.playerName,
+                    outcome: "3 runs",
+                    runs: matchData[`superOverInning${inning}`].runs,
+                    wickets: matchData[`superOverInning${inning}`].wickets,
+                    commentary: getCommentary(matchData[`superOverInning${inning}`].isFreeHit, ballOutcome)
+                });
+                matchData[`superOverInning${inning}`].isFreeHit = false;
+                swapPlayer(inning, matchData);
+                break;
+            case 4:
+                matchData[`superOverInning${inning}`].runs += 4;
+                matchData[`superOverInning${inning}`].balls++;
+                matchData[`superOverInning${inning}Commentary`].push({
+                    ball: matchData[`superOverInning${inning}`].balls,
+                    batsman: striker.playerName,
+                    bowler: bowler.playerName,
+                    runs: matchData[`superOverInning${inning}`].runs,
+                    wickets: matchData[`superOverInning${inning}`].wickets,
+                    outcome: "FOUR",
+                    commentary: getCommentary(matchData[`superOverInning${inning}`].isFreeHit, ballOutcome)
+                });
+                matchData[`superOverInning${inning}`].isFreeHit = false;
+                break;
+            case 6:
+                matchData[`superOverInning${inning}`].runs += 6;
+                matchData[`superOverInning${inning}`].balls++;
+                matchData[`superOverInning${inning}Commentary`].push({
+                    ball: matchData[`superOverInning${inning}`].balls,
+                    batsman: striker.playerName,
+                    bowler: bowler.playerName,
+                    runs: matchData[`superOverInning${inning}`].runs,
+                    wickets: matchData[`superOverInning${inning}`].wickets,
+                    outcome: "SIX",
+                    commentary: getCommentary(matchData[`superOverInning${inning}`].isFreeHit, ballOutcome)
+                });
+                matchData[`superOverInning${inning}`].isFreeHit = false;
+                break;
+            case 5:
+                matchData[`superOverInning${inning}`].balls++;
+                if (!matchData[`superOverInning${inning}`].isFreeHit) {
+                    matchData[`superOverInning${inning}`].wickets++;
+                }
+                matchData[`superOverInning${inning}Commentary`].push({
+                    ball: matchData[`superOverInning${inning}`].balls,
+                    batsman: striker.playerName,
+                    bowler: bowler.playerName,
+                    runs: matchData[`superOverInning${inning}`].runs,
+                    wickets: matchData[`superOverInning${inning}`].wickets,
+                    outcome: (!matchData[`superOverInning${inning}`].isFreeHit) ? "OUT" : "no run",
+                    commentary: getCommentary(matchData[`superOverInning${inning}`].isFreeHit, ballOutcome)
+                });
+                if (!matchData[`superOverInning${inning}`].isFreeHit) {
+                    getNewStriker(inning, matchData);
+                }
+                matchData[`superOverInning${inning}`].isFreeHit = false;
+                break;
+            case 7:
+                matchData[`superOverInning${inning}`].balls++;
+                if (!matchData[`superOverInning${inning}`].isFreeHit) {
+                    matchData[`superOverInning${inning}`].wickets++;
+                }
+                matchData[`superOverInning${inning}Commentary`].push({
+                    ball: matchData[`superOverInning${inning}`].balls,
+                    batsman: striker.playerName,
+                    bowler: bowler.playerName,
+                    runs: matchData[`superOverInning${inning}`].runs,
+                    wickets: matchData[`superOverInning${inning}`].wickets,
+                    outcome: (!matchData[`superOverInning${inning}`].isFreeHit) ? "OUT" : "no run",
+                    commentary: getCommentary(matchData[`superOverInning${inning}`].isFreeHit, ballOutcome)
+                });
+                if (!matchData[`superOverInning${inning}`].isFreeHit) {
+                    getNewStriker(inning, matchData);
+                }
+                matchData[`superOverInning${inning}`].isFreeHit = false;
+                break;
+            case 8:
+                matchData[`superOverInning${inning}`].balls++;
+                if (!matchData[`superOverInning${inning}`].isFreeHit) {
+                    matchData[`superOverInning${inning}`].wickets++;
+                }
+                matchData[`superOverInning${inning}Commentary`].push({
+                    ball: matchData[`superOverInning${inning}`].balls,
+                    batsman: striker.playerName,
+                    bowler: bowler.playerName,
+                    runs: matchData[`superOverInning${inning}`].runs,
+                    wickets: matchData[`superOverInning${inning}`].wickets,
+                    outcome: (!matchData[`superOverInning${inning}`].isFreeHit) ? "OUT" : "no run",
+                    commentary: getCommentary(matchData[`superOverInning${inning}`].isFreeHit, ballOutcome)
+                });
+                if (!matchData[`superOverInning${inning}`].isFreeHit) {
+                    getNewStriker(inning, matchData);
+                }
+                matchData[`superOverInning${inning}`].isFreeHit = false;
+                break;
+            case 9:
+                matchData[`superOverInning${inning}`].balls++;
+                if (!matchData[`superOverInning${inning}`].isFreeHit) {
+                    matchData[`superOverInning${inning}`].wickets++;
+                }
+                matchData[`superOverInning${inning}Commentary`].push({
+                    ball: matchData[`superOverInning${inning}`].balls,
+                    batsman: striker.playerName,
+                    bowler: bowler.playerName,
+                    runs: matchData[`superOverInning${inning}`].runs,
+                    wickets: matchData[`superOverInning${inning}`].wickets,
+                    outcome: (!matchData[`superOverInning${inning}`].isFreeHit) ? "OUT" : "no run",
+                    commentary: getCommentary(matchData[`superOverInning${inning}`].isFreeHit, ballOutcome)
+                });
+                if (!matchData[`superOverInning${inning}`].isFreeHit) {
+                    getNewStriker(inning, matchData);
+                }
+                matchData[`superOverInning${inning}`].isFreeHit = false;
+                break;
+            case 10:
+                matchData[`superOverInning${inning}`].balls++;
+                matchData[`superOverInning${inning}`].wickets++;
+                matchData[`superOverInning${inning}Commentary`].push({
+                    ball: matchData[`superOverInning${inning}`].balls,
+                    batsman: striker.playerName,
+                    bowler: bowler.playerName,
+                    runs: matchData[`superOverInning${inning}`].runs,
+                    wickets: matchData[`superOverInning${inning}`].wickets,
+                    outcome: "OUT",
+                    commentary: getCommentary(matchData[`superOverInning${inning}`].isFreeHit, ballOutcome)
+                });
+                getNewStriker(inning, matchData);
+                matchData[`superOverInning${inning}`].isFreeHit = false;
+                break;
+            case 11:
+                matchData[`superOverInning${inning}`].runs++;
+                matchData[`superOverInning${inning}`].balls++;
+                matchData[`superOverInning${inning}Commentary`].push({
+                    ball: matchData[`superOverInning${inning}`].balls,
+                    batsman: striker.playerName,
+                    bowler: bowler.playerName,
+                    runs: matchData[`superOverInning${inning}`].runs,
+                    wickets: matchData[`superOverInning${inning}`].wickets,
+                    outcome: "wide",
+                    commentary: getCommentary(matchData[`superOverInning${inning}`].isFreeHit, ballOutcome)
+                });
+                matchData[`superOverInning${inning}`].balls--;
+                if (!matchData[`superOverInning${inning}`].isFreeHit) {
+                    matchData[`superOverInning${inning}`].isFreeHit = false;
+                }
+                break;
+            case 12:
+                matchData[`superOverInning${inning}`].runs++;
+                matchData[`superOverInning${inning}`].balls++;
+                matchData[`superOverInning${inning}Commentary`].push({
+                    ball: matchData[`superOverInning${inning}`].balls,
+                    batsman: striker.playerName,
+                    bowler: bowler.playerName,
+                    runs: matchData[`superOverInning${inning}`].runs,
+                    wickets: matchData[`superOverInning${inning}`].wickets,
+                    outcome: "NO BALL",
+                    commentary: getCommentary(matchData[`superOverInning${inning}`].isFreeHit, ballOutcome)
+                });
+                matchData[`superOverInning${inning}`].isFreeHit = true;
+                matchData[`superOverInning${inning}`].balls--;
+                break;
+            case 13:
+                matchData[`superOverInning${inning}`].balls++;
+                matchData[`superOverInning${inning}`].runs++;
+                matchData[`superOverInning${inning}Commentary`].push({
+                    ball: matchData[`superOverInning${inning}`].balls,
+                    batsman: striker.playerName,
+                    bowler: bowler.playerName,
+                    runs: matchData[`superOverInning${inning}`].runs,
+                    wickets: matchData[`superOverInning${inning}`].wickets,
+                    outcome: "Leg Bye",
+                    commentary: getCommentary(matchData[`superOverInning${inning}`].isFreeHit, ballOutcome)
+                });
+                matchData[`superOverInning${inning}`].isFreeHit = false;
+                swapPlayer(inning, matchData);
+                break;
+            case 14:
+                matchData[`superOverInning${inning}`].balls++;
+                matchData[`superOverInning${inning}`].runs++;
+                matchData[`superOverInning${inning}Commentary`].push({
+                    ball: matchData[`superOverInning${inning}`].balls,
+                    batsman: striker.playerName,
+                    bowler: bowler.playerName,
+                    runs: matchData[`superOverInning${inning}`].runs,
+                    wickets: matchData[`superOverInning${inning}`].wickets,
+                    outcome: "Bye",
+                    commentary: getCommentary(matchData[`superOverInning${inning}`].isFreeHit, ballOutcome)
+                });
+                matchData[`superOverInning${inning}`].isFreeHit = false;
+                swapPlayer(inning, matchData);
+                break;
         }
-        localStorage.setItem(`match-${matchId}`, JSON.stringify(matchData));
-        setTimeout(() => simulateSuperOverInning(inning, matchId), 100);
-    } else if (inning === 1) {
+        saveData(matchId, matchData);
+        simulateSuperOverInning(inning, matchId);
+    }
+    else if (inning === 1) {
         simulateSuperOverInning(2, matchId);
     }
 }
 export default simulateSuperOverInning;
 
-
-
-function getRandomFielderId(inning, matchId, batsmanId, bowlerId) {
-    const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
-    const fieldingTeamId = inning === 1 ? matchData.inning2.teamId : matchData.inning1.teamId;
-    const squad = JSON.parse(localStorage.getItem("squad"));
-    const fielders = squad.filter(
-        (player) =>
-            Math.floor((player.teamId - 1) / 11) + 1 === fieldingTeamId &&
-            player.playerId !== batsmanId &&
-            player.playerId !== bowlerId // Bowler unlikely to catch off their own bowling (usually)
-    );
-    if (fielders.length > 0) {
-        const randomIndex = Math.floor(Math.random() * fielders.length);
-        return fielders[randomIndex].playerId;
+function getNewStriker(inning, matchData) {
+    if (matchData[`superOverInning${inning}`].wickets == 2) {
+        return;
     }
-    return null; // No other fielder found
+    else {
+        matchData[`superOverInning${inning}`].strikerId = matchData[`superOverInning${inning}`].playedId + 1;
+        matchData[`superOverInning${inning}`].playedId++;
+    }
+}
+
+function swapPlayer(inning, matchData) {
+    const temp = matchData[`superOverInning${inning}`].strikerId;
+    matchData[`superOverInning${inning}`].strikerId = matchData[`superOverInning${inning}`].nonStrikerId;
+    matchData[`superOverInning${inning}`].nonStrikerId = temp;
+}
+
+function saveData(matchId, matchData) {
+    localStorage.setItem(`match-${matchId}`, JSON.stringify(matchData));
 }

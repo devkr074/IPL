@@ -157,6 +157,8 @@ function simulateInning(inning, matchId) {
                     bowlingStatistics[bowlerIndexStatistics].wickets++;
                     matchData[`inning${inning}Batsman`][strikerIndexMatchData].bowling = bowler.playerId;
                     matchData[`inning${inning}Batsman`][strikerIndexMatchData].caught = getRandomFielderId(inning, matchData, squad);
+                    const catcherIndex = matchData[`inning${(inning === 1) ? "2" : "1"}Batsman`].findIndex(p => p.playerId == matchData[`inning${inning}Batsman`][strikerIndexMatchData].caught);
+                    matchData[`inning${(inning === 1) ? "2" : "1"}Batsman`][catcherIndex].points += 10;
                     matchData[`inning${inning}Batsman`][strikerIndexMatchData].wicketType = 1;
                 }
                 matchData[`inning${inning}`].isLastBallExtra = false;
@@ -172,7 +174,7 @@ function simulateInning(inning, matchId) {
                     commentary: getCommentary(matchData[`inning${inning}`].isFreeHit, ballOutcome)
                 });
                 if (!matchData[`inning${inning}`].isFreeHit) {
-                    getNewStriker(inning, matchData, battingStatistics, strikerIndexMatchData, strikerIndexStatistics);
+                    getNewStriker(inning, matchData, battingStatistics, strikerIndexMatchData);
                 }
                 matchData[`inning${inning}`].isFreeHit = false;
                 break;
@@ -199,7 +201,7 @@ function simulateInning(inning, matchId) {
                     commentary: getCommentary(matchData[`inning${inning}`].isFreeHit, ballOutcome)
                 });
                 if (!matchData[`inning${inning}`].isFreeHit) {
-                    getNewStriker(inning, matchData, battingStatistics, strikerIndexMatchData, strikerIndexStatistics);
+                    getNewStriker(inning, matchData, battingStatistics, strikerIndexMatchData);
                 }
                 matchData[`inning${inning}`].isFreeHit = false;
                 break;
@@ -226,7 +228,7 @@ function simulateInning(inning, matchId) {
                     commentary: getCommentary(matchData[`inning${inning}`].isFreeHit, ballOutcome)
                 });
                 if (!matchData[`inning${inning}`].isFreeHit) {
-                    getNewStriker(inning, matchData, battingStatistics, strikerIndexMatchData, strikerIndexStatistics);
+                    getNewStriker(inning, matchData, battingStatistics, strikerIndexMatchData);
                 }
                 matchData[`inning${inning}`].isFreeHit = false;
                 break;
@@ -239,6 +241,8 @@ function simulateInning(inning, matchId) {
                     bowlingStatistics[bowlerIndexStatistics].wickets++;
                     matchData[`inning${inning}Batsman`][strikerIndexMatchData].bowling = bowler.playerId;
                     matchData[`inning${inning}Batsman`][strikerIndexMatchData].stumped = matchData[`inning${(inning === 1) ? "2" : "1"}`].wicketKeeperId;
+                    const wicketKeeperIndex = matchData[`inning${(inning === 1) ? "2" : "1"}Batsman`].findIndex(p => p.playerId == matchData[`inning${inning}Batsman`][strikerIndexMatchData].stumped);
+                    matchData[`inning${(inning === 1) ? "2" : "1"}Batsman`][wicketKeeperIndex].points += 10;
                     matchData[`inning${inning}Batsman`][strikerIndexMatchData].wicketType = 4;
                 }
                 matchData[`inning${inning}`].isLastBallExtra = false;
@@ -254,7 +258,7 @@ function simulateInning(inning, matchId) {
                     commentary: getCommentary(matchData[`inning${inning}`].isFreeHit, ballOutcome)
                 });
                 if (!matchData[`inning${inning}`].isFreeHit) {
-                    getNewStriker(inning, matchData, battingStatistics, strikerIndexMatchData, strikerIndexStatistics);
+                    getNewStriker(inning, matchData, battingStatistics, strikerIndexMatchData);
                 }
                 matchData[`inning${inning}`].isFreeHit = false;
                 break;
@@ -267,6 +271,8 @@ function simulateInning(inning, matchId) {
                 matchData[`inning${inning}Bowler`][bowlerIndexMatchData].balls++;
                 bowlingStatistics[bowlerIndexStatistics].balls++;
                 matchData[`inning${inning}Batsman`][strikerIndexMatchData].runOut = getRandomFielderId(inning, matchData, squad);
+                const fielderIndex = matchData[`inning${(inning === 1) ? "2" : "1"}Batsman`].findIndex(p => p.playerId == matchData[`inning${inning}Batsman`][strikerIndexMatchData].runOut);
+                matchData[`inning${(inning === 1) ? "2" : "1"}Batsman`][fielderIndex].points += 10;
                 matchData[`inning${inning}Batsman`][strikerIndexMatchData].wicketType = 5;
                 matchData[`inning${inning}Commentary`].push({
                     ball: matchData[`inning${inning}`].balls,
@@ -275,7 +281,7 @@ function simulateInning(inning, matchId) {
                     outcome: "OUT",
                     commentary: getCommentary(matchData[`inning${inning}`].isFreeHit, ballOutcome)
                 });
-                getNewStriker(inning, matchData, battingStatistics, strikerIndexMatchData, strikerIndexStatistics);
+                getNewStriker(inning, matchData, battingStatistics, strikerIndexMatchData);
                 matchData[`inning${inning}`].isFreeHit = false;
                 break;
             case 11:
@@ -304,7 +310,6 @@ function simulateInning(inning, matchId) {
                 matchData[`inning${inning}`].extras++;
                 matchData[`inning${inning}`].noBall++;
                 matchData[`inning${inning}`].isLastBallExtra = true;
-                matchData[`inning${inning}`].isFreeHit = true;
                 matchData[`inning${inning}Batsman`][strikerIndexMatchData].balls++;
                 battingStatistics[strikerIndexStatistics].balls++;
                 matchData[`inning${inning}Bowler`][bowlerIndexMatchData].runs++;
@@ -316,6 +321,7 @@ function simulateInning(inning, matchId) {
                     outcome: "NO BALL",
                     commentary: getCommentary(matchData[`inning${inning}`].isFreeHit, ballOutcome)
                 });
+                matchData[`inning${inning}`].isFreeHit = true;
                 matchData[`inning${inning}`].balls--;
                 break;
             case 13:
@@ -376,7 +382,7 @@ function simulateInning(inning, matchId) {
 }
 export default simulateInning;
 
-function getNewStriker(inning, matchData, battingStatistics, strikerIndexMatchData, strikerIndexStatistics) {
+function getNewStriker(inning, matchData, battingStatistics, strikerIndexMatchData) {
     matchData[`inning${inning}Batsman`][strikerIndexMatchData].isNotOut = false;
     if (matchData[`inning${inning}`].wickets == 10) {
         return;
@@ -399,8 +405,12 @@ function swapPlayer(inning, matchData) {
 
 function saveData(matchId, matchData, battingStatistics, bowlingStatistics) {
     localStorage.setItem(`match-${matchId}`, JSON.stringify(matchData));
+    battingStatistics.sort((a, b) => b.runs - a.runs);
+    bowlingStatistics.sort((a, b) => b.wickets - a.wickets);
     localStorage.setItem("battingStatistics", JSON.stringify(battingStatistics));
     localStorage.setItem("bowlingStatistics", JSON.stringify(bowlingStatistics));
+    localStorage.setItem("orangeCapId", battingStatistics[0].playerId);
+    localStorage.setItem("purpleCapId", bowlingStatistics[0].playerId);
 }
 
 function getRandomFielderId(inning, matchData, squad) {
