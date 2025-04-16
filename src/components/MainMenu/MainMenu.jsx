@@ -30,7 +30,11 @@ function MainMenu() {
             const tossStatus = match.tossStatus;
             const matchStatus = match.matchStatus;
             if (tossStatus !== "completed" && matchStatus !== "completed") {
-                
+                if (isUserMatch(match)) {
+                    localStorage.setItem("nextMatchId", match.matchId);
+                    break;
+                }
+                else {
                     const tossCall = getTossCall();
                     const tossOutcome = getTossOutcome();
                     const optionOutcome = getOptionOutcome();
@@ -76,7 +80,7 @@ function MainMenu() {
                             saveResult(match.matchId);
                         }
                     }
-                
+                }
             }
         }
     }
@@ -93,6 +97,7 @@ function MainMenu() {
         return (Math.random() < 0.5) ? "Bat" : "Bowl";
     }
     function saveResult(matchId) {
+        updateStatistics(matchId);
         const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
         fixture[matchId - 1].matchStatus = "completed";
         if (matchData.inning1.runs > matchData.inning2.runs) {
@@ -194,6 +199,35 @@ function MainMenu() {
             const tableTopper = pointsTable.slice(0, Math.min(tableTopperLength, 4));
             localStorage.setItem("tableTopper", JSON.stringify(tableTopper));
         }
+    }
+    function updateStatistics(matchId) {
+        const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`)) || [];
+        const players = [];
+        for (let i = 0; i < matchData.inning1Batsman.length; i++) {
+            players.push({
+                playerId: matchData.inning1Batsman[i].playerId,
+                points: matchData.inning1Batsman[i].points,
+            });
+        }
+        for (let i = 0; i < matchData.inning1Bowler.length; i++) {
+            players.push({
+                playerId: matchData.inning1Bowler[i].playerId,
+                points: matchData.inning1Bowler[i].points,
+            });
+        }
+        for (let i = 0; i < matchData.inning2Batsman.length; i++) {
+            players.push({
+                playerId: matchData.inning2Batsman[i].playerId,
+                points: matchData.inning2Batsman[i].points,
+            });
+        }
+        for (let i = 0; i < matchData.inning2Bowler.length; i++) {
+            players.push({
+                playerId: matchData.inning2Bowler[i].playerId,
+                points: matchData.inning2Bowler[i].points,
+            });
+        }
+        console.log(players);
     }
     function handleFixture() {
         navigate("/fixture");
