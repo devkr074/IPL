@@ -11,7 +11,9 @@ function setMatchData(battingTeam, bowlingTeam, match) {
     let inning1Bowler = [];
     for (let i = 0; i < 11; i++) {
         const battingTeamPlayer = squad[(battingTeam - 1) * 11 + i];
-        battingTeamWicketKeeperId = (battingTeamPlayer.isWicketKeeper) ? battingTeamPlayer.playerId : null;
+        if (battingTeamPlayer.isWicketKeeper) {
+            battingTeamWicketKeeperId = battingTeamPlayer.playerId;
+        }
         const batsmanIndex = battingStatistics.findIndex(p => p.playerId === battingTeamPlayer.playerId);
         const bowlerIndex = bowlingStatistics.findIndex(p => p.playerId === battingTeamPlayer.playerId);
         if (batsmanIndex === -1) {
@@ -43,6 +45,7 @@ function setMatchData(battingTeam, bowlingTeam, match) {
                 playerId: battingTeamPlayer.playerId,
                 matches: 1,
                 runs: 0,
+                balls: 0,
                 wickets: 0,
                 bestBowlingWickets: 0,
                 bestBowlingRuns: 0,
@@ -79,7 +82,9 @@ function setMatchData(battingTeam, bowlingTeam, match) {
     }
     for (let i = 0; i < 11; i++) {
         const bowlingTeamPlayer = squad[(bowlingTeam - 1) * 11 + i];
-        bowlingTeamWicketKeeperId = (bowlingTeamPlayer.isWicketKeeper) ? bowlingTeamPlayer.playerId : null;
+        if (bowlingTeamPlayer.isWicketKeeper) {
+            bowlingTeamWicketKeeperId = bowlingTeamPlayer.playerId;
+        }
         const batsmanIndex = battingStatistics.findIndex(p => p.playerId === bowlingTeamPlayer.playerId);
         const bowlerIndex = bowlingStatistics.findIndex(p => p.playerId === bowlingTeamPlayer.playerId);
         if (batsmanIndex === -1) {
@@ -111,6 +116,7 @@ function setMatchData(battingTeam, bowlingTeam, match) {
                 playerId: bowlingTeamPlayer.playerId,
                 matches: 1,
                 runs: 0,
+                balls: 0,
                 wickets: 0,
                 bestBowlingWickets: 0,
                 bestBowlingRuns: 0,
