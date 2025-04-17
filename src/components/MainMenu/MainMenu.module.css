@@ -29,8 +29,8 @@
 
 .containerContent {
     display: grid;
+    grid-template-rows: 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 240px auto;
     gap: var(--gap);
     padding: var(--padding-1);
 }
@@ -56,20 +56,58 @@
 
 .sectionContent {
     display: grid;
-    grid-template-rows: 35px auto 35px;
+    grid-template-rows: 40px auto;
+    padding: var(--padding-1);
+}
+
+.detailsContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.detailsContainer span {
+    font-size: var(--font-size-1);
+    font-style: var(--font-style);
+    text-decoration: underline;
+}
+
+.imageContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.imageContainer img {
+    height: 100px;
+    border: var(--border-1);
+    border-radius: var(--border-radius-3);
+}
+
+.imageContainer span {
+    font-size: var(--font-size-2);
+    font-weight: var(--font-weight);
+    color: var(--color-2);
+}
+
+.altMessage {
+    grid-row: span 2;
+    font-size: var(--font-size-1);
+    font-style: var(--font-style);
     padding: var(--padding-1);
 }
 
 .button {
-    font-size: var(--font-size-3);
-    font-weight: var(--font-weight);
-    color: var(--color-1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: none;
     border-radius: var(--border-radius-1);
-    background-color: var(--background-color-3);
     box-shadow: var(--box-shadow);
+    position: relative;
     cursor: pointer;
     outline: none;
+    overflow: hidden;
     transition: var(--transition);
 
     &:hover {
@@ -77,39 +115,62 @@
     }
 }
 
-.altMessage {
-    font-size: var(--font-size-1);
-    font-style: var(--font-style);
-    padding: var(--padding-1);
+.button span {
+    font-size: var(--font-size-3);
+    font-weight: var(--font-weight);
+    color: var(--color-1);
+    text-shadow: var(--text-shadow);
+    position: absolute;
 }
 
-.section:nth-child(1){
+.button::before {
+    content: "";
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    filter: var(--blur);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.section:nth-child(1) {
+    display: grid;
     grid-template-rows: 50px auto;
+    gap: unset;
     border-radius: var(--border-radius-1);
     background-color: var(--background-color);
     box-shadow: var(--box-shadow);
     overflow: hidden;
 }
 
-.section:nth-child(2) .button{
-    background-color: rgb(196, 187, 17);
+.section:nth-child(2) .button::before {
+    background-image: url("../../assets/fixtureBackground.jpg");
 }
 
-.section:nth-child(3) .button{
+.section:nth-child(3) .button span {
     font-size: var(--font-size-2);
-    background-color: rgb(18, 130, 98);
 }
 
-.section:nth-child(4) .button{
-    background-color: rgb(70, 69, 122);
+.section:nth-child(3) .button:nth-child(1)::before {
+    background-image: url("../../assets/squadBackground.jpg");
 }
 
-.section:nth-child(5) .button{
-    background-color: rgb(248, 129, 26);
+.section:nth-child(3) .button:nth-child(2)::before {
+    background-image: url("../../assets/venuesBackground.webp");
 }
 
-.section:nth-child(6) .button{
-    background-color: rgb(99, 17, 118);
+.section:nth-child(4) .button::before {
+    background-image: url("../../assets/pointsTableBackground.jpg");
+}
+
+.section:nth-child(5) .button::before {
+    background-image: url("../../assets/battingStatisticsBackground.jpg");
+}
+
+.section:nth-child(6) .button::before {
+    background-image: url("../../assets/bowlingStatisticsBackground.jpg");
 }
 
 @media screen and (max-width: 321px) {

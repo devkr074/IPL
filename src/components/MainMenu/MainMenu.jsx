@@ -5,29 +5,32 @@ import setMatchData from "../../utils/setMatchData.js";
 import simulateInning from "../../utils/simulateInning.js";
 import simulateSuperOverInning from "../../utils/simulateSuperOverInning.js";
 function MainMenu() {
+    const [nextMatch, setNextMatch] = useState(null);
+    const [winner, setWinner] = useState(null);
+    const [runnerUp, setRunnerUp] = useState(null);
     const [userTeamId, setUserTeamId] = useState(null);
     const [fixture, setFixture] = useState([]);
-    const [teams, setTeams] = useState([]);
-    const [winner, setWinner] = useState(null);
     const [venues, setVenues] = useState([]);
+    const [teams, setTeams] = useState([]);
     const [pointsTable, setPointsTable] = useState([]);
-    const [nextMatch, setNextMatch] = useState(null);
     useEffect(() => {
         document.title = "IPL - Main Menu";
-        const fixture = JSON.parse(localStorage.getItem("fixture"));
-        const teams = JSON.parse(localStorage.getItem("teams"));
-        const pointsTable = JSON.parse(localStorage.getItem("pointsTable"));
         const nextMatch = JSON.parse(localStorage.getItem("nextMatchId"));
         const winner = Number(localStorage.getItem("winnerTeamId"));
+        const runnerUp = Number(localStorage.getItem("runnerUpTeamId"));
         const userTeamId = Number(localStorage.getItem('userTeamId'));
-        const venues = JSON.parse(localStorage.getItem('venues'));
-        setFixture(fixture);
-        setTeams(teams);
-        setVenues(venues);
-        setPointsTable(pointsTable);
+        const fixture = JSON.parse(localStorage.getItem("fixture"));
+        const venues = JSON.parse(localStorage.getItem("venues"));
+        const teams = JSON.parse(localStorage.getItem("teams"));
+        const pointsTable = JSON.parse(localStorage.getItem("pointsTable"));
         setNextMatch(nextMatch);
-        setUserTeamId(userTeamId);
         setWinner(winner);
+        setRunnerUp(runnerUp);
+        setUserTeamId(userTeamId);
+        setFixture(fixture);
+        setVenues(venues);
+        setTeams(teams);
+        setPointsTable(pointsTable);
     }, []);
     useEffect(() => {
         simulateOtherMatches();
@@ -39,7 +42,11 @@ function MainMenu() {
             const tossStatus = match.tossStatus;
             const matchStatus = match.matchStatus;
             if (tossStatus !== "completed" && matchStatus !== "completed") {
-                
+                if (isUserMatch(match)) {
+                    localStorage.setItem("nextMatchId", JSON.stringify(match));
+                    break;
+                }
+                else {
                     const tossCall = getTossCall();
                     const tossOutcome = getTossOutcome();
                     const optionOutcome = getOptionOutcome();
@@ -86,7 +93,7 @@ function MainMenu() {
                         }
                     }
                 }
-            
+            }
         }
     }
     function isUserMatch(match) {
@@ -100,111 +107,6 @@ function MainMenu() {
     }
     function getOptionOutcome() {
         return (Math.random() < 0.5) ? "Bat" : "Bowl";
-    }
-    function saveResult(matchId) {
-        updateStatistics(matchId);
-        const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
-        fixture[matchId - 1].matchStatus = "completed";
-        if (matchData.inning1.runs > matchData.inning2.runs) {
-            fixture[matchId - 1].matchResult = `${matchData.inning1.teamShortName} won by ${matchData.inning1.runs - matchData.inning2.runs} ${(matchData.inning1.runs - matchData.inning2.runs) > 1 ? "Runs" : "Run"}`;
-            savePointsTable(1, 2, matchData, matchId, false, false)
-        }
-        else if (matchData.inning2.runs > matchData.inning1.runs) {
-            fixture[matchId - 1].matchResult = `${matchData.inning2.teamShortName} won by ${10 - matchData.inning2.wickets} ${(10 - matchData.inning2.wickets) > 1 ? "Wickets" : "Wicket"}`;
-            savePointsTable(2, 1, matchData, matchId, false, false);
-        }
-        else {
-            if (matchData.superOverInning1.runs > matchData.superOverInning2.runs) {
-                fixture[matchId - 1].matchResult = `${matchData.superOverInning1.teamShortName} won Super Over`;
-                savePointsTable(1, 2, matchData, matchId, true, false);
-            }
-            else if (matchData.superOverInning2.runs > matchData.superOverInning1.runs) {
-                fixture[matchId - 1].matchResult = `${matchData.superOverInning2.teamShortName} won Super Over`;
-                savePointsTable(2, 1, matchData, matchId, true, false);
-            }
-            else {
-                fixture[matchId - 1].matchResult = "Match Tied";
-                savePointsTable(1, 2, matchData, matchId, true, true);
-            }
-        }
-        if (matchId === 70) {
-            fixture[matchId].homeTeamId = pointsTable[0].teamId;
-            fixture[matchId].awayTeamId = pointsTable[1].teamId;
-            fixture[matchId + 1].homeTeamId = pointsTable[2].teamId;
-            fixture[matchId + 1].awayTeamId = pointsTable[3].teamId;
-        }
-        else if (matchId === 71) {
-            if ((matchData.inning1.runs > matchData.inning2.runs) || (matchData.superOverInning2.runs > matchData.superOverInning1.runs)) {
-                fixture[matchId + 1].awayTeamId = matchData.inning2.teamId;
-                fixture[matchId + 2].homeTeamId = matchData.inning1.teamId;
-            }
-            else {
-                fixture[matchId + 1].awayTeamId = matchData.inning1.teamId;
-                fixture[matchId + 2].homeTeamId = matchData.inning2.teamId;
-            }
-        }
-        else if (matchId == 72) {
-            if ((matchData.inning1.runs > matchData.inning2.runs) || (matchData.superOverInning2.runs > matchData.superOverInning1.runs)) {
-                fixture[matchId].homeTeamId = matchData.inning1.teamId;
-            }
-            else {
-                fixture[matchId].homeTeamId = matchData.inning2.teamId;
-            }
-        }
-        else if (matchId === 73) {
-            if ((matchData.inning1.runs > matchData.inning2.runs) || (matchData.superOverInning2.runs > matchData.superOverInning1.runs)) {
-                fixture[matchId].awayTeamId = matchData.inning1.teamId;
-            }
-            else {
-                fixture[matchId].awayTeamId = matchData.inning2.teamId;
-            }
-        }
-        else if (matchId === 74) {
-            localStorage.setItem("nextMatchId", null);
-            if ((matchData.inning1.runs > matchData.inning2.runs) || (matchData.superOverInning2.runs > matchData.superOverInning1.runs)) {
-                localStorage.setItem("winnerTeamId", matchData.inning1.teamId);
-            }
-            else {
-                localStorage.setItem("winnerTeamId", matchData.inning2.teamId);
-            }
-            setWinner(Number(localStorage.getItem("winnerTeamId")));
-        }
-        localStorage.setItem("fixture", JSON.stringify(fixture));
-        setFixture(fixture);
-    }
-    function savePointsTable(winningTeamInning, losingTeamInning, matchData, matchId, isSuperOver, isTied) {
-        if (matchId <= 70) {
-            const winningTeamIndex = pointsTable.findIndex((t) => t.teamId === matchData[`inning${winningTeamInning}`].teamId);
-            const losingTeamIndex = pointsTable.findIndex((t) => t.teamId === matchData[`inning${losingTeamInning}`].teamId);
-            pointsTable[winningTeamIndex].matchesPlayed += 1;
-            pointsTable[losingTeamIndex].matchesPlayed += 1;
-            if (isTied) {
-                pointsTable[winningTeamIndex].matchesTied += 1;
-                pointsTable[losingTeamIndex].matchesTied += 1;
-            }
-            else {
-                pointsTable[winningTeamIndex].matchesWon += 1;
-                pointsTable[winningTeamIndex].points += 2;
-                pointsTable[losingTeamIndex].matchesLost += 1;
-            }
-            if (!isSuperOver) {
-                pointsTable[winningTeamIndex].runRate = pointsTable[winningTeamIndex].runRate + (matchData[`inning${winningTeamInning}`].runs / (Math.floor(matchData[`inning${winningTeamInning}`].balls / 6) + ((matchData[`inning${winningTeamInning}`].balls % 6) / 6))) - (matchData[`inning${losingTeamInning}`].runs / (Math.floor(matchData[`inning${losingTeamInning}`].balls / 6) + ((matchData[`inning${losingTeamInning}`].balls % 6) / 6)));
-                pointsTable[losingTeamIndex].runRate = pointsTable[losingTeamIndex].runRate + (matchData[`inning${losingTeamInning}`].runs / (Math.floor(matchData[`inning${losingTeamInning}`].balls / 6) + ((matchData[`inning${losingTeamInning}`].balls % 6) / 6))) - (matchData[`inning${winningTeamInning}`].runs / (Math.floor(matchData[`inning${winningTeamInning}`].balls / 6) + ((matchData[`inning${winningTeamInning}`].balls % 6) / 6)));
-            }
-            pointsTable[winningTeamIndex].netRunRate = pointsTable[winningTeamIndex].runRate / pointsTable[winningTeamIndex].matchesPlayed;
-            pointsTable[losingTeamIndex].netRunRate = pointsTable[losingTeamIndex].runRate / pointsTable[losingTeamIndex].matchesPlayed;
-            pointsTable.sort((a, b) => {
-                if (a.points === b.points) {
-                    return b.netRunRate - a.netRunRate;
-                }
-                return b.points - a.points;
-            });
-            localStorage.setItem("pointsTable", JSON.stringify(pointsTable));
-            setPointsTable(pointsTable);
-            const tableTopperLength = pointsTable.filter((t) => (t.points > 0)).length;
-            const tableTopper = pointsTable.slice(0, Math.min(tableTopperLength, 4));
-            localStorage.setItem("tableTopper", JSON.stringify(tableTopper));
-        }
     }
     function updateStatistics(matchId) {
         const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`)) || [];
@@ -329,23 +231,131 @@ function MainMenu() {
         localStorage.setItem("battingStatistics", JSON.stringify(battingStatistics));
         localStorage.setItem("bowlingStatistics", JSON.stringify(bowlingStatistics));
     }
+    function saveResult(matchId) {
+        updateStatistics(matchId);
+        const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
+        fixture[matchId - 1].matchStatus = "completed";
+        if (matchData.inning1.runs > matchData.inning2.runs) {
+            fixture[matchId - 1].matchResult = `${matchData.inning1.teamShortName} won by ${matchData.inning1.runs - matchData.inning2.runs} ${(matchData.inning1.runs - matchData.inning2.runs) > 1 ? "Runs" : "Run"}`;
+            savePointsTable(1, 2, matchData, matchId, false, false)
+        }
+        else if (matchData.inning2.runs > matchData.inning1.runs) {
+            fixture[matchId - 1].matchResult = `${matchData.inning2.teamShortName} won by ${10 - matchData.inning2.wickets} ${(10 - matchData.inning2.wickets) > 1 ? "Wickets" : "Wicket"}`;
+            savePointsTable(2, 1, matchData, matchId, false, false);
+        }
+        else {
+            if (matchData.superOverInning1.runs > matchData.superOverInning2.runs) {
+                fixture[matchId - 1].matchResult = `${matchData.superOverInning1.teamShortName} won Super Over`;
+                savePointsTable(1, 2, matchData, matchId, true, false);
+            }
+            else if (matchData.superOverInning2.runs > matchData.superOverInning1.runs) {
+                fixture[matchId - 1].matchResult = `${matchData.superOverInning2.teamShortName} won Super Over`;
+                savePointsTable(2, 1, matchData, matchId, true, false);
+            }
+            else {
+                fixture[matchId - 1].matchResult = "Match Tied";
+                savePointsTable(1, 2, matchData, matchId, true, true);
+            }
+        }
+        if (matchId === 70) {
+            fixture[matchId].homeTeamId = pointsTable[0].teamId;
+            fixture[matchId].awayTeamId = pointsTable[1].teamId;
+            fixture[matchId + 1].homeTeamId = pointsTable[2].teamId;
+            fixture[matchId + 1].awayTeamId = pointsTable[3].teamId;
+        }
+        else if (matchId === 71) {
+            if ((matchData.inning1.runs > matchData.inning2.runs) || (matchData.superOverInning2.runs > matchData.superOverInning1.runs)) {
+                fixture[matchId + 1].awayTeamId = matchData.inning2.teamId;
+                fixture[matchId + 2].homeTeamId = matchData.inning1.teamId;
+            }
+            else {
+                fixture[matchId + 1].awayTeamId = matchData.inning1.teamId;
+                fixture[matchId + 2].homeTeamId = matchData.inning2.teamId;
+            }
+        }
+        else if (matchId == 72) {
+            if ((matchData.inning1.runs > matchData.inning2.runs) || (matchData.superOverInning2.runs > matchData.superOverInning1.runs)) {
+                fixture[matchId].homeTeamId = matchData.inning1.teamId;
+            }
+            else {
+                fixture[matchId].homeTeamId = matchData.inning2.teamId;
+            }
+        }
+        else if (matchId === 73) {
+            if ((matchData.inning1.runs > matchData.inning2.runs) || (matchData.superOverInning2.runs > matchData.superOverInning1.runs)) {
+                fixture[matchId].awayTeamId = matchData.inning1.teamId;
+            }
+            else {
+                fixture[matchId].awayTeamId = matchData.inning2.teamId;
+            }
+        }
+        else if (matchId === 74) {
+            localStorage.setItem("nextMatchId", null);
+            if ((matchData.inning1.runs > matchData.inning2.runs) || (matchData.superOverInning2.runs > matchData.superOverInning1.runs)) {
+                localStorage.setItem("winnerTeamId", matchData.inning1.teamId);
+                localStorage.setItem("runnerUpTeamId", matchData.inning2.teamId);
+            }
+            else {
+                localStorage.setItem("winnerTeamId", matchData.inning2.teamId);
+                localStorage.setItem("runnerUpTeamId", matchData.inning1.teamId);
+            }
+            setWinner(Number(localStorage.getItem("winnerTeamId")));
+            setRunnerUp(Number(localStorage.getItem("runnerUpTeamId")));
+        }
+        localStorage.setItem("fixture", JSON.stringify(fixture));
+        setFixture(fixture);
+    }
+    function savePointsTable(winningTeamInning, losingTeamInning, matchData, matchId, isSuperOver, isTied) {
+        if (matchId <= 70) {
+            const winningTeamIndex = pointsTable.findIndex((t) => t.teamId === matchData[`inning${winningTeamInning}`].teamId);
+            const losingTeamIndex = pointsTable.findIndex((t) => t.teamId === matchData[`inning${losingTeamInning}`].teamId);
+            pointsTable[winningTeamIndex].matchesPlayed += 1;
+            pointsTable[losingTeamIndex].matchesPlayed += 1;
+            if (isTied) {
+                pointsTable[winningTeamIndex].matchesTied += 1;
+                pointsTable[losingTeamIndex].matchesTied += 1;
+            }
+            else {
+                pointsTable[winningTeamIndex].matchesWon += 1;
+                pointsTable[winningTeamIndex].points += 2;
+                pointsTable[losingTeamIndex].matchesLost += 1;
+            }
+            if (!isSuperOver) {
+                pointsTable[winningTeamIndex].runRate = pointsTable[winningTeamIndex].runRate + (matchData[`inning${winningTeamInning}`].runs / (Math.floor(matchData[`inning${winningTeamInning}`].balls / 6) + ((matchData[`inning${winningTeamInning}`].balls % 6) / 6))) - (matchData[`inning${losingTeamInning}`].runs / (Math.floor(matchData[`inning${losingTeamInning}`].balls / 6) + ((matchData[`inning${losingTeamInning}`].balls % 6) / 6)));
+                pointsTable[losingTeamIndex].runRate = pointsTable[losingTeamIndex].runRate + (matchData[`inning${losingTeamInning}`].runs / (Math.floor(matchData[`inning${losingTeamInning}`].balls / 6) + ((matchData[`inning${losingTeamInning}`].balls % 6) / 6))) - (matchData[`inning${winningTeamInning}`].runs / (Math.floor(matchData[`inning${winningTeamInning}`].balls / 6) + ((matchData[`inning${winningTeamInning}`].balls % 6) / 6)));
+            }
+            pointsTable[winningTeamIndex].netRunRate = pointsTable[winningTeamIndex].runRate / pointsTable[winningTeamIndex].matchesPlayed;
+            pointsTable[losingTeamIndex].netRunRate = pointsTable[losingTeamIndex].runRate / pointsTable[losingTeamIndex].matchesPlayed;
+            pointsTable.sort((a, b) => {
+                if (a.points === b.points) {
+                    return b.netRunRate - a.netRunRate;
+                }
+                return b.points - a.points;
+            });
+            localStorage.setItem("pointsTable", JSON.stringify(pointsTable));
+            setPointsTable(pointsTable);
+            const tableTopperLength = pointsTable.filter((t) => (t.points > 0)).length;
+            const tableTopper = pointsTable.slice(0, Math.min(tableTopperLength, 4));
+            localStorage.setItem("tableTopper", JSON.stringify(tableTopper));
+        }
+    }
     function handleFixture() {
         navigate("/fixture");
     }
     function handleSquad() {
         navigate("/squad");
     }
-    function handleVenue() {
-        navigate("/venue");
+    function handleVenues() {
+        navigate("/venues");
     }
     function handlePointsTable() {
         navigate("/points-table");
     }
-    function handleBattingStatistic() {
-        navigate("/batting-statistic");
+    function handleBattingStatistics() {
+        navigate("/batting-statistics");
     }
-    function handleBowlingStatistic() {
-        navigate("/bowling-statistic");
+    function handleBowlingStatistics() {
+        navigate("/bowling-statistics");
     }
     return (
         <>
@@ -353,45 +363,64 @@ function MainMenu() {
                 <div className={style.containerHeader}>
                     <p>IPL - Main Menu</p>
                 </div>
-                <div className={style.section}>
-                    <div className={style.sectionHeader}>
-                        <p>{(winner) ? "Winner" : "Next Match"}</p>
+                <div className={style.containerContent}>
+                    <div className={style.section}>
+                        <div className={style.sectionHeader}>
+                            <p>{(winner) ? "Tournament Result" : "Next Match"}</p>
+                        </div>
+                        <div className={style.sectionContent}>
+                            {(nextMatch) ?
+                                <>
+                                    <div className={style.detailsContainer}>
+                                        <span>Match #{nextMatch.matchId}</span>
+                                        <span>Venue: {venues[nextMatch.venueId - 1].venueCity}</span>
+                                    </div>
+                                    <div className={style.imageContainer}>
+                                        <img src={teams[nextMatch.homeTeamId - 1].logo} alt={teams[nextMatch.homeTeamId - 1].teamName} title={teams[nextMatch.homeTeamId - 1].teamName} />
+                                        <span>V/S</span>
+                                        <img src={teams[nextMatch.awayTeamId - 1].logo} alt={teams[nextMatch.awayTeamId - 1].teamName} title={teams[nextMatch.awayTeamId - 1].teamName} />
+                                    </div>
+                                </> : (winner) ?
+                                    <>
+                                        <div className={style.detailsContainer}>
+                                            <span>Winner: {teams[winner - 1].teamShortName}</span>
+                                            <span>Runner Up: {teams[runnerUp - 1].teamShortName}</span>
+                                        </div>
+                                        <div className={style.imageContainer}>
+                                            <img src={teams[winner - 1].logo} alt={teams[winner - 1].teamName} title={teams[winner - 1].teamName} />
+                                            <img src={teams[runnerUp - 1].logo} alt={teams[runnerUp - 1].teamName} title={teams[runnerUp - 1].teamName} />
+                                        </div>
+                                    </> : <p className={style.altMessage} >No Data Available Currently!</p>}
+                        </div>
                     </div>
-                    <div className={style.sectionContent}>
-                        {(nextMatch) ?
-                            <>
-                                <div className={style.detailsContainer}>
-                                    <span>Match #{nextMatch.matchId}</span>
-                                    <span>Venue: {venues[nextMatch.venueId - 1].venueCity}</span>
-                                </div>
-                                <div className={style.imageContainer}>
-                                    <img src={teams[nextMatch.homeTeamId - 1].logo} height={100} />
-                                    <span>V/S</span>
-                                    <img src={teams[nextMatch.awayTeamId - 1].logo} height={100} />
-                                </div>
-                            </>
-                            : (winner) ?
-                                <div className={style.imageContainer}>
-                                    <img src={teams[winner - 1].logo} height={100} />
-                                </div>
-                                : <p className={style.altMessage} >No Data Available Currently!</p>}
+                    <div className={style.section}>
+                        <button className={style.button} onClick={handleFixture}>
+                            <span>Fixture</span>
+                        </button>
                     </div>
-                </div>
-                <div className={style.section}>
-                    <button className={style.button} onClick={handleFixture}>Fixture</button>
-                </div>
-                <div className={style.section}>
-                    <button className={style.button} onClick={handleSquad}>Squad</button>
-                    <button className={style.button} onClick={handleVenue}>Venue</button>
-                </div>
-                <div className={style.section}>
-                    <button className={style.button} onClick={handlePointsTable}>Points Table</button>
-                </div>
-                <div className={style.section}>
-                    <button className={style.button} onClick={handleBattingStatistic}>Batting Statistic</button>
-                </div>
-                <div className={style.section}>
-                    <button className={style.button} onClick={handleBowlingStatistic}>Bowling Statistic</button>
+                    <div className={style.section}>
+                        <button className={style.button} onClick={handleSquad}>
+                            <span>Squad</span>
+                        </button>
+                        <button className={style.button} onClick={handleVenues}>
+                            <span>Venues</span>
+                        </button>
+                    </div>
+                    <div className={style.section}>
+                        <button className={style.button} onClick={handlePointsTable}>
+                            <span>Points Table</span>
+                        </button>
+                    </div>
+                    <div className={style.section}>
+                        <button className={style.button} onClick={handleBattingStatistics}>
+                            <span>Batting Statistics</span>
+                        </button>
+                    </div>
+                    <div className={style.section}>
+                        <button className={style.button} onClick={handleBowlingStatistics}>
+                            <span>Bowling Statistics</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </>

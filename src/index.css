@@ -26,8 +26,10 @@
     --background-color-6: #0a858e3a;
     --background-color-7: #c2bcbcb3;
     --box-shadow: 0 3px 8px #0000003d;
+    --text-shadow: 1px 1px 0px #000000, -1px -1px 0px #000000, 1px -1px 0px #000000, -1px 1px 0px #000000;
     --transition: all 0.2s ease;
     --scale: scale(1.02);
+    --blur: blur(2px);
 }
 
 * {

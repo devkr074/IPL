@@ -20,9 +20,9 @@ function App() {
         <Route path="/fixture" element={<Fixture />} />
         <Route path="/squad" element={<Squad />} />
         <Route path="/points-table" element={<PointsTable />} />
-        <Route path="/venue" element={<Venues />} />
-        <Route path="/batting-statistic" element={<BattingStatistic />} />
-        <Route path="/bowling-statistic" element={<BowlingStatistic />} />
+        <Route path="/venues" element={<Venues />} />
+        <Route path="/batting-statistics" element={<BattingStatistic />} />
+        <Route path="/bowling-statistics" element={<BowlingStatistic />} />
         <Route path="/match/:matchId" element={<Match />} />
       </Routes>
     </Router>
