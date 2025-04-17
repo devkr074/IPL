@@ -119,7 +119,7 @@ function Toss() {
             keysToRemove.forEach(key => {
                 localStorage.removeItem(key);
             });
-            navigate(`/live-match/${matchId}`);
+            navigate(`/match/${matchId}`);
     }
 
     return (

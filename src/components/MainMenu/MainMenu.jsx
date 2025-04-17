@@ -362,7 +362,7 @@ function MainMenu() {
             navigate(`/toss/${matchId}`);
         }
         else {
-            navigate(`/live-match/${matchId}`);
+            navigate(`/match/${matchId}`);
         }
     }
     return (
