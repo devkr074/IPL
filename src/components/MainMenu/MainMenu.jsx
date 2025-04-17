@@ -8,17 +8,26 @@ function MainMenu() {
     const [userTeamId, setUserTeamId] = useState(null);
     const [fixture, setFixture] = useState([]);
     const [teams, setTeams] = useState([]);
+    const [winner, setWinner] = useState(null);
+    const [venues, setVenues] = useState([]);
     const [pointsTable, setPointsTable] = useState([]);
+    const [nextMatch, setNextMatch] = useState(null);
     useEffect(() => {
         document.title = "IPL - Main Menu";
         const fixture = JSON.parse(localStorage.getItem("fixture"));
         const teams = JSON.parse(localStorage.getItem("teams"));
         const pointsTable = JSON.parse(localStorage.getItem("pointsTable"));
+        const nextMatch = JSON.parse(localStorage.getItem("nextMatchId"));
+        const winner = Number(localStorage.getItem("winnerTeamId"));
         const userTeamId = Number(localStorage.getItem('userTeamId'));
+        const venues = JSON.parse(localStorage.getItem('venues'));
         setFixture(fixture);
         setTeams(teams);
+        setVenues(venues);
         setPointsTable(pointsTable);
+        setNextMatch(nextMatch);
         setUserTeamId(userTeamId);
+        setWinner(winner);
     }, []);
     useEffect(() => {
         simulateOtherMatches();
@@ -30,11 +39,7 @@ function MainMenu() {
             const tossStatus = match.tossStatus;
             const matchStatus = match.matchStatus;
             if (tossStatus !== "completed" && matchStatus !== "completed") {
-                if (isUserMatch(match)) {
-                    localStorage.setItem("nextMatchId", match.matchId);
-                    break;
-                }
-                else {
+                
                     const tossCall = getTossCall();
                     const tossOutcome = getTossOutcome();
                     const optionOutcome = getOptionOutcome();
@@ -81,7 +86,7 @@ function MainMenu() {
                         }
                     }
                 }
-            }
+            
         }
     }
     function isUserMatch(match) {
@@ -162,6 +167,7 @@ function MainMenu() {
             else {
                 localStorage.setItem("winnerTeamId", matchData.inning2.teamId);
             }
+            setWinner(Number(localStorage.getItem("winnerTeamId")));
         }
         localStorage.setItem("fixture", JSON.stringify(fixture));
         setFixture(fixture);
@@ -202,32 +208,126 @@ function MainMenu() {
     }
     function updateStatistics(matchId) {
         const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`)) || [];
+        const battingStatistics = JSON.parse(localStorage.getItem("battingStatistics")) || [];
+        const bowlingStatistics = JSON.parse(localStorage.getItem("bowlingStatistics")) || [];
         const players = [];
+        function updatePlayerPoints(playerId, points) {
+            const existingPlayer = players.find(p => p.playerId === playerId);
+            if (existingPlayer) {
+                existingPlayer.points += points;
+            } else {
+                players.push({
+                    playerId: playerId,
+                    points: points
+                });
+            }
+        }
         for (let i = 0; i < matchData.inning1Batsman.length; i++) {
-            players.push({
-                playerId: matchData.inning1Batsman[i].playerId,
-                points: matchData.inning1Batsman[i].points,
-            });
+            updatePlayerPoints(
+                matchData.inning1Batsman[i].playerId,
+                matchData.inning1Batsman[i].points
+            );
+            const playerIndex = battingStatistics.findIndex(p => p.playerId === matchData.inning1Batsman[i].playerId);
+            if (playerIndex != -1) {
+                if (matchData.inning1Batsman[i].runs >= 50 && matchData.inning1Batsman[i].runs < 100) {
+                    battingStatistics[playerIndex].halfCenturies++;
+                }
+                else if (matchData.inning1Batsman[i].runs >= 100) {
+                    battingStatistics[playerIndex].centuries++;
+                }
+                if (battingStatistics[playerIndex].innings == 1) {
+                    battingStatistics[playerIndex].highestScoreRuns = matchData.inning1Batsman[i].runs;
+                    battingStatistics[playerIndex].highestScoreBalls = matchData.inning1Batsman[i].balls;
+                    battingStatistics[playerIndex].highestScoreOpponentTeam = matchData.inning2.teamId;
+                }
+                else if ((matchData.inning1Batsman[i].runs > battingStatistics[playerIndex].highestScoreRuns) || ((matchData.inning1Batsman[i].runs == battingStatistics[playerIndex].highestScoreRuns) && (matchData.inning1Batsman[i].balls < battingStatistics[playerIndex].highestScoreBalls))) {
+                    battingStatistics[playerIndex].highestScoreRuns = matchData.inning1Batsman[i].runs;
+                    battingStatistics[playerIndex].highestScoreBalls = matchData.inning1Batsman[i].balls;
+                    battingStatistics[playerIndex].highestScoreOpponentTeam = matchData.inning2.teamId;
+                }
+                if (matchData.inning1Batsman[i].isNotOut && !matchData.inning1Batsman[i].didNotBat) {
+                    battingStatistics[playerIndex].notOut += 1;
+                }
+            }
         }
         for (let i = 0; i < matchData.inning1Bowler.length; i++) {
-            players.push({
-                playerId: matchData.inning1Bowler[i].playerId,
-                points: matchData.inning1Bowler[i].points,
-            });
+            updatePlayerPoints(
+                matchData.inning1Bowler[i].playerId,
+                matchData.inning1Bowler[i].points
+            );
+            const playerIndex = bowlingStatistics.findIndex(p => p.playerId === matchData.inning1Bowler[i].playerId);
+            if (playerIndex != -1) {
+                if (matchData.inning1Bowler[i].wickets >= 5) {
+                    bowlingStatistics[playerIndex].fiveWickets++;
+                }
+                if (bowlingStatistics[playerIndex].matches == 1 && matchData.inning1Bowler[i].balls > 0) {
+                    bowlingStatistics[playerIndex].bestBowlingWickets = matchData.inning1Bowler[i].wickets;
+                    bowlingStatistics[playerIndex].bestBowlingRuns = matchData.inning1Bowler[i].runs;
+                    bowlingStatistics[playerIndex].bestBowlingOpponentTeam = matchData.inning2.teamId;
+                }
+                else if ((matchData.inning1Bowler[i].wickets > bowlingStatistics[playerIndex].bestBowlingWickets) || ((matchData.inning1Bowler[i].wickets == bowlingStatistics[playerIndex].bestBowlingWickets) && (matchData.inning1Bowler[i].runs < bowlingStatistics[playerIndex].bestBowlingRuns))) {
+                    bowlingStatistics[playerIndex].bestBowlingWickets = matchData.inning1Bowler[i].wickets;
+                    bowlingStatistics[playerIndex].bestBowlingRuns = matchData.inning1Bowler[i].runs;
+                    bowlingStatistics[playerIndex].bestBowlingOpponentTeam = matchData.inning2.teamId;
+                }
+            }
         }
         for (let i = 0; i < matchData.inning2Batsman.length; i++) {
-            players.push({
-                playerId: matchData.inning2Batsman[i].playerId,
-                points: matchData.inning2Batsman[i].points,
-            });
+            updatePlayerPoints(
+                matchData.inning2Batsman[i].playerId,
+                matchData.inning2Batsman[i].points
+            );
+            const playerIndex = battingStatistics.findIndex(p => p.playerId === matchData.inning2Batsman[i].playerId);
+            if (playerIndex != -1) {
+                if (matchData.inning2Batsman[i].runs >= 50 && matchData.inning2Batsman[i].runs < 100) {
+                    battingStatistics[playerIndex].halfCenturies++;
+                }
+                else if (matchData.inning2Batsman[i].runs >= 100) {
+                    battingStatistics[playerIndex].centuries++;
+                }
+                if (battingStatistics[playerIndex].innings == 1) {
+                    battingStatistics[playerIndex].highestScoreRuns = matchData.inning2Batsman[i].runs;
+                    battingStatistics[playerIndex].highestScoreBalls = matchData.inning2Batsman[i].balls;
+                    battingStatistics[playerIndex].highestScoreOpponentTeam = matchData.inning1.teamId;
+                }
+                else if ((matchData.inning2Batsman[i].runs > battingStatistics[playerIndex].highestScoreRuns) || ((matchData.inning2Batsman[i].runs == battingStatistics[playerIndex].highestScoreRuns) && (matchData.inning2Batsman[i].balls < battingStatistics[playerIndex].highestScoreBalls))) {
+                    battingStatistics[playerIndex].highestScoreRuns = matchData.inning2Batsman[i].runs;
+                    battingStatistics[playerIndex].highestScoreBalls = matchData.inning2Batsman[i].balls;
+                    battingStatistics[playerIndex].highestScoreOpponentTeam = matchData.inning1.teamId;
+                }
+                if (matchData.inning2Batsman[i].isNotOut && !matchData.inning2Batsman[i].didNotBat) {
+                    battingStatistics[playerIndex].notOut += 1;
+                }
+            }
         }
         for (let i = 0; i < matchData.inning2Bowler.length; i++) {
-            players.push({
-                playerId: matchData.inning2Bowler[i].playerId,
-                points: matchData.inning2Bowler[i].points,
-            });
+            updatePlayerPoints(
+                matchData.inning2Bowler[i].playerId,
+                matchData.inning2Bowler[i].points
+            );
+            const playerIndex = bowlingStatistics.findIndex(p => p.playerId === matchData.inning2Bowler[i].playerId);
+            if (playerIndex != -1) {
+                if (matchData.inning2Bowler[i].wickets >= 5) {
+                    bowlingStatistics[playerIndex].fiveWickets++;
+                }
+                if (bowlingStatistics[playerIndex].matches == 1 && matchData.inning2Bowler[i].balls > 0) {
+                    bowlingStatistics[playerIndex].bestBowlingWickets = matchData.inning2Bowler[i].wickets;
+                    bowlingStatistics[playerIndex].bestBowlingRuns = matchData.inning2Bowler[i].runs;
+                    bowlingStatistics[playerIndex].bestBowlingOpponentTeam = matchData.inning1.teamId;
+                }
+                else if ((matchData.inning2Bowler[i].wickets > bowlingStatistics[playerIndex].bestBowlingWickets) || ((matchData.inning2Bowler[i].wickets == bowlingStatistics[playerIndex].bestBowlingWickets) && (matchData.inning2Bowler[i].runs < bowlingStatistics[playerIndex].bestBowlingRuns))) {
+                    bowlingStatistics[playerIndex].bestBowlingWickets = matchData.inning2Bowler[i].wickets;
+                    bowlingStatistics[playerIndex].bestBowlingRuns = matchData.inning2Bowler[i].runs;
+                    bowlingStatistics[playerIndex].bestBowlingOpponentTeam = matchData.inning1.teamId;
+                }
+            }
         }
         console.log(players);
+        players.sort((a, b) => b.points - a.points);
+        fixture[matchId - 1].playerOfMatch = players[0].playerId;
+        localStorage.setItem("fixture", JSON.stringify(fixture));
+        localStorage.setItem("battingStatistics", JSON.stringify(battingStatistics));
+        localStorage.setItem("bowlingStatistics", JSON.stringify(bowlingStatistics));
     }
     function handleFixture() {
         navigate("/fixture");
@@ -253,31 +353,45 @@ function MainMenu() {
                 <div className={style.containerHeader}>
                     <p>IPL - Main Menu</p>
                 </div>
-                <div className={style.containerContent}>
-                    <div className={style.section}>
-                        <div className={style.sectionHeader}>
-                            <p>Next Match</p>
-                        </div>
-                        <div className={style.sectionContent}>
-                            <p>Section Content</p>
-                        </div>
+                <div className={style.section}>
+                    <div className={style.sectionHeader}>
+                        <p>{(winner) ? "Winner" : "Next Match"}</p>
                     </div>
-                    <div className={style.section}>
-                        <button className={style.button} onClick={handleFixture}>Fixture</button>
+                    <div className={style.sectionContent}>
+                        {(nextMatch) ?
+                            <>
+                                <div className={style.detailsContainer}>
+                                    <span>Match #{nextMatch.matchId}</span>
+                                    <span>Venue: {venues[nextMatch.venueId - 1].venueCity}</span>
+                                </div>
+                                <div className={style.imageContainer}>
+                                    <img src={teams[nextMatch.homeTeamId - 1].logo} height={100} />
+                                    <span>V/S</span>
+                                    <img src={teams[nextMatch.awayTeamId - 1].logo} height={100} />
+                                </div>
+                            </>
+                            : (winner) ?
+                                <div className={style.imageContainer}>
+                                    <img src={teams[winner - 1].logo} height={100} />
+                                </div>
+                                : <p className={style.altMessage} >No Data Available Currently!</p>}
                     </div>
-                    <div className={style.section}>
-                        <button className={style.button} onClick={handleSquad}>Squad</button>
-                        <button className={style.button} onClick={handleVenue}>Venue</button>
-                    </div>
-                    <div className={style.section}>
-                        <button className={style.button} onClick={handlePointsTable}>Points Table</button>
-                    </div>
-                    <div className={style.section}>
-                        <button className={style.button} onClick={handleBattingStatistic}>Batting Statistic</button>
-                    </div>
-                    <div className={style.section}>
-                        <button className={style.button} onClick={handleBowlingStatistic}>Bowling Statistic</button>
-                    </div>
+                </div>
+                <div className={style.section}>
+                    <button className={style.button} onClick={handleFixture}>Fixture</button>
+                </div>
+                <div className={style.section}>
+                    <button className={style.button} onClick={handleSquad}>Squad</button>
+                    <button className={style.button} onClick={handleVenue}>Venue</button>
+                </div>
+                <div className={style.section}>
+                    <button className={style.button} onClick={handlePointsTable}>Points Table</button>
+                </div>
+                <div className={style.section}>
+                    <button className={style.button} onClick={handleBattingStatistic}>Batting Statistic</button>
+                </div>
+                <div className={style.section}>
+                    <button className={style.button} onClick={handleBowlingStatistic}>Bowling Statistic</button>
                 </div>
             </div>
         </>
