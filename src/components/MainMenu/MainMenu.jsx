@@ -41,7 +41,7 @@ function MainMenu() {
             const match = fixture[i];
             const tossStatus = match.tossStatus;
             const matchStatus = match.matchStatus;
-            if (tossStatus !== "completed" && matchStatus !== "completed") {
+            if (tossStatus != "completed" || matchStatus != "completed") {
                 if (isUserMatch(match)) {
                     localStorage.setItem("nextMatchId", JSON.stringify(match));
                     break;
@@ -357,6 +357,14 @@ function MainMenu() {
     function handleBowlingStatistics() {
         navigate("/bowling-statistics");
     }
+    function handlePlay(matchId) {
+        if (fixture[matchId - 1].tossStatus != "completed") {
+            navigate(`/toss/${matchId}`);
+        }
+        else {
+            navigate(`/live-match/${matchId}`);
+        }
+    }
     return (
         <>
             <div className={style.container}>
@@ -366,7 +374,7 @@ function MainMenu() {
                 <div className={style.containerContent}>
                     <div className={style.section}>
                         <div className={style.sectionHeader}>
-                            <p>{(winner) ? "Tournament Result" : "Next Match"}</p>
+                            <p>{(winner) ? "Tournament Result" : (fixture[nextMatch?.matchId - 1]?.tossStatus == "not completed" || fixture[nextMatch?.matchId - 1]?.matchStatus == "not completed") ? "Current Match" : "Next Match"}</p>
                         </div>
                         <div className={style.sectionContent}>
                             {(nextMatch) ?
@@ -380,6 +388,9 @@ function MainMenu() {
                                         <span>V/S</span>
                                         <img src={teams[nextMatch.awayTeamId - 1].logo} alt={teams[nextMatch.awayTeamId - 1].teamName} title={teams[nextMatch.awayTeamId - 1].teamName} />
                                     </div>
+                                    <button onClick={() => handlePlay(nextMatch.matchId)}>
+                                        {(fixture[nextMatch.matchId - 1].tossStatus == "not completed" || fixture[nextMatch.matchId - 1].matchStatus == "not completed") ? "Resume" : "Start"}
+                                    </button>
                                 </> : (winner) ?
                                     <>
                                         <div className={style.detailsContainer}>

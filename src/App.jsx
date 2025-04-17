@@ -10,6 +10,8 @@ import PointsTable from "./components/PointsTable/PointsTable.jsx";
 import BattingStatistic from "./components/BattingStatistic/BattingStatistic.jsx";
 import BowlingStatistic from "./components/BowlingStatistic/BowlingStatistic.jsx";
 import Match from "./components/Match/Match.jsx";
+import LiveMatch from "./components/LiveMatch/LiveMatch.jsx";
+import Toss from "./components/Toss/Toss.jsx";
 function App() {
   return (
     <Router>
@@ -24,6 +26,8 @@ function App() {
         <Route path="/batting-statistics" element={<BattingStatistic />} />
         <Route path="/bowling-statistics" element={<BowlingStatistic />} />
         <Route path="/match/:matchId" element={<Match />} />
+        <Route path="/live-match/:matchId" element={<LiveMatch />} />
+        <Route path="/toss/:matchId" element={<Toss />} />
       </Routes>
     </Router>
   );
