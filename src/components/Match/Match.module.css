@@ -10,36 +10,6 @@
     scrollbar-width: none;
 }
 
-.comment{
-    margin: 2px;
-}
-
-.matchSummary{
-    padding: 20px;
-}
-
-.matchCommentary{
-    padding:20px
-}
-
-.matchCard{
-    border: 2px solid;
-    margin: 20px;
-    display: flex;
-    align-items: center;
-}
-
-.fixtureGrid{
-    display: flex;
-    flex-wrap: wrap;
-
-}
-
-.vs{
-    font-size: 1.5em;
-    font-weight: bold;
-}
-
 .containerHeader {
     display: flex;
     align-items: center;
@@ -59,9 +29,25 @@
 
 .containerContent {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: var(--gap);
-    padding: var(--padding-1);
+    grid-template-rows: 40px auto;
+}
+
+.tabsContainer{
+    background-color: var(--background-color-3);
+}
+
+.matchDataContainer{
+    background-color: red;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.matchDetail{
+    border: 2px solid;
+}
+
+.commentary{
+    border: 2px solid;
 }
 
 .section {
