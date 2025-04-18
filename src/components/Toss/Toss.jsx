@@ -125,7 +125,7 @@ function Toss() {
     return (
         <>
             {teams[fixture[matchId - 1]?.homeTeamId - 1]?.teamId === userTeamId ?
-                <p>You are Flipping</p> :
+                <button >Flip</button> :
 
                 (call == null) ?
 

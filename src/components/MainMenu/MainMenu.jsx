@@ -56,18 +56,88 @@ function MainMenu() {
                         localStorage.setItem("fixture", JSON.stringify(fixture));
                         if (optionOutcome === "Bat") {
                             setMatchData(match.awayTeamId, match.homeTeamId, match);
-                            simulateInning(1, match.matchId);
+                            simulateFirstInning();
+                            function simulateFirstInning() {
+                                const matchData = JSON.parse(localStorage.getItem(`match-${match.matchId}`));
+                                if (matchData.inning1.balls < 120 && matchData.inning1.wickets < 10) {
+                                    simulateInning(1, match.matchId);
+                                    simulateFirstInning();
+                                }
+                                else {
+                                    simulateSecondInning();
+                                }
+                            }
+                            function simulateSecondInning() {
+                                const matchData = JSON.parse(localStorage.getItem(`match-${match.matchId}`));
+                                if (matchData.inning2.balls < 120 && matchData.inning2.wickets < 10 && matchData.inning1.runs >= matchData.inning2.runs) {
+                                    simulateInning(2, match.matchId);
+                                    simulateSecondInning();
+                                }
+                            }
                             const matchData = JSON.parse(localStorage.getItem(`match-${match.matchId}`));
                             if (matchData.inning1.runs === matchData.inning2.runs) {
-                                simulateSuperOverInning(1, match.matchId);
+                                simulateFirstInning();
+                                simulateFirstInningSuperOver();
+                                function simulateFirstInningSuperOver() {
+                                    const matchData = JSON.parse(localStorage.getItem(`match-${match.matchId}`));
+                                    if (matchData.superOverInning1.balls < 6 && matchData.superOverInning1.wickets < 2) {
+                                        simulateSuperOverInning(1, match.matchId);
+                                        simulateFirstInningSuperOver();
+                                    }
+                                    else {
+                                        simulateSecondInningSuperOver();
+                                    }
+                                }
+                                function simulateSecondInningSuperOver() {
+                                    const matchData = JSON.parse(localStorage.getItem(`match-${match.matchId}`));
+                                    if (matchData.superOverInning2.balls < 6 && matchData.superOverInning2.wickets < 2 && matchData.superOverInning1.runs >= matchData.superOverInning2.runs) {
+                                        simulateSuperOverInning(2, match.matchId);
+                                        simulateSecondInningSuperOver();
+                                    }
+                                }
                             }
                             saveResult(match.matchId);
                         } else {
                             setMatchData(match.homeTeamId, match.awayTeamId, match);
-                            simulateInning(1, match.matchId);
+                            simulateFirstInning();
+                            function simulateFirstInning() {
+                                const matchData = JSON.parse(localStorage.getItem(`match-${match.matchId}`));
+                                if (matchData.inning1.balls < 120 && matchData.inning1.wickets < 10) {
+                                    simulateInning(1, match.matchId);
+                                    simulateFirstInning();
+                                }
+                                else {
+                                    simulateSecondInning();
+                                }
+                            }
+                            function simulateSecondInning() {
+                                const matchData = JSON.parse(localStorage.getItem(`match-${match.matchId}`));
+                                if (matchData.inning2.balls < 120 && matchData.inning2.wickets < 10 && matchData.inning1.runs >= matchData.inning2.runs) {
+                                    simulateInning(2, match.matchId);
+                                    simulateSecondInning();
+                                }
+                            }
                             const matchData = JSON.parse(localStorage.getItem(`match-${match.matchId}`));
                             if (matchData.inning1.runs === matchData.inning2.runs) {
-                                simulateSuperOverInning(1, match.matchId);
+                                simulateFirstInning();
+                                simulateFirstInningSuperOver();
+                                function simulateFirstInningSuperOver() {
+                                    const matchData = JSON.parse(localStorage.getItem(`match-${match.matchId}`));
+                                    if (matchData.superOverInning1.balls < 6 && matchData.superOverInning1.wickets < 2) {
+                                        simulateSuperOverInning(1, match.matchId);
+                                        simulateFirstInningSuperOver();
+                                    }
+                                    else {
+                                        simulateSecondInningSuperOver();
+                                    }
+                                }
+                                function simulateSecondInningSuperOver() {
+                                    const matchData = JSON.parse(localStorage.getItem(`match-${match.matchId}`));
+                                    if (matchData.superOverInning2.balls < 6 && matchData.superOverInning2.wickets < 2 && matchData.superOverInning1.runs >= matchData.superOverInning2.runs) {
+                                        simulateSuperOverInning(2, match.matchId);
+                                        simulateSecondInningSuperOver();
+                                    }
+                                }
                             }
                             saveResult(match.matchId);
                         }
@@ -76,18 +146,88 @@ function MainMenu() {
                         localStorage.setItem("fixture", JSON.stringify(fixture));
                         if (optionOutcome === "Bat") {
                             setMatchData(match.homeTeamId, match.awayTeamId, match);
-                            simulateInning(1, match.matchId);
+                            simulateFirstInning();
+                            function simulateFirstInning() {
+                                const matchData = JSON.parse(localStorage.getItem(`match-${match.matchId}`));
+                                if (matchData.inning1.balls < 120 && matchData.inning1.wickets < 10) {
+                                    simulateInning(1, match.matchId);
+                                    simulateFirstInning();
+                                }
+                                else {
+                                    simulateSecondInning();
+                                }
+                            }
+                            function simulateSecondInning() {
+                                const matchData = JSON.parse(localStorage.getItem(`match-${match.matchId}`));
+                                if (matchData.inning2.balls < 120 && matchData.inning2.wickets < 10 && matchData.inning1.runs >= matchData.inning2.runs) {
+                                    simulateInning(2, match.matchId);
+                                    simulateSecondInning();
+                                }
+                            }
                             const matchData = JSON.parse(localStorage.getItem(`match-${match.matchId}`));
                             if (matchData.inning1.runs === matchData.inning2.runs) {
-                                simulateSuperOverInning(1, match.matchId);
+                                simulateFirstInning();
+                                simulateFirstInningSuperOver();
+                                function simulateFirstInningSuperOver() {
+                                    const matchData = JSON.parse(localStorage.getItem(`match-${match.matchId}`));
+                                    if (matchData.superOverInning1.balls < 6 && matchData.superOverInning1.wickets < 2) {
+                                        simulateSuperOverInning(1, match.matchId);
+                                        simulateFirstInningSuperOver();
+                                    }
+                                    else {
+                                        simulateSecondInningSuperOver();
+                                    }
+                                }
+                                function simulateSecondInningSuperOver() {
+                                    const matchData = JSON.parse(localStorage.getItem(`match-${match.matchId}`));
+                                    if (matchData.superOverInning2.balls < 6 && matchData.superOverInning2.wickets < 2 && matchData.superOverInning1.runs >= matchData.superOverInning2.runs) {
+                                        simulateSuperOverInning(2, match.matchId);
+                                        simulateSecondInningSuperOver();
+                                    }
+                                }
                             }
                             saveResult(match.matchId);
                         } else {
                             setMatchData(match.awayTeamId, match.homeTeamId, match);
-                            simulateInning(1, match.matchId);
+                            simulateFirstInning();
+                            function simulateFirstInning() {
+                                const matchData = JSON.parse(localStorage.getItem(`match-${match.matchId}`));
+                                if (matchData.inning1.balls < 120 && matchData.inning1.wickets < 10) {
+                                    simulateInning(1, match.matchId);
+                                    simulateFirstInning();
+                                }
+                                else {
+                                    simulateSecondInning();
+                                }
+                            }
+                            function simulateSecondInning() {
+                                const matchData = JSON.parse(localStorage.getItem(`match-${match.matchId}`));
+                                if (matchData.inning2.balls < 120 && matchData.inning2.wickets < 10 && matchData.inning1.runs >= matchData.inning2.runs) {
+                                    simulateInning(2, match.matchId);
+                                    simulateSecondInning();
+                                }
+                            }
                             const matchData = JSON.parse(localStorage.getItem(`match-${match.matchId}`));
                             if (matchData.inning1.runs === matchData.inning2.runs) {
-                                simulateSuperOverInning(1, match.matchId);
+                                simulateFirstInning();
+                                simulateFirstInningSuperOver();
+                                function simulateFirstInningSuperOver() {
+                                    const matchData = JSON.parse(localStorage.getItem(`match-${match.matchId}`));
+                                    if (matchData.superOverInning1.balls < 6 && matchData.superOverInning1.wickets < 2) {
+                                        simulateSuperOverInning(1, match.matchId);
+                                        simulateFirstInningSuperOver();
+                                    }
+                                    else {
+                                        simulateSecondInningSuperOver();
+                                    }
+                                }
+                                function simulateSecondInningSuperOver() {
+                                    const matchData = JSON.parse(localStorage.getItem(`match-${match.matchId}`));
+                                    if (matchData.superOverInning2.balls < 6 && matchData.superOverInning2.wickets < 2 && matchData.superOverInning1.runs >= matchData.superOverInning2.runs) {
+                                        simulateSuperOverInning(2, match.matchId);
+                                        simulateSecondInningSuperOver();
+                                    }
+                                }
                             }
                             saveResult(match.matchId);
                         }
