@@ -2,36 +2,36 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import style from "./Teams.module.css";
 import fixture from "../../data/fixture.json";
-import squad from "../../data/squad.json";
-import venues from "../../data/venues.json";
 import pointsTable from "../../data/pointsTable.json";
+import squad from "../../data/squad.json";
 import teams from "../../data/teams.json";
+import venues from "../../data/venues.json";
 function Teams() {
   const [userTeamId, setUserTeamId] = useState(1);
   useEffect(() => {
     document.title = "IPL - Teams";
   }, []);
   const navigate = useNavigate();
-  function handleTeamChange(e) {
-    setUserTeamId(e.target.value);
-  }
   function handleNext() {
-    localStorage.setItem("fixture", JSON.stringify(fixture));
-    localStorage.setItem("squad", JSON.stringify(squad));
-    localStorage.setItem("venues", JSON.stringify(venues));
-    localStorage.setItem("pointsTable", JSON.stringify(pointsTable));
-    localStorage.setItem("teams", JSON.stringify(teams));
-    localStorage.setItem("status", true);
-    localStorage.setItem("orangeCap", null);
-    localStorage.setItem("purpleCap", null);
-    localStorage.setItem("nextMatch", null);
-    localStorage.setItem("winnerTeamId", null);
-    localStorage.setItem("runnerUpTeamId", null);
-    localStorage.setItem("tableTopper", null);
     localStorage.setItem("battingStatistics", null);
     localStorage.setItem("bowlingStatistics", null);
+    localStorage.setItem("fixture", JSON.stringify(fixture));
+    localStorage.setItem("nextMatch", null);
+    localStorage.setItem("orangeCap", null);
+    localStorage.setItem("pointsTable", JSON.stringify(pointsTable));
+    localStorage.setItem("purpleCap", null);
+    localStorage.setItem("runnerUpTeamId", null);
+    localStorage.setItem("squad", JSON.stringify(squad));
+    localStorage.setItem("status", true);
+    localStorage.setItem("tableTopper", null);
+    localStorage.setItem("teams", JSON.stringify(teams));
     localStorage.setItem("userTeamId", userTeamId);
+    localStorage.setItem("venues", JSON.stringify(venues));
+    localStorage.setItem("winnerTeamId", null);
     navigate("/main-menu");
+  }
+  function handleTeamChange(e) {
+    setUserTeamId(e.target.value);
   }
   return (
     <>
@@ -41,10 +41,10 @@ function Teams() {
           <button onClick={handleNext}>Next</button>
         </div>
         <div className={style.containerContent}>
-          {teams.map((teamsData) => (
-            <label key={teamsData.teamId} title={teamsData.teamName} className={`${style.card} ${(userTeamId == teamsData.teamId) ? style.active : ""}`}>
-              <input type="radio" name="teams" value={teamsData.teamId} checked={userTeamId == teamsData.teamId} onChange={handleTeamChange} />
-              <img src={teamsData.logo} alt={teamsData.teamName} />
+          {teams.map((t) => (
+            <label key={t.teamId} title={t.teamName} className={`${style.card} ${(userTeamId == t.teamId) && style.active}`}>
+              <input type="radio" name="teams" value={t.teamId} checked={userTeamId == t.teamId} onChange={handleTeamChange} />
+              <img src={t.logo} alt={t.teamName} />
             </label>
           ))}
         </div>

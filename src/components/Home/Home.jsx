@@ -36,9 +36,6 @@ function Home() {
         setWinnerTeamId(winnerTeamId);
     }, []);
     const navigate = useNavigate();
-    function handleStartTournament() {
-        navigate("/teams");
-    }
     function handleResumeTournament() {
         navigate("/main-menu");
     }
@@ -50,6 +47,9 @@ function Home() {
         else {
             return;
         }
+    }
+    function handleStartTournament() {
+        navigate("/teams");
     }
     return (
         <>
@@ -106,7 +106,7 @@ function Home() {
                             {(nextMatch) ?
                                 <>
                                     <div className={style.detailsContainer}>
-                                        <span>{(nextMatch.matchId === 71) ? "Qualifier 1" : (nextMatch.matchId === 72) ? "Eliminator" : (nextMatch.matchId === 73) ? "Qualifier 2" : (nextMatch.matchId === 74) ? "Final" : "Match #" + nextMatch.matchId}</span>
+                                        <span>{(nextMatch.matchId == 71) ? "Qualifier 1" : (nextMatch.matchId == 72) ? "Eliminator" : (nextMatch.matchId == 73) ? "Qualifier 2" : (nextMatch.matchId == 74) ? "Final" : "Match #" + nextMatch.matchId}</span>
                                         <span>Venue: {venues[nextMatch.venueId - 1].venueCity}</span>
                                     </div>
                                     <div className={style.imageContainer}>
