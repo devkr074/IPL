@@ -49,7 +49,7 @@
         "name": "Hardik Pandya",
         "shortName": "H. Pandya",
         "profile": "https://documents.iplt20.com/ipl/IPLHeadshot2025/54.png",
-        "isCaptain": true
+        "captain": true
     },
     {
         "playerId": 7,
@@ -100,7 +100,7 @@
         "name": "Ruturaj Gaikwad",
         "shortName": "R. Gaikwad",
         "profile": "https://documents.iplt20.com/ipl/IPLHeadshot2025/102.png",
-        "isCaptain": true
+        "captain": true
     },
     {
         "playerId": 13,
@@ -212,7 +212,7 @@
         "name": "Rajat Patidar",
         "shortName": "R. Patidar",
         "profile": "https://documents.iplt20.com/ipl/IPLHeadshot2025/597.png",
-        "isCaptain": true
+        "captain": true
     },
     {
         "playerId": 26,
@@ -306,7 +306,7 @@
         "name": "Ajinkya Rahane",
         "shortName": "A. Rahane",
         "profile": "https://documents.iplt20.com/ipl/IPLHeadshot2025/44.png",
-        "isCaptain": true
+        "captain": true
     },
     {
         "playerId": 37,
@@ -427,7 +427,7 @@
         "name": "Axar Patel",
         "shortName": "A. Patel",
         "profile": "https://documents.iplt20.com/ipl/IPLHeadshot2025/110.png",
-        "isCaptain": true
+        "captain": true
     },
     {
         "playerId": 51,
@@ -494,7 +494,7 @@
         "name": "Shreyas Iyer",
         "shortName": "S. Iyer",
         "profile": "https://documents.iplt20.com/ipl/IPLHeadshot2025/12.png",
-        "isCaptain": true
+        "captain": true
     },
     {
         "playerId": 59,
@@ -595,7 +595,7 @@
         "name": "Sanju Samson",
         "shortName": "S. Samson",
         "profile": "https://documents.iplt20.com/ipl/IPLHeadshot2025/190.png",
-        "isCaptain": true,
+        "captain": true,
         "wicketKeeper": true
     },
     {
@@ -723,7 +723,7 @@
         "name": "Pat Cummins",
         "shortName": "P. Cummins",
         "profile": "https://documents.iplt20.com/ipl/IPLHeadshot2025/33.png",
-        "isCaptain": true,
+        "captain": true,
         "foreigner": true
     },
     {
@@ -792,7 +792,7 @@
         "name": "Rishabh Pant",
         "shortName": "R. Pant",
         "profile": "https://documents.iplt20.com/ipl/IPLHeadshot2025/18.png",
-        "isCaptain": true,
+        "captain": true,
         "wicketKeeper": true
     },
     {
@@ -851,7 +851,7 @@
         "name": "Shubman Gill",
         "shortName": "S. Gill",
         "profile": "https://documents.iplt20.com/ipl/IPLHeadshot2025/62.png",
-        "isCaptain": true
+        "captain": true
     },
     {
         "playerId": 101,

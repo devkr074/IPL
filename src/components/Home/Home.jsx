@@ -72,10 +72,10 @@ function Home() {
                             {(orangeCap) ?
                                 <>
                                     <div className={style.imageContainer}>
-                                        <img src={squad[orangeCap.playerId - 1].profilePicture} alt={squad[orangeCap.playerId - 1].playerName} title={squad[orangeCap.playerId - 1].playerName} />
+                                        <img src={squad[orangeCap.playerId - 1].profile} alt={squad[orangeCap.playerId - 1].name} title={squad[orangeCap.playerId - 1].name} />
                                     </div>
                                     <div className={style.detailsContainer}>
-                                        <p>{squad[orangeCap.playerId - 1].playerName}</p>
+                                        <p>{squad[orangeCap.playerId - 1].name}</p>
                                         <span>{orangeCap.runs} {(orangeCap.runs > 1) ? "Runs" : "Run"}</span>
                                     </div>
                                 </> : <p className={style.altMessage} >No Data Available Currently!</p>}
@@ -89,10 +89,10 @@ function Home() {
                             {(purpleCap) ?
                                 <>
                                     <div className={style.imageContainer}>
-                                        <img src={squad[purpleCap.playerId - 1].profilePicture} alt={squad[purpleCap.playerId - 1].playerName} title={squad[purpleCap.playerId - 1].playerName} />
+                                        <img src={squad[purpleCap.playerId - 1].profile} alt={squad[purpleCap.playerId - 1].name} title={squad[purpleCap.playerId - 1].name} />
                                     </div>
                                     <div className={style.detailsContainer}>
-                                        <p>{squad[purpleCap.playerId - 1].playerName}</p>
+                                        <p>{squad[purpleCap.playerId - 1].name}</p>
                                         <span>{purpleCap.wickets} {(purpleCap.wickets > 1) ? "Wickets" : "Wicket"}</span>
                                     </div>
                                 </> : <p className={style.altMessage} >No Data Available Currently!</p>}

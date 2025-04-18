@@ -1,52 +1,52 @@
 [
     {
         "venueId": 1,
-        "venueName": "Wankhede Stadium",
-        "venueCity": "Mumbai"
+        "name": "Wankhede Stadium",
+        "city": "Mumbai"
     },
     {
         "venueId": 2,
-        "venueName": "MA Chidambaram Stadium",
-        "venueCity": "Chennai"
+        "name": "MA Chidambaram Stadium",
+        "city": "Chennai"
     },
     {
         "venueId": 3,
-        "venueName": "M.Chinnaswamy Stadium",
-        "venueCity": "Bengaluru"
+        "name": "M.Chinnaswamy Stadium",
+        "city": "Bengaluru"
     },
     {
         "venueId": 4,
-        "venueName": "Eden Gardens",
-        "venueCity": "Kolkata"
+        "name": "Eden Gardens",
+        "city": "Kolkata"
     },
     {
         "venueId": 5,
-        "venueName": "Arun Jaitley Stadium",
-        "venueCity": "Delhi"
+        "name": "Arun Jaitley Stadium",
+        "city": "Delhi"
     },
     {
         "venueId": 6,
-        "venueName": "Maharaja Yadavindra Singh International Cricket Stadium, Mullanpur",
-        "venueCity": "Chandigarh"
+        "name": "Maharaja Yadavindra Singh International Cricket Stadium, Mullanpur",
+        "city": "Chandigarh"
     },
     {
         "venueId": 7,
-        "venueName": "Sawai Mansingh Stadium",
-        "venueCity": "Jaipur"
+        "name": "Sawai Mansingh Stadium",
+        "city": "Jaipur"
     },
     {
         "venueId": 8,
-        "venueName": "Rajiv Gandhi International Stadium",
-        "venueCity": "Hyderabad"
+        "name": "Rajiv Gandhi International Stadium",
+        "city": "Hyderabad"
     },
     {
         "venueId": 9,
-        "venueName": "Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium",
-        "venueCity": "Lucknow"
+        "name": "Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium",
+        "city": "Lucknow"
     },
     {
         "venueId": 10,
-        "venueName": "Narendra Modi Stadium",
-        "venueCity": "Ahmedabad"
+        "name": "Narendra Modi Stadium",
+        "city": "Ahmedabad"
     }
 ]
