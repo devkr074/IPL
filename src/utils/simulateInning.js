@@ -403,8 +403,8 @@ function saveData(matchId, matchData, battingStatistics, bowlingStatistics) {
     bowlingStatistics.sort((a, b) => b.wickets - a.wickets);
     localStorage.setItem("battingStatistics", JSON.stringify(battingStatistics));
     localStorage.setItem("bowlingStatistics", JSON.stringify(bowlingStatistics));
-    localStorage.setItem("orangeCapId", JSON.stringify(battingStatistics[0]));
-    localStorage.setItem("purpleCapId", JSON.stringify(bowlingStatistics[0]));
+    localStorage.setItem("orangeCap", JSON.stringify(battingStatistics[0]));
+    localStorage.setItem("purpleCap", JSON.stringify(bowlingStatistics[0]));
 }
 
 function getRandomFielderId(inning, matchData, squad) {

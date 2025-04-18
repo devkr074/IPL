@@ -21,15 +21,15 @@ function Teams() {
     localStorage.setItem("venues", JSON.stringify(venues));
     localStorage.setItem("pointsTable", JSON.stringify(pointsTable));
     localStorage.setItem("teams", JSON.stringify(teams));
-    localStorage.setItem("gameStatus", true);
-    localStorage.setItem("orangeCapId", null);
-    localStorage.setItem("purpleCapId", null);
-    localStorage.setItem("nextMatchId", null);
+    localStorage.setItem("status", true);
+    localStorage.setItem("orangeCap", null);
+    localStorage.setItem("purpleCap", null);
+    localStorage.setItem("nextMatch", null);
     localStorage.setItem("winnerTeamId", null);
     localStorage.setItem("runnerUpTeamId", null);
-    localStorage.setItem("tableTopper", JSON.stringify([]));
-    localStorage.setItem("battingStatistics", JSON.stringify([]));
-    localStorage.setItem("bowlingStatistics", JSON.stringify([]));
+    localStorage.setItem("tableTopper", null);
+    localStorage.setItem("battingStatistics", null);
+    localStorage.setItem("bowlingStatistics", null);
     localStorage.setItem("userTeamId", userTeamId);
     navigate("/main-menu");
   }

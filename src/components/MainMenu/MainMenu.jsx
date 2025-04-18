@@ -15,7 +15,7 @@ function MainMenu() {
     const [pointsTable, setPointsTable] = useState([]);
     useEffect(() => {
         document.title = "IPL - Main Menu";
-        const nextMatch = JSON.parse(localStorage.getItem("nextMatchId"));
+        const nextMatch = JSON.parse(localStorage.getItem("nextMatch"));
         const winner = Number(localStorage.getItem("winnerTeamId"));
         const runnerUp = Number(localStorage.getItem("runnerUpTeamId"));
         const userTeamId = Number(localStorage.getItem('userTeamId'));
@@ -43,7 +43,7 @@ function MainMenu() {
             const matchStatus = match.matchStatus;
             if (tossStatus != "completed" || matchStatus != "completed") {
                 if (isUserMatch(match)) {
-                    localStorage.setItem("nextMatchId", JSON.stringify(match));
+                    localStorage.setItem("nextMatch", JSON.stringify(match));
                     break;
                 }
                 else {
@@ -430,7 +430,7 @@ function MainMenu() {
             }
         }
         else if (matchId === 74) {
-            localStorage.setItem("nextMatchId", null);
+            localStorage.setItem("nextMatch", null);
             if ((matchData.inning1.runs > matchData.inning2.runs) || (matchData.superOverInning2.runs > matchData.superOverInning1.runs)) {
                 localStorage.setItem("winnerTeamId", matchData.inning1.teamId);
                 localStorage.setItem("runnerUpTeamId", matchData.inning2.teamId);

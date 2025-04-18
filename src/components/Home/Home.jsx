@@ -2,38 +2,38 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import style from "./Home.module.css"
 function Home() {
-    const [gameStatus, setGameStatus] = useState(false);
-    const [orangeCap, setOrangeCap] = useState(null);
-    const [purpleCap, setPurpleCap] = useState(null);
-    const [nextMatch, setNextMatch] = useState(null);
-    const [winner, setWinner] = useState(null);
-    const [runnerUp, setRunnerUp] = useState(null);
-    const [tableTopper, setTableTopper] = useState(null);
-    const [teams, setTeams] = useState(null);
-    const [venues, setVenues] = useState(null);
-    const [squad, setSquad] = useState(null);
+    const [nextMatch, setNextMatch] = useState();
+    const [orangeCap, setOrangeCap] = useState();
+    const [purpleCap, setPurpleCap] = useState();
+    const [runnerUpTeamId, setRunnerUpTeamId] = useState();
+    const [squad, setSquad] = useState();
+    const [status, setStatus] = useState();
+    const [tableTopper, setTableTopper] = useState();
+    const [teams, setTeams] = useState();
+    const [venues, setVenues] = useState();
+    const [winnerTeamId, setWinnerTeamId] = useState();
     useEffect(() => {
         document.title = "IPL - Indian Premier League";
-        const gameStatus = localStorage.getItem("gameStatus");
-        const orangeCap = JSON.parse(localStorage.getItem("orangeCapId"));
-        const purpleCap = JSON.parse(localStorage.getItem("purpleCapId"));
-        const nextMatch = JSON.parse(localStorage.getItem("nextMatchId"));
-        const winner = Number(localStorage.getItem("winnerTeamId"));
-        const runnerUp = Number(localStorage.getItem("runnerUpTeamId"));
+        const nextMatch = JSON.parse(localStorage.getItem("nextMatch"));
+        const orangeCap = JSON.parse(localStorage.getItem("orangeCap"));
+        const purpleCap = JSON.parse(localStorage.getItem("purpleCap"));
+        const runnerUpTeamId = Number(localStorage.getItem("runnerUpTeamId"));
+        const squad = JSON.parse(localStorage.getItem("squad"));
+        const status = localStorage.getItem("status");
         const tableTopper = JSON.parse(localStorage.getItem("tableTopper"));
         const teams = JSON.parse(localStorage.getItem("teams"));
         const venues = JSON.parse(localStorage.getItem("venues"));
-        const squad = JSON.parse(localStorage.getItem("squad"));
-        setGameStatus(gameStatus);
+        const winnerTeamId = Number(localStorage.getItem("winnerTeamId"));
+        setNextMatch(nextMatch);
         setOrangeCap(orangeCap);
         setPurpleCap(purpleCap);
-        setNextMatch(nextMatch);
-        setWinner(winner);
-        setRunnerUp(runnerUp);
+        setRunnerUpTeamId(runnerUpTeamId);
+        setSquad(squad);
+        setStatus(status);
         setTableTopper(tableTopper);
         setTeams(teams);
         setVenues(venues);
-        setSquad(squad);
+        setWinnerTeamId(winnerTeamId);
     }, []);
     const navigate = useNavigate();
     function handleStartTournament() {
@@ -60,8 +60,8 @@ function Home() {
                 <div className={style.containerContent}>
                     <div className={style.section}>
                         <div className={style.sectionContent}>
-                            {gameStatus && <button className={style.button} onClick={handleResumeTournament} >Resume Tournament</button>}
-                            {gameStatus ? <button className={style.button} onClick={handleRestartTournament} >Restart Tournament</button> : <button className={`${style.button} ${style.startButton}`} onClick={handleStartTournament} >Start Tournament</button>}
+                            {(status) && <button className={style.button} onClick={handleResumeTournament} >Resume Tournament</button>}
+                            {(status) ? <button className={style.button} onClick={handleRestartTournament} >Restart Tournament</button> : <button className={`${style.button} ${style.startButton}`} onClick={handleStartTournament} >Start Tournament</button>}
                         </div>
                     </div>
                     <div className={style.section}>
@@ -100,13 +100,13 @@ function Home() {
                     </div>
                     <div className={style.section}>
                         <div className={style.sectionHeader}>
-                            <p>{(winner) ? "Tournament Result" : "Next Match"}</p>
+                            <p>{(nextMatch) ? "Next Match" : "Tournament Result"}</p>
                         </div>
                         <div className={style.sectionContent}>
                             {(nextMatch) ?
                                 <>
                                     <div className={style.detailsContainer}>
-                                        <span>Match #{nextMatch.matchId}</span>
+                                        <span>{(nextMatch.matchId === 71) ? "Qualifier 1" : (nextMatch.matchId === 72) ? "Eliminator" : (nextMatch.matchId === 73) ? "Qualifier 2" : (nextMatch.matchId === 74) ? "Final" : "Match #" + nextMatch.matchId}</span>
                                         <span>Venue: {venues[nextMatch.venueId - 1].venueCity}</span>
                                     </div>
                                     <div className={style.imageContainer}>
@@ -114,15 +114,15 @@ function Home() {
                                         <span>V/S</span>
                                         <img src={teams[nextMatch.awayTeamId - 1].logo} alt={teams[nextMatch.awayTeamId - 1].teamName} title={teams[nextMatch.awayTeamId - 1].teamName} />
                                     </div>
-                                </> : (winner) ?
+                                </> : (winnerTeamId) ?
                                     <>
                                         <div className={style.detailsContainer}>
-                                            <span>Winner: {teams[winner - 1].teamShortName}</span>
-                                            <span>Runner Up: {teams[runnerUp - 1].teamShortName}</span>
+                                            <span>Winner: {teams[winnerTeamId - 1].teamShortName}</span>
+                                            <span>Runner Up: {teams[runnerUpTeamId - 1].teamShortName}</span>
                                         </div>
                                         <div className={style.imageContainer}>
-                                            <img src={teams[winner - 1].logo} alt={teams[winner - 1].teamName} title={teams[winner - 1].teamName} />
-                                            <img src={teams[runnerUp - 1].logo} alt={teams[runnerUp - 1].teamName} title={teams[runnerUp - 1].teamName} />
+                                            <img src={teams[winnerTeamId - 1].logo} alt={teams[winnerTeamId - 1].teamName} title={teams[winnerTeamId - 1].teamName} />
+                                            <img src={teams[runnerUpTeamId - 1].logo} alt={teams[runnerUpTeamId - 1].teamName} title={teams[runnerUpTeamId - 1].teamName} />
                                         </div>
                                     </> : <p className={style.altMessage} >No Data Available Currently!</p>}
                         </div>
@@ -132,7 +132,7 @@ function Home() {
                             <p>Table Topper</p>
                         </div>
                         <div className={style.sectionContent}>
-                            {(tableTopper && tableTopper.length) ?
+                            {(tableTopper) ?
                                 <div className={style.imageContainer}>
                                     {tableTopper.map((team) =>
                                         <img key={team.teamId} src={teams[team.teamId - 1].logo} alt={teams[team.teamId - 1].teamName} title={teams[team.teamId - 1].teamName} />
