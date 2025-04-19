@@ -8,6 +8,7 @@ import handleSecondInning from "./handleSecondInning.js";
 import handleSuperOverFirstInning from "./handleSuperOverFirstInning.js";
 import handleSuperOverSecondInning from "./handleSuperOverSecondInning.js";
 import handleResult from "./handleResult.js";
+import handlePointsTable from "./handlePointsTable.js";
 function handleMatch() {
     const fixture = JSON.parse(localStorage.getItem("fixture"));
     const teams = JSON.parse(localStorage.getItem("teams"));
@@ -49,7 +50,7 @@ function handleMatch() {
                     handleSuperOverFirstInning(fixture[i].matchId);
                     handleSuperOverSecondInning(fixture[i].matchId);
                 }
-                handleResult(fixture[i].matchId);
+                handleResult(fixture[i].matchId, i);
             }
         }
     }

@@ -3,7 +3,6 @@ import handleNewBowler from "./handleNewBowler.js";
 import handleBallOutcome from "./handleBallOutcome.js";
 import handleSwapPlayer from "./handleSwapPlayer.js";
 import handleFielder from "./handleFielder.js";
-import handleData from "./handleData.js";
 import handleNewBatsman from "./handleNewBatsman.js"
 function handleInning(inning, matchId) {
     const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
@@ -56,7 +55,7 @@ function handleInning(inning, matchId) {
                 comment: handleCommentary(matchData[`inning${inning}`].lastBallFreeHit, ballOutcome)
             });
             matchData[`inning${inning}`].lastBallFreeHit = false;
-            handleSwapPlayer(inning, matchData);
+            handleSwapPlayer(matchData[`inning${inning}`]);
             break;
         case 2:
             matchData[`inning${inning}`].runs += 2;
@@ -101,7 +100,7 @@ function handleInning(inning, matchId) {
                 comment: handleCommentary(matchData[`inning${inning}`].lastBallFreeHit, ballOutcome)
             });
             matchData[`inning${inning}`].lastBallFreeHit = false;
-            handleSwapPlayer(inning, matchData);
+            handleSwapPlayer(matchData[`inning${inning}`]);
             break;
         case 4:
             matchData[`inning${inning}`].runs += 4;
@@ -347,7 +346,7 @@ function handleInning(inning, matchId) {
                 comment: handleCommentary(matchData[`inning${inning}`].lastBallFreeHit, ballOutcome)
             });
             matchData[`inning${inning}`].lastBallFreeHit = false;
-            handleSwapPlayer(inning, matchData);
+            handleSwapPlayer(matchData[`inning${inning}`]);
             break;
         case 14:
             matchData[`inning${inning}`].balls++;
@@ -369,13 +368,19 @@ function handleInning(inning, matchId) {
                 comment: handleCommentary(matchData[`inning${inning}`].lastBallFreeHit, ballOutcome)
             });
             matchData[`inning${inning}`].lastBallFreeHit = false;
-            handleSwapPlayer(inning, matchData);
+            handleSwapPlayer(matchData[`inning${inning}`]);
             break;
     }
     if ((matchData[`inning${inning}`].lastBallExtra == false) && ((matchData[`inning${inning}`].balls % 6) == 0) && (matchData[`inning${inning}`].balls != 0)) {
-        handleSwapPlayer(inning, matchData);
+        handleSwapPlayer(matchData[`inning${inning}`]);
         matchData[`inning${inning}`].bowlerId = handleNewBowler(inning, matchData);
     }
-    handleData(matchId, matchData, battingStatistics, bowlingStatistics);
+    localStorage.setItem(`match-${matchId}`, JSON.stringify(matchData));
+    localStorage.setItem("battingStatistics", JSON.stringify(battingStatistics));
+    localStorage.setItem("bowlingStatistics", JSON.stringify(bowlingStatistics));
+    battingStatistics.sort((a, b) => (b.runs - a.runs));
+    localStorage.setItem("orangeCap", JSON.stringify(battingStatistics[0]));
+    bowlingStatistics.sort((a, b) => (b.wickets - a.wickets));
+    localStorage.setItem("purpleCap", JSON.stringify(bowlingStatistics[0]));
 }
 export default handleInning;

@@ -1,6 +1,6 @@
-function handleSwapPlayer(inning, matchData) {
-    const temp = matchData[`inning${inning}`].strikerId;
-    matchData[`inning${inning}`].strikerId = matchData[`inning${inning}`].nonStrikerId;
-    matchData[`inning${inning}`].nonStrikerId = temp;
+function handleSwapPlayer(inningData) {
+    const temp = inningData.strikerId;
+    inningData.strikerId = inningData.nonStrikerId;
+    inningData.nonStrikerId = temp;
 }
 export default handleSwapPlayer;

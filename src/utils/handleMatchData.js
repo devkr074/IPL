@@ -8,7 +8,6 @@ function handleMatchData(battingTeam, bowlingTeam, match) {
     let inning2Batsman = [];
     let inning2Bowler = [];
     const squad = JSON.parse(localStorage.getItem("squad"));
-    const teams = JSON.parse(localStorage.getItem("teams"));
     for (let i = 0; i < 11; i++) {
         const player = squad[(battingTeam - 1) * 11 + i];
         if (player.wicketKeeper) {

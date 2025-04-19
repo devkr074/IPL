@@ -56,7 +56,7 @@
 
 .sectionContent {
     display: grid;
-    grid-template-rows: 40px auto;
+    grid-template-rows: 10px auto 30px;
     padding: var(--padding-1);
 }
 
@@ -79,7 +79,7 @@
 }
 
 .imageContainer img {
-    height: 100px;
+    height: 90px;
     border: var(--border-1);
     border-radius: var(--border-radius-3);
 }

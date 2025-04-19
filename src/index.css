@@ -29,7 +29,7 @@
     --text-shadow: 1px 1px 0px #000000, -1px -1px 0px #000000, 1px -1px 0px #000000, -1px 1px 0px #000000;
     --transition: all 0.2s ease;
     --scale: scale(1.02);
-    --blur: blur(2px);
+    --blur: blur(1px);
 }
 
 * {
