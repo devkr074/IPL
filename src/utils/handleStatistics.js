@@ -31,12 +31,12 @@ function handleStatistics(matchId) {
             if (battingStatistics[playerIndex].innings == 1) {
                 battingStatistics[playerIndex].highestScoreRuns = matchData.inning1Batsman[i].runs;
                 battingStatistics[playerIndex].highestScoreBalls = matchData.inning1Batsman[i].balls;
-                battingStatistics[playerIndex].highestScoreOpponentTeam = matchData.inning2.teamId;
+                battingStatistics[playerIndex].highestScoreOpponentTeamId = matchData.inning2.teamId;
             }
             else if ((matchData.inning1Batsman[i].runs > battingStatistics[playerIndex].highestScoreRuns) || ((matchData.inning1Batsman[i].runs == battingStatistics[playerIndex].highestScoreRuns) && (matchData.inning1Batsman[i].balls < battingStatistics[playerIndex].highestScoreBalls))) {
                 battingStatistics[playerIndex].highestScoreRuns = matchData.inning1Batsman[i].runs;
                 battingStatistics[playerIndex].highestScoreBalls = matchData.inning1Batsman[i].balls;
-                battingStatistics[playerIndex].highestScoreOpponentTeam = matchData.inning2.teamId;
+                battingStatistics[playerIndex].highestScoreOpponentTeamId = matchData.inning2.teamId;
             }
             if (matchData.inning1Batsman[i].isNotOut && !matchData.inning1Batsman[i].didNotBat) {
                 battingStatistics[playerIndex].notOut += 1;
@@ -56,12 +56,12 @@ function handleStatistics(matchId) {
             if (bowlingStatistics[playerIndex].matches == 1 && matchData.inning1Bowler[i].balls > 0) {
                 bowlingStatistics[playerIndex].bestBowlingWickets = matchData.inning1Bowler[i].wickets;
                 bowlingStatistics[playerIndex].bestBowlingRuns = matchData.inning1Bowler[i].runs;
-                bowlingStatistics[playerIndex].bestBowlingOpponentTeam = matchData.inning2.teamId;
+                bowlingStatistics[playerIndex].bestBowlingOpponentTeamId = matchData.inning2.teamId;
             }
             else if ((matchData.inning1Bowler[i].wickets > bowlingStatistics[playerIndex].bestBowlingWickets) || ((matchData.inning1Bowler[i].wickets == bowlingStatistics[playerIndex].bestBowlingWickets) && (matchData.inning1Bowler[i].runs < bowlingStatistics[playerIndex].bestBowlingRuns))) {
                 bowlingStatistics[playerIndex].bestBowlingWickets = matchData.inning1Bowler[i].wickets;
                 bowlingStatistics[playerIndex].bestBowlingRuns = matchData.inning1Bowler[i].runs;
-                bowlingStatistics[playerIndex].bestBowlingOpponentTeam = matchData.inning2.teamId;
+                bowlingStatistics[playerIndex].bestBowlingOpponentTeamId = matchData.inning2.teamId;
             }
         }
     }
@@ -81,12 +81,12 @@ function handleStatistics(matchId) {
             if (battingStatistics[playerIndex].innings == 1) {
                 battingStatistics[playerIndex].highestScoreRuns = matchData.inning2Batsman[i].runs;
                 battingStatistics[playerIndex].highestScoreBalls = matchData.inning2Batsman[i].balls;
-                battingStatistics[playerIndex].highestScoreOpponentTeam = matchData.inning1.teamId;
+                battingStatistics[playerIndex].highestScoreOpponentTeamId = matchData.inning1.teamId;
             }
             else if ((matchData.inning2Batsman[i].runs > battingStatistics[playerIndex].highestScoreRuns) || ((matchData.inning2Batsman[i].runs == battingStatistics[playerIndex].highestScoreRuns) && (matchData.inning2Batsman[i].balls < battingStatistics[playerIndex].highestScoreBalls))) {
                 battingStatistics[playerIndex].highestScoreRuns = matchData.inning2Batsman[i].runs;
                 battingStatistics[playerIndex].highestScoreBalls = matchData.inning2Batsman[i].balls;
-                battingStatistics[playerIndex].highestScoreOpponentTeam = matchData.inning1.teamId;
+                battingStatistics[playerIndex].highestScoreOpponentTeamId = matchData.inning1.teamId;
             }
             if (matchData.inning2Batsman[i].isNotOut && !matchData.inning2Batsman[i].didNotBat) {
                 battingStatistics[playerIndex].notOut += 1;
@@ -106,18 +106,18 @@ function handleStatistics(matchId) {
             if (bowlingStatistics[playerIndex].matches == 1 && matchData.inning2Bowler[i].balls > 0) {
                 bowlingStatistics[playerIndex].bestBowlingWickets = matchData.inning2Bowler[i].wickets;
                 bowlingStatistics[playerIndex].bestBowlingRuns = matchData.inning2Bowler[i].runs;
-                bowlingStatistics[playerIndex].bestBowlingOpponentTeam = matchData.inning1.teamId;
+                bowlingStatistics[playerIndex].bestBowlingOpponentTeamId = matchData.inning1.teamId;
             }
             else if ((matchData.inning2Bowler[i].wickets > bowlingStatistics[playerIndex].bestBowlingWickets) || ((matchData.inning2Bowler[i].wickets == bowlingStatistics[playerIndex].bestBowlingWickets) && (matchData.inning2Bowler[i].runs < bowlingStatistics[playerIndex].bestBowlingRuns))) {
                 bowlingStatistics[playerIndex].bestBowlingWickets = matchData.inning2Bowler[i].wickets;
                 bowlingStatistics[playerIndex].bestBowlingRuns = matchData.inning2Bowler[i].runs;
-                bowlingStatistics[playerIndex].bestBowlingOpponentTeam = matchData.inning1.teamId;
+                bowlingStatistics[playerIndex].bestBowlingOpponentTeamId = matchData.inning1.teamId;
             }
         }
     }
     console.log(players);
     players.sort((a, b) => b.points - a.points);
-    fixture[matchId - 1].playerOfMatch = players[0].playerId;
+    fixture[matchId - 1].playerOfTheMatch = players[0].playerId;
     localStorage.setItem("fixture", JSON.stringify(fixture));
     localStorage.setItem("battingStatistics", JSON.stringify(battingStatistics));
     localStorage.setItem("bowlingStatistics", JSON.stringify(bowlingStatistics));
