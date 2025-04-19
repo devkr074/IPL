@@ -107,22 +107,22 @@ function Home() {
                                 <>
                                     <div className={style.detailsContainer}>
                                         <span>{(nextMatch.matchId == 71) ? "Qualifier 1" : (nextMatch.matchId == 72) ? "Eliminator" : (nextMatch.matchId == 73) ? "Qualifier 2" : (nextMatch.matchId == 74) ? "Final" : "Match #" + nextMatch.matchId}</span>
-                                        <span>Venue: {venues[nextMatch.venueId - 1].venueCity}</span>
+                                        <span>Venue: {venues[nextMatch.venueId - 1].city}</span>
                                     </div>
                                     <div className={style.imageContainer}>
-                                        <img src={teams[nextMatch.homeTeamId - 1].logo} alt={teams[nextMatch.homeTeamId - 1].teamName} title={teams[nextMatch.homeTeamId - 1].teamName} />
+                                        <img src={teams[nextMatch.homeTeamId - 1].logo} alt={teams[nextMatch.homeTeamId - 1].name} title={teams[nextMatch.homeTeamId - 1].name} />
                                         <span>V/S</span>
-                                        <img src={teams[nextMatch.awayTeamId - 1].logo} alt={teams[nextMatch.awayTeamId - 1].teamName} title={teams[nextMatch.awayTeamId - 1].teamName} />
+                                        <img src={teams[nextMatch.awayTeamId - 1].logo} alt={teams[nextMatch.awayTeamId - 1].name} title={teams[nextMatch.awayTeamId - 1].name} />
                                     </div>
                                 </> : (winnerTeamId) ?
                                     <>
                                         <div className={style.detailsContainer}>
-                                            <span>Winner: {teams[winnerTeamId - 1].teamShortName}</span>
-                                            <span>Runner Up: {teams[runnerUpTeamId - 1].teamShortName}</span>
+                                            <span>Winner: {teams[winnerTeamId - 1].shortName}</span>
+                                            <span>Runner Up: {teams[runnerUpTeamId - 1].shortName}</span>
                                         </div>
                                         <div className={style.imageContainer}>
-                                            <img src={teams[winnerTeamId - 1].logo} alt={teams[winnerTeamId - 1].teamName} title={teams[winnerTeamId - 1].teamName} />
-                                            <img src={teams[runnerUpTeamId - 1].logo} alt={teams[runnerUpTeamId - 1].teamName} title={teams[runnerUpTeamId - 1].teamName} />
+                                            <img src={teams[winnerTeamId - 1].logo} alt={teams[winnerTeamId - 1].name} title={teams[winnerTeamId - 1].name} />
+                                            <img src={teams[runnerUpTeamId - 1].logo} alt={teams[runnerUpTeamId - 1].name} title={teams[runnerUpTeamId - 1].name} />
                                         </div>
                                     </> : <p className={style.altMessage} >No Data Available Currently!</p>}
                         </div>
@@ -134,8 +134,8 @@ function Home() {
                         <div className={style.sectionContent}>
                             {(tableTopper) ?
                                 <div className={style.imageContainer}>
-                                    {tableTopper.map((team) =>
-                                        <img key={team.teamId} src={teams[team.teamId - 1].logo} alt={teams[team.teamId - 1].teamName} title={teams[team.teamId - 1].teamName} />
+                                    {tableTopper.map((t) =>
+                                        <img key={t.teamId} src={teams[t.teamId - 1].logo} alt={teams[t.teamId - 1].name} title={teams[t.teamId - 1].name} />
                                     )}
                                 </div> : <p className={style.altMessage} >No Data Available Currently!</p>}
                         </div>

@@ -1,6 +1,6 @@
-import getCommentary from "./getCommentary.js";
-import getBallOutcome from "./getBallOutcome.js";
-function simulateSuperOverInning(inning, matchId) {
+import getCommentary from "./handleCommentary.js";
+import getBallOutcome from "./handleBallOutcome.js";
+function handleSuperOverInning(inning, matchId) {
     const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`)) || [];
     const squad = JSON.parse(localStorage.getItem("squad")) || [];
     const striker = squad[matchData[`superOverInning${inning}`].strikerId - 1];
@@ -248,7 +248,7 @@ function simulateSuperOverInning(inning, matchId) {
     }
     saveData(matchId, matchData);
 }
-export default simulateSuperOverInning;
+export default handleSuperOverInning;
 
 function getNewStriker(inning, matchData) {
     if (matchData[`superOverInning${inning}`].wickets == 2) {

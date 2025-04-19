@@ -1,4 +1,4 @@
-function getCommentary(isFreeHit, ballOutcome) {
+function handleCommentary(isFreeHit, ballOutcome) {
   const commentary = {
     0: [
       "The bowler’s precision has tied the batsman down—dot ball and pressure mounting!",
@@ -204,4 +204,4 @@ function getCommentary(isFreeHit, ballOutcome) {
   }
   return commentaryArray[Math.floor(Math.random() * commentaryArray.length)];
 }
-export default getCommentary;
+export default handleCommentary;

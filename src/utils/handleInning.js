@@ -1,7 +1,7 @@
-import getCommentary from "./getCommentary.js";
-import getNewBowler from "./getNewBowler.js";
-import getBallOutcome from "./getBallOutcome.js";
-function simulateInning(inning, matchId) {
+import getCommentary from "./handleCommentary.js";
+import getNewBowler from "./handleNewBowler.js";
+import getBallOutcome from "./handleBallOutcome.js";
+function handleInning(inning, matchId) {
     const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`)) || [];
     const battingStatistics = JSON.parse(localStorage.getItem("battingStatistics")) || [];
     const bowlingStatistics = JSON.parse(localStorage.getItem("bowlingStatistics")) || [];
@@ -374,7 +374,7 @@ function simulateInning(inning, matchId) {
     }
     saveData(matchId, matchData, battingStatistics, bowlingStatistics);
 }
-export default simulateInning;
+export default handleInning;
 
 function getNewStriker(inning, matchData, battingStatistics, strikerIndexMatchData) {
     matchData[`inning${inning}Batsman`][strikerIndexMatchData].isNotOut = false;

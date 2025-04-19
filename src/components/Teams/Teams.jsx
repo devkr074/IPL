@@ -42,9 +42,9 @@ function Teams() {
         </div>
         <div className={style.containerContent}>
           {teams.map((t) => (
-            <label key={t.teamId} title={t.teamName} className={`${style.card} ${(userTeamId == t.teamId) && style.active}`}>
+            <label key={t.teamId} title={t.name} className={`${style.card} ${(userTeamId == t.teamId) && style.active}`}>
               <input type="radio" name="teams" value={t.teamId} checked={userTeamId == t.teamId} onChange={handleTeamChange} />
-              <img src={t.logo} alt={t.teamName} />
+              <img src={t.logo} alt={t.name} />
             </label>
           ))}
         </div>
