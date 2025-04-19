@@ -1,9 +1,9 @@
 import handleSuperOverInning from "./handleSuperOverInning.js";
-function handleSuperOverFirstInning() {
-    const matchData = JSON.parse(localStorage.getItem(`match-${match.matchId}`));
-    if (matchData.superOverInning1.balls < 6 && matchData.superOverInning1.wickets < 2) {
-        handleSuperOverInning(1, match.matchId);
-        handleSuperOverFirstInning();
+function handleSuperOverFirstInning(matchId) {
+    const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
+    if ((matchData.superOverInning1.balls < 6) && (matchData.superOverInning1.wickets < 2)) {
+        handleSuperOverInning(1, matchId);
+        handleSuperOverFirstInning(matchId);
     }
 }
 export default handleSuperOverFirstInning;

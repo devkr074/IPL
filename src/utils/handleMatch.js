@@ -7,6 +7,7 @@ import handleFirstInning from "./handleFirstInning.js";
 import handleSecondInning from "./handleSecondInning.js";
 import handleSuperOverFirstInning from "./handleSuperOverFirstInning.js";
 import handleSuperOverSecondInning from "./handleSuperOverSecondInning.js";
+import handleResult from "./handleResult.js";
 function handleMatch() {
     const fixture = JSON.parse(localStorage.getItem("fixture"));
     const teams = JSON.parse(localStorage.getItem("teams"));
@@ -22,7 +23,7 @@ function handleMatch() {
                 const optionOutcome = handleOptionOutcome();
                 fixture[i].tossStatus = "Completed";
                 if (tossCall == tossOutcome) {
-                    fixture[i].tossResult = `${teams[match.awayTeamId - 1].name} opt to ${optionOutcome}`;
+                    fixture[i].tossResult = `${teams[fixture[i].awayTeamId - 1].name} opt to ${optionOutcome}`;
                     localStorage.setItem("fixture", JSON.stringify(fixture));
                     if (optionOutcome == "Bat") {
                         handleMatchData(fixture[i].awayTeamId, fixture[i].homeTeamId, fixture[i]);
@@ -32,7 +33,7 @@ function handleMatch() {
                     }
                 }
                 else {
-                    fixture[i].tossResult = `${teams[match.homeTeamId - 1].name} opt to ${optionOutcome}`;
+                    fixture[i].tossResult = `${teams[fixture[i].homeTeamId - 1].name} opt to ${optionOutcome}`;
                     localStorage.setItem("fixture", JSON.stringify(fixture));
                     if (optionOutcome == "Bat") {
                         handleMatchData(fixture[i].homeTeamId, fixture[i].awayTeamId, fixture[i]);
@@ -41,14 +42,14 @@ function handleMatch() {
                         handleMatchData(fixture[i].awayTeamId, fixture[i].homeTeamId, fixture[i]);
                     }
                 }
-                handleFirstInning();
-                handleSecondInning();
+                handleFirstInning(fixture[i].matchId);
+                handleSecondInning(fixture[i].matchId);
                 const matchData = JSON.parse(localStorage.getItem(`match-${fixture[i].matchId}`));
                 if (matchData.inning1.runs == matchData.inning2.runs) {
-                    handleSuperOverFirstInning();
-                    handleSuperOverSecondInning();
+                    handleSuperOverFirstInning(fixture[i].matchId);
+                    handleSuperOverSecondInning(fixture[i].matchId);
                 }
-                saveResult(fixture[i].matchId);
+                handleResult(fixture[i].matchId);
             }
         }
     }

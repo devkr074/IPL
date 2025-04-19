@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
-import setMatchData from "../../utils/setMatchData.js";
+import setMatchData from "../../utils/handleMatchData.js";
 function Toss() {
     const [fixture, setFixture] = useState([]);
     const [userTeamId, setUserTeamId] = useState(null);

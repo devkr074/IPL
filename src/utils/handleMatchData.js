@@ -1,6 +1,6 @@
 function handleMatchData(battingTeam, bowlingTeam, match) {
-    const battingStatistics = JSON.parse(localStorage.getItem("battingStatistics"));
-    const bowlingStatistics = JSON.parse(localStorage.getItem("bowlingStatistics"));
+    const battingStatistics = JSON.parse(localStorage.getItem("battingStatistics")) || [];
+    const bowlingStatistics = JSON.parse(localStorage.getItem("bowlingStatistics")) || [];
     let battingTeamWicketKeeperId = null;
     let bowlingTeamWicketKeeperId = null;
     let inning1Batsman = [];
@@ -14,8 +14,8 @@ function handleMatchData(battingTeam, bowlingTeam, match) {
         if (player.wicketKeeper) {
             battingTeamWicketKeeperId = player.playerId;
         }
-        const batsmanIndex = battingStatistics.findIndex((p) => p.playerId == player.playerId);
-        const bowlerIndex = bowlingStatistics.findIndex((p) => p.playerId == player.playerId);
+        const batsmanIndex = battingStatistics.findIndex((p) => (p.playerId == player.playerId));
+        const bowlerIndex = bowlingStatistics.findIndex((p) => (p.playerId == player.playerId));
         if (batsmanIndex == -1) {
             battingStatistics.push({
                 playerId: player.playerId,
@@ -181,8 +181,8 @@ function handleMatchData(battingTeam, bowlingTeam, match) {
             noBalls: 0,
             legByes: 0,
             byes: 0,
-            isLastBallExtra: false,
-            isFreeHit: false,
+            lastBallExtra: false,
+            lastBallFreeHit: false,
             strikerId: squad[(bowlingTeam - 1) * 11].playerId,
             nonStrikerId: squad[((bowlingTeam - 1) * 11) + 1].playerId,
             lastNewBatsmanId: squad[((bowlingTeam - 1) * 11) + 1].playerId,
@@ -196,31 +196,27 @@ function handleMatchData(battingTeam, bowlingTeam, match) {
         commentary: [],
         superOverInning1: {
             teamId: bowlingTeam,
-            teamName: teams[bowlingTeam - 1].teamName,
-            teamShortName: teams[bowlingTeam - 1].teamShortName,
             runs: 0,
             balls: 0,
             wickets: 0,
-            isFreeHit: false,
+            lastBallFreeHit: false,
             strikerId: squad[(bowlingTeam - 1) * 11].playerId,
             nonStrikerId: squad[((bowlingTeam - 1) * 11) + 1].playerId,
-            playedId: squad[((bowlingTeam - 1) * 11) + 1].playerId,
-            currentBowlerId: squad[((battingTeam - 1) * 11) + 10].playerId
+            lastNewBatsmanId: squad[((bowlingTeam - 1) * 11) + 1].playerId,
+            bowlerId: squad[((battingTeam - 1) * 11) + 10].playerId
         },
         superOverInning2: {
             teamId: battingTeam,
-            teamName: teams[battingTeam - 1].teamName,
-            teamShortName: teams[battingTeam - 1].teamShortName,
             runs: 0,
             balls: 0,
             wickets: 0,
-            isFreeHit: false,
+            lastBallFreeHit: false,
             strikerId: squad[(battingTeam - 1) * 11].playerId,
             nonStrikerId: squad[((battingTeam - 1) * 11) + 1].playerId,
-            playedId: squad[((battingTeam - 1) * 11) + 1].playerId,
-            currentBowlerId: squad[((bowlingTeam - 1) * 11) + 10].playerId
+            lastNewBatsmanId: squad[((battingTeam - 1) * 11) + 1].playerId,
+            bowlerId: squad[((bowlingTeam - 1) * 11) + 10].playerId
         }
-    };
+    }
     localStorage.setItem(`match-${match.matchId}`, JSON.stringify(matchData));
     localStorage.setItem("battingStatistics", JSON.stringify(battingStatistics));
     localStorage.setItem("bowlingStatistics", JSON.stringify(bowlingStatistics));

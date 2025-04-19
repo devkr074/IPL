@@ -1,5 +1,5 @@
-function handleCommentary(isFreeHit, ballOutcome) {
-  const commentary = {
+function handleCommentary(freeHit, ballOutcome) {
+  const commentaryData = {
     0: [
       "The bowler’s precision has tied the batsman down—dot ball and pressure mounting!",
       "It's another dot ball! The fielders are right where they need to be.",
@@ -60,20 +60,7 @@ function handleCommentary(isFreeHit, ballOutcome) {
       "Fantastic execution; the ball kisses the boundary line for four!",
       "That’s class! A picture-perfect shot resulting in four runs."
     ],
-    6: [
-      "What a colossal strike! The ball sails over the boundary for six!",
-      "Up, up, and away—it’s a six! A stunning hit by the batsman.",
-      "That’s out of the park! The batsman unleashes a massive six!",
-      "Sheer power and timing—the ball disappears into the stands for six!",
-      "Boom! That’s six runs in style—what a brilliant shot!",
-      "High and handsome! The batsman smashes it all the way for six!",
-      "It's a maximum! The bowler can only watch as it soars over the ropes.",
-      "The batsman sends it to the moon and back—six runs on the board!",
-      "The crowd erupts as the batsman launches a thunderous six!",
-      "An effortless flick, and the ball sails over the fielders for six!"
-    ],
-    5: [
-      "He's gone! A brilliant catch in the deep, and the batsman has to walk back.",
+    5: ["He's gone! A brilliant catch in the deep, and the batsman has to walk back.",
       "What a grab! The fielder makes no mistake, and that's the end of the innings.",
       "Caught! The batsman tried to go big but found the fielder instead.",
       "A sharp catch at slip, and the bowler gets his reward!",
@@ -82,10 +69,18 @@ function handleCommentary(isFreeHit, ballOutcome) {
       "An excellent diving catch seals the batsman's fate!",
       "The fielder judges it perfectly under pressure—caught and out!",
       "A simple catch in the outfield, and the batsman is dismissed.",
-      "The bowler celebrates as the fielder completes a stunning catch!"
-    ],
-    7: [
-      "The umpire raises his finger—out LBW! The batsman is trapped in front.",
+      "The bowler celebrates as the fielder completes a stunning catch!"],
+    6: ["What a colossal strike! The ball sails over the boundary for six!",
+      "Up, up, and away—it’s a six! A stunning hit by the batsman.",
+      "That’s out of the park! The batsman unleashes a massive six!",
+      "Sheer power and timing—the ball disappears into the stands for six!",
+      "Boom! That’s six runs in style—what a brilliant shot!",
+      "High and handsome! The batsman smashes it all the way for six!",
+      "It's a maximum! The bowler can only watch as it soars over the ropes.",
+      "The batsman sends it to the moon and back—six runs on the board!",
+      "The crowd erupts as the batsman launches a thunderous six!",
+      "An effortless flick, and the ball sails over the fielders for six!"],
+    7: ["The umpire raises his finger—out LBW! The batsman is trapped in front.",
       "That’s plumb! The ball hits the pads, and the batsman is given out LBW.",
       "A loud appeal, and the umpire agrees—LBW! The batsman has to go.",
       "No doubt about that one—straight in line, and the batsman is out LBW.",
@@ -94,10 +89,8 @@ function handleCommentary(isFreeHit, ballOutcome) {
       "A perfect delivery—hits the pads, and the batsman is out LBW!",
       "The fielding side erupts in celebration as the umpire gives LBW!",
       "The batsman fails to offer a shot, and the umpire rules LBW!",
-      "A brilliant appeal, and the umpire confirms—LBW! The bowler strikes again."
-    ],
-    8: [
-      "Clean bowled! The stumps are shattered, and the batsman is out!",
+      "A brilliant appeal, and the umpire confirms—LBW! The bowler strikes again."],
+    8: ["Clean bowled! The stumps are shattered, and the batsman is out!",
       "What a delivery! The ball sneaks through and rattles the stumps.",
       "The bowler strikes—straight through the defenses and bowled!",
       "An absolute peach of a delivery, and the batsman is bowled!",
@@ -106,10 +99,8 @@ function handleCommentary(isFreeHit, ballOutcome) {
       "The ball crashes into the stumps—bowled! A fantastic wicket.",
       "Through the gate and onto the stumps—what a brilliant delivery!",
       "The batsman is beaten all ends up, and the bowler gets his reward!",
-      "The stumps are uprooted! A perfect delivery to dismiss the batsman."
-    ],
-    9: [
-      "Quick as lightning! The keeper whips off the bails, and the batsman is stumped!",
+      "The stumps are uprooted! A perfect delivery to dismiss the batsman."],
+    9: ["Quick as lightning! The keeper whips off the bails, and the batsman is stumped!",
       "Brilliant work behind the stumps—caught the batsman out of his crease!",
       "The batsman steps out, misses the ball, and the keeper does the rest—stumped!",
       "What a sharp piece of glovework! The batsman is stumped in a flash.",
@@ -118,10 +109,8 @@ function handleCommentary(isFreeHit, ballOutcome) {
       "The batsman dances down the track but is left stranded—stumped!",
       "The keeper’s reflexes are on point—bails off, and the batsman is gone!",
       "A clever delivery deceives the batsman, and the keeper pounces—stumped!",
-      "The batsman takes a chance, but the keeper is too quick—stumped out!"
-    ],
-    10: [
-      "What a direct hit! The batsman is caught short of his crease—run out!",
+      "The batsman takes a chance, but the keeper is too quick—stumped out!"],
+    10: ["What a direct hit! The batsman is caught short of his crease—run out!",
       "Brilliant fielding! A sharp throw and the batsman is run out.",
       "The fielder's quick reflexes result in a stunning run-out!",
       "A mix-up between the batsmen, and the fielding side capitalizes—run out!",
@@ -130,10 +119,8 @@ function handleCommentary(isFreeHit, ballOutcome) {
       "The batsmen hesitate, and the fielder makes them pay—run out!",
       "A rocket throw from the deep, and the keeper does the rest—run out!",
       "The batsman takes a risky single, but the fielder is too quick—run out!",
-      "A game-changing moment as the batsman is run out by a whisker!"
-    ],
-    11: [
-      "That's a wide! The bowler loses his line, and the umpire stretches his arms.",
+      "A game-changing moment as the batsman is run out by a whisker!"],
+    11: ["That's a wide! The bowler loses his line, and the umpire stretches his arms.",
       "Wayward delivery—called wide by the umpire, and the batting side gets an extra run.",
       "The bowler strays too far outside the off-stump, and it's signaled wide!",
       "A loose ball down the leg side—wide called by the umpire.",
@@ -142,10 +129,8 @@ function handleCommentary(isFreeHit, ballOutcome) {
       "The batsman lets it go, and the umpire signals a wide ball.",
       "A rare mistake from the bowler as he concedes a wide.",
       "The bowler misses his mark, and the batting side gets a bonus run—wide ball!",
-      "An erratic delivery, and the umpire stretches his arms for a wide."
-    ],
-    12: [
-      "That's a no-ball! The bowler oversteps, and the batting side gets a free hit.",
+      "An erratic delivery, and the umpire stretches his arms for a wide."],
+    12: ["That's a no-ball! The bowler oversteps, and the batting side gets a free hit.",
       "A costly mistake by the bowler—no-ball signaled by the umpire!",
       "The bowler loses his footing, and it's called a no-ball.",
       "A rare error from the bowler—no-ball, and the batsman gets another chance.",
@@ -154,10 +139,8 @@ function handleCommentary(isFreeHit, ballOutcome) {
       "The bowler has overstepped, and the batting side gets an extra run—no-ball!",
       "A no-ball gives the batsman a free hit—can they capitalize on it?",
       "The bowler's front foot crosses the line, and it's a no-ball!",
-      "A crucial error at this stage—no-ball, and the batting side gets a bonus."
-    ],
-    13: [
-      "The ball brushes the pads, and they sneak a quick single—leg byes signaled!",
+      "A crucial error at this stage—no-ball, and the batting side gets a bonus."],
+    13: ["The ball brushes the pads, and they sneak a quick single—leg byes signaled!",
       "A gentle deflection off the batsman’s body, and they take a single—leg byes!",
       "Smart running as the batsmen capitalize on the deflection for a single—leg byes.",
       "The ball clips the batsman’s leg, and they manage to steal a single—leg byes awarded.",
@@ -166,10 +149,8 @@ function handleCommentary(isFreeHit, ballOutcome) {
       "A slight ricochet off the batsman’s body, and they run a single—leg byes!",
       "The ball strays onto the pads, and the batsmen take a sharp single—leg byes signaled.",
       "Good awareness from the batsmen as they pick up a single through leg byes.",
-      "The ball deflects off the batsman, and they scamper through for a single—leg byes!"
-    ],
-    14: [
-      "The ball slips past the keeper, and the batsmen sneak a single—byes signaled!",
+      "The ball deflects off the batsman, and they scamper through for a single—leg byes!"],
+    14: ["The ball slips past the keeper, and the batsmen sneak a single—byes signaled!",
       "A misjudgment behind the stumps allows the batsmen to take a single—byes!",
       "The ball races away after missing the keeper, and the batsmen grab a single—byes awarded.",
       "Quick running as the batsmen capitalize on the keeper's miss for a single—byes!",
@@ -178,10 +159,8 @@ function handleCommentary(isFreeHit, ballOutcome) {
       "The keeper fails to gather cleanly, and the batsmen steal a single—byes!",
       "The ball trickles away after missing the keeper, and the batsmen complete a single—byes!",
       "Good awareness from the batsmen as they pick up a single through byes.",
-      "The ball sneaks past the keeper, and the batsmen take advantage for a single—byes!"
-    ],
-    15: [
-      "Dot ball on a free hit! No runs scored, the bowler holds their nerve, and the batter misses an opportunity—great pressure play!",
+      "The ball sneaks past the keeper, and the batsmen take advantage for a single—byes!"],
+    15: ["Dot ball on a free hit! No runs scored, the bowler holds their nerve, and the batter misses an opportunity—great pressure play!",
       "Capitalizing on the free hit, the batter skillfully earns a single run, keeping the momentum alive.",
       "Making the most of the free hit, the batter smartly runs between the wickets to secure 2 valuable runs, adding to the team's tally.",
       "Displaying excellent running between the wickets, the batter maximizes the free hit by securing 3 impressive runs.",
@@ -195,13 +174,12 @@ function handleCommentary(isFreeHit, ballOutcome) {
       "This one is too far. Another chance for batsman still a Free-hit.",
       "Another one 2 consecutive No Ball. Again a free hit chance.",
       "Batsman couldn't get to it just a single through leg bye.",
-      "Great delievery but Keeper couldn't get it. Single through bye.",
-    ]
-  };
-  const commentaryArray = commentary[ballOutcome];
-  if (isFreeHit) {
-    return commentary[15][ballOutcome];
+      "Great delievery but Keeper couldn't get it. Single through bye."]
   }
-  return commentaryArray[Math.floor(Math.random() * commentaryArray.length)];
+  if (freeHit) {
+    return (commentaryData[15][ballOutcome]);
+  }
+  const commentary = commentaryData[ballOutcome];
+  return (commentary[Math.floor(Math.random() * commentary.length)]);
 }
 export default handleCommentary;

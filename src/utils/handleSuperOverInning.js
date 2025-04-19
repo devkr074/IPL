@@ -1,7 +1,7 @@
 import getCommentary from "./handleCommentary.js";
 import getBallOutcome from "./handleBallOutcome.js";
 function handleSuperOverInning(inning, matchId) {
-    const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`)) || [];
+    const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
     const squad = JSON.parse(localStorage.getItem("squad")) || [];
     const striker = squad[matchData[`superOverInning${inning}`].strikerId - 1];
     const bowler = squad[matchData[`superOverInning${inning}`].currentBowlerId - 1];

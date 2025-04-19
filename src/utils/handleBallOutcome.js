@@ -1,6 +1,6 @@
 function handleBallOutcome(roleId) {
     const outcomes = [];
-    if (roleId === 1) {
+    if (roleId == 1) {
         outcomes.push(...Array(25).fill(0));
         outcomes.push(...Array(45).fill(1));
         outcomes.push(...Array(8).fill(2));
@@ -16,7 +16,8 @@ function handleBallOutcome(roleId) {
         outcomes.push(...Array(2).fill(12));
         outcomes.push(...Array(1).fill(13));
         outcomes.push(...Array(1).fill(14));
-    } else if (roleId === 2) {
+    }
+    else if (roleId == 2) {
         outcomes.push(...Array(25).fill(0));
         outcomes.push(...Array(42).fill(1));
         outcomes.push(...Array(8).fill(2));
@@ -32,7 +33,8 @@ function handleBallOutcome(roleId) {
         outcomes.push(...Array(2).fill(12));
         outcomes.push(...Array(1).fill(13));
         outcomes.push(...Array(1).fill(14));
-    } else if (roleId === 3) {
+    }
+    else if (roleId == 3) {
         outcomes.push(...Array(60).fill(0));
         outcomes.push(...Array(25).fill(1));
         outcomes.push(...Array(4).fill(2));
@@ -53,6 +55,6 @@ function handleBallOutcome(roleId) {
         const j = Math.floor(Math.random() * (i + 1));
         [outcomes[i], outcomes[j]] = [outcomes[j], outcomes[i]];
     }
-    return outcomes[Math.floor(Math.random() * outcomes.length)];
+    return (outcomes[Math.floor(Math.random() * outcomes.length)]);
 }
 export default handleBallOutcome;

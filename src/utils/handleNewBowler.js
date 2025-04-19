@@ -1,8 +1,6 @@
-function handleNewBowler(inning, matchId, currentBowlerId) {
-    const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`)) || [];
-    const bowlers = matchData[`inning${inning}Bowler`];
-    const availableBowlers = bowlers.filter((b) => b.playerId !== currentBowlerId && b.balls < 24);
-    const randomIndex = Math.floor(Math.random() * availableBowlers.length);
-    return availableBowlers[randomIndex].playerId;
+function handleNewBowler(inning, matchData) {
+    const bowlerData = matchData[`inning${inning}Bowler`].filter((b) => ((b.playerId != matchData[`inning${inning}`].bowlerId) && (b.balls < 24)));
+    const bowler = Math.floor(Math.random() * bowlerData.length);
+    return (bowlerData[bowler].playerId);
 }
 export default handleNewBowler;

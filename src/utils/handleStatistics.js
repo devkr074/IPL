@@ -1,10 +1,11 @@
 function handleStatistics(matchId) {
-    const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`)) || [];
-    const battingStatistics = JSON.parse(localStorage.getItem("battingStatistics")) || [];
-    const bowlingStatistics = JSON.parse(localStorage.getItem("bowlingStatistics")) || [];
+    const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
+    const battingStatistics = JSON.parse(localStorage.getItem("battingStatistics"));
+    const bowlingStatistics = JSON.parse(localStorage.getItem("bowlingStatistics"));
+    const fixture = JSON.parse(localStorage.getItem("fixture"));
     const players = [];
     function updatePlayerPoints(playerId, points) {
-        const existingPlayer = players.find(p => p.playerId === playerId);
+        const existingPlayer = players.find(p => p.playerId == playerId);
         if (existingPlayer) {
             existingPlayer.points += points;
         } else {
