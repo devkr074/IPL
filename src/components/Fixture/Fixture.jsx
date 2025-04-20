@@ -1,15 +1,23 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import style from "./Fixture.module.css"
 function Fixture() {
     const [fixture, setFixture] = useState();
     const [teams, setTeams] = useState();
+    const [venues, setVenues] = useState();
     useEffect(() => {
         document.title = "IPL - Fixture";
         const fixture = JSON.parse(localStorage.getItem("fixture"));
         const teams = JSON.parse(localStorage.getItem("teams"));
+        const venues = JSON.parse(localStorage.getItem("venues"));
         setFixture(fixture);
+        setVenues(venues);
         setTeams(teams);
     }, []);
+    const navigate = useNavigate();
+    function handleMatch(matchId) {
+        navigate(`/match/${matchId}`);
+    }
     return (
         <div className={style.container}>
             <div className={style.containerHeader}>
@@ -18,7 +26,11 @@ function Fixture() {
             <div className={style.containerContent}>
                 {fixture && fixture.map((m) => {
                     return (
-                        <div className={style.card}>
+                        <div className={style.card} onClick={() => handleMatch(m.matchId)}>
+                            <p className={style.title}>
+                                {(m.matchId == 71) ? "Qualifier 1 • " : (m.matchId == 72) ? "Eliminator • " : (m.matchId == 73) ? "Qualifier 2  • " : (m.matchId == 74) ? "Final • " : <span>Match {m.matchId} • </span>}
+                                <span>{venues[m.venueId - 1].city}</span>
+                            </p>
                             <div className={style.teamContainer}>
                                 <div className={style.homeTeamContainer}>
                                     <img src={teams[m.homeTeamId - 1].logo} alt="" />

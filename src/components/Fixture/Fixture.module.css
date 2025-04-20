@@ -88,3 +88,8 @@
 .upcoming{
     color: var(--color-2);
 }
+
+.title{
+    color: var(--color-2);
+    font-weight: var(--font-weight);
+}
