@@ -5,10 +5,9 @@ function BowlingStatistics() {
     const [mostWickets, setMostWickets] = useState();
     const [bestBowlingAverage, setBestBowlingAverage] = useState();
     const [bestBowling, setBestBowling] = useState();
-    const [mostFifties, setMostFifties] = useState();
-    const [mostHundreds, setMostHundreds] = useState();
-    const [mostFours, setMostFours] = useState();
-    const [mostSixes, setMostSixes] = useState();
+    const [mostFiveWicketsHaul, setMostFiveWicketsHaul] = useState();
+    const [bestEconomy, setBestEconomy] = useState();
+    const [bestBowlingStrikeRate, setBestBowlingStrikeRate] = useState();
     const [teams, setTeams] = useState();
     const [squad, setSquad] = useState();
     useEffect(() => {
@@ -22,16 +21,12 @@ function BowlingStatistics() {
         setBestBowlingAverage(bestBowlingAverage);
         const bestBowling = bowlingStatistics.filter(p => p.wickets != 0).sort((a, b) => a.bestBowlingWickets == b.bestBowlingWickets ? a.bestBowlingRuns - b.bestBowlingRuns : b.bestBowlingWickets - a.bestBowlingWickets).slice(0, 10);
         setBestBowling(bestBowling);
-        // const bestBattingStrikeRate = battingStatistics.filter(p => p.innings != 0).sort((a, b) => ((a.runs / a.balls) * 100) == ((b.runs / b.balls) * 100) ? b.runs - a.runs : ((b.runs / b.balls) * 100) - ((a.runs / a.balls) * 100)).slice(0, 10);
-        // setBestBattingStrikeRate(bestBattingStrikeRate);
-        // const mostFifties = battingStatistics.filter(p => p.halfCenturies != 0).sort((a, b) => a.halfCenturies == b.halfCenturies ? b.runs - a.runs : b.halfCenturies - a.halfCenturies).slice(0, 10);
-        // setMostFifties(mostFifties);
-        // const mostHundreds = battingStatistics.filter(p => p.centuries != 0).sort((a, b) => a.centuries == b.centuries ? b.runs - a.runs : b.centuries - a.centuries).slice(0, 10);
-        // setMostHundreds(mostHundreds);
-        // const mostFours = battingStatistics.filter(p => p.fours != 0).sort((a, b) => a.fours == b.fours ? b.runs - a.runs : b.fours - a.fours).slice(0, 10);
-        // setMostFours(mostFours);
-        // const mostSixes = battingStatistics.filter(p => p.sixes != 0).sort((a, b) => a.sixes == b.sixes ? b.runs - a.runs : b.sixes - a.sixes).slice(0, 10);
-        // setMostSixes(mostSixes);
+        const mostFiveWicketsHaul = bowlingStatistics.filter(p => p.fiveWickets != 0).sort((a, b) => (a.fiveWickets == b.fiveWickets) ? b.wickets - a.wickets : (b.fiveWickets - a.fiveWickets)).slice(0, 10);
+        setMostFiveWicketsHaul(mostFiveWicketsHaul);
+        const bestEconomy = bowlingStatistics.filter(p => p.balls != 0).sort((a, b) => (a.runs / ((a.balls / 6) + ((a.balls % 6) / 6))) == (b.runs / ((b.balls / 6) + ((b.balls % 6) / 6))) ? b.wickets - a.wickets : (a.runs / ((a.balls / 6) + ((a.balls % 6) / 6))) - (b.runs / ((b.balls / 6) + ((b.balls % 6) / 6)))).slice(0, 10);
+        setBestEconomy(bestEconomy);
+        const bestBowlingStrikeRate = bowlingStatistics.filter(p => p.wickets != 0).sort((a, b) => (a.balls / a.wickets) == (b.balls / b.wickets) ? b.wickets - a.wickets : (a.balls / a.wickets) - (b.balls / b.wickets)).slice(0, 10);
+        setBestBowlingStrikeRate(bestBowlingStrikeRate);
         setSquad(squad);
         setTeams(teams);
     }, []);
@@ -44,11 +39,9 @@ function BowlingStatistics() {
                             <option value="Most Wickets">Most Wickets</option>
                             <option value="Best Bowling Average">Best Bowling Average</option>
                             <option value="Best Bowling">Best Bowling</option>
-                            <option value="Best Batting Strike Rate">Best Batting Strike Rate</option>
-                            <option value="Most Fifties">Most Fifties</option>
-                            <option value="Most Hundreds">Most Hundreds</option>
-                            <option value="Most Fours">Most Fours</option>
-                            <option value="Most Sixes">Most Sixes</option>
+                            <option value="Most Five Wickets Haul">Most Five Wickets Haul</option>
+                            <option value="Best Economy">Best Economy</option>
+                            <option value="Best Bowling Strike Rate">Best Bowling Strike Rate</option>
                         </select></p>
                 </div>
                 <div className={style.containerContent}>
@@ -112,100 +105,77 @@ function BowlingStatistics() {
                                 {bestBowling && bestBowling.map((p) =>
                                     <tr className={style.data} key={p.playerId}>
                                         <td>{squad[p.playerId - 1].name}</td>
-                                        <td>{teams[p.bestBowlingOpponentTeamId-1].shortName}</td>
+                                        <td>{teams[p.bestBowlingOpponentTeamId - 1].shortName}</td>
                                         <td>{p.bestBowlingWickets}-{p.bestBowlingRuns}</td>
                                     </tr>
                                 )}
                             </tbody>
                         </table>}
-                    {tabs == "Most Fifties" &&
+                    {tabs == "Most Five Wickets Haul" &&
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Batter</th>
+                                    <th>Bowler</th>
                                     <th>M</th>
-                                    <th>I</th>
-                                    <th>R</th>
-                                    <th>50s</th>
+                                    <th>O</th>
+                                    <th>W</th>
+                                    <th>5Wkts</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {mostFifties && mostFifties.map((p) =>
+                                {mostFiveWicketsHaul && mostFiveWicketsHaul.map((p) =>
                                     <tr className={style.data} key={p.playerId}>
                                         <td>{squad[p.playerId - 1].name}</td>
                                         <td>{p.matches}</td>
-                                        <td>{p.innings}</td>
-                                        <td>{p.runs}</td>
-                                        <td>{p.halfCenturies}</td>
+                                        <td>{Math.floor(p.balls / 6) + "." + (p.balls % 6)}</td>
+                                        <td>{p.wickets}</td>
+                                        <td>{p.fiveWickets}</td>
                                     </tr>
                                 )}
                             </tbody>
                         </table>}
-                    {tabs == "Most Hundreds" &&
+                    {tabs == "Best Economy" &&
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Batter</th>
+                                    <th>Bowler</th>
                                     <th>M</th>
-                                    <th>I</th>
-                                    <th>R</th>
-                                    <th>100s</th>
+                                    <th>O</th>
+                                    <th>W</th>
+                                    <th>Eco</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {mostHundreds && mostHundreds.map((p) =>
+                                {bestEconomy && bestEconomy.map((p) =>
                                     <tr className={style.data} key={p.playerId}>
                                         <td>{squad[p.playerId - 1].name}</td>
                                         <td>{p.matches}</td>
-                                        <td>{p.innings}</td>
-                                        <td>{p.runs}</td>
-                                        <td>{p.centuries}</td>
+                                        <td>{Math.floor(p.balls / 6) + "." + (p.balls % 6)}</td>
+                                        <td>{p.wickets}</td>
+                                        <td>{(p.runs / ((p.balls / 6) + ((p.balls % 6) / 6))).toFixed(2)}</td>
                                     </tr>
                                 )}
                             </tbody>
                         </table>}
-                    {tabs == "Most Fours" &&
+                    {tabs == "Best Bowling Strike Rate" &&
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Batter</th>
+                                    <th>Bowler</th>
                                     <th>M</th>
-                                    <th>I</th>
-                                    <th>R</th>
-                                    <th>4s</th>
+                                    <th>O</th>
+                                    <th>W</th>
+                                    <th>SR</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {mostFours && mostFours.map((p) =>
+                                {bestBowlingStrikeRate && bestBowlingStrikeRate.map((p) =>
                                     <tr className={style.data} key={p.playerId}>
                                         <td>{squad[p.playerId - 1].name}</td>
                                         <td>{p.matches}</td>
-                                        <td>{p.innings}</td>
-                                        <td>{p.runs}</td>
-                                        <td>{p.fours}</td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>}
-                    {tabs == "Most Sixes" &&
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Batter</th>
-                                    <th>M</th>
-                                    <th>I</th>
-                                    <th>R</th>
-                                    <th>6s</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {mostSixes && mostSixes.map((p) =>
-                                    <tr className={style.data} key={p.playerId}>
-                                        <td>{squad[p.playerId - 1].name}</td>
-                                        <td>{p.matches}</td>
-                                        <td>{p.innings}</td>
-                                        <td>{p.runs}</td>
-                                        <td>{p.sixes}</td>
+                                        <td>{Math.floor(p.balls / 6) + "." + (p.balls % 6)}</td>
+                                        <td>{p.wickets}</td>
+                                        <td>{(p.balls/p.wickets).toFixed(2)}</td>
                                     </tr>
                                 )}
                             </tbody>

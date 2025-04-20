@@ -33,7 +33,7 @@ function PointsTable() {
                         <tbody>
                             {pointsTable && pointsTable.map((t) =>
                                 <tr key={t.teamId}>
-                                    <td>{teams[t.teamId - 1].shortName}</td>
+                                    <td><img src={teams[t.teamId - 1].logo} height={30} alt="" /> {teams[t.teamId - 1].shortName}</td>
                                     <td>{t.played}</td>
                                     <td>{t.won}</td>
                                     <td>{t.lost}</td>

@@ -63,26 +63,26 @@ function Toss() {
             console.log("Please Select");
         }
         else {
-            fixture[matchId - 1].tossStatus = "completed";
+            fixture[matchId - 1].tossStatus = "Completed";
             const won = localStorage.getItem("won");
             if (won == "yes") {
                 if (fixture[matchId - 1].homeTeamId == userTeamId) {
                     if (opt == "Bat") {
-                        fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].homeTeamId - 1].teamShortName} opt to Bat first`;
+                        fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].homeTeamId - 1].name} opt to Bat`;
                         setMatchData(fixture[matchId - 1].homeTeamId, fixture[matchId - 1].awayTeamId, fixture[matchId - 1]);
                     }
                     else {
-                        fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].homeTeamId - 1].teamShortName} opt to Bowl first`;
+                        fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].homeTeamId - 1].name} opt to Bowl`;
                         setMatchData(fixture[matchId - 1].awayTeamId, fixture[matchId - 1].homeTeamId, fixture[matchId - 1]);
                     }
                 }
                 else {
                     if (opt == "Bat") {
-                        fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].awayTeamId - 1].teamShortName} opt to Bat first`;
+                        fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].awayTeamId - 1].name} opt to Bat`;
                         setMatchData(fixture[matchId - 1].awayTeamId, fixture[matchId - 1].homeTeamId, fixture[matchId - 1]);
                     }
                     else {
-                        fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].awayTeamId - 1].teamShortName} opt to Bowl first`;
+                        fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].awayTeamId - 1].name} opt to Bowl`;
                         setMatchData(fixture[matchId - 1].homeTeamId, fixture[matchId - 1].awayTeamId, fixture[matchId - 1]);
                     }
                 }
@@ -90,27 +90,27 @@ function Toss() {
             else {
                 if (fixture[matchId - 1].homeTeamId == userTeamId) {
                     if (opt == "Bat") {
-                        fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].awayTeamId - 1].teamShortName} opt to Bat first`;
+                        fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].awayTeamId - 1].name} opt to Bat`;
                         setMatchData(fixture[matchId - 1].awayTeamId, fixture[matchId - 1].homeTeamId, fixture[matchId - 1]);
                     }
                     else {
-                        fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].awayTeamId - 1].teamShortName} opt to Bowl first`;
+                        fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].awayTeamId - 1].name} opt to Bowl`;
                         setMatchData(fixture[matchId - 1].homeTeamId, fixture[matchId - 1].awayTeamId, fixture[matchId - 1]);
                     }
                 }
                 else {
                     if (opt == "Bat") {
-                        fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].homeTeamId - 1].teamShortName} opt to Bat first`;
+                        fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].homeTeamId - 1].name} opt to Bat`;
                         setMatchData(fixture[matchId - 1].homeTeamId, fixture[matchId - 1].awayTeamId, fixture[matchId - 1]);
                     }
                     else {
-                        fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].homeTeamId - 1].teamShortName} opt to Bowl first`;
+                        fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].homeTeamId - 1].name} opt to Bowl`;
                         setMatchData(fixture[matchId - 1].awayTeamId, fixture[matchId - 1].homeTeamId, fixture[matchId - 1]);
                     }
                 }
 
             }
-            fixture[matchId - 1].matchStatus = "not completed";
+            fixture[matchId - 1].matchStatus = "Not Completed";
             localStorage.setItem("fixture", JSON.stringify(fixture));
 
            

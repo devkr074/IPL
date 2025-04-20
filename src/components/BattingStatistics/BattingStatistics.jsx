@@ -171,28 +171,28 @@ function BattingStatistics() {
                             </tbody>
                         </table>}
                     {tabs == "Most Hundreds" &&
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Batter</th>
-                                    <th>M</th>
-                                    <th>I</th>
-                                    <th>R</th>
-                                    <th>100s</th>
+                       ((mostHundreds==null) ? <table>
+                        < thead >
+                            <tr>
+                                <th>Batter</th>
+                                <th>M</th>
+                                <th>I</th>
+                                <th>R</th>
+                                <th>100s</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {mostHundreds.map((p) =>
+                                <tr className={style.data} key={p.playerId}>
+                                    <td>{squad[p.playerId - 1].name}</td>
+                                    <td>{p.matches}</td>
+                                    <td>{p.innings}</td>
+                                    <td>{p.runs}</td>
+                                    <td>{p.centuries}</td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {mostHundreds && mostHundreds.map((p) =>
-                                    <tr className={style.data} key={p.playerId}>
-                                        <td>{squad[p.playerId - 1].name}</td>
-                                        <td>{p.matches}</td>
-                                        <td>{p.innings}</td>
-                                        <td>{p.runs}</td>
-                                        <td>{p.centuries}</td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>}
+                            )}
+                        </tbody>
+                    </table> : <p>No Data Available Currently</p>)}
                     {tabs == "Most Fours" &&
                         <table>
                             <thead>
@@ -239,8 +239,8 @@ function BattingStatistics() {
                                 )}
                             </tbody>
                         </table>}
-                </div>
-            </div>
+                </div >
+            </div >
         </>
     );
 }

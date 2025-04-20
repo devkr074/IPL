@@ -13,7 +13,7 @@
 .containerHeader {
     display: flex;
     align-items: center;
-    justify-content: center;
+    padding: var(--padding-2);
     position: sticky;
     top: 0px;
     z-index: 1;
@@ -29,38 +29,62 @@
 
 .containerContent {
     display: grid;
-    grid-template-rows: 40px auto;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: var(--gap);
-}
-
-.tabsContainer {
-    position: sticky;
-    top: 60px;
-    background-color: var(--background-color-3);
+    padding: var(--padding-2);
 }
 
 .card{
     box-shadow: var(--box-shadow);
     border-radius: var(--border-radius-1);
     padding: var(--padding-1);
-    display: flex;
-    flex-direction: column;
     gap: 10px;
     cursor: pointer;
-}
-
-.disabled{
-    cursor: not-allowed;
-}
-
-.user{
-    border: var(--border-3);
-    background-color: var(--background-color-6);
-}
-
-.matchContainer{
+    overflow: hidden;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: var(--gap);
-    padding: var(--padding-2);
+}
+
+.teamContainer{
+    display: grid;
+    gap: 5px;
+}
+
+.homeTeamContainer{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.awayTeamContainer{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.homeTeamContainer p{
+    font-size: var(--font-size-1);
+}
+
+.awayTeamContainer p{
+    font-size: var(--font-size-1);
+}
+
+.card img{
+    height: 35px;
+}
+
+.discription{
+    font-size: var(--font-size-1);
+    color: #0a858e;
+    overflow: hidden;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+    font-weight: var(--font-weight);
+}
+
+.toss{
+    color: #9a3c3c;
+}
+.upcoming{
+    color: var(--color-2);
 }
