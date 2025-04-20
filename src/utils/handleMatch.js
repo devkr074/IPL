@@ -119,7 +119,10 @@ function handleMatch() {
                     }
                 }
                 localStorage.setItem("fixture", JSON.stringify(fixture));
-                handleStatistics(fixture[i].matchId);
+                const mom = handleStatistics(fixture[i].matchId);
+                fixture[i].playerOfTheMatch = mom;
+                localStorage.setItem("fixture", JSON.stringify(fixture));
+
 
             }
         }

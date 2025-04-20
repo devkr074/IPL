@@ -13,7 +13,7 @@
 .containerHeader {
     display: flex;
     align-items: center;
-    justify-content: center;
+    padding: var(--padding-2);
     position: sticky;
     top: 0px;
     z-index: 1;
@@ -53,6 +53,7 @@ table thead tr th:nth-child(1) {
 
 table tbody tr {
     border-bottom: var(--border-1);
+    height: 1%;
 }
 
 table tbody tr:hover {
@@ -78,6 +79,23 @@ table tbody tr td:nth-child(7) {
     width: 70px;
 }
 
+select {
+    font-size: var(--font-size-3);
+    background-color: transparent;
+    color: var(--color-1);
+    font-weight: bold;
+    outline: none;
+    border: none;
+    appearance: none;
+    padding-inline: var(--padding-1);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+option {
+    color: #000;
+    font-size: var(--font-size-1);
+}
 
 
 @media screen and (max-width: 321px) {

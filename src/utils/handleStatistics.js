@@ -38,7 +38,7 @@ function handleStatistics(matchId) {
                 battingStatistics[playerIndex].highestScoreBalls = matchData.inning1Batsman[i].balls;
                 battingStatistics[playerIndex].highestScoreOpponentTeamId = matchData.inning2.teamId;
             }
-            if (matchData.inning1Batsman[i].isNotOut && !matchData.inning1Batsman[i].didNotBat) {
+            if (matchData.inning1Batsman[i].notOut && !matchData.inning1Batsman[i].didNotBat) {
                 battingStatistics[playerIndex].notOut += 1;
             }
         }
@@ -88,7 +88,7 @@ function handleStatistics(matchId) {
                 battingStatistics[playerIndex].highestScoreBalls = matchData.inning2Batsman[i].balls;
                 battingStatistics[playerIndex].highestScoreOpponentTeamId = matchData.inning1.teamId;
             }
-            if (matchData.inning2Batsman[i].isNotOut && !matchData.inning2Batsman[i].didNotBat) {
+            if (matchData.inning2Batsman[i].notOut && !matchData.inning2Batsman[i].didNotBat) {
                 battingStatistics[playerIndex].notOut += 1;
             }
         }
@@ -117,9 +117,8 @@ function handleStatistics(matchId) {
     }
     console.log(players);
     players.sort((a, b) => b.points - a.points);
-    fixture[matchId - 1].playerOfTheMatch = players[0].playerId;
-    localStorage.setItem("fixture", JSON.stringify(fixture));
     localStorage.setItem("battingStatistics", JSON.stringify(battingStatistics));
     localStorage.setItem("bowlingStatistics", JSON.stringify(bowlingStatistics));
+    return players[0].playerId
 }
 export default handleStatistics;

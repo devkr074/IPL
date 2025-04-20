@@ -7,8 +7,8 @@ import Fixture from "./components/Fixture/Fixture.jsx"
 import Squad from "./components/Squad/Squad.jsx";
 import Venues from "./components/Venues/Venues.jsx"
 import PointsTable from "./components/PointsTable/PointsTable.jsx";
-import BattingStatistic from "./components/BattingStatistic/BattingStatistic.jsx";
-import BowlingStatistic from "./components/BowlingStatistic/BowlingStatistic.jsx";
+import BattingStatistics from "./components/BattingStatistics/BattingStatistics.jsx";
+import BowlingStatistics from "./components/BowlingStatistics/BowlingStatistics.jsx";
 import Match from "./components/Match/Match.jsx";
 import Toss from "./components/Toss/Toss.jsx";
 function App() {
@@ -22,8 +22,8 @@ function App() {
         <Route path="/squad" element={<Squad />} />
         <Route path="/points-table" element={<PointsTable />} />
         <Route path="/venues" element={<Venues />} />
-        <Route path="/batting-statistics" element={<BattingStatistic />} />
-        <Route path="/bowling-statistics" element={<BowlingStatistic />} />
+        <Route path="/batting-statistics" element={<BattingStatistics />} />
+        <Route path="/bowling-statistics" element={<BowlingStatistics />} />
         <Route path="/match/:matchId" element={<Match />} />
         <Route path="/toss/:matchId" element={<Toss />} />
       </Routes>

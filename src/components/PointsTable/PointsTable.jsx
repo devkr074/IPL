@@ -1,20 +1,21 @@
 import { useState, useEffect } from 'react';
 import style from "./PointsTable.module.css"
 function PointsTable() {
-    const [pointsTable, setPointsTable] = useState([]);
-    const [team, setTeam] = useState([]);
+    const [pointsTable, setPointsTable] = useState();
+    const [teams, setTeams] = useState();
     useEffect(() => {
+        document.title = "IPL - Points Table";
         const pointsTable = JSON.parse(localStorage.getItem("pointsTable"));
-        const team = JSON.parse(localStorage.getItem("teams"));
+        const teams = JSON.parse(localStorage.getItem("teams"));
         pointsTable.sort((a, b) => a.points == b.points ? b.netRunRate - a.netRunRate : b.points - a.points);
         setPointsTable(pointsTable);
-        setTeam(team);
+        setTeams(teams);
     }, []);
     return (
         <>
             <div className={style.container}>
                 <div className={style.containerHeader}>
-                    <p>IPL 2025 - Points Table</p>
+                    <p>IPL - Points Table</p>
                 </div>
                 <div className={style.containerContent}>
                     <table>
@@ -30,15 +31,15 @@ function PointsTable() {
                             </tr>
                         </thead>
                         <tbody>
-                            {pointsTable.map((teamData, index) =>
-                                <tr key={teamData.teamId}>
-                                    <td>{team[teamData.teamId - 1].teamShortName}</td>
-                                    <td>{teamData.matchesPlayed}</td>
-                                    <td>{teamData.matchesWon}</td>
-                                    <td>{teamData.matchesLost}</td>
-                                    <td>{teamData.matchesTied}</td>
-                                    <td>{teamData.points}</td>
-                                    <td>{(teamData.netRunRate > 0) ? "+" + teamData.netRunRate.toFixed(3) : teamData.netRunRate.toFixed(3)}</td>
+                            {pointsTable && pointsTable.map((t) =>
+                                <tr key={t.teamId}>
+                                    <td>{teams[t.teamId - 1].shortName}</td>
+                                    <td>{t.played}</td>
+                                    <td>{t.won}</td>
+                                    <td>{t.lost}</td>
+                                    <td>{t.tied}</td>
+                                    <td>{t.points}</td>
+                                    <td>{(t.netRunRate > 0) ? "+" + t.netRunRate.toFixed(3) : t.netRunRate.toFixed(3)}</td>
                                 </tr>
                             )}
                         </tbody>
