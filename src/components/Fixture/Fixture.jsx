@@ -33,12 +33,12 @@ function Fixture() {
                             </p>
                             <div className={style.teamContainer}>
                                 <div className={style.homeTeamContainer}>
-                                    <img src={teams[m.homeTeamId - 1].logo} alt="" />
-                                    <p>{teams[m.homeTeamId - 1].name}</p>
+                                    <img src={teams[m.homeTeamId - 1]?.logo} alt="" />
+                                    <p className={style.teamName}>{teams[m.homeTeamId - 1]?.name}</p>
                                 </div>
                                 <div className={style.awayTeamContainer}>
-                                    <img src={teams[m.awayTeamId - 1].logo} alt="" />
-                                    <p>{teams[m.awayTeamId - 1].name}</p>
+                                    <img src={teams[m.awayTeamId - 1]?.logo} alt="" />
+                                    <p className={style.teamName}>{teams[m.awayTeamId - 1]?.name}</p>
                                 </div>
                             </div>
                             {(m.matchStatus == "Completed") ? <p className={style.discription} title={m.matchResult}>{m.matchResult}</p> : (m.tossStatus == "Completed") ? <p className={`${style.discription} ${style.toss}`} title={m.tossResult}>{m.tossResult}</p> : <p className={`${style.discription} ${style.upcoming}`}>Upcoming</p>}

@@ -185,7 +185,7 @@ function handleInning(inning, matchId) {
             if (matchData[`inning${inning}`].lastBallFreeHit == false) {
                 matchData[`inning${inning}`].wickets++;
                 matchData[`inning${inning}Batsman`][strikerIndexMatchData].wicketById = bowler.playerId;
-                matchData[`inning${inning}Batsman`][strikerIndexMatchData].wicketTypeIdId = 2;
+                matchData[`inning${inning}Batsman`][strikerIndexMatchData].wicketTypeId = 2;
                 matchData[`inning${inning}Bowler`][bowlerIndexMatchData].wickets++;
                 matchData[`inning${inning}Bowler`][bowlerIndexMatchData].points += 20;
                 bowlingStatistics[bowlerIndexStatistics].wickets++;

@@ -93,3 +93,7 @@
     color: var(--color-2);
     font-weight: var(--font-weight);
 }
+
+.teamName{
+    font-size: var(--font-size-2);
+}
