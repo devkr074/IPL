@@ -1,6 +1,6 @@
 function handleNewBatsman(inning, matchData, battingStatistics, strikerIndexMatchData) {
     matchData[`inning${inning}Batsman`][strikerIndexMatchData].notOut = false;
-    if (matchData[`inning${inning}`].wickets == 10) {
+    if (matchData[`inning${inning}`].wickets == 10 || matchData[`inning${inning}`].balls == 120) {
         matchData[`inning${inning}`].strikerId = null;
         return;
     }

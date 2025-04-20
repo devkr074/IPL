@@ -14,11 +14,7 @@ function handleMatch() {
     const teams = JSON.parse(localStorage.getItem("teams"));
     for (let i = 0; i < fixture.length; i++) {
         if (fixture[i].tossStatus != "Completed" || fixture[i].matchStatus != "Completed") {
-            if (handleUserMatch(fixture[i])) {
-                localStorage.setItem("nextMatch", JSON.stringify(fixture[i]));
-                break;
-            }
-            else {
+            
                 const tossCall = handleTossCall();
                 const tossOutcome = handleTossOutcome();
                 const optionOutcome = handleOptionOutcome();
@@ -125,7 +121,7 @@ function handleMatch() {
 
 
             }
-        }
+        
     }
 }
 export default handleMatch;

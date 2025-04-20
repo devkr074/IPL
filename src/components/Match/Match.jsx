@@ -27,7 +27,7 @@ function Match() {
                 <h2>{teams[matchData?.inning1?.teamId - 1]?.shortName} {matchData?.inning1?.runs}{(matchData?.inning1?.wickets != 10) && -matchData?.inning1?.wickets}</h2>
                 <h2>{teams[matchData?.inning2?.teamId - 1]?.shortName} {matchData?.inning2?.runs}{(matchData?.inning2?.wickets != 10) && -matchData?.inning2?.wickets}</h2>
                 <h3> <img src={squad[fixture[matchId - 1]?.playerOfTheMatch - 1]?.profile} height={60} style={{ borderRadius: "50%" }} alt="" />{squad[fixture[matchId - 1]?.playerOfTheMatch - 1]?.name}</h3>
-                {/* <div>
+                <div>
                     <h1>Commentary</h1>
                     {matchData.commentary?.slice()?.reverse()?.map((c) => {
                         return (
@@ -36,9 +36,9 @@ function Match() {
                             </>
                         )
                     })}
-                </div> */}
+                </div>
                 <div>
-                    <h2>{teams[matchData?.inning1?.teamId - 1]?.shortName} {matchData?.inning1?.runs}-{matchData?.inning1?.wickets} ({Math.floor(matchData?.inning1?.balls / 6)}{((matchData?.inning1?.balls % 6 > 0) ? matchData?.inning1?.balls % 6 : "")})</h2>
+                    <h2>{teams[matchData?.inning1?.teamId - 1]?.shortName} {matchData?.inning1?.runs}-{matchData?.inning1?.wickets} ({Math.floor(matchData?.inning1?.balls / 6)}{((matchData?.inning1?.balls % 6 > 0) ? "." + matchData?.inning1?.balls % 6 : "")})</h2>
                     <h1>Batsman</h1>
                     {(matchData.inning1Batsman?.filter((b) => b.didNotBat == false)?.map((b) => {
                         return (
@@ -57,9 +57,18 @@ function Match() {
                         )
                     }))}
                     <p>Extras: {matchData.inning1?.extras} w {matchData.inning1?.wides} nb {matchData.inning1?.noBalls} lb {matchData.inning1?.legByes} b {matchData.inning1?.byes}</p>
+                    <p>Total: {matchData?.inning1?.runs}</p>
+                    <h2>Bowler</h2>
+                    {(matchData.inning1Bowler?.filter((b) => b.balls > 0)?.map((b) => {
+                        return (
+                            <>
+                                <p>{squad[b?.playerId - 1]?.name} | {Math.floor(b.balls / 6) + "." + (b.balls % 6)} | {b.runs} | <b>{b.wickets}</b> | {(b.runs / ((b.balls / 6) + ((b.balls % 6) / 6))).toFixed(2)} |</p>
+                            </>
+                        )
+                    }))}
                 </div>
                 <div>
-                    <h2>{teams[matchData?.inning2?.teamId - 1]?.shortName} {matchData?.inning2?.runs}-{matchData?.inning2?.wickets} ({Math.floor(matchData?.inning2?.balls / 6)}{((matchData?.inning2?.balls % 6 > 0) ? matchData?.inning2?.balls % 6 : "")})</h2>
+                    <h2>{teams[matchData?.inning2?.teamId - 1]?.shortName} {matchData?.inning2?.runs}-{matchData?.inning2?.wickets} ({Math.floor(matchData?.inning2?.balls / 6)}{((matchData?.inning2?.balls % 6 > 0) ? "." + matchData?.inning2?.balls % 6 : "")})</h2>
                     <h1>Batsman</h1>
                     {(matchData.inning2Batsman?.filter((b) => b.didNotBat == false)?.map((b) => {
                         return (
@@ -78,7 +87,15 @@ function Match() {
                         )
                     }))}
                     <p>Extras: {matchData.inning2?.extras} w {matchData.inning2?.wides} nb {matchData.inning2?.noBalls} lb {matchData.inning2?.legByes} b {matchData.inning2?.byes}</p>
-                
+                    <p>Total: {matchData?.inning2?.runs}</p>
+                    <h2>Bowler</h2>
+                    {(matchData.inning2Bowler?.filter((b) => b.balls > 0)?.map((b) => {
+                        return (
+                            <>
+                                <p>{squad[b?.playerId - 1]?.name} | {Math.floor(b.balls / 6) + "." + (b.balls % 6)} | {b.runs} | <b>{b.wickets}</b> | {(b.runs / ((b.balls / 6) + ((b.balls % 6) / 6))).toFixed(2)} |</p>
+                            </>
+                        )
+                    }))}
                 </div>
             </div>
         </div>
