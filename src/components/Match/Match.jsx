@@ -9,15 +9,12 @@ function Match() {
     const [fixture, setFixture] = useState([]);
     const [teams, setTeams] = useState([]);
     const [squad, setSquad] = useState([]);
-    
-    // Refs for timing control
     const timeoutRef = useRef(null);
-    const intervalRef = useRef(5000); // 5 seconds between balls
+    const intervalRef = useRef(5000);
     const startTimeRef = useRef(0);
     const mountedRef = useRef(true);
 
     useEffect(() => {
-        // Load initial data
         const loadData = () => {
             const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
             const teams = JSON.parse(localStorage.getItem("teams"));
@@ -34,13 +31,9 @@ function Match() {
         };
 
         const matchData = loadData();
-
-        // Start match simulation if not completed
         if (fixture[matchId - 1]?.matchStatus !== "Completed") {
             startMatchSimulation(matchData);
         }
-
-        // Cleanup on unmount
         return () => {
             mountedRef.current = false;
             if (timeoutRef.current) {
