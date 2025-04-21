@@ -34,7 +34,7 @@ function Fixture() {
                             <div className={style.teamContainer}>
                                 <div className={style.homeTeamContainer}>
                                     <img src={teams[m.homeTeamId - 1]?.logo} alt="" />
-                                    <p className={style.teamName}>{teams[m.homeTeamId - 1]?.name}</p>
+                                    <p className={style.teamName}>{(m.matchStatus != "Completed") ? teams[m.homeTeamId - 1]?.name : teams[m.homeTeamId - 1]?.shortName}</p>
                                 </div>
                                 <div className={style.awayTeamContainer}>
                                     <img src={teams[m.awayTeamId - 1]?.logo} alt="" />

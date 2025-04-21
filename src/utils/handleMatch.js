@@ -14,7 +14,11 @@ function handleMatch() {
     const teams = JSON.parse(localStorage.getItem("teams"));
     for (let i = 0; i < fixture.length; i++) {
         if (fixture[i].tossStatus != "Completed" || fixture[i].matchStatus != "Completed") {
-            
+            if (handleUserMatch(fixture[i])) {
+                localStorage.setItem("nextMatch", JSON.stringify(fixture[i]));
+                break;
+            }
+            else {
                 const tossCall = handleTossCall();
                 const tossOutcome = handleTossOutcome();
                 const optionOutcome = handleOptionOutcome();
@@ -42,31 +46,33 @@ function handleMatch() {
                 handleFirstInning(fixture[i].matchId);
                 handleSecondInning(fixture[i].matchId);
                 const matchData = JSON.parse(localStorage.getItem(`match-${fixture[i].matchId}`));
-                if (matchData.inning1.runs == matchData.inning2.runs) {
-                    handleSuperOverFirstInning(fixture[i].matchId);
-                    handleSuperOverSecondInning(fixture[i].matchId);
-                }
-
                 fixture[i].matchStatus = "Completed";
                 if (matchData.inning1.runs > matchData.inning2.runs) {
                     fixture[i].matchResult = `${teams[matchData.inning1.teamId - 1].name} won by ${matchData.inning1.runs - matchData.inning2.runs} ${(matchData.inning1.runs - matchData.inning2.runs) > 1 ? "Runs" : "Run"}`;
+                    localStorage.setItem("fixture", JSON.stringify(fixture));
                     handlePointsTable(1, 2, matchData, fixture[i].matchId, false, false)
                 }
                 else if (matchData.inning2.runs > matchData.inning1.runs) {
                     fixture[i].matchResult = `${teams[matchData.inning2.teamId - 1].name} won by ${10 - matchData.inning2.wickets} ${(10 - matchData.inning2.wickets) > 1 ? "Wickets" : "Wicket"}`;
+                    localStorage.setItem("fixture", JSON.stringify(fixture));
+
                     handlePointsTable(2, 1, matchData, fixture[i].matchId, false, false);
                 }
                 else {
                     if (matchData.superOverInning1.runs > matchData.superOverInning2.runs) {
                         fixture[i].matchResult = `${teams[matchData.superOverInning1.teamId - 1].name} won Super Over`;
-                        handlePointsTable(1, 2, matchData, fixture[i].matchId, true, false);
+                        localStorage.setItem("fixture", JSON.stringify(fixture));
+                        handlePointsTable(2, 1, matchData, fixture[i].matchId, true, false);
                     }
                     else if (matchData.superOverInning2.runs > matchData.superOverInning1.runs) {
-                        fixture[i].matchResult = `${teams[matchData.superOverInning2 - 1].name} won Super Over`;
-                        handlePointsTable(2, 1, matchData, fixture[i].matchId, true, false);
+                        fixture[i].matchResult = `${teams[matchData.superOverInning2.teamId - 1].name} won Super Over`;
+                        localStorage.setItem("fixture", JSON.stringify(fixture));
+                        handlePointsTable(1, 2, matchData, fixture[i].matchId, true, false);
                     }
                     else {
                         fixture[i].matchResult = "Match Tied";
+                        localStorage.setItem("fixture", JSON.stringify(fixture));
+
                         handlePointsTable(1, 2, matchData, fixture[i].matchId, true, true);
                     }
                 }
@@ -121,7 +127,7 @@ function handleMatch() {
 
 
             }
-        
+        }
     }
 }
 export default handleMatch;
