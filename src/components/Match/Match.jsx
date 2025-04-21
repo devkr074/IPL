@@ -54,14 +54,10 @@ function Match() {
 
         const now = Date.now();
         let timeRemaining = intervalRef.current;
-
-        // Check if we have a last ball time to calculate remaining time
         if (matchData?.lastBallTime) {
             const elapsed = now - matchData.lastBallTime;
             timeRemaining = Math.max(0, intervalRef.current - elapsed);
         }
-
-        // Determine which inning to simulate
         const currentInning = matchData?.currentInning || 1;
         
         timeoutRef.current = setTimeout(() => {
@@ -80,19 +76,12 @@ function Match() {
 
         const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
         const inning = matchData[`inning${inningNumber}`];
-
-        // Check inning completion conditions
         const isInningComplete = inning.balls >= 120 || inning.wickets >= 10 || 
                                (inningNumber === 2 && inning.runs > matchData.inning1.runs);
 
         if (!isInningComplete) {
-            // Store exact time before processing the ball
             startTimeRef.current = Date.now();
-            
-            // Process the ball
             handleInning(inningNumber, matchId);
-            
-            // Update match data with current time
             const updatedMatchData = {
                 ...JSON.parse(localStorage.getItem(`match-${matchId}`)),
                 lastBallTime: startTimeRef.current,
@@ -100,8 +89,6 @@ function Match() {
             };
             localStorage.setItem(`match-${matchId}`, JSON.stringify(updatedMatchData));
             setMatchData(updatedMatchData);
-
-            // Schedule next ball with precise timing
             const processingTime = Date.now() - startTimeRef.current;
             const adjustedInterval = Math.max(0, intervalRef.current - processingTime);
             
@@ -109,7 +96,6 @@ function Match() {
                 simulateInning(inningNumber, matchId);
             }, adjustedInterval);
         } else if (inningNumber === 1) {
-            // Transition to second inning
             const updatedMatchData = {
                 ...JSON.parse(localStorage.getItem(`match-${matchId}`)),
                 currentInning: 2
