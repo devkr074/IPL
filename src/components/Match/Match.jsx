@@ -120,7 +120,6 @@ function Match() {
             // Start second inning immediately
             simulateInning(2, matchId);
         } else {
-            // Match completed
             const updatedFixture = [...fixture];
             updatedFixture[matchId - 1].matchStatus = "Completed";
             localStorage.setItem("fixture", JSON.stringify(updatedFixture));
