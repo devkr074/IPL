@@ -9,7 +9,7 @@ import venues from "../../data/venues.json";
 function Teams() {
   const [userTeamId, setUserTeamId] = useState(1);
   useEffect(() => {
-    document.title = "IPL - Teams";
+    document.title = "IPL - Select Your Team";
   }, []);
   const navigate = useNavigate();
   function handleNext() {
