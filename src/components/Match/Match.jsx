@@ -116,8 +116,6 @@ function Match() {
             };
             localStorage.setItem(`match-${matchId}`, JSON.stringify(updatedMatchData));
             setMatchData(updatedMatchData);
-            
-            // Start second inning immediately
             simulateInning(2, matchId);
         } else {
             const updatedFixture = [...fixture];
