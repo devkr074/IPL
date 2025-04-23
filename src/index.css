@@ -7,3 +7,39 @@
     box-sizing: border-box;
     user-select: none;
 }
+
+body{
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    background-image: url(../src/assets/rootBackground1.svg), url(../src/assets/rootBackground2.svg);
+    background-position: bottom left, top right;
+    background-repeat: no-repeat;
+}
+
+#root{
+    width: 70vw;
+    height: 100vh;
+    overflow: auto;
+    border: 2px solid rgba(164, 163, 163, 0.521);
+    border-radius: 8px;
+    scrollbar-width: none;
+    background-color: #ffffff;
+}
+
+.header{
+    position: sticky;
+    top: 0;
+}
+
+.section{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    padding: 20px;
+}
+
+img{
+    height: 100px;
+}

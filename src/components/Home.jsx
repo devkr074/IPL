@@ -52,14 +52,12 @@ function Home() {
     }
     return (
         <>
-            <div>
-                <div>
+                <div className="header">
                     <p>IPL - Indian Premier League</p>
                 </div>
-                <div className="containerContent">
-                    <div className="sectionContainer">
-                        <div className="section">
-                            <div className="sectionContent">
+                <div className="section">
+                        <div className="card">
+                            <div className="cardSection">
                                 {(status) && <button className="button" onClick={handleResumeTournament} >Resume Tournament</button>}
                                 {(status) ? <button className="button" onClick={handleRestartTournament} >Restart Tournament</button> : <button className="button startButton" onClick={handleStartTournament} >Start Tournament</button>}
                             </div>
@@ -98,8 +96,6 @@ function Home() {
                                     </> : <p className="altMessage" >No Data Available Currently!</p>}
                             </div>
                         </div>
-                    </div>
-                    <div className="sectionContainer">
                         <div className="section">
                             <div className="sectionHeader">
                                 <p>{(nextMatch) ? "Next Match" : "Tournament Result"}</p>
@@ -143,8 +139,6 @@ function Home() {
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
         </>
     );
 }
