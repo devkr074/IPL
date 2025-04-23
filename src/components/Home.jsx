@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import style from "./Home.module.css"
 function Home() {
     const [nextMatch, setNextMatch] = useState();
     const [orangeCap, setOrangeCap] = useState();
@@ -53,94 +52,94 @@ function Home() {
     }
     return (
         <>
-            <div className={style.container}>
-                <div className={style.containerHeader}>
+            <div>
+                <div>
                     <p>IPL - Indian Premier League</p>
                 </div>
-                <div className={style.containerContent}>
-                    <div className={style.sectionContainer}>
-                        <div className={style.section}>
-                            <div className={style.sectionContent}>
-                                {(status) && <button className={style.button} onClick={handleResumeTournament} >Resume Tournament</button>}
-                                {(status) ? <button className={style.button} onClick={handleRestartTournament} >Restart Tournament</button> : <button className={`${style.button} ${style.startButton}`} onClick={handleStartTournament} >Start Tournament</button>}
+                <div className="containerContent">
+                    <div className="sectionContainer">
+                        <div className="section">
+                            <div className="sectionContent">
+                                {(status) && <button className="button" onClick={handleResumeTournament} >Resume Tournament</button>}
+                                {(status) ? <button className="button" onClick={handleRestartTournament} >Restart Tournament</button> : <button className="button startButton" onClick={handleStartTournament} >Start Tournament</button>}
                             </div>
                         </div>
-                        <div className={style.section}>
-                            <div className={style.sectionHeader}>
+                        <div className="section">
+                            <div className="sectionHeader">
                                 <p>Orange Cap</p>
                             </div>
-                            <div className={style.sectionContent}>
+                            <div className="sectionContent">
                                 {(orangeCap) ?
                                     <>
-                                        <div className={style.imageContainer}>
+                                        <div className="imageContainer">
                                             <img src={squad[orangeCap.playerId - 1].profile} alt={squad[orangeCap.playerId - 1].name} title={squad[orangeCap.playerId - 1].name} />
                                         </div>
-                                        <div className={style.detailsContainer}>
+                                        <div className="detailsContainer">
                                             <p>{squad[orangeCap.playerId - 1].name}</p>
                                             <span>{orangeCap.runs} {(orangeCap.runs > 1) ? "Runs" : "Run"}</span>
                                         </div>
-                                    </> : <p className={style.altMessage} >No Data Available Currently!</p>}
+                                    </> : <p className="altMessage" >No Data Available Currently!</p>}
                             </div>
                         </div>
-                        <div className={style.section}>
-                            <div className={style.sectionHeader}>
+                        <div className="section">
+                            <div className="sectionHeader">
                                 <p>Purple Cap</p>
                             </div>
-                            <div className={style.sectionContent}>
+                            <div className="sectionContent">
                                 {(purpleCap) ?
                                     <>
-                                        <div className={style.imageContainer}>
+                                        <div className="imageContainer">
                                             <img src={squad[purpleCap.playerId - 1].profile} alt={squad[purpleCap.playerId - 1].name} title={squad[purpleCap.playerId - 1].name} />
                                         </div>
-                                        <div className={style.detailsContainer}>
+                                        <div className="detailsContainer">
                                             <p>{squad[purpleCap.playerId - 1].name}</p>
                                             <span>{purpleCap.wickets} {(purpleCap.wickets > 1) ? "Wickets" : "Wicket"}</span>
                                         </div>
-                                    </> : <p className={style.altMessage} >No Data Available Currently!</p>}
+                                    </> : <p className="altMessage" >No Data Available Currently!</p>}
                             </div>
                         </div>
                     </div>
-                    <div className={style.sectionContainer}>
-                        <div className={style.section}>
-                            <div className={style.sectionHeader}>
+                    <div className="sectionContainer">
+                        <div className="section">
+                            <div className="sectionHeader">
                                 <p>{(nextMatch) ? "Next Match" : "Tournament Result"}</p>
                             </div>
-                            <div className={style.sectionContent}>
+                            <div className="sectionContent">
                                 {(nextMatch) ?
                                     <>
-                                        <div className={style.detailsContainer}>
+                                        <div className="detailsContainer">
                                             <span>{(nextMatch.matchId == 71) ? "Qualifier 1" : (nextMatch.matchId == 72) ? "Eliminator" : (nextMatch.matchId == 73) ? "Qualifier 2" : (nextMatch.matchId == 74) ? "Final" : "Match #" + nextMatch.matchId}</span>
                                             <span>Venue: {venues[nextMatch.venueId - 1].city}</span>
                                         </div>
-                                        <div className={style.imageContainer}>
+                                        <div className="imageContainer">
                                             <img src={teams[nextMatch.homeTeamId - 1].logo} alt={teams[nextMatch.homeTeamId - 1].name} title={teams[nextMatch.homeTeamId - 1].name} />
                                             <span>V/S</span>
                                             <img src={teams[nextMatch.awayTeamId - 1].logo} alt={teams[nextMatch.awayTeamId - 1].name} title={teams[nextMatch.awayTeamId - 1].name} />
                                         </div>
                                     </> : (winnerTeamId) ?
                                         <>
-                                            <div className={style.detailsContainer}>
+                                            <div className="detailsContainer">
                                                 <span>Winner: {teams[winnerTeamId - 1].shortName}</span>
                                                 <span>Runner Up: {teams[runnerUpTeamId - 1].shortName}</span>
                                             </div>
-                                            <div className={style.imageContainer}>
+                                            <div className="imageContainer">
                                                 <img src={teams[winnerTeamId - 1].logo} alt={teams[winnerTeamId - 1].name} title={teams[winnerTeamId - 1].name} />
                                                 <img src={teams[runnerUpTeamId - 1].logo} alt={teams[runnerUpTeamId - 1].name} title={teams[runnerUpTeamId - 1].name} />
                                             </div>
-                                        </> : <p className={style.altMessage} >No Data Available Currently!</p>}
+                                        </> : <p className="altMessage" >No Data Available Currently!</p>}
                             </div>
                         </div>
-                        <div className={style.section}>
-                            <div className={style.sectionHeader}>
+                        <div className="section">
+                            <div className="sectionHeader">
                                 <p>Table Topper</p>
                             </div>
-                            <div className={style.sectionContent}>
+                            <div className="sectionContent">
                                 {(tableTopper) ?
-                                    <div className={style.imageContainer}>
+                                    <div className="imageContainer">
                                         {tableTopper.map((t) =>
                                             <img key={t.teamId} src={teams[t.teamId - 1].logo} alt={teams[t.teamId - 1].name} title={teams[t.teamId - 1].name} />
                                         )}
-                                    </div> : <p className={style.altMessage} >No Data Available Currently!</p>}
+                                    </div> : <p className="altMessage" >No Data Available Currently!</p>}
                             </div>
                         </div>
                     </div>

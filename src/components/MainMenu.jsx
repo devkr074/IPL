@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import style from "./MainMenu.module.css";
-import handleMatch from "../../utils/handleMatch.js";
+import handleMatch from "../utils/handleMatch.js";
 function MainMenu() {
     const [fixture, setFixture] = useState();
     const [nextMatch, setNextMatch] = useState();

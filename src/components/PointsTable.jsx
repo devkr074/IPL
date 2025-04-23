@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import style from "./PointsTable.module.css"
 function PointsTable() {
     const [pointsTable, setPointsTable] = useState();
     const [teams, setTeams] = useState();

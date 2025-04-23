@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import handleInning from "../../utils/handleInning";
-import style from "./Match.module.css";
+import handleInning from "../utils/handleInning";
 
 function Match() {
     const { matchId } = useParams();

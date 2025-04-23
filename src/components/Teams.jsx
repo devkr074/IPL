@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import style from "./Teams.module.css";
-import fixture from "../../data/fixture.json";
-import pointsTable from "../../data/pointsTable.json";
-import squad from "../../data/squad.json";
-import teams from "../../data/teams.json";
-import venues from "../../data/venues.json";
+import fixture from "../data/fixture.json";
+import pointsTable from "../data/pointsTable.json";
+import squad from "../data/squad.json";
+import teams from "../data/teams.json";
+import venues from "../data/venues.json";
 function Teams() {
   const [userTeamId, setUserTeamId] = useState(1);
   useEffect(() => {

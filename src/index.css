@@ -1,57 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
 
-:root {
-    --font-size-1: 14px;
-    --font-size-2: 20px;
-    --font-size-3: 28px;
-    --font-weight: 700;
-    --font-style: italic;
-    --color-1: #ffffff;
-    --color-2: #7c7a7a;
-    --gap: 20px;
-    --padding-1: 10px;
-    --padding-2: 20px;
-    --border-1: 2px solid #c2bcbcb3;
-    --border-2: 5px solid #ffffff;
-    --border-3: 5px solid #0a858e;
-    --border-radius-1: 10px;
-    --border-radius-2: 20px;
-    --border-radius-3: 50%;
-    --margin: 20px;
-    --background-color-1: #ffffff;
-    --background-color-2: #2b3246;
-    --background-color-3: #41485b;
-    --background-color-4: #0a858e;
-    --background-color-5: #9a3c3c;
-    --background-color-6: #0a858e3a;
-    --background-color-7: #c2bcbcb3;
-    --box-shadow: 0 3px 8px #0000003d;
-    --text-shadow: 1px 1px 0px #000000, -1px -1px 0px #000000, 1px -1px 0px #000000, -1px 1px 0px #000000;
-    --transition: all 0.2s ease;
-    --scale: scale(1.02);
-    --blur: blur(1px);
-}
-
 * {
     font-family: "Poppins", sans-serif;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     user-select: none;
-}
-
-body {
-    height: 100vh;
-    overflow: hidden;
-}
-
-#root {
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: url(./assets/background1.svg), url(./assets/background2.svg);
-    background-position: top left, bottom right;
-    background-repeat: no-repeat, no-repeat;
 }

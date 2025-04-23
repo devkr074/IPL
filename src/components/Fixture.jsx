@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import style from "./Fixture.module.css"
 function Fixture() {
     const [fixture, setFixture] = useState();
     const [teams, setTeams] = useState();

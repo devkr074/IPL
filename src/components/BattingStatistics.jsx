@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import style from "./BattingStatistics.module.css"
 function BattingStatistics() {
     const [tabs, setTabs] = useState("Most Runs");
     const [mostRuns, setMostRuns] = useState();
