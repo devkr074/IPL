@@ -27,8 +27,3 @@ body {
     scrollbar-width: none;
     background-color: #ffffff;
 }
-
-.header {
-    position: sticky;
-    top: 0;
-}
