@@ -19,10 +19,10 @@ body {
 }
 
 #root {
-    width: 70vw;
+    width: 60vw;
     height: 100vh;
     overflow: auto;
-    border: 2px solid rgba(164, 163, 163, 0.521);
+    border: 2px solid;
     border-radius: 8px;
     scrollbar-width: none;
     background-color: #ffffff;
