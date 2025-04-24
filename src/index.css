@@ -32,10 +32,3 @@ body {
     position: sticky;
     top: 0;
 }
-
-.section {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 20px;
-    padding: 20px;
-}
