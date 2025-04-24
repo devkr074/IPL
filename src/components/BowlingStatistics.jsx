@@ -31,8 +31,8 @@ function BowlingStatistics() {
     }, []);
     return (
         <>
-            <div className={style.container}>
-                <div className={style.containerHeader}>
+            <div className="container">
+                <div className="header">
                     <p>IPL -
                         <select value={tabs} onChange={(e) => setTabs(e.target.value)}>
                             <option value="Most Wickets">Most Wickets</option>
@@ -43,7 +43,7 @@ function BowlingStatistics() {
                             <option value="Best Bowling Strike Rate">Best Bowling Strike Rate</option>
                         </select></p>
                 </div>
-                <div className={style.containerContent}>
+                <div className="content">
                     {tabs == "Most Wickets" &&
                         <table>
                             <thead>
@@ -57,7 +57,7 @@ function BowlingStatistics() {
                             </thead>
                             <tbody>
                                 {mostWickets && mostWickets.map((p) =>
-                                    <tr className={style.data} key={p.playerId}>
+                                    <tr className="data" key={p.playerId}>
                                         <td>{squad[p.playerId - 1].name}</td>
                                         <td>{p.matches}</td>
                                         <td>{Math.floor(p.balls / 6) + "." + (p.balls % 6)}</td>
@@ -81,7 +81,7 @@ function BowlingStatistics() {
                             </thead>
                             <tbody>
                                 {bestBowlingAverage && bestBowlingAverage.map((p) =>
-                                    <tr className={style.data} key={p.playerId}>
+                                    <tr className="data" key={p.playerId}>
                                         <td>{squad[p.playerId - 1].name}</td>
                                         <td>{p.matches}</td>
                                         <td>{Math.floor(p.balls / 6) + "." + (p.balls % 6)}</td>
@@ -102,7 +102,7 @@ function BowlingStatistics() {
                             </thead>
                             <tbody>
                                 {bestBowling && bestBowling.map((p) =>
-                                    <tr className={style.data} key={p.playerId}>
+                                    <tr className="data" key={p.playerId}>
                                         <td>{squad[p.playerId - 1].name}</td>
                                         <td>{teams[p.bestBowlingOpponentTeamId - 1].shortName}</td>
                                         <td>{p.bestBowlingWickets}-{p.bestBowlingRuns}</td>
@@ -123,7 +123,7 @@ function BowlingStatistics() {
                             </thead>
                             <tbody>
                                 {mostFiveWicketsHaul && mostFiveWicketsHaul.map((p) =>
-                                    <tr className={style.data} key={p.playerId}>
+                                    <tr className="data" key={p.playerId}>
                                         <td>{squad[p.playerId - 1].name}</td>
                                         <td>{p.matches}</td>
                                         <td>{Math.floor(p.balls / 6) + "." + (p.balls % 6)}</td>
@@ -146,7 +146,7 @@ function BowlingStatistics() {
                             </thead>
                             <tbody>
                                 {bestEconomy && bestEconomy.map((p) =>
-                                    <tr className={style.data} key={p.playerId}>
+                                    <tr className="data" key={p.playerId}>
                                         <td>{squad[p.playerId - 1].name}</td>
                                         <td>{p.matches}</td>
                                         <td>{Math.floor(p.balls / 6) + "." + (p.balls % 6)}</td>
@@ -169,7 +169,7 @@ function BowlingStatistics() {
                             </thead>
                             <tbody>
                                 {bestBowlingStrikeRate && bestBowlingStrikeRate.map((p) =>
-                                    <tr className={style.data} key={p.playerId}>
+                                    <tr className="data" key={p.playerId}>
                                         <td>{squad[p.playerId - 1].name}</td>
                                         <td>{p.matches}</td>
                                         <td>{Math.floor(p.balls / 6) + "." + (p.balls % 6)}</td>

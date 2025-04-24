@@ -34,14 +34,14 @@ function Teams() {
   }
   return (
     <>
-      <div className={style.container}>
-        <div className={style.containerHeader}>
+      <div className="container">
+        <div className="header">
           <p>IPL - Teams</p>
           <button onClick={handleNext}>Next</button>
         </div>
-        <div className={style.containerContent}>
+        <div className="content">
           {teams.map((t) => (
-            <label key={t.teamId} title={t.name} className={`${style.card} ${(userTeamId == t.teamId) && style.active}`}>
+            <label key={t.teamId} title={t.name} className={`card ${(userTeamId == t.teamId) && "active"}`}>
               <input type="radio" name="teams" value={t.teamId} checked={userTeamId == t.teamId} onChange={handleTeamChange} />
               <img src={t.logo} alt={t.name} />
             </label>

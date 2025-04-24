@@ -37,8 +37,8 @@ function BattingStatistics() {
     }, []);
     return (
         <>
-            <div className={style.container}>
-                <div className={style.containerHeader}>
+            <div className="container">
+                <div className="header">
                     <p>IPL -
                         <select value={tabs} onChange={(e) => setTabs(e.target.value)}>
                             <option value="Most Runs">Most Runs</option>
@@ -51,7 +51,7 @@ function BattingStatistics() {
                             <option value="Most Sixes">Most Sixes</option>
                         </select></p>
                 </div>
-                <div className={style.containerContent}>
+                <div className="content">
                     {tabs == "Most Runs" &&
                         <table>
                             <thead>
@@ -65,7 +65,7 @@ function BattingStatistics() {
                             </thead>
                             <tbody>
                                 {mostRuns && mostRuns.map((p) =>
-                                    <tr className={style.data} key={p.playerId}>
+                                    <tr className="data" key={p.playerId}>
                                         <td>{squad[p.playerId - 1].name}</td>
                                         <td>{p.matches}</td>
                                         <td>{p.innings}</td>
@@ -90,7 +90,7 @@ function BattingStatistics() {
                             </thead>
                             <tbody>
                                 {highestScore && highestScore.map((p) =>
-                                    <tr className={style.data} key={p.playerId}>
+                                    <tr className="data" key={p.playerId}>
                                         <td>{squad[p.playerId - 1].name}</td>
                                         <td>{p.highestScoreRuns}</td>
                                         <td>{p.highestScoreBalls}</td>
@@ -113,7 +113,7 @@ function BattingStatistics() {
                             </thead>
                             <tbody>
                                 {bestBattingAverage && bestBattingAverage.map((p) =>
-                                    <tr className={style.data} key={p.playerId}>
+                                    <tr className="data" key={p.playerId}>
                                         <td>{squad[p.playerId - 1].name}</td>
                                         <td>{p.matches}</td>
                                         <td>{p.innings}</td>
@@ -136,7 +136,7 @@ function BattingStatistics() {
                             </thead>
                             <tbody>
                                 {bestBattingStrikeRate && bestBattingStrikeRate.map((p) =>
-                                    <tr className={style.data} key={p.playerId}>
+                                    <tr className="data" key={p.playerId}>
                                         <td>{squad[p.playerId - 1].name}</td>
                                         <td>{p.matches}</td>
                                         <td>{p.innings}</td>
@@ -159,7 +159,7 @@ function BattingStatistics() {
                             </thead>
                             <tbody>
                                 {mostFifties && mostFifties.map((p) =>
-                                    <tr className={style.data} key={p.playerId}>
+                                    <tr className="data" key={p.playerId}>
                                         <td>{squad[p.playerId - 1].name}</td>
                                         <td>{p.matches}</td>
                                         <td>{p.innings}</td>
@@ -182,7 +182,7 @@ function BattingStatistics() {
                         </thead>
                         <tbody>
                             {mostHundreds.map((p) =>
-                                <tr className={style.data} key={p.playerId}>
+                                <tr className="data" key={p.playerId}>
                                     <td>{squad[p.playerId - 1].name}</td>
                                     <td>{p.matches}</td>
                                     <td>{p.innings}</td>
@@ -205,7 +205,7 @@ function BattingStatistics() {
                             </thead>
                             <tbody>
                                 {mostFours && mostFours.map((p) =>
-                                    <tr className={style.data} key={p.playerId}>
+                                    <tr className="data" key={p.playerId}>
                                         <td>{squad[p.playerId - 1].name}</td>
                                         <td>{p.matches}</td>
                                         <td>{p.innings}</td>
@@ -228,7 +228,7 @@ function BattingStatistics() {
                             </thead>
                             <tbody>
                                 {mostSixes && mostSixes.map((p) =>
-                                    <tr className={style.data} key={p.playerId}>
+                                    <tr className="data" key={p.playerId}>
                                         <td>{squad[p.playerId - 1].name}</td>
                                         <td>{p.matches}</td>
                                         <td>{p.innings}</td>

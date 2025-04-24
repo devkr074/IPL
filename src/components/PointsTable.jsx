@@ -12,11 +12,11 @@ function PointsTable() {
     }, []);
     return (
         <>
-            <div className={style.container}>
-                <div className={style.containerHeader}>
+            <div className="container">
+                <div className="header">
                     <p>IPL - Points Table</p>
                 </div>
-                <div className={style.containerContent}>
+                <div className="content">
                     <table>
                         <thead>
                             <tr>

@@ -103,11 +103,11 @@ function Match() {
         }
     };
     return (
-        <div className={style.container}>
-            <div className={style.containerHeader}>
+        <div className="container">
+            <div className="header">
                 <p>Match {matchId}: {teams[fixture[matchId - 1]?.homeTeamId - 1]?.shortName} vs {teams[fixture[matchId - 1]?.awayTeamId - 1]?.shortName}</p>
             </div>
-            <div className={style.containerContent}>
+            <div className="content">
                 <h2>{teams[matchData?.inning1?.teamId - 1]?.shortName} {matchData?.inning1?.runs}{(matchData?.inning1?.wickets != 10) && -matchData?.inning1?.wickets}</h2>
                 <h2>{teams[matchData?.inning2?.teamId - 1]?.shortName} {matchData?.inning2?.runs}{(matchData?.inning2?.wickets != 10) && -matchData?.inning2?.wickets}</h2>
                 <h3> <img src={squad[fixture[matchId - 1]?.playerOfTheMatch - 1]?.profile} height={60} style={{ borderRadius: "50%" }} alt="" />{squad[fixture[matchId - 1]?.playerOfTheMatch - 1]?.name}</h3>

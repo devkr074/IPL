@@ -8,7 +8,7 @@
     user-select: none;
 }
 
-body{
+body {
     height: 100vh;
     overflow: hidden;
     display: flex;
@@ -18,7 +18,7 @@ body{
     background-repeat: no-repeat;
 }
 
-#root{
+#root {
     width: 70vw;
     height: 100vh;
     overflow: auto;
@@ -28,18 +28,14 @@ body{
     background-color: #ffffff;
 }
 
-.header{
+.header {
     position: sticky;
     top: 0;
 }
 
-.section{
+.section {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 20px;
     padding: 20px;
-}
-
-img{
-    height: 100px;
 }

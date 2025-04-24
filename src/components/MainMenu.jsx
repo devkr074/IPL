@@ -25,6 +25,8 @@ function MainMenu() {
     }, []);
     useEffect(() => {
         handleMatch();
+        setNextMatch(JSON.parse(localStorage.getItem("nextMatch")));
+        setWinnerTeamId(Number(localStorage.getItem("winnerTeamId")));
     }, [fixture]);
     const navigate = useNavigate();
     function handlePlay(matchId) {
@@ -55,66 +57,66 @@ function MainMenu() {
     }
     return (
         <>
-            <div className={style.container}>
-                <div className={style.containerHeader}>
+            <div className="container">
+                <div className="containerHeader">
                     <p>IPL - Main Menu</p>
                 </div>
-                <div className={style.containerContent}>
-                    <div className={style.section}>
-                        <div className={style.sectionHeader}>
+                <div className="containerContent">
+                    <div className="section">
+                        <div className="sectionHeader">
                             <p>{(nextMatch) ? "Next Match" : "Tournament Result"}</p>
                         </div>
-                        <div className={style.sectionContent}>
+                        <div className="sectionContent">
                             {(nextMatch) ?
                                 <>
-                                    <div className={style.detailsContainer}>
+                                    <div className="detailsContainer">
                                         <span>Match #{nextMatch.matchId}</span>
                                         <span>Venue: {venues[nextMatch.venueId - 1].city}</span>
                                     </div>
-                                    <div className={style.imageContainer}>
+                                    <div className="imageContainer">
                                         <img src={teams[nextMatch.homeTeamId - 1].logo} alt={teams[nextMatch.homeTeamId - 1].name} title={teams[nextMatch.homeTeamId - 1].name} />
                                         <span>V/S</span>
                                         <img src={teams[nextMatch.awayTeamId - 1].logo} alt={teams[nextMatch.awayTeamId - 1].name} title={teams[nextMatch.awayTeamId - 1].name} />
                                     </div>
-                                    <button className={style.button} onClick={() => handlePlay(nextMatch.matchId)}>Play</button>
+                                    <button className="button" onClick={() => handlePlay(nextMatch.matchId)}>Play</button>
                                 </> : (winnerTeamId) ?
                                     <>
-                                        <div className={style.detailsContainer}>
+                                        <div className="detailsContainer">
                                             <span>Winner: {teams[winnerTeamId - 1].name}</span>
                                             <span>Runner Up: {teams[runnerUpTeamId - 1].name}</span>
                                         </div>
-                                        <div className={style.imageContainer}>
+                                        <div className="imageContainer">
                                             <img src={teams[winnerTeamId - 1].logo} alt={teams[winnerTeamId - 1].name} title={teams[winnerTeamId - 1].name} />
                                             <img src={teams[runnerUpTeamId - 1].logo} alt={teams[runnerUpTeamId - 1].name} title={teams[runnerUpTeamId - 1].name} />
                                         </div>
-                                    </> : <p className={style.altMessage} >No Data Available Currently!</p>}
+                                    </> : <p className="altMessage" >No Data Available Currently!</p>}
                         </div>
                     </div>
-                    <div className={style.section}>
-                        <button className={style.button} onClick={handleFixture}>
+                    <div className="section">
+                        <button className="button" onClick={handleFixture}>
                             <span>Fixture</span>
                         </button>
                     </div>
-                    <div className={style.section}>
-                        <button className={style.button} onClick={handleSquad}>
+                    <div className="section">
+                        <button className="button" onClick={handleSquad}>
                             <span>Squad</span>
                         </button>
-                        <button className={style.button} onClick={handleVenues}>
+                        <button className="button" onClick={handleVenues}>
                             <span>Venues</span>
                         </button>
                     </div>
-                    <div className={style.section}>
-                        <button className={style.button} onClick={handlePointsTable}>
+                    <div className="section">
+                        <button className="button" onClick={handlePointsTable}>
                             <span>Points Table</span>
                         </button>
                     </div>
-                    <div className={style.section}>
-                        <button className={style.button} onClick={handleBattingStatistics}>
+                    <div className="section">
+                        <button className="button" onClick={handleBattingStatistics}>
                             <span>Batting Statistics</span>
                         </button>
                     </div>
-                    <div className={style.section}>
-                        <button className={style.button} onClick={handleBowlingStatistics}>
+                    <div className="section">
+                        <button className="button" onClick={handleBowlingStatistics}>
                             <span>Bowling Statistics</span>
                         </button>
                     </div>

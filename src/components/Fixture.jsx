@@ -18,29 +18,29 @@ function Fixture() {
         navigate(`/match/${matchId}`);
     }
     return (
-        <div className={style.container}>
-            <div className={style.containerHeader}>
+        <div className="container">
+            <div className="header">
                 <p>IPL - Fixture</p>
             </div>
-            <div className={style.containerContent}>
+            <div className="content">
                 {fixture && fixture.map((m) => {
                     return (
-                        <div className={style.card} onClick={() => handleMatch(m.matchId)}>
-                            <p className={style.title}>
+                        <div className="card" onClick={() => handleMatch(m.matchId)}>
+                            <p className="title">
                                 {(m.matchId == 71) ? "Qualifier 1 • " : (m.matchId == 72) ? "Eliminator • " : (m.matchId == 73) ? "Qualifier 2  • " : (m.matchId == 74) ? "Final • " : <span>Match {m.matchId} • </span>}
                                 <span>{venues[m.venueId - 1].city}</span>
                             </p>
-                            <div className={style.teamContainer}>
-                                <div className={style.homeTeamContainer}>
+                            <div className="teamContainer">
+                                <div className="homeTeamContainer">
                                     <img src={teams[m.homeTeamId - 1]?.logo} alt="" />
-                                    <p className={style.teamName}>{(m.matchStatus != "Completed") ? teams[m.homeTeamId - 1]?.name : teams[m.homeTeamId - 1]?.shortName}</p>
+                                    <p className="teamName">{(m.matchStatus != "Completed") ? teams[m.homeTeamId - 1]?.name : teams[m.homeTeamId - 1]?.shortName}</p>
                                 </div>
-                                <div className={style.awayTeamContainer}>
+                                <div className="awayTeamContainer">
                                     <img src={teams[m.awayTeamId - 1]?.logo} alt="" />
-                                    <p className={style.teamName}>{teams[m.awayTeamId - 1]?.name}</p>
+                                    <p className="teamName">{teams[m.awayTeamId - 1]?.name}</p>
                                 </div>
                             </div>
-                            {(m.matchStatus == "Completed") ? <p className={style.discription} title={m.matchResult}>{m.matchResult}</p> : (m.tossStatus == "Completed") ? <p className={`${style.discription} ${style.toss}`} title={m.tossResult}>{m.tossResult}</p> : <p className={`${style.discription} ${style.upcoming}`}>Upcoming</p>}
+                            {(m.matchStatus == "Completed") ? <p className="desc" title={m.matchResult}>{m.matchResult}</p> : (m.tossStatus == "Completed") ? <p className={`"desc" "toss"`} title={m.tossResult}>{m.tossResult}</p> : <p className={`"desc" "upcoming"`}>Upcoming</p>}
                         </div>
                     )
                 })}
