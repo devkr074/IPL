@@ -9,7 +9,7 @@ function Match() {
     const [teams, setTeams] = useState([]);
     const [squad, setSquad] = useState([]);
     const timeoutRef = useRef(null);
-    const intervalRef = useRef(100);
+    const intervalRef = useRef(5000);
     const startTimeRef = useRef(0);
     const mountedRef = useRef(true);
 

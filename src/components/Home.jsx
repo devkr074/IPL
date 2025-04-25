@@ -42,8 +42,7 @@ function Home() {
         if (window.confirm("Really want to Restart IPL Tournament?")) {
             localStorage.clear();
             navigate("/teams");
-        }
-        else {
+        } else {
             return;
         }
     }
@@ -52,93 +51,166 @@ function Home() {
     }
     return (
         <>
-                <div className="header">
-                    <p>IPL - Indian Premier League</p>
-                </div>
-                <div className="section">
-                        <div className="card">
-                            <div className="cardSection">
-                                {(status) && <button className="button" onClick={handleResumeTournament} >Resume Tournament</button>}
-                                {(status) ? <button className="button" onClick={handleRestartTournament} >Restart Tournament</button> : <button className="button startButton" onClick={handleStartTournament} >Start Tournament</button>}
-                            </div>
-                        </div>
-                        <div className="section">
-                            <div className="sectionHeader">
-                                <p>Orange Cap</p>
-                            </div>
-                            <div className="sectionContent">
-                                {(orangeCap) ?
-                                    <>
-                                        <div className="imageContainer">
-                                            <img src={squad[orangeCap.playerId - 1].profile} alt={squad[orangeCap.playerId - 1].name} title={squad[orangeCap.playerId - 1].name} />
-                                        </div>
-                                        <div className="detailsContainer">
-                                            <p>{squad[orangeCap.playerId - 1].name}</p>
-                                            <span>{orangeCap.runs} {(orangeCap.runs > 1) ? "Runs" : "Run"}</span>
-                                        </div>
-                                    </> : <p className="altMessage" >No Data Available Currently!</p>}
-                            </div>
-                        </div>
-                        <div className="section">
-                            <div className="sectionHeader">
-                                <p>Purple Cap</p>
-                            </div>
-                            <div className="sectionContent">
-                                {(purpleCap) ?
-                                    <>
-                                        <div className="imageContainer">
-                                            <img src={squad[purpleCap.playerId - 1].profile} alt={squad[purpleCap.playerId - 1].name} title={squad[purpleCap.playerId - 1].name} />
-                                        </div>
-                                        <div className="detailsContainer">
-                                            <p>{squad[purpleCap.playerId - 1].name}</p>
-                                            <span>{purpleCap.wickets} {(purpleCap.wickets > 1) ? "Wickets" : "Wicket"}</span>
-                                        </div>
-                                    </> : <p className="altMessage" >No Data Available Currently!</p>}
-                            </div>
-                        </div>
-                        <div className="section">
-                            <div className="sectionHeader">
-                                <p>{(nextMatch) ? "Next Match" : "Tournament Result"}</p>
-                            </div>
-                            <div className="sectionContent">
-                                {(nextMatch) ?
-                                    <>
-                                        <div className="detailsContainer">
-                                            <span>{(nextMatch.matchId == 71) ? "Qualifier 1" : (nextMatch.matchId == 72) ? "Eliminator" : (nextMatch.matchId == 73) ? "Qualifier 2" : (nextMatch.matchId == 74) ? "Final" : "Match #" + nextMatch.matchId}</span>
-                                            <span>Venue: {venues[nextMatch.venueId - 1].city}</span>
-                                        </div>
-                                        <div className="imageContainer">
-                                            <img src={teams[nextMatch.homeTeamId - 1].logo} alt={teams[nextMatch.homeTeamId - 1].name} title={teams[nextMatch.homeTeamId - 1].name} />
-                                            <span>V/S</span>
-                                            <img src={teams[nextMatch.awayTeamId - 1].logo} alt={teams[nextMatch.awayTeamId - 1].name} title={teams[nextMatch.awayTeamId - 1].name} />
-                                        </div>
-                                    </> : (winnerTeamId) ?
-                                        <>
-                                            <div className="detailsContainer">
-                                                <span>Winner: {teams[winnerTeamId - 1].shortName}</span>
-                                                <span>Runner Up: {teams[runnerUpTeamId - 1].shortName}</span>
-                                            </div>
-                                            <div className="imageContainer">
-                                                <img src={teams[winnerTeamId - 1].logo} alt={teams[winnerTeamId - 1].name} title={teams[winnerTeamId - 1].name} />
-                                                <img src={teams[runnerUpTeamId - 1].logo} alt={teams[runnerUpTeamId - 1].name} title={teams[runnerUpTeamId - 1].name} />
-                                            </div>
-                                        </> : <p className="altMessage" >No Data Available Currently!</p>}
-                            </div>
-                        </div>
-                        <div className="section">
-                            <div className="sectionHeader">
-                                <p>Table Topper</p>
-                            </div>
-                            <div className="sectionContent">
-                                {(tableTopper) ?
-                                    <div className="imageContainer">
-                                        {tableTopper.map((t) =>
-                                            <img key={t.teamId} src={teams[t.teamId - 1].logo} alt={teams[t.teamId - 1].name} title={teams[t.teamId - 1].name} />
-                                        )}
-                                    </div> : <p className="altMessage" >No Data Available Currently!</p>}
-                            </div>
-                        </div>
+            <div className="titleContainer">
+                <p className="title">IPL - Indian Premier League</p>
+            </div>
+            <div className="cardContainer">
+                <div className="card actionsContainer">
+                    <div className="buttonGroup">
+                        {status && (
+                            <button className="button resumeButton" onClick={handleResumeTournament}>
+                                Resume Tournament
+                            </button>
+                        )}
+                        {status ? (
+                            <button className="button restartButton" onClick={handleRestartTournament}>
+                                Restart Tournament
+                            </button>
+                        ) : (
+                            <button className="button startButton" onClick={handleStartTournament}>
+                                Start Tournament
+                            </button>
+                        )}
                     </div>
+                </div>
+                <div className="orange-cap-container">
+                    <div className="section-title-container">
+                        <p className="section-title">Orange Cap</p>
+                    </div>
+                    <div className="player-info">
+                        {orangeCap ? (
+                            <>
+                                <img
+                                    className="player-profile"
+                                    src={squad[orangeCap.playerId - 1].profile}
+                                    alt={squad[orangeCap.playerId - 1].name}
+                                    title={squad[orangeCap.playerId - 1].name}
+                                />
+                                <p className="player-name">{squad[orangeCap.playerId - 1].name}</p>
+                                <p className="player-runs">
+                                    {orangeCap.runs} {orangeCap.runs > 1 ? "Runs" : "Run"}
+                                </p>
+                            </>
+                        ) : (
+                            <p className="no-data">No Data Available Currently!</p>
+                        )}
+                    </div>
+                </div>
+                <div className="purple-cap-container">
+                    <div className="section-title-container">
+                        <p className="section-title">Purple Cap</p>
+                    </div>
+                    <div className="player-info">
+                        {purpleCap ? (
+                            <>
+                                <img
+                                    className="player-profile"
+                                    src={squad[purpleCap.playerId - 1].profile}
+                                    alt={squad[purpleCap.playerId - 1].name}
+                                    title={squad[purpleCap.playerId - 1].name}
+                                />
+                                <p className="player-name">{squad[purpleCap.playerId - 1].name}</p>
+                                <p className="player-wickets">
+                                    {purpleCap.wickets} {purpleCap.wickets > 1 ? "Wickets" : "Wicket"}
+                                </p>
+                            </>
+                        ) : (
+                            <p className="no-data">No Data Available Currently!</p>
+                        )}
+                    </div>
+                </div>
+                <div className="next-match-container">
+                    <div className="section-title-container">
+                        <p className="section-title">
+                            {nextMatch ? "Next Match" : "Tournament Result"}
+                        </p>
+                    </div>
+                    <div className="match-details">
+                        {nextMatch ? (
+                            <>
+                                <div className="match-info">
+                                    <p className="match-number">
+                                        {nextMatch.matchId === 71
+                                            ? "Qualifier 1"
+                                            : nextMatch.matchId === 72
+                                                ? "Eliminator"
+                                                : nextMatch.matchId === 73
+                                                    ? "Qualifier 2"
+                                                    : nextMatch.matchId === 74
+                                                        ? "Final"
+                                                        : "Match #" + nextMatch.matchId}
+                                    </p>
+                                    <p className="match-venue">
+                                        Venue: {venues[nextMatch.venueId - 1].city}
+                                    </p>
+                                </div>
+                                <div className="team-logos">
+                                    <img
+                                        className="team-logo"
+                                        src={teams[nextMatch.homeTeamId - 1].logo}
+                                        alt={teams[nextMatch.homeTeamId - 1].name}
+                                        title={teams[nextMatch.homeTeamId - 1].name}
+                                    />
+                                    <p className="vs">V/S</p>
+                                    <img
+                                        className="team-logo"
+                                        src={teams[nextMatch.awayTeamId - 1].logo}
+                                        alt={teams[nextMatch.awayTeamId - 1].name}
+                                        title={teams[nextMatch.awayTeamId - 1].name}
+                                    />
+                                </div>
+                            </>
+                        ) : winnerTeamId ? (
+                            <>
+                                <div className="result-info">
+                                    <p className="winner">
+                                        Winner: {teams[winnerTeamId - 1].shortName}
+                                    </p>
+                                    <p className="runner-up">
+                                        Runner Up: {teams[runnerUpTeamId - 1].shortName}
+                                    </p>
+                                </div>
+                                <div className="team-logos">
+                                    <img
+                                        className="team-logo winner-logo"
+                                        src={teams[winnerTeamId - 1].logo}
+                                        alt={teams[winnerTeamId - 1].name}
+                                        title={teams[winnerTeamId - 1].name}
+                                    />
+                                    <img
+                                        className="team-logo runner-up-logo"
+                                        src={teams[runnerUpTeamId - 1].logo}
+                                        alt={teams[runnerUpTeamId - 1].name}
+                                        title={teams[runnerUpTeamId - 1].name}
+                                    />
+                                </div>
+                            </>
+                        ) : (
+                            <p className="no-data">No Data Available Currently!</p>
+                        )}
+                    </div>
+                </div>
+                <div className="table-topper-container">
+                    <div className="section-title-container">
+                        <p className="section-title">Table Topper</p>
+                    </div>
+                    <div className="table-topper-logos">
+                        {tableTopper ? (
+                            tableTopper.map((t) => (
+                                <img
+                                    key={t.teamId}
+                                    className="team-logo topper-logo"
+                                    src={teams[t.teamId - 1].logo}
+                                    alt={teams[t.teamId - 1].name}
+                                    title={teams[t.teamId - 1].name}
+                                />
+                            ))
+                        ) : (
+                            <p className="no-data">No Data Available Currently!</p>
+                        )}
+                    </div>
+                </div>
+            </div>
         </>
     );
 }
