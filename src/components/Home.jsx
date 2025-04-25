@@ -50,76 +50,78 @@ function Home() {
         navigate("/teams");
     }
     return (
-        <>
-            <div className="titleContainer">
-                <p className="title">IPL - Indian Premier League</p>
+        <div className="container">
+            <div className="row py-2 d-flex sticky-top align-items-center bg-dark">
+                <p className="fs-4 m-0 text-center fw-bold text-light">IPL - Indian Premier League</p>
             </div>
-            <div className="cardContainer">
-                <div className="card actionsContainer">
-                    <div className="buttonGroup">
-                        {status && (
-                            <button className="button resumeButton" onClick={handleResumeTournament}>
-                                Resume Tournament
-                            </button>
-                        )}
-                        {status ? (
-                            <button className="button restartButton" onClick={handleRestartTournament}>
-                                Restart Tournament
-                            </button>
-                        ) : (
-                            <button className="button startButton" onClick={handleStartTournament}>
-                                Start Tournament
-                            </button>
-                        )}
-                    </div>
+            <div className="row p-2">
+                <div className="card col-lg-4 col-sm-12 p-0">
+                    {status && (
+                        <button className="btn btn-dark w-100 h-100 py-4" onClick={handleResumeTournament}>
+                            Resume Tournament
+                        </button>
+                    )}
+                    {status ? (
+                        <button className="btn btn-danger w-100 h-100 mt-2 py-4" onClick={handleRestartTournament}>
+                            Restart Tournament
+                        </button>
+                    ) : (
+                        <button className="py-5 btn btn-dark shadow h-100 w-100 fs-5 fw-semibold" onClick={handleStartTournament}>
+                            Start Tournament
+                        </button>
+                    )}
                 </div>
-                <div className="orange-cap-container">
-                    <div className="section-title-container">
-                        <p className="section-title">Orange Cap</p>
+                <div className="card col-lg-4 col-sm-4 p-0 overflow-hidden">
+                    <div>
+                        <p className="section-title bg-dark text-light py-1 text-center fs-6 fw-semibold">Orange Cap</p>
                     </div>
-                    <div className="player-info">
+                    <div className="row m-2">
                         {orangeCap ? (
                             <>
-                                <img
-                                    className="player-profile"
-                                    src={squad[orangeCap.playerId - 1].profile}
+                                <img className="p-1 col-4 img-fluid rounded-circle border border-1 border-secondary" src={squad[orangeCap.playerId - 1].profile}
                                     alt={squad[orangeCap.playerId - 1].name}
                                     title={squad[orangeCap.playerId - 1].name}
                                 />
-                                <p className="player-name">{squad[orangeCap.playerId - 1].name}</p>
-                                <p className="player-runs">
-                                    {orangeCap.runs} {orangeCap.runs > 1 ? "Runs" : "Run"}
-                                </p>
+                                <div className="col-8">
+                                    <p className="player-name">{squad[orangeCap.playerId - 1].name}</p>
+                                    <p className="player-runs">
+                                        {orangeCap.runs} {orangeCap.runs > 1 ? "Runs" : "Run"}
+                                    </p>
+                                </div>
                             </>
                         ) : (
-                            <p className="no-data">No Data Available Currently!</p>
+                            <p className="ps-2 fs-6">No Data Available Currently!</p>
                         )}
                     </div>
                 </div>
-                <div className="purple-cap-container">
-                    <div className="section-title-container">
-                        <p className="section-title">Purple Cap</p>
+                <div className="card col-lg-4 col-sm-12 p-0 overflow-hidden">
+                    <div>
+                        <p className="section-title bg-dark text-light py-1 text-center fs-6 fw-semibold">Purple Cap</p>
                     </div>
-                    <div className="player-info">
+                    <div className="row m-2">
                         {purpleCap ? (
                             <>
                                 <img
-                                    className="player-profile"
+                                    className="p-1 col-4 img-fluid rounded-circle border border-1 border-secondary"
                                     src={squad[purpleCap.playerId - 1].profile}
                                     alt={squad[purpleCap.playerId - 1].name}
                                     title={squad[purpleCap.playerId - 1].name}
                                 />
-                                <p className="player-name">{squad[purpleCap.playerId - 1].name}</p>
-                                <p className="player-wickets">
-                                    {purpleCap.wickets} {purpleCap.wickets > 1 ? "Wickets" : "Wicket"}
-                                </p>
+                                <div className="col-8">
+                                    <p className="text-truncate" >{squad[purpleCap.playerId - 1].name}</p>
+                                    <p>
+                                        {purpleCap.wickets} {purpleCap.wickets > 1 ? "Wickets" : "Wicket"}
+                                    </p>
+                                </div>
                             </>
                         ) : (
                             <p className="no-data">No Data Available Currently!</p>
                         )}
                     </div>
                 </div>
-                <div className="next-match-container">
+            </div>
+            <div className="row px-2">
+                <div className="card col-lg-4 col-sm-12">
                     <div className="section-title-container">
                         <p className="section-title">
                             {nextMatch ? "Next Match" : "Tournament Result"}
@@ -144,16 +146,16 @@ function Home() {
                                         Venue: {venues[nextMatch.venueId - 1].city}
                                     </p>
                                 </div>
-                                <div className="team-logos">
+                                <div className="d-flex align-items-center">
                                     <img
-                                        className="team-logo"
+                                        className="col-5 rounded-circle border border-2 p-1 border-dark"
                                         src={teams[nextMatch.homeTeamId - 1].logo}
                                         alt={teams[nextMatch.homeTeamId - 1].name}
                                         title={teams[nextMatch.homeTeamId - 1].name}
                                     />
-                                    <p className="vs">V/S</p>
+                                    <p className="col-2 text-center">V/S</p>
                                     <img
-                                        className="team-logo"
+                                        className="col-5 rounded-circle border border-2 p-1 border-dark"
                                         src={teams[nextMatch.awayTeamId - 1].logo}
                                         alt={teams[nextMatch.awayTeamId - 1].name}
                                         title={teams[nextMatch.awayTeamId - 1].name}
@@ -190,16 +192,16 @@ function Home() {
                         )}
                     </div>
                 </div>
-                <div className="table-topper-container">
+                <div className="card col-lg-8 col-sm-12 p-0">
                     <div className="section-title-container">
                         <p className="section-title">Table Topper</p>
                     </div>
-                    <div className="table-topper-logos">
+                    <div className="d-flex px-2">
                         {tableTopper ? (
                             tableTopper.map((t) => (
                                 <img
                                     key={t.teamId}
-                                    className="team-logo topper-logo"
+                                    className="col-3"
                                     src={teams[t.teamId - 1].logo}
                                     alt={teams[t.teamId - 1].name}
                                     title={teams[t.teamId - 1].name}
@@ -211,7 +213,7 @@ function Home() {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 }
 export default Home;

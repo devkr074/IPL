@@ -1,16 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
-
-* {
-    font-family: "Poppins", sans-serif;
-    padding: 0;
-    margin: 0;
+html{
     box-sizing: border-box;
-    user-select: none;
 }
 
 body {
     height: 100vh;
-    overflow: hidden;
     display: flex;
     justify-content: center;
     background-image: url(../src/assets/rootBackground1.svg), url(../src/assets/rootBackground2.svg);
@@ -18,11 +11,20 @@ body {
     background-repeat: no-repeat, no-repeat;
 }
 
+*{
+    box-sizing: inherit;
+}
+
 #root {
     height: 100vh;
-    width: 60vw;
+    width: 100vw;
+    background-color: #ffffff;
+}
+
+.container {
+    height: 100vh;
+    width: 100vw;
     border: 2px solid;
     overflow: auto;
     scrollbar-width: none;
-    background-color: #ffffff;
 }
