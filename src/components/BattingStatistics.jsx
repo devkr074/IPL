@@ -40,7 +40,7 @@ function BattingStatistics() {
 
             <div className="container">
                 <div className="row">
-                    <div className="w-100 d-flex py-2 overflow-auto batting-stats-tab-container">
+                    <div className="vw-100 d-flex py-2 overflow-auto batting-stats-tab-container">
                         <button className={`btn border border-2 border-dark me-2 ${tabs === 'Most Runs' ? 'btn-dark' : ''}`} onClick={() => setTabs('Most Runs')}>Most Runs</button>
                         <button className={`btn border border-2 border-dark me-2 ${tabs === 'Highest Score' ? 'btn-dark' : ''}`} onClick={() => setTabs('Highest Score')}>Highest Score</button>
                         <button className={`btn border border-2 border-dark me-2 ${tabs === 'Best Batting Average' ? 'btn-dark' : ''}`} onClick={() => setTabs('Best Batting Average')}>Best Batting Average</button>
@@ -50,15 +50,14 @@ function BattingStatistics() {
                 </div>
                 <div className="row">
                     {tabs == "Most Runs" &&
-                        <div className="col-12">
                             <table className='table p-0'>
                                 <thead className='table-dark'>
-                                    <tr>
-                                        <th>Batter</th>
-                                        <th>M</th>
-                                        <th>I</th>
-                                        <th>R</th>
-                                        <th>Avg</th>
+                                    <tr className=''>
+                                        <th className='col-8'>Batter</th>
+                                        <th className='col-1'>M</th>
+                                        <th className='col-1'>I</th>
+                                        <th className='col-1'>R</th>
+                                        <th className='col-1'>Avg</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -73,7 +72,6 @@ function BattingStatistics() {
                                     )}
                                 </tbody>
                             </table>
-                        </div>
                     }
                     {tabs == "Highest Score" &&
                         <div className="col-12">

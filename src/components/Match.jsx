@@ -104,13 +104,14 @@ function Match() {
     };
     return (
         <div className="container">
-            <div className="header">
+            <div className="header sticky-top">
                 <p>Match {matchId}: {teams[fixture[matchId - 1]?.homeTeamId - 1]?.shortName} vs {teams[fixture[matchId - 1]?.awayTeamId - 1]?.shortName}</p>
             </div>
-            <div className="content">
-                <h2>{teams[matchData?.inning1?.teamId - 1]?.shortName} {matchData?.inning1?.runs}{(matchData?.inning1?.wickets != 10) && -matchData?.inning1?.wickets}</h2>
-                <h2>{teams[matchData?.inning2?.teamId - 1]?.shortName} {matchData?.inning2?.runs}{(matchData?.inning2?.wickets != 10) && -matchData?.inning2?.wickets}</h2>
-                <h3> <img src={squad[fixture[matchId - 1]?.playerOfTheMatch - 1]?.profile} height={60} style={{ borderRadius: "50%" }} alt="" />{squad[fixture[matchId - 1]?.playerOfTheMatch - 1]?.name}</h3>
+            <div className="content relative">
+                <h2 className="fs-2 text-secondary m-0 bg-light sticky-top">{teams[matchData?.inning1?.teamId - 1]?.shortName} {matchData?.inning1?.runs}{(matchData?.inning1?.wickets != 10) && -matchData?.inning1?.wickets}</h2>
+                <h2 className="fs-2 text-secondary border-bottom">{teams[matchData?.inning2?.teamId - 1]?.shortName} {matchData?.inning2?.runs}{(matchData?.inning2?.wickets != 10) && -matchData?.inning2?.wickets}</h2>
+                <p className="mb-2 fs-5 fw-semibold">Player of the Match</p>
+                <h3 className="fs-5"> <img className="me-2 col-lg-1 col-sm-2 col-2 rounded-circle border border-1 border-secondary p-1 img-fluid" src={squad[fixture[matchId - 1]?.playerOfTheMatch - 1]?.profile} alt="" />{squad[fixture[matchId - 1]?.playerOfTheMatch - 1]?.name}</h3>
                 <p>{squad[matchData?.inning1?.strikerId-1]?.shortName}* |</p>
                 <p>{squad[matchData?.inning1?.nonStrikerId-1]?.shortName} |</p>
                 <div>
