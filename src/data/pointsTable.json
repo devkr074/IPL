@@ -6,8 +6,8 @@
         "lost": 0,
         "tied": 0,
         "points": 0,
-        "runRate": 0,
-        "netRunRate": 0
+        "netRunRate": 0,
+        "runRate": 0
     },
     {
         "teamId": 2,
@@ -16,8 +16,8 @@
         "lost": 0,
         "tied": 0,
         "points": 0,
-        "runRate": 0,
-        "netRunRate": 0
+        "netRunRate": 0,
+        "runRate": 0
     },
     {
         "teamId": 3,
@@ -26,8 +26,8 @@
         "lost": 0,
         "tied": 0,
         "points": 0,
-        "runRate": 0,
-        "netRunRate": 0
+        "netRunRate": 0,
+        "runRate": 0
     },
     {
         "teamId": 4,
@@ -36,8 +36,8 @@
         "lost": 0,
         "tied": 0,
         "points": 0,
-        "runRate": 0,
-        "netRunRate": 0
+        "netRunRate": 0,
+        "runRate": 0
     },
     {
         "teamId": 5,
@@ -46,8 +46,8 @@
         "lost": 0,
         "tied": 0,
         "points": 0,
-        "runRate": 0,
-        "netRunRate": 0
+        "netRunRate": 0,
+        "runRate": 0
     },
     {
         "teamId": 6,
@@ -56,8 +56,8 @@
         "lost": 0,
         "tied": 0,
         "points": 0,
-        "runRate": 0,
-        "netRunRate": 0
+        "netRunRate": 0,
+        "runRate": 0
     },
     {
         "teamId": 7,
@@ -66,8 +66,8 @@
         "lost": 0,
         "tied": 0,
         "points": 0,
-        "runRate": 0,
-        "netRunRate": 0
+        "netRunRate": 0,
+        "runRate": 0
     },
     {
         "teamId": 8,
@@ -76,8 +76,8 @@
         "lost": 0,
         "tied": 0,
         "points": 0,
-        "runRate": 0,
-        "netRunRate": 0
+        "netRunRate": 0,
+        "runRate": 0
     },
     {
         "teamId": 9,
@@ -86,8 +86,8 @@
         "lost": 0,
         "tied": 0,
         "points": 0,
-        "runRate": 0,
-        "netRunRate": 0
+        "netRunRate": 0,
+        "runRate": 0
     },
     {
         "teamId": 10,
@@ -96,7 +96,7 @@
         "lost": 0,
         "tied": 0,
         "points": 0,
-        "runRate": 0,
-        "netRunRate": 0
+        "netRunRate": 0,
+        "runRate": 0
     }
 ]

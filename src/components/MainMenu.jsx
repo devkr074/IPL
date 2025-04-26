@@ -58,68 +58,44 @@ function MainMenu() {
     return (
         <>
             <div>
+                <p>IPL - Main Menu</p>
+            </div>
+            <div>
                 <div>
-                    <p>IPL - Main Menu</p>
+                    <p>{winnerTeamId ? "Tournament Result" : "Next Match"}</p>
+                    {nextMatch ?
+                        <>
+                            <p>{nextMatch.matchId == 71 ? "Qualifier 1" : nextMatch.matchId == 72 ? "Eliminator" : nextMatch.matchId == 73 ? "Qualifier 2" : nextMatch.matchId == 74 ? "Final" : "Match #" + nextMatch.matchId}</p>
+                            <p>Venue: {venues[nextMatch.venueId - 1].city}</p>
+                            <img src={teams[nextMatch.homeTeamId - 1].logo} alt={teams[nextMatch.homeTeamId - 1].name} title={teams[nextMatch.homeTeamId - 1].name} />
+                            <p>v/s</p>
+                            <img src={teams[nextMatch.awayTeamId - 1].logo} alt={teams[nextMatch.awayTeamId - 1].name} title={teams[nextMatch.awayTeamId - 1].name} />
+                            <button onClick={() => handlePlay(nextMatch.matchId)}>Play</button>
+                        </> : winnerTeamId ?
+                            <>
+                                <p>Winner: {teams[winnerTeamId - 1].shortName}</p>
+                                <p>Runner Up: {teams[runnerUpTeamId - 1].shortName}</p>
+                                <img src={teams[winnerTeamId - 1].logo} alt={teams[winnerTeamId - 1].name} title={teams[winnerTeamId - 1].name} />
+                                <img src={teams[runnerUpTeamId - 1].logo} alt={teams[runnerUpTeamId - 1].name} title={teams[runnerUpTeamId - 1].name} />
+                            </> : <p>No Data Available Currently!</p>}
                 </div>
-                <div className="containerContent">
-                    <div className="section">
-                        <div className="sectionHeader">
-                            <p>{(winnerTeamId) ? "Tournament Result" : "Next Match"}</p>
-                        </div>
-                        <div className="sectionContent">
-                            {(nextMatch) ?
-                                <>
-                                    <div className="detailsContainer">
-                                        <span>Match #{nextMatch.matchId}</span>
-                                        <span>Venue: {venues[nextMatch.venueId - 1].city}</span>
-                                    </div>
-                                    <div className="imageContainer">
-                                        <img src={teams[nextMatch.homeTeamId - 1].logo} alt={teams[nextMatch.homeTeamId - 1].name} title={teams[nextMatch.homeTeamId - 1].name} />
-                                        <span>V/S</span>
-                                        <img src={teams[nextMatch.awayTeamId - 1].logo} alt={teams[nextMatch.awayTeamId - 1].name} title={teams[nextMatch.awayTeamId - 1].name} />
-                                    </div>
-                                    <button className="button" onClick={() => handlePlay(nextMatch.matchId)}>Play</button>
-                                </> : (winnerTeamId) ?
-                                    <>
-                                        <div className="detailsContainer">
-                                            <span>Winner: {teams[winnerTeamId - 1].name}</span>
-                                            <span>Runner Up: {teams[runnerUpTeamId - 1].name}</span>
-                                        </div>
-                                        <div className="imageContainer">
-                                            <img src={teams[winnerTeamId - 1].logo} alt={teams[winnerTeamId - 1].name} title={teams[winnerTeamId - 1].name} />
-                                            <img src={teams[runnerUpTeamId - 1].logo} alt={teams[runnerUpTeamId - 1].name} title={teams[runnerUpTeamId - 1].name} />
-                                        </div>
-                                    </> : <p className="altMessage" >No Data Available Currently!</p>}
-                        </div>
-                    </div>
-                    <div className="section">
-                        <button className="button" onClick={handleFixture}>
-                            <span>Fixture</span>
-                        </button>
-                    </div>
-                    <div className="section">
-                        <button className="button" onClick={handleSquad}>
-                            <span>Squad</span>
-                        </button>
-                        <button className="button" onClick={handleVenues}>
-                            <span>Venues</span>
-                        </button>
-                    </div>
-                    <div className="section">
-                        <button className="button" onClick={handlePointsTable}>
-                            <span>Points Table</span>
-                        </button>
-                    </div>
-                    <div className="section">
-                        <button className="button" onClick={handleBattingStatistics}>
-                            <span>Batting Statistics</span>
-                        </button>
-                    </div>
-                    <div className="section">
-                        <button className="button" onClick={handleBowlingStatistics}>
-                            <span>Bowling Statistics</span>
-                        </button>
-                    </div>
+                <div>
+                    <button onClick={handleFixture}>Fixture</button>
+                </div>
+                <div>
+                    <button onClick={handleSquad}>Squad</button>
+                </div>
+                <div>
+                    <button onClick={handleVenues}>Venues</button>
+                </div>
+                <div>
+                    <button onClick={handlePointsTable}>Points Table</button>
+                </div>
+                <div>
+                    <button onClick={handleBattingStatistics}>Batting Statistics</button>
+                </div>
+                <div>
+                    <button onClick={handleBowlingStatistics}>Bowling Statistics</button>
                 </div>
             </div>
         </>

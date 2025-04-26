@@ -39,7 +39,7 @@ function Home() {
         navigate("/main-menu");
     }
     function handleRestartTournament() {
-        if (window.confirm("Really want to Restart IPL Tournament?")) {
+        if (window.confirm("Do You Really want to Restart IPL Tournament?")) {
             localStorage.clear();
             navigate("/teams");
         } else {
