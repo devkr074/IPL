@@ -57,14 +57,14 @@ function MainMenu() {
     }
     return (
         <>
-            <div className="container">
-                <div className="containerHeader">
+            <div>
+                <div>
                     <p>IPL - Main Menu</p>
                 </div>
                 <div className="containerContent">
                     <div className="section">
                         <div className="sectionHeader">
-                            <p>{(nextMatch) ? "Next Match" : "Tournament Result"}</p>
+                            <p>{(winnerTeamId) ? "Tournament Result" : "Next Match"}</p>
                         </div>
                         <div className="sectionContent">
                             {(nextMatch) ?

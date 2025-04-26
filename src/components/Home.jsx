@@ -50,13 +50,13 @@ function Home() {
         navigate("/teams");
     }
     return (
-        <div className="container">
-            <div className="row py-2 bg-dark sticky-top">
-                <p className="col-sm-12 col-md-12 col-lg-12 fs-3 m-0 text-center fw-bold text-light">IPL - Indian Premier League</p>
+        <div>
+            <div>
+                <p>IPL - Indian Premier League</p>
             </div>
-            <div className="row py-2">
-                <div className="col-sm-12 d-flex flex-column justify-content-center col-md-6 col-lg-4 mb-3">
-                    <div className="card border-0">
+            <div>
+                <div>
+                    <div>
                         {status && (
                             <button className="btn btn-dark fs-5 fw-semibold py-3" onClick={handleResumeTournament}>
                                 Resume Tournament
