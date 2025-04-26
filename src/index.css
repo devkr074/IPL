@@ -16,6 +16,29 @@ body {
     background-color: #ffffff;
     overflow: auto;
     scrollbar-width: none;
+    transition: all 0.2s ease;
+}
+
+
+input {
+    display: none;
+}
+
+label {
+    transition: all 0.2s ease;
+}
+
+.active {
+    background-color: rgba(255, 0, 0, 0.26);
+    border: 1px solid red;
+}
+
+.batting-stats-tab-container {
+    max-width: 100vw;
+}
+
+.btn {
+    min-width: max-content;
 }
 
 @media screen and (min-width: 992px) {

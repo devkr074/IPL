@@ -37,72 +37,72 @@ function BattingStatistics() {
     }, []);
     return (
         <>
+
             <div className="container">
-                <div className="header">
-                    <p>IPL -
-                        <select value={tabs} onChange={(e) => setTabs(e.target.value)}>
-                            <option value="Most Runs">Most Runs</option>
-                            <option value="Highest Score">Highest Score</option>
-                            <option value="Best Batting Average">Best Batting Average</option>
-                            <option value="Best Batting Strike Rate">Best Batting Strike Rate</option>
-                            <option value="Most Fifties">Most Fifties</option>
-                            <option value="Most Hundreds">Most Hundreds</option>
-                            <option value="Most Fours">Most Fours</option>
-                            <option value="Most Sixes">Most Sixes</option>
-                        </select></p>
+                <div className="row">
+                    <div className="w-100 d-flex py-2 overflow-auto batting-stats-tab-container">
+                        <button className={`btn border border-2 border-dark me-2 ${tabs === 'Most Runs' ? 'btn-dark' : ''}`} onClick={() => setTabs('Most Runs')}>Most Runs</button>
+                        <button className={`btn border border-2 border-dark me-2 ${tabs === 'Highest Score' ? 'btn-dark' : ''}`} onClick={() => setTabs('Highest Score')}>Highest Score</button>
+                        <button className={`btn border border-2 border-dark me-2 ${tabs === 'Best Batting Average' ? 'btn-dark' : ''}`} onClick={() => setTabs('Best Batting Average')}>Best Batting Average</button>
+                        <button className={`btn border border-2 border-dark me-2 ${tabs === 'Best Batting Strike Rate' ? 'btn-dark' : ''}`} onClick={() => setTabs('Best Batting Strike Rate')}>Best Batting Strike Rate</button>
+                        <button className={`btn border border-2 border-dark me-2 ${tabs === 'Most Fours' ? 'btn-dark' : ''}`} onClick={() => setTabs('Most Fours')}>Most Fours</button>
+                    </div>
                 </div>
-                <div className="content">
+                <div className="row">
                     {tabs == "Most Runs" &&
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Batter</th>
-                                    <th>M</th>
-                                    <th>I</th>
-                                    <th>R</th>
-                                    <th>Avg</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {mostRuns && mostRuns.map((p) =>
-                                    <tr className="data" key={p.playerId}>
-                                        <td>{squad[p.playerId - 1].name}</td>
-                                        <td>{p.matches}</td>
-                                        <td>{p.innings}</td>
-                                        <td>{p.runs}</td>
-                                        <td>{(p.runs / (p.innings - p.notOut)).toFixed(2)}</td>
+                        <div className="col-12">
+                            <table className='table p-0'>
+                                <thead className='table-dark'>
+                                    <tr>
+                                        <th>Batter</th>
+                                        <th>M</th>
+                                        <th>I</th>
+                                        <th>R</th>
+                                        <th>Avg</th>
                                     </tr>
-                                )}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {mostRuns && mostRuns.map((p) =>
+                                        <tr key={p.playerId}>
+                                            <th className='text-truncate'>{squad[p.playerId - 1].name}</th>
+                                            <td>{p.matches}</td>
+                                            <td>{p.innings}</td>
+                                            <th>{p.runs}</th>
+                                            <td>{((p.runs / (p.innings - p.notOut)) == "Infinity") ? "-" : (p.runs / (p.innings - p.notOut)).toFixed(2)}</td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
                     }
                     {tabs == "Highest Score" &&
-
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Batter</th>
-                                    <th>HS</th>
-                                    <th>B</th>
-                                    <th>SR</th>
-                                    <th>Vs</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {highestScore && highestScore.map((p) =>
-                                    <tr className="data" key={p.playerId}>
-                                        <td>{squad[p.playerId - 1].name}</td>
-                                        <td>{p.highestScoreRuns}</td>
-                                        <td>{p.highestScoreBalls}</td>
-                                        <td>{((p.highestScoreRuns / p.highestScoreBalls) * 100).toFixed(2)}</td>
-                                        <td>{teams[p.highestScoreOpponentTeamId - 1].shortName}</td>
+                        <div className="col-12">
+                            <table className='table p-0'>
+                                <thead className='table-dark'>
+                                    <tr>
+                                        <th>Batter</th>
+                                        <th>HS</th>
+                                        <th>B</th>
+                                        <th>SR</th>
+                                        <th>Vs</th>
                                     </tr>
-                                )}
-                            </tbody>
-                        </table>}
+                                </thead>
+                                <tbody>
+                                    {highestScore && highestScore.map((p) =>
+                                        <tr className="data" key={p.playerId}>
+                                            <th className='text-truncate'>{squad[p.playerId - 1].name}</th>
+                                            <th>{p.highestScoreRuns}</th>
+                                            <td>{p.highestScoreBalls}</td>
+                                            <td>{((p.highestScoreRuns / p.highestScoreBalls) * 100).toFixed(2)}</td>
+                                            <td>{teams[p.highestScoreOpponentTeamId - 1].shortName}</td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>}
                     {tabs == "Best Batting Average" &&
-                        <table>
-                            <thead>
+                        <table className='table table-striped'>
+                            <thead className='table-info'>
                                 <tr>
                                     <th>Batter</th>
                                     <th>M</th>
@@ -114,18 +114,18 @@ function BattingStatistics() {
                             <tbody>
                                 {bestBattingAverage && bestBattingAverage.map((p) =>
                                     <tr className="data" key={p.playerId}>
-                                        <td>{squad[p.playerId - 1].name}</td>
+                                        <th>{squad[p.playerId - 1].name}</th>
                                         <td>{p.matches}</td>
                                         <td>{p.innings}</td>
                                         <td>{p.runs}</td>
-                                        <td>{(p.runs / (p.innings - p.notOut)).toFixed(2)}</td>
+                                        <th>{(p.runs / (p.innings - p.notOut)).toFixed(2)}</th>
                                     </tr>
                                 )}
                             </tbody>
                         </table>}
                     {tabs == "Best Batting Strike Rate" &&
-                        <table>
-                            <thead>
+                        <table className='table table-striped'>
+                            <thead className='table-info'>
                                 <tr>
                                     <th>Batter</th>
                                     <th>M</th>
@@ -137,11 +137,11 @@ function BattingStatistics() {
                             <tbody>
                                 {bestBattingStrikeRate && bestBattingStrikeRate.map((p) =>
                                     <tr className="data" key={p.playerId}>
-                                        <td>{squad[p.playerId - 1].name}</td>
+                                        <th>{squad[p.playerId - 1].name}</th>
                                         <td>{p.matches}</td>
                                         <td>{p.innings}</td>
                                         <td>{p.runs}</td>
-                                        <td>{((p.runs / p.balls) * 100).toFixed(2)}</td>
+                                        <th>{((p.runs / p.balls) * 100).toFixed(2)}</th>
                                     </tr>
                                 )}
                             </tbody>
@@ -170,28 +170,28 @@ function BattingStatistics() {
                             </tbody>
                         </table>}
                     {tabs == "Most Hundreds" &&
-                       ((mostHundreds==null) ? <table>
-                        < thead >
-                            <tr>
-                                <th>Batter</th>
-                                <th>M</th>
-                                <th>I</th>
-                                <th>R</th>
-                                <th>100s</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {mostHundreds.map((p) =>
-                                <tr className="data" key={p.playerId}>
-                                    <td>{squad[p.playerId - 1].name}</td>
-                                    <td>{p.matches}</td>
-                                    <td>{p.innings}</td>
-                                    <td>{p.runs}</td>
-                                    <td>{p.centuries}</td>
+                        ((mostHundreds == null) ? <table>
+                            < thead >
+                                <tr>
+                                    <th>Batter</th>
+                                    <th>M</th>
+                                    <th>I</th>
+                                    <th>R</th>
+                                    <th>100s</th>
                                 </tr>
-                            )}
-                        </tbody>
-                    </table> : <p>No Data Available Currently</p>)}
+                            </thead>
+                            <tbody>
+                                {mostHundreds.map((p) =>
+                                    <tr className="data" key={p.playerId}>
+                                        <td>{squad[p.playerId - 1].name}</td>
+                                        <td>{p.matches}</td>
+                                        <td>{p.innings}</td>
+                                        <td>{p.runs}</td>
+                                        <td>{p.centuries}</td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table> : <p>No Data Available Currently</p>)}
                     {tabs == "Most Fours" &&
                         <table>
                             <thead>

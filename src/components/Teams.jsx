@@ -35,13 +35,13 @@ function Teams() {
   return (
     <>
       <div className="container">
-        <div className="header">
-          <p>IPL - Teams</p>
-          <button onClick={handleNext}>Next</button>
+        <div className="row py-2 bg-dark sticky-top d-flex flex-row px-3">
+          <p className="col-9 fs-3 m-0 p-0 fw-bold text-light">IPL - Teams</p>
+          <button className="col-3 btn btn-info fw-semibold" onClick={handleNext}>Next</button>
         </div>
-        <div className="content">
+        <div className="row">
           {teams.map((t) => (
-            <label key={t.teamId} title={t.name} className={`card ${(userTeamId == t.teamId) && "active"}`}>
+            <label key={t.teamId} title={t.name} className={`card col-6 col-md-4 col-lg-3 ${(userTeamId == t.teamId) && "active"}`}>
               <input type="radio" name="teams" value={t.teamId} checked={userTeamId == t.teamId} onChange={handleTeamChange} />
               <img src={t.logo} alt={t.name} />
             </label>
