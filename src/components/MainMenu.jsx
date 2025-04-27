@@ -11,19 +11,19 @@ function MainMenu() {
     useEffect(() => {
         document.title = "IPL - Main Menu";
         const fixture = JSON.parse(localStorage.getItem("fixture"));
-        const runnerUpTeamId = Number(localStorage.getItem("runnerUpTeamId"));
         const teams = JSON.parse(localStorage.getItem("teams"));
         const venues = JSON.parse(localStorage.getItem("venues"));
         setFixture(fixture);
-        setRunnerUpTeamId(runnerUpTeamId);
         setTeams(teams);
         setVenues(venues);
     }, []);
     useEffect(() => {
         handleMatch();
         const nextMatch = JSON.parse(localStorage.getItem("nextMatch"));
+        const runnerUpTeamId = Number(localStorage.getItem("runnerUpTeamId"));
         const winnerTeamId = Number(localStorage.getItem("winnerTeamId"));
         setNextMatch(nextMatch);
+        setRunnerUpTeamId(runnerUpTeamId);
         setWinnerTeamId(winnerTeamId);
     }, [fixture]);
     const navigate = useNavigate();

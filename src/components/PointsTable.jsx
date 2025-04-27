@@ -6,44 +6,42 @@ function PointsTable() {
         document.title = "IPL - Points Table";
         const pointsTable = JSON.parse(localStorage.getItem("pointsTable"));
         const teams = JSON.parse(localStorage.getItem("teams"));
-        pointsTable.sort((a, b) => a.points == b.points ? b.netRunRate - a.netRunRate : b.points - a.points);
+        pointsTable.sort((a, b) => ((a.points == b.points) ? (b.netRunRate - a.netRunRate) : (b.points - a.points)));
         setPointsTable(pointsTable);
         setTeams(teams);
     }, []);
     return (
         <>
-            <div className="container">
-                <div className="header">
-                    <p>IPL - Points Table</p>
-                </div>
-                <div className="content">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Team</th>
-                                <th>P</th>
-                                <th>W</th>
-                                <th>L</th>
-                                <th>T</th>
-                                <th>PTS</th>
-                                <th>NRR</th>
+            <div>
+                <p>IPL - Points Table</p>
+            </div>
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Team</th>
+                            <th>P</th>
+                            <th>W</th>
+                            <th>L</th>
+                            <th>T</th>
+                            <th>PTS</th>
+                            <th>NRR</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {pointsTable && pointsTable.map((t) => (
+                            <tr key={t.teamId}>
+                                <td><img src={teams[t.teamId - 1].logo} alt={teams[t.teamId - 1].name} />{teams[t.teamId - 1].shortName}</td>
+                                <td>{t.played}</td>
+                                <td>{t.won}</td>
+                                <td>{t.lost}</td>
+                                <td>{t.tied}</td>
+                                <th>{t.points}</th>
+                                <td>{(t.netRunRate > 0) ? ("+" + t.netRunRate.toFixed(3)) : (t.netRunRate.toFixed(3))}</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {pointsTable && pointsTable.map((t) =>
-                                <tr key={t.teamId}>
-                                    <td><img src={teams[t.teamId - 1].logo} height={30} alt="" /> {teams[t.teamId - 1].shortName}</td>
-                                    <td>{t.played}</td>
-                                    <td>{t.won}</td>
-                                    <td>{t.lost}</td>
-                                    <td>{t.tied}</td>
-                                    <td>{t.points}</td>
-                                    <td>{(t.netRunRate > 0) ? "+" + t.netRunRate.toFixed(3) : t.netRunRate.toFixed(3)}</td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         </>
     );

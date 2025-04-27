@@ -116,8 +116,8 @@ function handleMatch() {
                         localStorage.setItem("runnerUpTeamId", matchData.inning1.teamId);
                     }
                 }
-                handleStatistics(fixture[i].matchId);
-                localStorage.setItem("fixture", JSON.stringify(fixture));
+                const playerOfTheMatch = handleStatistics(fixture[i].matchId);
+                fixture[i].playerOfTheMatch = playerOfTheMatch;
                 localStorage.setItem("fixture", JSON.stringify(fixture));
             }
         }

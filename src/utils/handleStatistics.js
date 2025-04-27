@@ -2,6 +2,7 @@ function handleStatistics(matchId) {
     const battingStatistics = JSON.parse(localStorage.getItem("battingStatistics"));
     const bowlingStatistics = JSON.parse(localStorage.getItem("bowlingStatistics"));
     const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
+    const playerOfTheMatchData = [];
     for (let i = 0; i < matchData.inning1Batsman.length; i++) {
         const playerIndex = battingStatistics.findIndex(p => p.playerId == matchData.inning1Batsman[i].playerId);
         if (playerIndex != -1) {
@@ -25,6 +26,17 @@ function handleStatistics(matchId) {
                 battingStatistics[playerIndex].notOut += 1;
             }
         }
+        const playerOfTheMatchIndex = playerOfTheMatchData.findIndex(p => p.playerId == matchData.inning1Batsman[i].playerId);
+        if (playerOfTheMatchIndex == -1) {
+            playerOfTheMatchData.push(
+                {
+                    playerId: matchData.inning1Batsman[i].playerId,
+                    points: matchData.inning1Batsman[i].points
+                });
+        }
+        else {
+            playerOfTheMatchData[playerOfTheMatchIndex].points += matchData.inning1Batsman[i].points;
+        }
     }
     for (let i = 0; i < matchData.inning1Bowler.length; i++) {
         const playerIndex = bowlingStatistics.findIndex(p => p.playerId === matchData.inning1Bowler[i].playerId);
@@ -42,6 +54,17 @@ function handleStatistics(matchId) {
             if (matchData.inning1Bowler[i].wickets >= 5) {
                 bowlingStatistics[playerIndex].fiveWickets++;
             }
+        }
+        const playerOfTheMatchIndex = playerOfTheMatchData.findIndex(p => p.playerId == matchData.inning1Bowler[i].playerId);
+        if (playerOfTheMatchIndex == -1) {
+            playerOfTheMatchData.push(
+                {
+                    playerId: matchData.inning1Bowler[i].playerId,
+                    points: matchData.inning1Bowler[i].points
+                });
+        }
+        else {
+            playerOfTheMatchData[playerOfTheMatchIndex].points += matchData.inning1Bowler[i].points;
         }
     }
     for (let i = 0; i < matchData.inning2Batsman.length; i++) {
@@ -67,6 +90,17 @@ function handleStatistics(matchId) {
                 battingStatistics[playerIndex].notOut += 1;
             }
         }
+        const playerOfTheMatchIndex = playerOfTheMatchData.findIndex(p => p.playerId == matchData.inning2Batsman[i].playerId);
+        if (playerOfTheMatchIndex == -1) {
+            playerOfTheMatchData.push(
+                {
+                    playerId: matchData.inning2Batsman[i].playerId,
+                    points: matchData.inning2Batsman[i].points
+                });
+        }
+        else {
+            playerOfTheMatchData[playerOfTheMatchIndex].points += matchData.inning2Batsman[i].points;
+        }
     }
     for (let i = 0; i < matchData.inning2Bowler.length; i++) {
         const playerIndex = bowlingStatistics.findIndex(p => p.playerId == matchData.inning2Bowler[i].playerId);
@@ -85,8 +119,22 @@ function handleStatistics(matchId) {
                 bowlingStatistics[playerIndex].fiveWickets++;
             }
         }
+        const playerOfTheMatchIndex = playerOfTheMatchData.findIndex(p => p.playerId == matchData.inning2Bowler[i].playerId);
+        if (playerOfTheMatchIndex == -1) {
+            playerOfTheMatchData.push(
+                {
+                    playerId: matchData.inning2Bowler[i].playerId,
+                    points: matchData.inning2Bowler[i].points
+                });
+        }
+        else {
+            playerOfTheMatchData[playerOfTheMatchIndex].points += matchData.inning2Bowler[i].points;
+        }
     }
     localStorage.setItem("battingStatistics", JSON.stringify(battingStatistics));
     localStorage.setItem("bowlingStatistics", JSON.stringify(bowlingStatistics));
+    playerOfTheMatchData.sort((a, b) => (b.points - a.points));
+    const playerOfTheMatch = playerOfTheMatchData[0].playerId;
+    return playerOfTheMatch;
 }
 export default handleStatistics;
