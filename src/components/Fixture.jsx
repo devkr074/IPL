@@ -10,8 +10,8 @@ function Fixture() {
         const teams = JSON.parse(localStorage.getItem("teams"));
         const venues = JSON.parse(localStorage.getItem("venues"));
         setFixture(fixture);
-        setVenues(venues);
         setTeams(teams);
+        setVenues(venues);
     }, []);
     const navigate = useNavigate();
     function handleMatch(match) {
@@ -51,10 +51,10 @@ function Fixture() {
                         <p>{venues[m.venueId - 1].city}</p>
                         <img src={(m.homeTeamId) ? teams[m.homeTeamId - 1].logo : "https://placehold.co/400x400?text=TBA"} alt={(m.homeTeamId) ? teams[m.homeTeamId - 1].name : "TBA"} />
                         <p>{(m.homeTeamId) ? (m.matchStatus == "Completed") ? teams[m.homeTeamId - 1].shortName : teams[m.homeTeamId - 1].name : "TBA"}</p>
-                        {(m.matchStatus == "Completed") && <p>{handleMatchData(m.matchId, m.homeTeamId).runs((handleMatchData(m.matchId, m.homeTeamId).wickets != 10) ? handleMatchData(m.matchId, m.homeTeamId).wickets : "") Math.floor(handleMatchData(m.matchId, m.homeTeamId).balls / 6).handleMatchData(m.matchId, m.homeTeamId).balls % 6</p>}
+                        {(m.matchStatus == "Completed") && <p>{handleMatchData(m.matchId, m.homeTeamId).runs}{(handleMatchData(m.matchId, m.homeTeamId).wickets != 10) && "-" + handleMatchData(m.matchId, m.homeTeamId).wickets} ({Math.floor(handleMatchData(m.matchId, m.homeTeamId).balls / 6) + "." + (handleMatchData(m.matchId, m.homeTeamId).balls % 6)})</p>}
                         <img src={(m.awayTeamId) ? teams[m.awayTeamId - 1].logo : "https://placehold.co/400x400?text=TBA"} alt={(m.awayTeamId) ? teams[m.awayTeamId - 1].logo : "TBA"} />
                         <p>{(m.awayTeamId) ? (m.matchStatus == "Completed") ? teams[m.awayTeamId - 1].shortName : teams[m.awayTeamId - 1].name : "TBA"}</p>
-                        {(m.matchStatus == "Completed") && <p>{`${handleMatchData(m.matchId, m.awayTeamId).runs}${handleMatchData(m.matchId, m.awayTeamId).wickets != 10 ? "-" + handleMatchData(m.matchId, m.awayTeamId).wickets : ""} (${Math.floor(handleMatchData(m.matchId, m.awayTeamId).balls / 6)}.${handleMatchData(m.matchId, m.awayTeamId).balls % 6})`}</p>}
+                        {(m.matchStatus == "Completed") && <p>{handleMatchData(m.matchId, m.awayTeamId).runs}{(handleMatchData(m.matchId, m.awayTeamId).wickets != 10) && "-" + handleMatchData(m.matchId, m.awayTeamId).wickets} ({Math.floor(handleMatchData(m.matchId, m.awayTeamId).balls / 6) + "." + (handleMatchData(m.matchId, m.awayTeamId).balls % 6)})</p>}
                         <p>{(m.matchStatus == "Completed") ? m.matchResult : (m.tossStatus == "Completed") ? m.tossResult : "Upcoming"}</p>
                     </div>))}
             </div>

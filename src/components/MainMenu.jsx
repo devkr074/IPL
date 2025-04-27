@@ -11,22 +11,20 @@ function MainMenu() {
     useEffect(() => {
         document.title = "IPL - Main Menu";
         const fixture = JSON.parse(localStorage.getItem("fixture"));
-        const nextMatch = JSON.parse(localStorage.getItem("nextMatch"));
         const runnerUpTeamId = Number(localStorage.getItem("runnerUpTeamId"));
         const teams = JSON.parse(localStorage.getItem("teams"));
         const venues = JSON.parse(localStorage.getItem("venues"));
-        const winnerTeamId = Number(localStorage.getItem("winnerTeamId"));
         setFixture(fixture);
-        setNextMatch(nextMatch);
         setRunnerUpTeamId(runnerUpTeamId);
         setTeams(teams);
         setVenues(venues);
-        setWinnerTeamId(winnerTeamId);
     }, []);
     useEffect(() => {
         handleMatch();
-        setNextMatch(JSON.parse(localStorage.getItem("nextMatch")));
-        setWinnerTeamId(Number(localStorage.getItem("winnerTeamId")));
+        const nextMatch = JSON.parse(localStorage.getItem("nextMatch"));
+        const winnerTeamId = Number(localStorage.getItem("winnerTeamId"));
+        setNextMatch(nextMatch);
+        setWinnerTeamId(winnerTeamId);
     }, [fixture]);
     const navigate = useNavigate();
     function handlePlay(matchId) {
