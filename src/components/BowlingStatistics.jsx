@@ -174,7 +174,7 @@ function BowlingStatistics() {
                                         <td>{p.matches}</td>
                                         <td>{Math.floor(p.balls / 6) + "." + (p.balls % 6)}</td>
                                         <td>{p.wickets}</td>
-                                        <td>{(p.balls/p.wickets).toFixed(2)}</td>
+                                        <td>{(p.balls / p.wickets).toFixed(2)}</td>
                                     </tr>
                                 )}
                             </tbody>

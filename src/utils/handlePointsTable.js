@@ -1,8 +1,8 @@
 function handlePointsTable(winningTeamInning, losingTeamInning, matchData, matchId, superOver, tied) {
     if (matchId <= 70) {
         const pointsTable = JSON.parse(localStorage.getItem("pointsTable"));
-        const winningTeamIndex = pointsTable.findIndex((t) => t.teamId === matchData[`inning${winningTeamInning}`].teamId);
-        const losingTeamIndex = pointsTable.findIndex((t) => t.teamId === matchData[`inning${losingTeamInning}`].teamId);
+        const winningTeamIndex = pointsTable.findIndex((t) => (t.teamId == matchData[`inning${winningTeamInning}`].teamId));
+        const losingTeamIndex = pointsTable.findIndex((t) => (t.teamId == matchData[`inning${losingTeamInning}`].teamId));
         pointsTable[winningTeamIndex].played += 1;
         pointsTable[losingTeamIndex].played += 1;
         if (tied == true) {
@@ -20,12 +20,7 @@ function handlePointsTable(winningTeamInning, losingTeamInning, matchData, match
         }
         pointsTable[winningTeamIndex].netRunRate = pointsTable[winningTeamIndex].runRate / pointsTable[winningTeamIndex].played;
         pointsTable[losingTeamIndex].netRunRate = pointsTable[losingTeamIndex].runRate / pointsTable[losingTeamIndex].played;
-        pointsTable.sort((a, b) => {
-            if (a.points == b.points) {
-                return b.netRunRate - a.netRunRate;
-            }
-            return b.points - a.points;
-        });
+        pointsTable.sort((a, b) => ((a.points == b.points) ? (b.netRunRate - a.netRunRate) : (b.points - a.points)));
         localStorage.setItem("pointsTable", JSON.stringify(pointsTable));
         const tableTopper = pointsTable.slice(0, Math.min(pointsTable.filter((t) => (t.points > 0)).length, 4));
         localStorage.setItem("tableTopper", JSON.stringify(tableTopper));

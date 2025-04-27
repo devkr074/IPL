@@ -46,6 +46,7 @@ function BattingStatistics() {
                         <button className={`btn border border-2 border-dark me-2 ${tabs === 'Best Batting Average' ? 'btn-dark' : ''}`} onClick={() => setTabs('Best Batting Average')}>Best Batting Average</button>
                         <button className={`btn border border-2 border-dark me-2 ${tabs === 'Best Batting Strike Rate' ? 'btn-dark' : ''}`} onClick={() => setTabs('Best Batting Strike Rate')}>Best Batting Strike Rate</button>
                         <button className={`btn border border-2 border-dark me-2 ${tabs === 'Most Fours' ? 'btn-dark' : ''}`} onClick={() => setTabs('Most Fours')}>Most Fours</button>
+                        <button className={`btn border border-2 border-dark me-2 ${tabs === 'Highest Score' ? 'btn-dark' : ''}`} onClick={() => setTabs('Highest Score')}>Highest Score</button>
                     </div>
                 </div>
                 <div className="row">

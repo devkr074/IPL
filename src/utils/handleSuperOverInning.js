@@ -1,11 +1,12 @@
-import handleCommentary from "./handleCommentary.js";
 import handleBallOutcome from "./handleBallOutcome.js";
+import handleCommentary from "./handleCommentary.js";
 import handleSwapPlayer from "./handleSwapPlayer.js";
+import handleNewBatsman from "./handleNewBatsman.js";
 function handleSuperOverInning(inning, matchId) {
     const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
     const squad = JSON.parse(localStorage.getItem("squad")) || [];
-    const striker = squad[matchData[`superOverInning${inning}`].strikerId - 1];
     const bowler = squad[matchData[`superOverInning${inning}`].bowlerId - 1];
+    const striker = squad[matchData[`superOverInning${inning}`].strikerId - 1];
     const ballOutcome = handleBallOutcome(striker.roleId);
     switch (ballOutcome) {
         case 0:
@@ -94,7 +95,7 @@ function handleSuperOverInning(inning, matchId) {
                 comment: handleCommentary(matchData[`superOverInning${inning}`].lastBallFreeHit, ballOutcome)
             });
             if (matchData[`superOverInning${inning}`].lastBallFreeHit == false) {
-                getNewStriker(inning, matchData);
+                handleNewBatsman(inning, matchData, [], null, true);
             }
             matchData[`superOverInning${inning}`].lastBallFreeHit = false;
             break;
@@ -127,7 +128,7 @@ function handleSuperOverInning(inning, matchId) {
                 comment: handleCommentary(matchData[`superOverInning${inning}`].lastBallFreeHit, ballOutcome)
             });
             if (matchData[`superOverInning${inning}`].lastBallFreeHit == false) {
-                getNewStriker(inning, matchData);
+                handleNewBatsman(inning, matchData, [], null, true);
             }
             matchData[`superOverInning${inning}`].lastBallFreeHit = false;
             break;
@@ -146,7 +147,7 @@ function handleSuperOverInning(inning, matchId) {
                 comment: handleCommentary(matchData[`superOverInning${inning}`].lastBallFreeHit, ballOutcome)
             });
             if (matchData[`superOverInning${inning}`].lastBallFreeHit == false) {
-                getNewStriker(inning, matchData);
+                handleNewBatsman(inning, matchData, [], null, true);
             }
             matchData[`superOverInning${inning}`].lastBallFreeHit = false;
             break;
@@ -165,7 +166,7 @@ function handleSuperOverInning(inning, matchId) {
                 comment: handleCommentary(matchData[`superOverInning${inning}`].lastBallFreeHit, ballOutcome)
             });
             if (matchData[`superOverInning${inning}`].lastBallFreeHit == false) {
-                getNewStriker(inning, matchData);
+                handleNewBatsman(inning, matchData, [], null, true);
             }
             matchData[`superOverInning${inning}`].lastBallFreeHit = false;
             break;
@@ -181,7 +182,7 @@ function handleSuperOverInning(inning, matchId) {
                 outcome: "OUT",
                 comment: handleCommentary(matchData[`superOverInning${inning}`].lastBallFreeHit, ballOutcome)
             });
-            getNewStriker(inning, matchData);
+            handleNewBatsman(inning, matchData, [], null, true);
             matchData[`superOverInning${inning}`].lastBallFreeHit = false;
             break;
         case 11:
@@ -250,13 +251,3 @@ function handleSuperOverInning(inning, matchId) {
     localStorage.setItem(`match-${matchId}`, JSON.stringify(matchData));
 }
 export default handleSuperOverInning;
-
-function getNewStriker(inning, matchData) {
-    if (matchData[`superOverInning${inning}`].wickets == 2) {
-        return;
-    }
-    else {
-        matchData[`superOverInning${inning}`].strikerId = matchData[`superOverInning${inning}`].lastNewBatsmanId + 1;
-        matchData[`superOverInning${inning}`].lastNewBatsmanId++;
-    }
-}

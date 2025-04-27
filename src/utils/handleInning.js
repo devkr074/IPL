@@ -1,21 +1,21 @@
-import handleCommentary from "./handleCommentary.js";
-import handleNewBowler from "./handleNewBowler.js";
 import handleBallOutcome from "./handleBallOutcome.js";
+import handleCommentary from "./handleCommentary.js";
 import handleSwapPlayer from "./handleSwapPlayer.js";
 import handleFielder from "./handleFielder.js";
 import handleNewBatsman from "./handleNewBatsman.js"
+import handleNewBowler from "./handleNewBowler.js";
 function handleInning(inning, matchId) {
-    const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
     const battingStatistics = JSON.parse(localStorage.getItem("battingStatistics"));
     const bowlingStatistics = JSON.parse(localStorage.getItem("bowlingStatistics"));
+    const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
     const squad = JSON.parse(localStorage.getItem("squad"));
-    const striker = squad[matchData[`inning${inning}`].strikerId - 1];
     const bowler = squad[matchData[`inning${inning}`].bowlerId - 1];
-    const ballOutcome = handleBallOutcome(striker.roleId);
-    const strikerIndexMatchData = matchData[`inning${inning}Batsman`].findIndex((p) => p.playerId == matchData[`inning${inning}`].strikerId);
-    const strikerIndexStatistics = battingStatistics.findIndex((p) => p.playerId == matchData[`inning${inning}`].strikerId);
     const bowlerIndexMatchData = matchData[`inning${inning}Bowler`].findIndex((p) => p.playerId == matchData[`inning${inning}`].bowlerId);
     const bowlerIndexStatistics = bowlingStatistics.findIndex((p) => p.playerId == matchData[`inning${inning}`].bowlerId);
+    const striker = squad[matchData[`inning${inning}`].strikerId - 1];
+    const strikerIndexMatchData = matchData[`inning${inning}Batsman`].findIndex((p) => p.playerId == matchData[`inning${inning}`].strikerId);
+    const strikerIndexStatistics = battingStatistics.findIndex((p) => p.playerId == matchData[`inning${inning}`].strikerId);
+    const ballOutcome = handleBallOutcome(striker.roleId);
     switch (ballOutcome) {
         case 0:
             matchData[`inning${inning}`].balls++;
@@ -152,7 +152,7 @@ function handleInning(inning, matchId) {
                 comment: handleCommentary(matchData[`inning${inning}`].lastBallFreeHit, ballOutcome)
             });
             if (matchData[`inning${inning}`].lastBallFreeHit == false) {
-                handleNewBatsman(inning, matchData, battingStatistics, strikerIndexMatchData);
+                handleNewBatsman(inning, matchData, battingStatistics, strikerIndexMatchData, false);
             }
             matchData[`inning${inning}`].lastBallFreeHit = false;
             break;
@@ -203,7 +203,7 @@ function handleInning(inning, matchId) {
                 comment: handleCommentary(matchData[`inning${inning}`].lastBallFreeHit, ballOutcome)
             });
             if (matchData[`inning${inning}`].lastBallFreeHit == false) {
-                handleNewBatsman(inning, matchData, battingStatistics, strikerIndexMatchData);
+                handleNewBatsman(inning, matchData, battingStatistics, strikerIndexMatchData, false);
             }
             matchData[`inning${inning}`].lastBallFreeHit = false;
             break;
@@ -230,7 +230,7 @@ function handleInning(inning, matchId) {
                 comment: handleCommentary(matchData[`inning${inning}`].lastBallFreeHit, ballOutcome)
             });
             if (matchData[`inning${inning}`].lastBallFreeHit == false) {
-                handleNewBatsman(inning, matchData, battingStatistics, strikerIndexMatchData);
+                handleNewBatsman(inning, matchData, battingStatistics, strikerIndexMatchData, false);
             }
             matchData[`inning${inning}`].lastBallFreeHit = false;
             break;
@@ -260,7 +260,7 @@ function handleInning(inning, matchId) {
                 comment: handleCommentary(matchData[`inning${inning}`].lastBallFreeHit, ballOutcome)
             });
             if (matchData[`inning${inning}`].lastBallFreeHit == false) {
-                handleNewBatsman(inning, matchData, battingStatistics, strikerIndexMatchData);
+                handleNewBatsman(inning, matchData, battingStatistics, strikerIndexMatchData, false);
             }
             matchData[`inning${inning}`].lastBallFreeHit = false;
             break;
@@ -283,7 +283,7 @@ function handleInning(inning, matchId) {
                 outcome: "OUT",
                 comment: handleCommentary(matchData[`inning${inning}`].lastBallFreeHit, ballOutcome)
             });
-            handleNewBatsman(inning, matchData, battingStatistics, strikerIndexMatchData);
+            handleNewBatsman(inning, matchData, battingStatistics, strikerIndexMatchData, false);
             matchData[`inning${inning}`].lastBallFreeHit = false;
             break;
         case 11:
@@ -376,11 +376,11 @@ function handleInning(inning, matchId) {
         matchData[`inning${inning}`].bowlerId = handleNewBowler(inning, matchData);
     }
     localStorage.setItem(`match-${matchId}`, JSON.stringify(matchData));
-    localStorage.setItem("battingStatistics", JSON.stringify(battingStatistics));
-    localStorage.setItem("bowlingStatistics", JSON.stringify(bowlingStatistics));
     battingStatistics.sort((a, b) => (b.runs - a.runs));
+    localStorage.setItem("battingStatistics", JSON.stringify(battingStatistics));
     localStorage.setItem("orangeCap", JSON.stringify(battingStatistics[0]));
     bowlingStatistics.sort((a, b) => (b.wickets - a.wickets));
+    localStorage.setItem("bowlingStatistics", JSON.stringify(bowlingStatistics));
     localStorage.setItem("purpleCap", JSON.stringify(bowlingStatistics[0]));
 }
 export default handleInning;
