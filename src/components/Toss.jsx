@@ -1,154 +1,222 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'
-import { useParams } from 'react-router-dom'
-import setMatchData from "../utils/handleMatchData.js";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import handleTossCall from "../utils/handleTossCall.js";
+import handleMatchData from "../utils/handleMatchData.js";
+
 function Toss() {
-    const [fixture, setFixture] = useState([]);
-    const [userTeamId, setUserTeamId] = useState(null);
-    const [teams, setTeams] = useState([]);
-    const [call, setCall] = useState(null);
-    const [result, setResult] = useState(null);
-    const [opt, setOpt] = useState(null);
     const { matchId } = useParams();
-    useEffect(() => {
-        const fixture = JSON.parse(localStorage.getItem("fixture"));
-        const teams = JSON.parse(localStorage.getItem("teams"));
-        const userTeamId = Number(localStorage.getItem("userTeamId"));
-        const opt = localStorage.getItem("opt");
-        const call = localStorage.getItem("call");
-        const result = localStorage.getItem("result");
-        setFixture(fixture);
-        setUserTeamId(userTeamId);
-        setTeams(teams);
-        setCall(call);
-        setOpt(opt);
-        setResult(result);
-    }, []);
+    const [fixture, setFixture] = useState(null);
+    const [userTeamId, setUserTeamId] = useState(null);
+    const [homeTeamId, setHomeTeamId] = useState(null);
+    const [awayTeamId, setAwayTeamId] = useState(null);
+    const [tossCallByUser, setTossCallByUser] = useState(localStorage.getItem("tossCallByUser") || null);
+    const [opponentCall, setOpponentCall] = useState(localStorage.getItem("opponentCall") || null);
+    const [tossResult, setTossResult] = useState(localStorage.getItem("tossResult") || null);
+    const [userWonToss, setUserWonToss] = useState(localStorage.getItem("userWonToss") === "true" || null);
+    const [userChoice, setUserChoice] = useState(localStorage.getItem("userChoice") || null);
+    const [opponentChoice, setOpponentChoice] = useState(localStorage.getItem("opponentChoice") || null);
+    const [isUserFlipping, setIsUserFlipping] = useState(false);
+    const [canNavigate, setCanNavigate] = useState(false);
+
     const navigate = useNavigate();
 
-    function handleCall(call) {
-        setCall(call);
-        localStorage.setItem("call", call);
-        checkResult(call);
-    }
+    useEffect(() => {
+        const storedFixture = localStorage.getItem("fixture");
+        const storedUserTeamId = localStorage.getItem("userTeamId");
 
-    function checkResult(call) {
-        const result = Math.random() < 0.5 ? "Heads" : "Tails";
-        setResult(result);
-        localStorage.setItem("result", result);
-        if (call != result) {
-            localStorage.setItem("won", "no");
-            getOpt();
+        if (storedFixture) {
+            setFixture(JSON.parse(storedFixture));
         }
-        else {
-            localStorage.setItem("won", "yes");
+        if (storedUserTeamId) {
+            setUserTeamId(Number(storedUserTeamId));
         }
-        fixture[matchId - 1].tossStatus = "not completed";
-        localStorage.setItem("fixture", JSON.stringify(fixture));
-    }
+    }, []);
 
-    function handleOpt(opt) {
-        setOpt(opt);
-        localStorage.setItem("opt", opt);
-    }
-
-    function getOpt() {
-        const opt = Math.random() < 0.5 ? "Bat" : "Bowl";
-        setOpt(opt);
-        localStorage.setItem("opt", opt);
-    }
-
-    function handleNext() {
-        if (opt == null) {
-            console.log("Please Select");
+    useEffect(() => {
+        if (fixture && matchId) {
+            const currentMatch = fixture[Number(matchId) - 1];
+            setHomeTeamId(currentMatch?.homeTeamId);
+            setAwayTeamId(currentMatch?.awayTeamId);
         }
-        else {
-            fixture[matchId - 1].tossStatus = "Completed";
-            const won = localStorage.getItem("won");
-            if (won == "yes") {
-                if (fixture[matchId - 1].homeTeamId == userTeamId) {
-                    if (opt == "Bat") {
-                        fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].homeTeamId - 1].name} opt to Bat`;
-                        setMatchData(fixture[matchId - 1].homeTeamId, fixture[matchId - 1].awayTeamId, fixture[matchId - 1]);
-                    }
-                    else {
-                        fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].homeTeamId - 1].name} opt to Bowl`;
-                        setMatchData(fixture[matchId - 1].awayTeamId, fixture[matchId - 1].homeTeamId, fixture[matchId - 1]);
-                    }
-                }
-                else {
-                    if (opt == "Bat") {
-                        fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].awayTeamId - 1].name} opt to Bat`;
-                        setMatchData(fixture[matchId - 1].awayTeamId, fixture[matchId - 1].homeTeamId, fixture[matchId - 1]);
-                    }
-                    else {
-                        fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].awayTeamId - 1].name} opt to Bowl`;
-                        setMatchData(fixture[matchId - 1].homeTeamId, fixture[matchId - 1].awayTeamId, fixture[matchId - 1]);
-                    }
-                }
-            }
-            else {
-                if (fixture[matchId - 1].homeTeamId == userTeamId) {
-                    if (opt == "Bat") {
-                        fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].awayTeamId - 1].name} opt to Bat`;
-                        setMatchData(fixture[matchId - 1].awayTeamId, fixture[matchId - 1].homeTeamId, fixture[matchId - 1]);
-                    }
-                    else {
-                        fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].awayTeamId - 1].name} opt to Bowl`;
-                        setMatchData(fixture[matchId - 1].homeTeamId, fixture[matchId - 1].awayTeamId, fixture[matchId - 1]);
-                    }
-                }
-                else {
-                    if (opt == "Bat") {
-                        fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].homeTeamId - 1].name} opt to Bat`;
-                        setMatchData(fixture[matchId - 1].homeTeamId, fixture[matchId - 1].awayTeamId, fixture[matchId - 1]);
-                    }
-                    else {
-                        fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].homeTeamId - 1].name} opt to Bowl`;
-                        setMatchData(fixture[matchId - 1].awayTeamId, fixture[matchId - 1].homeTeamId, fixture[matchId - 1]);
-                    }
-                }
+    }, [fixture, matchId]);
 
-            }
-            fixture[matchId - 1].matchStatus = "Not Completed";
-            localStorage.setItem("fixture", JSON.stringify(fixture));
-
-           
+    useEffect(() => {
+        if (tossResult && tossCallByUser && opponentCall) {
+            const didUserWin = tossResult === tossCallByUser;
+            setUserWonToss(didUserWin);
+            localStorage.setItem("userWonToss", didUserWin);
         }
-        const keysToRemove = ['opt', 'call', 'result', 'won'];
-            keysToRemove.forEach(key => {
-                localStorage.removeItem(key);
-            });
+    }, [tossResult, tossCallByUser, opponentCall]);
+
+    useEffect(() => {
+        if (
+            (userTeamId === homeTeamId && tossResult && opponentCall && ((userWonToss !== null && userWonToss && userChoice) || (userWonToss !== null && !userWonToss && opponentChoice))) ||
+            (userTeamId === awayTeamId && tossCallByUser && tossResult && ((userWonToss !== null && userWonToss && userChoice) || (userWonToss !== null && !userWonToss && opponentChoice)))
+        ) {
+            setCanNavigate(true);
+        } else {
+            setCanNavigate(false);
+        }
+    }, [userTeamId, homeTeamId, awayTeamId, tossResult, opponentCall, tossCallByUser, userWonToss, userChoice, opponentChoice]);
+
+    const handleTossFlip = () => {
+        setIsUserFlipping(true);
+        setTimeout(() => {
+            const result = Math.random() < 0.5 ? "heads" : "tails";
+            setTossResult(result);
+            localStorage.setItem("tossResult", result);
+            setIsUserFlipping(false);
+        }, 1000);
+    };
+
+    const handleOpponentCall = () => {
+        if (!opponentCall) {
+            const call = handleTossCall();
+            setOpponentCall(call);
+            localStorage.setItem("opponentCall", call);
+        }
+    };
+
+    const handleUserCall = (call) => {
+        if (!tossCallByUser) {
+            setTossCallByUser(call);
+            localStorage.setItem("tossCallByUser", call);
+        }
+    };
+
+    const handleUserChoiceSelection = (choice) => {
+        if (userWonToss && !userChoice) {
+            setUserChoice(choice);
+            localStorage.setItem("userChoice", choice);
+        }
+    };
+
+    const handleOpponentChoiceSelection = (choice) => {
+        if (!userWonToss && !opponentChoice) {
+            setOpponentChoice(choice);
+            localStorage.setItem("opponentChoice", choice);
+        }
+    };
+
+    const handleNavigateToMatch = () => {
+        if (canNavigate) {
+            handleMatchData(homeTeamId, awayTeamId, fixture[Number(matchId) - 1]);
             navigate(`/match/${matchId}`);
-    }
+        } else {
+            alert("Toss and choice selection not completed yet.");
+        }
+    };
 
     return (
         <>
-            {teams[fixture[matchId - 1]?.homeTeamId - 1]?.teamId === userTeamId ?
-                <button >Flip</button> :
+            {userTeamId === homeTeamId ? (
+                <div>
+                    <h2>Toss</h2>
+                    {!tossResult ? (
+                        <button onClick={handleTossFlip} disabled={isUserFlipping}>
+                            {isUserFlipping ? "Flipping..." : "Flip Coin"}
+                        </button>
+                    ) : (
+                        <p>Coin landed on: {tossResult}</p>
+                    )}
 
-                (call == null) ?
+                    {!opponentCall && tossResult && (
+                        <>
+                            <p>Opponent is calling...</p>
+                            <button onClick={handleOpponentCall}>Wait for Opponent's Call</button>
+                        </>
+                    )}
 
-                    <div>
-                        <p>Coin Flipping...</p>
-                        <button onClick={() => handleCall("Heads")}>Heads</button>
-                        <button onClick={() => handleCall("Tails")}>Tails</button>
-                    </div>
+                    {opponentCall && <p>Opponent called: {opponentCall}</p>}
 
-                    :
-                    (call == result) ?
+                    {tossResult && opponentCall && userWonToss === null && (
+                        <p>Determining winner...</p>
+                    )}
+
+                    {userWonToss !== null && (
                         <div>
-                            <p>You won the toss</p>
-                            <button onClick={() => handleOpt("Bat")}>Bat</button>
-                            <button onClick={() => handleOpt("Bowl")}>Bowl</button>
-                            <button onClick={handleNext}>Next</button>
+                            <p>You {userWonToss ? "won" : "lost"} the toss.</p>
+                            {userWonToss ? (
+                                !userChoice ? (
+                                    <div>
+                                        <p>Choose what to do:</p>
+                                        <button onClick={() => handleUserChoiceSelection("bat")}>Bat</button>
+                                        <button onClick={() => handleUserChoiceSelection("bowl")}>Bowl</button>
+                                    </div>
+                                ) : (
+                                    <p>You chose to: {userChoice}</p>
+                                )
+                            ) : (
+                                !opponentChoice ? (
+                                    <p>Waiting for opponent to choose...</p>
+                                ) : (
+                                    <p>Opponent chose to: {opponentChoice}</p>
+                                )
+                            )}
                         </div>
-                        :
-                        <div> <p>Opponent won the toss and elected to {opt}</p>
-                            <button onClick={handleNext}>Next</button> </div>
+                    )}
 
-            }
+                    {canNavigate && (
+                        <button onClick={handleNavigateToMatch}>Next</button>
+                    )}
+                </div>
+            ) : userTeamId === awayTeamId ? (
+                <div>
+                    <h2>Toss</h2>
+                    {!tossCallByUser ? (
+                        <div>
+                            <p>Call the toss:</p>
+                            <button onClick={() => handleUserCall("heads")}>Heads</button>
+                            <button onClick={() => handleUserCall("tails")}>Tails</button>
+                        </div>
+                    ) : (
+                        <p>You called: {tossCallByUser}</p>
+                    )}
+
+                    {tossResult && <p>Coin landed on: {tossResult}</p>}
+
+                    {tossCallByUser && tossResult && userWonToss === null && (
+                        <p>Determining winner...</p>
+                    )}
+
+                    {userWonToss !== null && (
+                        <div>
+                            <p>You {userWonToss ? "won" : "lost"} the toss.</p>
+                            {userWonToss ? (
+                                !userChoice ? (
+                                    <div>
+                                        <p>Choose what to do:</p>
+                                        <button onClick={() => handleUserChoiceSelection("bat")}>Bat</button>
+                                        <button onClick={() => handleUserChoiceSelection("bowl")}>Bowl</button>
+                                    </div>
+                                ) : (
+                                    <p>You chose to: {userChoice}</p>
+                                )
+                            ) : (
+                                !opponentChoice ? (
+                                    <p>Opponent will choose...</p>
+                                ) : (
+                                    <p>Opponent chose to: {opponentChoice}</p>
+                                )
+                            )}
+                        </div>
+                    )}
+
+                    {canNavigate && (
+                        <button onClick={handleNavigateToMatch}>Next</button>
+                    )}
+                </div>
+            ) : (
+                <p>Loading...</p>
+            )}
         </>
     );
 }
-export default Toss
+
+export default Toss;
+
+// const keysToRemove = ['opt', 'call', 'result', 'won'];
+//             keysToRemove.forEach(key => {
+//                 localStorage.removeItem(key);
+//             });
+//             navigate(`/match/${matchId}`);

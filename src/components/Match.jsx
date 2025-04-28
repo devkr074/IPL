@@ -19,13 +19,11 @@ function Match() {
             const teams = JSON.parse(localStorage.getItem("teams"));
             const fixture = JSON.parse(localStorage.getItem("fixture"));
             const squad = JSON.parse(localStorage.getItem("squad"));
-
             setTeams(teams);
             setMatchData(matchData);
             setFixture(fixture);
             setSquad(squad);
             document.title = `Match ${matchId}`;
-
             return matchData;
         };
 
