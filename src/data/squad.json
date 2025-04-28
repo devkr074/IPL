@@ -99,8 +99,7 @@
         "rating": 8,
         "name": "Ruturaj Gaikwad",
         "shortName": "R. Gaikwad",
-        "profile": "https://documents.iplt20.com/ipl/IPLHeadshot2025/102.png",
-        "captain": true
+        "profile": "https://documents.iplt20.com/ipl/IPLHeadshot2025/102.png"
     },
     {
         "playerId": 13,
@@ -151,6 +150,7 @@
         "name": "Mahendra Singh Dhoni",
         "shortName": "M.S. Dhoni",
         "profile": "https://documents.iplt20.com/ipl/IPLHeadshot2025/57.png",
+        "captain": true,
         "wicketKeeper": true
     },
     {
@@ -199,7 +199,7 @@
         "playerId": 24,
         "roleId": 1,
         "rating": 8,
-        "name": "Philip Salt",
+        "name": "Phil Salt",
         "shortName": "P. Salt",
         "profile": "https://documents.iplt20.com/ipl/IPLHeadshot2025/1220.png",
         "wicketKeeper": true,
@@ -225,7 +225,7 @@
     },
     {
         "playerId": 27,
-        "roleId": 1,
+        "roleId": 2,
         "rating": 6,
         "name": "Tim David",
         "shortName": "T. David",
@@ -346,10 +346,10 @@
         "playerId": 41,
         "roleId": 3,
         "rating": 3,
-        "name": "Spencer Johnson",
-        "shortName": "S. Johnson",
-        "profile": "https://documents.iplt20.com/ipl/IPLHeadshot2025/2518.png",
-        "foreigner": true
+        "name": "Vaibhav Arora",
+        "shortName": "V. Arora",
+        "profile": "https://documents.iplt20.com/ipl/IPLHeadshot2025/583.png",
+        "foreigner": false
     },
     {
         "playerId": 42,
@@ -630,7 +630,8 @@
         "rating": 2,
         "name": "Maheesh Theekshana",
         "shortName": "M. Theekshana",
-        "profile": "https://documents.iplt20.com/ipl/IPLHeadshot2025/629.png"
+        "profile": "https://documents.iplt20.com/ipl/IPLHeadshot2025/629.png",
+        "foreigner": true
     },
     {
         "playerId": 75,
@@ -687,9 +688,10 @@
         "playerId": 81,
         "roleId": 2,
         "rating": 7,
-        "name": "Nitish Kumar Reddy",
-        "shortName": "N.K. Reddy",
-        "profile": "https://documents.iplt20.com/ipl/IPLHeadshot2025/1944.png"
+        "name": "Wiaan Mulder",
+        "shortName": "W. Mulder",
+        "profile": "https://documents.iplt20.com/ipl/IPLHeadshot2025/630.png",
+        "foreigner": true
     },
     {
         "playerId": 82,
@@ -891,9 +893,10 @@
         "playerId": 105,
         "roleId": 2,
         "rating": 5,
-        "name": "Arshad Khan",
-        "shortName": "A. Khan",
-        "profile": "https://documents.iplt20.com/ipl/IPLHeadshot2025/988.png"
+        "name": "Dasun Shanaka",
+        "shortName": "D. Shanaka",
+        "profile": "https://documents.iplt20.com/ipl/IPLHeadshot2025/375.png",
+        "foreigner": true
     },
     {
         "playerId": 106,

@@ -376,11 +376,15 @@ function handleInning(inning, matchId) {
         matchData[`inning${inning}`].bowlerId = handleNewBowler(inning, matchData);
     }
     localStorage.setItem(`match-${matchId}`, JSON.stringify(matchData));
-    battingStatistics.sort((a, b) => (b.runs - a.runs));
+    battingStatistics.sort((a, b) => ((a.runs == b.runs) ? ((b.runs / b.dismissed) - (a.runs / a.dismissed)) : (b.runs - a.runs)));
     localStorage.setItem("battingStatistics", JSON.stringify(battingStatistics));
-    localStorage.setItem("orangeCap", JSON.stringify(battingStatistics[0]));
-    bowlingStatistics.sort((a, b) => (b.wickets - a.wickets));
+    if (battingStatistics[0].runs != 0) {
+        localStorage.setItem("orangeCap", JSON.stringify(battingStatistics[0]));
+    }
+    bowlingStatistics.sort((a, b) => ((a.wickets == b.wickets) ? ((a.runs / a.wickets) - (b.runs / b.wickets)) : (b.wickets - a.wickets)));
     localStorage.setItem("bowlingStatistics", JSON.stringify(bowlingStatistics));
-    localStorage.setItem("purpleCap", JSON.stringify(bowlingStatistics[0]));
+    if (bowlingStatistics[0].wickets != 0) {
+        localStorage.setItem("purpleCap", JSON.stringify(bowlingStatistics[0]));
+    }
 }
 export default handleInning;
