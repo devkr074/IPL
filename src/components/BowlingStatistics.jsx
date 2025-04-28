@@ -1,50 +1,53 @@
 import { useState, useEffect } from 'react';
 function BowlingStatistics() {
-    const [tabs, setTabs] = useState("Most Wickets");
+    const [squad, setSquad] = useState();
+    const [tab, setTab] = useState("Most Wickets");
+    const [teams, setTeams] = useState();
     const [mostWickets, setMostWickets] = useState();
     const [bestBowlingAverage, setBestBowlingAverage] = useState();
     const [bestBowling, setBestBowling] = useState();
     const [mostFiveWicketsHaul, setMostFiveWicketsHaul] = useState();
     const [bestEconomy, setBestEconomy] = useState();
     const [bestBowlingStrikeRate, setBestBowlingStrikeRate] = useState();
-    const [teams, setTeams] = useState();
-    const [squad, setSquad] = useState();
     useEffect(() => {
         document.title = "IPL - Batting Statistics";
         const bowlingStatistics = JSON.parse(localStorage.getItem("bowlingStatistics"));
         const squad = JSON.parse(localStorage.getItem("squad"));
         const teams = JSON.parse(localStorage.getItem("teams"));
-        const mostWickets = bowlingStatistics.filter(p => p.wickets != 0).sort((a, b) => a.wickets == b.wickets ? a.runs - b.runs : b.wickets - a.wickets).slice(0, 10);
-        setMostWickets(mostWickets);
-        const bestBowlingAverage = bowlingStatistics.filter(p => p.wickets != 0).sort((a, b) => (a.runs / a.wickets) == (b.runs / b.wickets) ? a.runs - b.runs : (a.runs / a.wickets) - (b.runs / b.wickets)).slice(0, 10);
-        setBestBowlingAverage(bestBowlingAverage);
-        const bestBowling = bowlingStatistics.filter(p => p.wickets != 0).sort((a, b) => a.bestBowlingWickets == b.bestBowlingWickets ? a.bestBowlingRuns - b.bestBowlingRuns : b.bestBowlingWickets - a.bestBowlingWickets).slice(0, 10);
-        setBestBowling(bestBowling);
-        const mostFiveWicketsHaul = bowlingStatistics.filter(p => p.fiveWickets != 0).sort((a, b) => (a.fiveWickets == b.fiveWickets) ? b.wickets - a.wickets : (b.fiveWickets - a.fiveWickets)).slice(0, 10);
-        setMostFiveWicketsHaul(mostFiveWicketsHaul);
-        const bestEconomy = bowlingStatistics.filter(p => p.balls != 0).sort((a, b) => (a.runs / ((a.balls / 6) + ((a.balls % 6) / 6))) == (b.runs / ((b.balls / 6) + ((b.balls % 6) / 6))) ? b.wickets - a.wickets : (a.runs / ((a.balls / 6) + ((a.balls % 6) / 6))) - (b.runs / ((b.balls / 6) + ((b.balls % 6) / 6)))).slice(0, 10);
-        setBestEconomy(bestEconomy);
-        const bestBowlingStrikeRate = bowlingStatistics.filter(p => p.wickets != 0).sort((a, b) => (a.balls / a.wickets) == (b.balls / b.wickets) ? b.wickets - a.wickets : (a.balls / a.wickets) - (b.balls / b.wickets)).slice(0, 10);
-        setBestBowlingStrikeRate(bestBowlingStrikeRate);
+        const mostWickets = bowlingStatistics && bowlingStatistics.filter(p => p.wickets != 0).sort((a, b) => a.wickets == b.wickets ? a.runs - b.runs : b.wickets - a.wickets).slice(0, 10);
+        const bestBowlingAverage = bowlingStatistics && bowlingStatistics.filter(p => p.wickets != 0).sort((a, b) => (a.runs / a.wickets) == (b.runs / b.wickets) ? a.runs - b.runs : (a.runs / a.wickets) - (b.runs / b.wickets)).slice(0, 10);
+        const bestBowling = bowlingStatistics && bowlingStatistics.filter(p => p.bestBowlingWickets != 0).sort((a, b) => a.bestBowlingWickets == b.bestBowlingWickets ? a.bestBowlingRuns - b.bestBowlingRuns : b.bestBowlingWickets - a.bestBowlingWickets).slice(0, 10);
+        const mostFiveWicketsHaul = bowlingStatistics && bowlingStatistics.filter(p => p.fiveWickets != 0).sort((a, b) => (a.fiveWickets == b.fiveWickets) ? b.wickets - a.wickets : (b.fiveWickets - a.fiveWickets)).slice(0, 10);
+        const bestEconomy = bowlingStatistics && bowlingStatistics.filter(p => p.balls != 0).sort((a, b) => (a.runs / ((a.balls / 6) + ((a.balls % 6) / 6))) == (b.runs / ((b.balls / 6) + ((b.balls % 6) / 6))) ? b.wickets - a.wickets : (a.runs / ((a.balls / 6) + ((a.balls % 6) / 6))) - (b.runs / ((b.balls / 6) + ((b.balls % 6) / 6)))).slice(0, 10);
+        const bestBowlingStrikeRate = bowlingStatistics && bowlingStatistics.filter(p => p.wickets != 0).sort((a, b) => (a.balls / a.wickets) == (b.balls / b.wickets) ? b.wickets - a.wickets : (a.balls / a.wickets) - (b.balls / b.wickets)).slice(0, 10);
         setSquad(squad);
         setTeams(teams);
+        setMostWickets(mostWickets);
+        setBestBowlingAverage(bestBowlingAverage);
+        setBestBowling(bestBowling);
+        setMostFiveWicketsHaul(mostFiveWicketsHaul);
+        setBestEconomy(bestEconomy);
+        setBestBowlingStrikeRate(bestBowlingStrikeRate);
     }, []);
+    function handleTabChange(e) {
+        setTab(e.target.value);
+    }
     return (
         <>
-            <div className="container">
-                <div className="header">
-                    <p>IPL -
-                        <select value={tabs} onChange={(e) => setTabs(e.target.value)}>
-                            <option value="Most Wickets">Most Wickets</option>
-                            <option value="Best Bowling Average">Best Bowling Average</option>
-                            <option value="Best Bowling">Best Bowling</option>
-                            <option value="Most Five Wickets Haul">Most Five Wickets Haul</option>
-                            <option value="Best Economy">Best Economy</option>
-                            <option value="Best Bowling Strike Rate">Best Bowling Strike Rate</option>
-                        </select></p>
-                </div>
-                <div className="content">
-                    {tabs == "Most Wickets" &&
+            <div>
+                <p>IPL - Bowling Statistics</p>
+            </div>
+            <div>
+                <button value="Most Wickets" onClick={handleTabChange}>Most Wickets</button>
+                <button value="Best Bowling Average" onClick={handleTabChange}>Best Bowling Average</button>
+                <button value="Best Bowling" onClick={handleTabChange}>Best Bowling</button>
+                <button value="Most Five Wickets Haul" onClick={handleTabChange}>Most Five Wickets Haul</button>
+                <button value="Best Economy" onClick={handleTabChange}>Best Economy</button>
+                <button value="Best Bowling Strike Rate" onClick={handleTabChange}>Best Bowling Strike Rate</button>
+            </div>
+            <div>
+                {tab == "Most Wickets" &&
+                    ((mostWickets && mostWickets.length != 0) ?
                         <table>
                             <thead>
                                 <tr>
@@ -56,19 +59,19 @@ function BowlingStatistics() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {mostWickets && mostWickets.map((p) =>
-                                    <tr className="data" key={p.playerId}>
+                                {mostWickets.map((p) =>
+                                    <tr key={p.playerId}>
                                         <td>{squad[p.playerId - 1].name}</td>
                                         <td>{p.matches}</td>
                                         <td>{Math.floor(p.balls / 6) + "." + (p.balls % 6)}</td>
-                                        <td>{p.wickets}</td>
+                                        <th>{p.wickets}</th>
                                         <td>{(p.runs / p.wickets).toFixed(2)}</td>
                                     </tr>
                                 )}
                             </tbody>
-                        </table>
-                    }
-                    {tabs == "Best Bowling Average" &&
+                        </table> : <p>No Data Available Currently!</p>)}
+                {tab == "Best Bowling Average" &&
+                    ((bestBowlingAverage && bestBowlingAverage.length != 0) ?
                         <table>
                             <thead>
                                 <tr>
@@ -80,18 +83,19 @@ function BowlingStatistics() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {bestBowlingAverage && bestBowlingAverage.map((p) =>
+                                {bestBowlingAverage.map((p) =>
                                     <tr className="data" key={p.playerId}>
                                         <td>{squad[p.playerId - 1].name}</td>
                                         <td>{p.matches}</td>
                                         <td>{Math.floor(p.balls / 6) + "." + (p.balls % 6)}</td>
                                         <td>{p.wickets}</td>
-                                        <td>{(p.runs / p.wickets).toFixed(2)}</td>
+                                        <th>{(p.runs / p.wickets).toFixed(2)}</th>
                                     </tr>
                                 )}
                             </tbody>
-                        </table>}
-                    {tabs == "Best Bowling" &&
+                        </table> : <p>No Data Available Currently!</p>)}
+                {tab == "Best Bowling" &&
+                    ((bestBowling && bestBowling.length != 0) ?
                         <table>
                             <thead>
                                 <tr>
@@ -101,16 +105,17 @@ function BowlingStatistics() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {bestBowling && bestBowling.map((p) =>
+                                {bestBowling.map((p) =>
                                     <tr className="data" key={p.playerId}>
                                         <td>{squad[p.playerId - 1].name}</td>
                                         <td>{teams[p.bestBowlingOpponentTeamId - 1].shortName}</td>
-                                        <td>{p.bestBowlingWickets}-{p.bestBowlingRuns}</td>
+                                        <th>{p.bestBowlingWickets}-{p.bestBowlingRuns}</th>
                                     </tr>
                                 )}
                             </tbody>
-                        </table>}
-                    {tabs == "Most Five Wickets Haul" &&
+                        </table> : <p>No Data Available Currently!</p>)}
+                {tab == "Most Five Wickets Haul" &&
+                    ((mostFiveWicketsHaul && mostFiveWicketsHaul.length != 0) ?
                         <table>
                             <thead>
                                 <tr>
@@ -122,18 +127,19 @@ function BowlingStatistics() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {mostFiveWicketsHaul && mostFiveWicketsHaul.map((p) =>
+                                {mostFiveWicketsHaul.map((p) =>
                                     <tr className="data" key={p.playerId}>
                                         <td>{squad[p.playerId - 1].name}</td>
                                         <td>{p.matches}</td>
                                         <td>{Math.floor(p.balls / 6) + "." + (p.balls % 6)}</td>
                                         <td>{p.wickets}</td>
-                                        <td>{p.fiveWickets}</td>
+                                        <th>{p.fiveWickets}</th>
                                     </tr>
                                 )}
                             </tbody>
-                        </table>}
-                    {tabs == "Best Economy" &&
+                        </table> : <p>No Data Available Currently!</p>)}
+                {tab == "Best Economy" &&
+                    ((bestEconomy && bestEconomy.length != 0) ?
                         <table>
                             <thead>
                                 <tr>
@@ -145,41 +151,40 @@ function BowlingStatistics() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {bestEconomy && bestEconomy.map((p) =>
+                                {bestEconomy.map((p) =>
                                     <tr className="data" key={p.playerId}>
                                         <td>{squad[p.playerId - 1].name}</td>
                                         <td>{p.matches}</td>
                                         <td>{Math.floor(p.balls / 6) + "." + (p.balls % 6)}</td>
                                         <td>{p.wickets}</td>
-                                        <td>{(p.runs / ((p.balls / 6) + ((p.balls % 6) / 6))).toFixed(2)}</td>
+                                        <th>{(p.runs / ((p.balls / 6) + ((p.balls % 6) / 6))).toFixed(2)}</th>
                                     </tr>
                                 )}
                             </tbody>
-                        </table>}
-                    {tabs == "Best Bowling Strike Rate" &&
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Bowler</th>
-                                    <th>M</th>
-                                    <th>O</th>
-                                    <th>W</th>
-                                    <th>SR</th>
+                        </table> : <p>No Data Available Currently!</p>)}
+                {tab == "Best Bowling Strike Rate" &&
+                    ((bestBowlingStrikeRate && bestBowlingStrikeRate.length != 0) ? <table>
+                        <thead>
+                            <tr>
+                                <th>Bowler</th>
+                                <th>M</th>
+                                <th>O</th>
+                                <th>W</th>
+                                <th>SR</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {bestBowlingStrikeRate.map((p) =>
+                                <tr className="data" key={p.playerId}>
+                                    <td>{squad[p.playerId - 1].name}</td>
+                                    <td>{p.matches}</td>
+                                    <td>{Math.floor(p.balls / 6) + "." + (p.balls % 6)}</td>
+                                    <td>{p.wickets}</td>
+                                    <th>{(p.balls / p.wickets).toFixed(2)}</th>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {bestBowlingStrikeRate && bestBowlingStrikeRate.map((p) =>
-                                    <tr className="data" key={p.playerId}>
-                                        <td>{squad[p.playerId - 1].name}</td>
-                                        <td>{p.matches}</td>
-                                        <td>{Math.floor(p.balls / 6) + "." + (p.balls % 6)}</td>
-                                        <td>{p.wickets}</td>
-                                        <td>{(p.balls / p.wickets).toFixed(2)}</td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>}
-                </div>
+                            )}
+                        </tbody>
+                    </table> : <p>No Data Available Currently!</p>)}
             </div>
         </>
     );

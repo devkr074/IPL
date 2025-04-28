@@ -7,8 +7,8 @@ function BattingStatistics() {
     const [highestScore, setHighestScore] = useState();
     const [bestBattingAverage, setBestBattingAverage] = useState();
     const [bestBattingStrikeRate, setBestBattingStrikeRate] = useState();
-    const [mostFifties, setMostFifties] = useState();
     const [mostHundreds, setMostHundreds] = useState();
+    const [mostFifties, setMostFifties] = useState();
     const [mostFours, setMostFours] = useState();
     const [mostSixes, setMostSixes] = useState();
     useEffect(() => {
@@ -20,8 +20,8 @@ function BattingStatistics() {
         const highestScore = battingStatistics && battingStatistics.filter((p) => (p.highestScoreRuns != 0)).sort((a, b) => ((a.highestScoreRuns == b.highestScoreRuns) ? (a.highestScoreBalls - b.highestScoreBalls) : (b.highestScoreRuns - a.highestScoreRuns))).slice(0, 10);
         const bestBattingAverage = battingStatistics && battingStatistics.filter((p) => (p.dismissed != 0)).sort((a, b) => (((a.runs / a.dismissed) == (b.runs / b.dismissed)) ? (b.runs - a.runs) : ((b.runs / b.dismissed) - (a.runs / a.dismissed)))).slice(0, 10);
         const bestBattingStrikeRate = battingStatistics && battingStatistics.filter((p) => (p.runs != 0)).sort((a, b) => ((((a.runs / a.balls) * 100) == ((b.runs / b.balls) * 100)) ? (b.runs - a.runs) : (((b.runs / b.balls) * 100) - ((a.runs / a.balls) * 100)))).slice(0, 10);
-        const mostFifties = battingStatistics && battingStatistics.filter((p) => (p.halfCenturies != 0)).sort((a, b) => ((a.halfCenturies == b.halfCenturies) ? (b.runs - a.runs) : (b.halfCenturies - a.halfCenturies))).slice(0, 10);
         const mostHundreds = battingStatistics && battingStatistics.filter((p) => (p.centuries != 0)).sort((a, b) => ((a.centuries == b.centuries) ? (b.runs - a.runs) : (b.centuries - a.centuries))).slice(0, 10);
+        const mostFifties = battingStatistics && battingStatistics.filter((p) => (p.halfCenturies != 0)).sort((a, b) => ((a.halfCenturies == b.halfCenturies) ? (b.runs - a.runs) : (b.halfCenturies - a.halfCenturies))).slice(0, 10);
         const mostFours = battingStatistics && battingStatistics.filter((p) => (p.fours != 0)).sort((a, b) => ((a.fours == b.fours) ? (b.runs - a.runs) : (b.fours - a.fours))).slice(0, 10);
         const mostSixes = battingStatistics && battingStatistics.filter((p) => (p.sixes != 0)).sort((a, b) => ((a.sixes == b.sixes) ? (b.runs - a.runs) : (b.sixes - a.sixes))).slice(0, 10);
         setSquad(squad);
@@ -30,8 +30,8 @@ function BattingStatistics() {
         setHighestScore(highestScore);
         setBestBattingAverage(bestBattingAverage);
         setBestBattingStrikeRate(bestBattingStrikeRate);
-        setMostFifties(mostFifties);
         setMostHundreds(mostHundreds);
+        setMostFifties(mostFifties);
         setMostFours(mostFours);
         setMostSixes(mostSixes);
     }, []);
@@ -41,12 +41,15 @@ function BattingStatistics() {
     return (
         <>
             <div>
+                <p>IPL - Batting Statistics</p>
+            </div>
+            <div>
                 <button value="Most Runs" onClick={handleTabChange}>Most Runs</button>
                 <button value="Highest Score" onClick={handleTabChange}>Highest Score</button>
                 <button value="Best Batting Average" onClick={handleTabChange}>Best Batting Average</button>
                 <button value="Best Batting Strike Rate" onClick={handleTabChange}>Best Batting Strike Rate</button>
-                <button value="Most Fifties" onClick={handleTabChange}>Most Fifties</button>
                 <button value="Most Hundreds" onClick={handleTabChange}>Most Hundreds</button>
+                <button value="Most Fifties" onClick={handleTabChange}>Most Fifties</button>
                 <button value="Most Fours" onClick={handleTabChange}>Most Fours</button>
                 <button value="Most Sixes" onClick={handleTabChange}>Most Sixes</button>
             </div>
@@ -82,7 +85,7 @@ function BattingStatistics() {
                                 <tr>
                                     <th>Batter</th>
                                     <th>HS</th>
-                                    <th>B</th>
+                                    <th>Balls</th>
                                     <th>SR</th>
                                     <th>Vs</th>
                                 </tr>
@@ -147,30 +150,6 @@ function BattingStatistics() {
                                 )}
                             </tbody>
                         </table> : <p>No Data Available Currently!</p>)}
-                {tab == "Most Fifties" &&
-                    ((mostFifties && mostFifties.length != 0) ?
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Batter</th>
-                                    <th>M</th>
-                                    <th>I</th>
-                                    <th>R</th>
-                                    <th>50s</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {mostFifties && mostFifties.map((p) =>
-                                    <tr key={p.playerId}>
-                                        <td>{squad[p.playerId - 1].name}</td>
-                                        <td>{p.matches}</td>
-                                        <td>{p.innings}</td>
-                                        <td>{p.runs}</td>
-                                        <th>{p.halfCenturies}</th>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table> : <p>No Data Available Currently!</p>)}
                 {tab == "Most Hundreds" &&
                     ((mostHundreds && mostHundreds.length != 0) ?
                         <table>
@@ -191,6 +170,30 @@ function BattingStatistics() {
                                         <td>{p.innings}</td>
                                         <td>{p.runs}</td>
                                         <th>{p.centuries}</th>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table> : <p>No Data Available Currently!</p>)}
+                {tab == "Most Fifties" &&
+                    ((mostFifties && mostFifties.length != 0) ?
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Batter</th>
+                                    <th>M</th>
+                                    <th>I</th>
+                                    <th>R</th>
+                                    <th>50s</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {mostFifties && mostFifties.map((p) =>
+                                    <tr key={p.playerId}>
+                                        <td>{squad[p.playerId - 1].name}</td>
+                                        <td>{p.matches}</td>
+                                        <td>{p.innings}</td>
+                                        <td>{p.runs}</td>
+                                        <th>{p.halfCenturies}</th>
                                     </tr>
                                 )}
                             </tbody>

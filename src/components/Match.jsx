@@ -9,7 +9,7 @@ function Match() {
     const [teams, setTeams] = useState([]);
     const [squad, setSquad] = useState([]);
     const timeoutRef = useRef(null);
-    const intervalRef = useRef(5000);
+    const intervalRef = useRef(500);
     const startTimeRef = useRef(0);
     const mountedRef = useRef(true);
 
@@ -19,13 +19,13 @@ function Match() {
             const teams = JSON.parse(localStorage.getItem("teams"));
             const fixture = JSON.parse(localStorage.getItem("fixture"));
             const squad = JSON.parse(localStorage.getItem("squad"));
-            
+
             setTeams(teams);
             setMatchData(matchData);
             setFixture(fixture);
             setSquad(squad);
             document.title = `Match ${matchId}`;
-            
+
             return matchData;
         };
 
@@ -51,7 +51,7 @@ function Match() {
             timeRemaining = Math.max(0, intervalRef.current - elapsed);
         }
         const currentInning = matchData?.currentInning || 1;
-        
+
         timeoutRef.current = setTimeout(() => {
             if (!mountedRef.current) return;
 
@@ -68,8 +68,8 @@ function Match() {
 
         const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
         const inning = matchData[`inning${inningNumber}`];
-        const isInningComplete = inning.balls >= 120 || inning.wickets >= 10 || 
-                               (inningNumber === 2 && inning.runs > matchData.inning1.runs);
+        const isInningComplete = inning.balls >= 120 || inning.wickets >= 10 ||
+            (inningNumber === 2 && inning.runs > matchData.inning1.runs);
 
         if (!isInningComplete) {
             startTimeRef.current = Date.now();
@@ -83,7 +83,7 @@ function Match() {
             setMatchData(updatedMatchData);
             const processingTime = Date.now() - startTimeRef.current;
             const adjustedInterval = Math.max(0, intervalRef.current - processingTime);
-            
+
             timeoutRef.current = setTimeout(() => {
                 simulateInning(inningNumber, matchId);
             }, adjustedInterval);
@@ -112,8 +112,8 @@ function Match() {
                 <h2 className="fs-2 text-secondary border-bottom">{teams[matchData?.inning2?.teamId - 1]?.shortName} {matchData?.inning2?.runs}{(matchData?.inning2?.wickets != 10) && -matchData?.inning2?.wickets}</h2>
                 <p className="mb-2 fs-5 fw-semibold">Player of the Match</p>
                 <h3 className="fs-5"> <img className="me-2 col-lg-1 col-sm-2 col-2 rounded-circle border border-1 border-secondary p-1 img-fluid" src={squad[fixture[matchId - 1]?.playerOfTheMatch - 1]?.profile} alt="" />{squad[fixture[matchId - 1]?.playerOfTheMatch - 1]?.name}</h3>
-                <p>{squad[matchData?.inning1?.strikerId-1]?.shortName}* |</p>
-                <p>{squad[matchData?.inning1?.nonStrikerId-1]?.shortName} |</p>
+                <p>{squad[matchData?.inning1?.strikerId - 1]?.shortName}* |</p>
+                <p>{squad[matchData?.inning1?.nonStrikerId - 1]?.shortName} |</p>
                 <div>
                     <h1>Commentary</h1>
                     {matchData?.commentary?.slice()?.reverse()?.map((c) => {
