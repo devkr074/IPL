@@ -22,8 +22,8 @@ function handleStatistics(matchId) {
                 battingStatistics[playerIndex].highestScoreBalls = matchData.inning1Batsman[i].balls;
                 battingStatistics[playerIndex].highestScoreOpponentTeamId = matchData.inning2.teamId;
             }
-            if (matchData.inning1Batsman[i].notOut && !matchData.inning1Batsman[i].didNotBat) {
-                battingStatistics[playerIndex].notOut += 1;
+            if (!matchData.inning1Batsman[i].notOut && !matchData.inning1Batsman[i].didNotBat) {
+                battingStatistics[playerIndex].dismissed += 1;
             }
         }
         const playerOfTheMatchIndex = playerOfTheMatchData.findIndex(p => p.playerId == matchData.inning1Batsman[i].playerId);
@@ -86,8 +86,8 @@ function handleStatistics(matchId) {
                 battingStatistics[playerIndex].highestScoreBalls = matchData.inning2Batsman[i].balls;
                 battingStatistics[playerIndex].highestScoreOpponentTeamId = matchData.inning1.teamId;
             }
-            if (matchData.inning2Batsman[i].notOut && !matchData.inning2Batsman[i].didNotBat) {
-                battingStatistics[playerIndex].notOut += 1;
+            if (!matchData.inning2Batsman[i].notOut && !matchData.inning2Batsman[i].didNotBat) {
+                battingStatistics[playerIndex].dismissed += 1;
             }
         }
         const playerOfTheMatchIndex = playerOfTheMatchData.findIndex(p => p.playerId == matchData.inning2Batsman[i].playerId);

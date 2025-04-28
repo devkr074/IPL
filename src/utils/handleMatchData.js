@@ -26,7 +26,7 @@ function handleMatchData(battingTeam, bowlingTeam, match) {
                 sixes: 0,
                 halfCenturies: 0,
                 centuries: 0,
-                notOut: 0,
+                dismissed: 0,
                 highestScoreRuns: 0,
                 highestScoreBalls: 0,
                 highestScoreOpponentTeamId: null
@@ -98,7 +98,7 @@ function handleMatchData(battingTeam, bowlingTeam, match) {
                 sixes: 0,
                 halfCenturies: 0,
                 centuries: 0,
-                notOut: 0,
+                dismissed: 0,
                 highestScoreRuns: 0,
                 highestScoreBalls: 0,
                 highestScoreOpponentTeamId: null
