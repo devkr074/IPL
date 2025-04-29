@@ -5,6 +5,7 @@ function Match() {
     const { matchId } = useParams();
     const [fixture, setFixture] = useState();
     const [matchData, setMatchData] = useState();
+    const [tossResult, setTossResult] = useState();
     const [matchStatus, setMatchStatus] = useState();
     const [squad, setSquad] = useState();
     const [tab, setTab] = useState("Commentary");
@@ -13,23 +14,23 @@ function Match() {
     useEffect(() => {
         const fixture = JSON.parse(localStorage.getItem("fixture"));
         const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
+        const tossResult = fixture[matchId - 1].tossResult;
         const matchStatus = fixture[matchId - 1].matchStatus;
         const squad = JSON.parse(localStorage.getItem("squad"));
         const teams = JSON.parse(localStorage.getItem("teams"));
         const venues = JSON.parse(localStorage.getItem("venues"));
         setFixture(fixture);
         setMatchData(matchData);
+        setTossResult(tossResult);
         setMatchStatus(matchStatus);
         setSquad(squad);
         setTeams(teams);
         setVenues(venues);
         if (matchStatus != "Completed") {
+            setMatchStatus(tossResult);
             handleFirstInning(matchId);
         }
     }, []);
-    useEffect(() => {
-        document.title = `${matchData?.inning1?.runs}-${matchData?.inning1?.wickets} vs ${matchData?.inning2?.runs}-${matchData?.inning2?.runs}`;
-    }, [matchData]);
     function handleFirstInning(matchId) {
         const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
         if ((matchData.inning1.balls < 120) && (matchData.inning1.wickets < 10)) {
@@ -37,10 +38,10 @@ function Match() {
             setTimeout(() => {
                 setMatchData(matchData);
                 handleFirstInning(matchId);
-                console.log(matchData.inning1.runs);
-            }, 1000);
+            }, 100);
         }
         else {
+            setMatchStatus("Innings Break");
             setTimeout(() => {
                 handleSecondInning(matchId);
             }, 5000);
@@ -48,13 +49,16 @@ function Match() {
     }
     function handleSecondInning(matchId) {
         const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
+        setMatchStatus("Second Inning");
         if ((matchData.inning2.balls < 120) && (matchData.inning2.wickets < 10) && (matchData.inning1.runs >= matchData.inning2.runs)) {
             handleInning(2, matchId);
             setTimeout(() => {
                 setMatchData(matchData);
                 handleSecondInning(matchId);
-                console.log(matchData.inning2.runs);
-            }, 1000);
+            }, 100);
+        }
+        else{
+            setMatchStatus("Completed");
         }
         // else if (matchData.inning1.runs == matchData.inning2.runs) {
         //     handleSuperOverFirstInning(matchId);
@@ -110,8 +114,8 @@ function Match() {
                         {(matchData.inning2.balls % 6 != 0) && <p>.{(matchData.inning2.balls % 6)}</p>}
                         <p>{fixture[matchId - 1].matchResult}</p>
                         <p>Player of the Match</p>
-                        <img src={squad[fixture[matchId - 1].playerOfTheMatch - 1].profile} alt={squad[fixture[matchId - 1].playerOfTheMatch - 1].name} />
-                        <p>{squad[fixture[matchId - 1].playerOfTheMatch - 1].name}</p>
+                        <img src={squad[fixture[matchId - 1].playerOfTheMatch - 1]?.profile} alt={squad[fixture[matchId - 1].playerOfTheMatch - 1]?.name} />
+                        <p>{squad[fixture[matchId - 1].playerOfTheMatch - 1]?.name}</p>
                         <p>Commentary</p>
                         {matchData.commentary.slice().reverse().map((c) => (
                             <div key={`${c.ball}+${c.bowler}+${c.batsman}+${c.outcome}+${c.comment}+${matchData.inning1.runs + matchData.inning2.runs}`}>
@@ -119,7 +123,7 @@ function Match() {
                                 <p>{(c.outcome == "SIX") ? 6 : (c.outcome == "FOUR") ? 4 : (c.outcome == "OUT") && "W"}</p>
                                 <p>{c.bowler} to {c.batsman}, {c.outcome}, {c.comment}</p>
                             </div>))}
-                    </div> : <p>Not Completed</p>)}
+                    </div> : ((matchStatus == tossResult) || (matchStatus == "Innings Break")) ? <p>{matchStatus}</p> : <p>{teams[matchData.inning2.teamId - 1].name} need {matchData.inning1.runs - matchData.inning2.runs + 1} from {120 - matchData.inning2.balls}</p>)}
                 {tab == "Scorecard" &&
                     <div>
                         <p>{fixture[matchId - 1].matchResult}</p>
