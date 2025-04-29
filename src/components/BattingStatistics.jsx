@@ -56,7 +56,7 @@ function BattingStatistics() {
             <div>
                 {tab == "Most Runs" &&
                     ((mostRuns && mostRuns.length != 0) ?
-                        <table>
+                        <table className='table'>
                             <thead>
                                 <tr>
                                     <th>Batter</th>
@@ -69,7 +69,7 @@ function BattingStatistics() {
                             <tbody>
                                 {mostRuns.map((p) =>
                                     <tr key={p.playerId}>
-                                        <td>{squad[p.playerId - 1].name}</td>
+                                        <td className='text-truncate'  style={{maxWidth: "140px"}}>{squad[p.playerId - 1].name}</td>
                                         <td>{p.matches}</td>
                                         <td>{p.innings}</td>
                                         <th>{p.runs}</th>
@@ -80,7 +80,7 @@ function BattingStatistics() {
                         </table> : <p>No Data Available Currently!</p>)}
                 {tab == "Highest Score" &&
                     ((highestScore && highestScore.length != 0) ?
-                        <table>
+                        <table className='table'>
                             <thead>
                                 <tr>
                                     <th>Batter</th>
@@ -104,7 +104,7 @@ function BattingStatistics() {
                         </table> : <p>No Data Available Currently!</p>)}
                 {tab == "Best Batting Average" &&
                     ((bestBattingAverage && bestBattingAverage.length != 0) ?
-                        <table>
+                        <table className='table'>
                             <thead>
                                 <tr>
                                     <th>Batter</th>
@@ -128,7 +128,7 @@ function BattingStatistics() {
                         </table> : <p>No Data Available Currently!</p>)}
                 {tab == "Best Batting Strike Rate" &&
                     ((bestBattingStrikeRate && bestBattingStrikeRate.length != 0) ?
-                        <table>
+                        <table className='table'>
                             <thead>
                                 <tr>
                                     <th>Batter</th>
@@ -152,7 +152,7 @@ function BattingStatistics() {
                         </table> : <p>No Data Available Currently!</p>)}
                 {tab == "Most Hundreds" &&
                     ((mostHundreds && mostHundreds.length != 0) ?
-                        <table>
+                        <table className='table'>
                             <thead>
                                 <tr>
                                     <th>Batter</th>
@@ -176,7 +176,7 @@ function BattingStatistics() {
                         </table> : <p>No Data Available Currently!</p>)}
                 {tab == "Most Fifties" &&
                     ((mostFifties && mostFifties.length != 0) ?
-                        <table>
+                        <table className='table'>
                             <thead>
                                 <tr>
                                     <th>Batter</th>
@@ -200,7 +200,7 @@ function BattingStatistics() {
                         </table> : <p>No Data Available Currently!</p>)}
                 {tab == "Most Fours" &&
                     ((mostFours && mostFours.length != 0) ?
-                        <table>
+                        <table className='table'>
                             <thead>
                                 <tr>
                                     <th>Batter</th>
@@ -224,7 +224,7 @@ function BattingStatistics() {
                         </table> : <p>No Data Available Currently!</p>)}
                 {tab == "Most Sixes" &&
                     ((mostSixes && mostSixes.length != 0) ?
-                        <table>
+                        <table className='table'>
                             <thead>
                                 <tr>
                                     <th>Batter</th>
