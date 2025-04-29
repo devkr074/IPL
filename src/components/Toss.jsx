@@ -16,6 +16,7 @@ function Toss() {
     const [opponentCall, setOpponentCall] = useState();
     const [userCall, setUserCall] = useState();
     useEffect(() => {
+        document.title = "IPL - Toss";
         const fixture = JSON.parse(localStorage.getItem("fixture"));
         const teams = JSON.parse(localStorage.getItem("teams"));
         const tossOutcome = localStorage.getItem("tossOutcome");

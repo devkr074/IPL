@@ -3,60 +3,70 @@
         "venueId": 1,
         "name": "Wankhede Stadium",
         "city": "Mumbai",
+        "capacity": "33,000",
         "image": "https://documents.iplt20.com//ipl/assets/images/stadium/Wankhede-Stadium-new.webp"
     },
     {
         "venueId": 2,
         "name": "MA Chidambaram Stadium",
         "city": "Chennai",
+        "capacity": "50,000",
         "image": "https://documents.iplt20.com//ipl/assets/images/stadium/Chennai-new.webp"
     },
     {
         "venueId": 3,
         "name": "M. Chinnaswamy Stadium",
         "city": "Bengaluru",
+        "capacity": "40,000",
         "image": "https://documents.iplt20.com//ipl/assets/images/stadium/M.Chinnaswamy-Stadium.webp"
     },
     {
         "venueId": 4,
         "name": "Eden Gardens",
         "city": "Kolkata",
+        "capacity": "63,000",
         "image": "https://documents.iplt20.com//ipl/assets/images/stadium/eden-garden-small-new.webp"
     },
     {
         "venueId": 5,
         "name": "Arun Jaitley Stadium",
         "city": "Delhi",
+        "capacity": "48,000",
         "image": "https://documents.iplt20.com//ipl/assets/images/stadium/Arun-Jaitley-Stadium-Delhi.webp"
     },
     {
         "venueId": 6,
         "name": "Maharaja Yadavindra Singh International Cricket Stadium",
         "city": "Chandigarh",
+        "capacity": "38,000",
         "image": "https://documents.iplt20.com//ipl/assets/images/stadium/PCA-New-Stadium-Mullanpur.webp"
     },
     {
         "venueId": 7,
         "name": "Sawai Mansingh Stadium",
         "city": "Jaipur",
+        "capacity": "30,000",
         "image": "https://documents.iplt20.com//ipl/assets/images/stadium/Sawai-Mansingh-Stadium.webp"
     },
     {
         "venueId": 8,
         "name": "Rajiv Gandhi International Stadium",
         "city": "Hyderabad",
+        "capacity": "38,000",
         "image": "https://documents.iplt20.com//ipl/assets/images/stadium/Rajiv-Gandhi-Intl-Cricket-Stadium.webp"
     },
     {
         "venueId": 9,
         "name": "Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium",
         "city": "Lucknow",
+        "capacity": "50,000",
         "image": "https://documents.iplt20.com//ipl/assets/images/stadium/BRSABV-Ekana-Cricket-Stadium.webp"
     },
     {
         "venueId": 10,
         "name": "Narendra Modi Stadium",
         "city": "Ahmedabad",
+        "capacity": "1,32,000",
         "image": "https://documents.iplt20.com//ipl/assets/images/stadium/Narendra-new.webp"
     }
 ]

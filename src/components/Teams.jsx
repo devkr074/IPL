@@ -11,17 +11,6 @@ function Teams() {
     document.title = "IPL - Teams";
   }, []);
   const navigate = useNavigate();
-  useEffect(() => {
-    function handleMoveBack(e) {
-      e.preventDefault();
-      navigate('/');
-    }
-    window.history.pushState(null, '', window.location.pathname);
-    window.addEventListener('popstate', handleMoveBack);
-    return () => {
-      window.removeEventListener('popstate', handleMoveBack);
-    };
-  }, [navigate]);
   function handleNext() {
     localStorage.setItem("battingStatistics", null);
     localStorage.setItem("bowlingStatistics", null);

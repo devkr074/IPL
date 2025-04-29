@@ -5,9 +5,12 @@ import handleInning from "../utils/handleInning";
 function Match() {
     const { matchId } = useParams();
     const [matchData, setMatchData] = useState(null);
+    const [matchStatus, setMatchStatus] = useState();
     const [fixture, setFixture] = useState([]);
     const [teams, setTeams] = useState([]);
     const [squad, setSquad] = useState([]);
+    const [venues, setVenues] = useState([]);
+    const [tab, setTab] = useState("Commentary");
     const timeoutRef = useRef(null);
     const intervalRef = useRef(500);
     const startTimeRef = useRef(0);
@@ -19,6 +22,10 @@ function Match() {
             const teams = JSON.parse(localStorage.getItem("teams"));
             const fixture = JSON.parse(localStorage.getItem("fixture"));
             const squad = JSON.parse(localStorage.getItem("squad"));
+            const venues = JSON.parse(localStorage.getItem("venues"));
+            const matchStatus = fixture[matchId - 1].matchStatus;
+            setMatchStatus(matchStatus);
+            setVenues(venues);
             setTeams(teams);
             setMatchData(matchData);
             setFixture(fixture);
@@ -100,91 +107,189 @@ function Match() {
             setFixture(updatedFixture);
         }
     };
+    function handleTabChange(e) {
+        setTab(e.target.value);
+    }
     return (
-        <div className="container">
-            <div className="header sticky-top">
-                <p>Match {matchId}: {teams[fixture[matchId - 1]?.homeTeamId - 1]?.shortName} vs {teams[fixture[matchId - 1]?.awayTeamId - 1]?.shortName}</p>
+        <>
+            <div>
+                <p>{matchId == 71 ? "Qualifier 1" : matchId == 72 ? "Eliminator" : matchId == 73 ? "Qualifier 2" : matchId == 74 ? "Final" : "Match #" + matchId}: {teams && teams[fixture[matchId - 1]?.homeTeamId - 1]?.shortName} vs {teams && teams[fixture[matchId - 1]?.awayTeamId - 1]?.shortName}</p>
             </div>
-            <div className="content relative">
-                <h2 className="fs-2 text-secondary m-0 bg-light sticky-top">{teams[matchData?.inning1?.teamId - 1]?.shortName} {matchData?.inning1?.runs}{(matchData?.inning1?.wickets != 10) && -matchData?.inning1?.wickets}</h2>
-                <h2 className="fs-2 text-secondary border-bottom">{teams[matchData?.inning2?.teamId - 1]?.shortName} {matchData?.inning2?.runs}{(matchData?.inning2?.wickets != 10) && -matchData?.inning2?.wickets}</h2>
-                <p className="mb-2 fs-5 fw-semibold">Player of the Match</p>
-                <h3 className="fs-5"> <img className="me-2 col-lg-1 col-sm-2 col-2 rounded-circle border border-1 border-secondary p-1 img-fluid" src={squad[fixture[matchId - 1]?.playerOfTheMatch - 1]?.profile} alt="" />{squad[fixture[matchId - 1]?.playerOfTheMatch - 1]?.name}</h3>
-                <p>{squad[matchData?.inning1?.strikerId - 1]?.shortName}* |</p>
-                <p>{squad[matchData?.inning1?.nonStrikerId - 1]?.shortName} |</p>
-                <div>
-                    <h1>Commentary</h1>
-                    {matchData?.commentary?.slice()?.reverse()?.map((c) => {
-                        return (
-                            <>
-                                <p>{Math.floor(c.ball / 6) + "." + (c.ball % 6)} {(c.outcome == "SIX") ? <div style={{ background: "#0a858e", height: "30px", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "50%", width: "30px", color: "#fff", fontWeight: "bold" }}>6</div> : (c.outcome == "FOUR") ? <div style={{ background: "rgb(187, 110, 235)", height: "30px", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "50%", width: "30px", color: "#fff", fontWeight: "bold" }}>4</div> : (c.outcome == "OUT") ? <div style={{ background: "red", height: "30px", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "50%", width: "30px", color: "#fff", fontWeight: "bold" }}>W</div> : ""} {c.bowler} to {c.batsman}, <b>{c.outcome}</b>, {c.comment}</p>
-                            </>
-                        )
-                    })}
-                </div>
-                <div>
-                    <h2>{teams[matchData?.inning1?.teamId - 1]?.shortName} {matchData?.inning1?.runs}-{matchData?.inning1?.wickets} ({Math.floor(matchData?.inning1?.balls / 6)}{((matchData?.inning1?.balls % 6 > 0) ? "." + matchData?.inning1?.balls % 6 : "")})</h2>
-                    <h1>Batsman</h1>
-                    {(matchData?.inning1Batsman?.filter((b) => b.didNotBat == false)?.map((b) => {
-                        return (
-                            <>
-                                <p>{squad[b?.playerId - 1]?.name} | <b>{b.runs}</b> | {b.balls} | {b.fours} | {b.sixes} | {Math.floor(b.runs / b.balls * 100).toFixed(2)} |</p>
-                                <p>{(b.notOut == true) ? "not out" : (b.wicketTypeId == 1) ? "c " + (squad[b.caughtById - 1]?.name) + " b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 2) ? "lbw " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 3) ? "b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 4) ? "st " + (squad[b.stumpedById - 1]?.name) + " b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 5) && "run out (" + (squad[b.runOutById - 1]?.name) + ")"}</p>
-                            </>
-                        )
-                    }))}
-                    <span>Did not Bat: </span>
-                    {(matchData?.inning1Batsman?.filter((b) => b.didNotBat == true)?.map((b) => {
-                        return (
-                            <>
-                                <span>{squad[b?.playerId - 1]?.name}, </span>
-                            </>
-                        )
-                    }))}
-                    <p>Extras: {matchData?.inning1?.extras} w {matchData?.inning1?.wides} nb {matchData?.inning1?.noBalls} lb {matchData?.inning1?.legByes} b {matchData?.inning1?.byes}</p>
-                    <p>Total: {matchData?.inning1?.runs}</p>
-                    <h2>Bowler</h2>
-                    {(matchData?.inning1Bowler?.filter((b) => b.balls > 0)?.map((b) => {
-                        return (
-                            <>
-                                <p>{squad[b?.playerId - 1]?.name} | {Math.floor(b.balls / 6) + "." + (b.balls % 6)} | {b.runs} | <b>{b.wickets}</b> | {(b.runs / ((b.balls / 6) + ((b.balls % 6) / 6))).toFixed(2)} |</p>
-                            </>
-                        )
-                    }))}
-                </div>
-                <div>
-                    <h2>{teams[matchData?.inning2?.teamId - 1]?.shortName} {matchData?.inning2?.runs}-{matchData?.inning2?.wickets} ({Math.floor(matchData?.inning2?.balls / 6)}{((matchData?.inning2?.balls % 6 > 0) ? "." + matchData?.inning2?.balls % 6 : "")})</h2>
-                    <h1>Batsman</h1>
-                    {(matchData?.inning2Batsman?.filter((b) => b.didNotBat == false)?.map((b) => {
-                        return (
-                            <>
-                                <p>{squad[b?.playerId - 1]?.name} | <b>{b.runs}</b> | {b.balls} | {b.fours} | {b.sixes} | {Math.floor(b.runs / b.balls * 100).toFixed(2)} |</p>
-                                <p>{(b.notOut == true) ? "not out" : (b.wicketTypeId == 1) ? "c " + (squad[b.caughtById - 1]?.name) + " b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 2) ? "lbw " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 3) ? "b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 4) ? "st " + (squad[b.stumpedById - 1]?.name) + " b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 5) && "run out (" + (squad[b.runOutById - 1]?.name) + ")"}</p>
-                            </>
-                        )
-                    }))}
-                    <span>Did not Bat: </span>
-                    {(matchData?.inning2Batsman?.filter((b) => b.didNotBat == true)?.map((b) => {
-                        return (
-                            <>
-                                <span>{squad[b?.playerId - 1]?.name}, </span>
-                            </>
-                        )
-                    }))}
-                    <p>Extras: {matchData?.inning2?.extras} w {matchData?.inning2?.wides} nb {matchData?.inning2?.noBalls} lb {matchData?.inning2?.legByes} b {matchData?.inning2?.byes}</p>
-                    <p>Total: {matchData?.inning2?.runs}</p>
-                    <h2>Bowler</h2>
-                    {(matchData?.inning2Bowler?.filter((b) => b.balls > 0)?.map((b) => {
-                        return (
-                            <>
-                                <p>{squad[b?.playerId - 1]?.name} | {Math.floor(b.balls / 6) + "." + (b.balls % 6)} | {b.runs} | <b>{b.wickets}</b> | {(b.runs / ((b.balls / 6) + ((b.balls % 6) / 6))).toFixed(2)} |</p>
-                            </>
-                        )
-                    }))}
-                </div>
+            <div>
+                <button value="Info" onClick={handleTabChange}>Info</button>
+                <button value="Commentary" onClick={handleTabChange}>Commentary</button>
+                <button value="Scorecard" onClick={handleTabChange}>Scorecard</button>
+                <button value="Squad" onClick={handleTabChange}>Squad</button>
             </div>
-        </div>
+            <div>
+                {tab == "Info" && <div>
+                    <p>Info</p>
+                    <p>Match</p>
+                    <p>{matchId == 71 ? "Qualifier 1" : matchId == 72 ? "Eliminator" : matchId == 73 ? "Qualifier 2" : matchId == 74 ? "Final" : "Match #" + matchId}</p>
+                    <p>Series</p>
+                    <p>Indian Premier League 2025</p>
+                    <p>Toss</p>
+                    <p>{fixture[matchId - 1].tossResult}</p>
+                    <p>Venue</p>
+                    <p>{venues[fixture[matchId - 1].venueId - 1].name}, {venues[fixture[matchId - 1].venueId - 1].city}</p>
+                    <p>Venue Guide</p>
+                    <p>Stadium</p>
+                    <p>{venues[fixture[matchId - 1].venueId - 1].name}</p>
+                    <p>City</p>
+                    <p>{venues[fixture[matchId - 1].venueId - 1].city}</p>
+                    <p>Capacity</p>
+                    <p>{venues[fixture[matchId - 1].venueId - 1].capacity}</p>
+                    <p>Hosts to</p>
+                    <p>{teams[venues[fixture[matchId - 1].venueId - 1].venueId - 1].name}</p>
+                </div>}
+                {tab == "Commentary" && (matchStatus == "Completed" ?
+                    <div>
+                        <p>{teams[matchData.inning1.teamId - 1].shortName}</p>
+                        <p>{matchData.inning1.runs}</p>
+                        {matchData.inning1.wickets != 10 && <p>-{matchData.inning1.wickets}</p>}
+                        <p>{Math.floor(matchData.inning1.balls / 6)}</p>
+                        {(matchData.inning1.balls % 6 != 0) && <p>.{(matchData.inning1.balls % 6)}</p>}
+                        <p>{teams[matchData.inning2.teamId - 1].shortName}</p>
+                        <p>{matchData.inning2.runs}</p>
+                        {matchData.inning2.wickets != 10 && <p>-{matchData.inning2.wickets}</p>}
+                        <p>{Math.floor(matchData.inning2.balls / 6)}</p>
+                        {(matchData.inning2.balls % 6 != 0) && <p>.{(matchData.inning2.balls % 6)}</p>}
+                        <p>Player of the Match</p>
+                        <img src={squad[fixture[matchId - 1].playerOfTheMatch - 1].profile} alt={squad[fixture[matchId - 1].playerOfTheMatch - 1].name} />
+                        <p>{squad[fixture[matchId - 1].playerOfTheMatch - 1].name}</p>
+                        <p>Commentary</p>
+                        {matchData.commentary.slice().reverse().map((c) => (
+                            <div key={`${c.ball}+${c.bowler}+${c.batsman}+${c.outcome}`}>
+                                <p>{Math.floor(c.ball / 6) + "." + (c.ball % 6)}</p>
+                                <p>{(c.outcome == "SIX") ? 6 : (c.outcome == "FOUR") ? 4 : (c.outcome == "OUT") && "W"}</p>
+                                <p>{c.bowler} to {c.batsman}, {c.outcome}, {c.comment}</p>
+                            </div>))}
+                    </div> : <p>Not Completed</p>)}
+                {tab == "Scorecard" && (matchStatus == "Completed" ?
+                    <div>
+                        <p>{teams[matchData.inning1.teamId - 1].shortName}</p>
+                        <p>{matchData.inning1.runs}</p>
+                        <p>-{matchData.inning1.wickets}</p>
+                        <p>({Math.floor(matchData.inning1.balls / 6) + "." + (matchData.inning1.balls % 6)})</p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Batter</th>
+                                    <th>R</th>
+                                    <th>B</th>
+                                    <th>4s</th>
+                                    <th>6s</th>
+                                    <th>SR</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {(matchData.inning1Batsman.filter((b) => (!b.didNotBat)).map((b) => (
+                                    <>
+                                        <tr>
+                                            <td>{squad[b?.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}</td>
+                                            <td>{b.runs}</td>
+                                            <td>{b.balls}</td>
+                                            <td>{b.fours}</td>
+                                            <td>{b.sixes}</td>
+                                            <td>{Math.floor(b.runs / b.balls * 100).toFixed(2)}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colSpan={6}>{(b.notOut == true) ? "not out" : (b.wicketTypeId == 1) ? "c " + (squad[b.caughtById - 1].name) + " b " + (squad[b.wicketById - 1].name) : (b.wicketTypeId == 2) ? "lbw " + (squad[b.wicketById - 1].name) : (b.wicketTypeId == 3) ? "b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 4) ? "st " + (squad[b.stumpedById - 1]?.name) + " b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 5) && "run out (" + (squad[b.runOutById - 1].name) + ")"}</td>
+                                        </tr>
+                                    </>)))}
+                                <tr>
+                                    <td>Extras</td>
+                                    <td colSpan={5}>{matchData.inning1.extras} w {matchData.inning1.wides}, nb {matchData.inning1.noBalls}, lb {matchData.inning1.legByes}, b {matchData.inning1.byes}</td>
+                                </tr>
+                                <tr>
+                                    <td>Total</td>
+                                    <td colSpan={5}>{matchData.inning1.runs}-{matchData.inning1.wickets} ({Math.floor(matchData.inning1.balls / 6)}.{matchData.inning1.balls % 6})</td>
+                                </tr>
+                                {(matchData.inning1Batsman.filter((b) => (b.didNotBat)).length > 0) &&
+                                    <>
+                                        <tr>
+                                            <td colSpan={6}>Did not bat</td>
+                                        </tr>
+                                        <tr>
+                                            <td colSpan={6}>
+                                                {(matchData.inning1Batsman.filter((b) => (b.didNotBat)).map((b) => (<span>{squad[b.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}{(b.playerId % 11 != 0) && ", "}</span>)))}
+                                            </td>
+                                        </tr>
+                                    </>}
+                            </tbody>
+                        </table>
+                        <p>{teams[matchData.inning2.teamId - 1].shortName}</p>
+                        <p>{matchData.inning2.runs}</p>
+                        <p>-{matchData.inning2.wickets}</p>
+                        <p>({Math.floor(matchData.inning2.balls / 6) + "." + (matchData.inning2.balls % 6)})</p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Batter</th>
+                                    <th>R</th>
+                                    <th>B</th>
+                                    <th>4s</th>
+                                    <th>6s</th>
+                                    <th>SR</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {(matchData.inning2Batsman.filter((b) => (!b.didNotBat)).map((b) => (
+                                    <>
+                                        <tr>
+                                            <td>{squad[b?.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}</td>
+                                            <td>{b.runs}</td>
+                                            <td>{b.balls}</td>
+                                            <td>{b.fours}</td>
+                                            <td>{b.sixes}</td>
+                                            <td>{Math.floor(b.runs / b.balls * 100).toFixed(2)}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colSpan={6}>{(b.notOut == true) ? "not out" : (b.wicketTypeId == 1) ? "c " + (squad[b.caughtById - 1].name) + " b " + (squad[b.wicketById - 1].name) : (b.wicketTypeId == 2) ? "lbw " + (squad[b.wicketById - 1].name) : (b.wicketTypeId == 3) ? "b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 4) ? "st " + (squad[b.stumpedById - 1]?.name) + " b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 5) && "run out (" + (squad[b.runOutById - 1].name) + ")"}</td>
+                                        </tr>
+                                    </>)))}
+                                <tr>
+                                    <td>Extras</td>
+                                    <td colSpan={5}>{matchData.inning2.extras} w {matchData.inning2.wides}, nb {matchData.inning2.noBalls}, lb {matchData.inning2.legByes}, b {matchData.inning2.byes}</td>
+                                </tr>
+                                <tr>
+                                    <td>Total</td>
+                                    <td colSpan={5}>{matchData.inning2.runs}-{matchData.inning2.wickets} ({Math.floor(matchData.inning2.balls / 6)}.{matchData.inning2.balls % 6})</td>
+                                </tr>
+                                {(matchData.inning2Batsman.filter((b) => (b.didNotBat)).length > 0) &&
+                                    <>
+                                        <tr>
+                                            <td colSpan={6}>Did not bat</td>
+                                        </tr>
+                                        <tr>
+                                            <td colSpan={6}>
+                                                {(matchData.inning2Batsman.filter((b) => (b.didNotBat)).map((b) => (<span>{squad[b.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}{(b.playerId % 11 != 0) && ", "}</span>)))}
+                                            </td>
+                                        </tr>
+                                    </>}
+                            </tbody>
+                        </table>
+                    </div> : <div></div>)}
+                {tab == "Squad" && <div>
+                    <p>{teams[fixture[matchId - 1].homeTeamId - 1].name}</p>
+                    {squad && squad.filter((p) => (p.playerId >= ((fixture[matchId - 1].homeTeamId - 1) * 11 + 1) && p.playerId <= ((fixture[matchId - 1].homeTeamId - 1) * 11 + 11))).map((p) => (
+                        <div key={p.playerId}>
+                            <img src={p.profile} alt={p.name} />
+                            <p>{p.name}</p>
+                            {(p.captain && p.wicketKeeper) ? <p>C & WK</p> : (p.captain) ? <p>C</p> : (p.wicketKeeper) && <p>WK</p>}
+                            {(p.foreigner) && <p>F</p>}
+                        </div>))}
+                    <p>{teams[fixture[matchId - 1].awayTeamId - 1].name}</p>
+                    {squad && squad.filter((p) => (p.playerId >= ((fixture[matchId - 1].awayTeamId - 1) * 11 + 1) && p.playerId <= ((fixture[matchId - 1].awayTeamId - 1) * 11 + 11))).map((p) => (
+                        <div key={p.playerId}>
+                            <img src={p.profile} alt={p.name} />
+                            <p>{p.name}</p>
+                            {(p.captain && p.wicketKeeper) ? <p>C & WK</p> : (p.captain) ? <p>C</p> : (p.wicketKeeper) && <p>WK</p>}
+                            {(p.foreigner) && <p>F</p>}
+                        </div>))}
+                </div>}
+            </div>
+        </>
     );
 }
-
 export default Match;
