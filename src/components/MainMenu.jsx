@@ -27,6 +27,17 @@ function MainMenu() {
         setWinnerTeamId(winnerTeamId);
     }, [fixture]);
     const navigate = useNavigate();
+    useEffect(() => {
+        function handleMoveBack(e) {
+            e.preventDefault();
+            navigate('/');
+        }
+        window.history.pushState(null, '', window.location.pathname);
+        window.addEventListener('popstate', handleMoveBack);
+        return () => {
+            window.removeEventListener('popstate', handleMoveBack);
+        };
+    }, [navigate]);
     function handlePlay(matchId) {
         if (fixture[matchId - 1].tossStatus != "Completed") {
             navigate(`/toss/${matchId}`);

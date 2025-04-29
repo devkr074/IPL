@@ -7,136 +7,189 @@ import handleMatchData from "../utils/handleMatchData.js";
 function Toss() {
     const { matchId } = useParams();
     const [fixture, setFixture] = useState();
-    const [teams, setTeams] = useState();
-    const [userTeamId, setUserTeamId] = useState();
     const [homeTeamId, setHomeTeamId] = useState();
-    const [userCall, setUserCall] = useState();
-    const [opponentCall, setOpponentCall] = useState();
+    const [teams, setTeams] = useState();
     const [tossOutcome, setTossOutcome] = useState();
-    const [tossResult, setTossResult] = useState();
+    const [userTeamId, setUserTeamId] = useState();
     const [optionOutcome, setOptionOutcome] = useState();
     const [flipped, setFlipped] = useState(false);
+    const [opponentCall, setOpponentCall] = useState();
+    const [userCall, setUserCall] = useState();
     useEffect(() => {
         const fixture = JSON.parse(localStorage.getItem("fixture"));
-        const userTeamId = Number(localStorage.getItem("userTeamId"));
-        const tossOutcome = localStorage.getItem("tossOutcome");
-        const tossResult = localStorage.getItem("tossResult");
-        const optionOutcome = localStorage.getItem("optionOutcome");
         const teams = JSON.parse(localStorage.getItem("teams"));
-        setTeams(teams);
+        const tossOutcome = localStorage.getItem("tossOutcome");
+        const userTeamId = Number(localStorage.getItem("userTeamId"));
+        const optionOutcome = localStorage.getItem("optionOutcome");
         setFixture(fixture);
-        setTossResult(tossResult);
-        setUserTeamId(userTeamId);
         setHomeTeamId(fixture[matchId - 1].homeTeamId);
+        setTeams(teams);
         setTossOutcome(tossOutcome);
+        setUserTeamId(userTeamId);
         setOptionOutcome(optionOutcome);
         const opponentCall = localStorage.getItem("opponentCall");
         if (opponentCall) {
-            setOpponentCall(opponentCall);
             setFlipped(true);
+            setOpponentCall(opponentCall);
         }
         const userCall = localStorage.getItem("userCall");
         if (userCall) {
-            setUserCall(userCall);
             setFlipped(true);
+            setUserCall(userCall);
         }
     }, []);
     const navigate = useNavigate();
-    function handleMatch() {
-        // const keysToRemove = ['opt', 'call', 'result', 'won'];
-        //             keysToRemove.forEach(key => {
-        //                 localStorage.removeItem(key);
-        //             });
-        //             navigate(`/match/${matchId}`);
-    }
     function handleFlip(e) {
         e.target.textContent = "Flipping...";
         setTimeout(() => {
             e.target.textContent = "Flipped";
+            setFlipped(true);
             const opponentCall = handleTossCall();
             localStorage.setItem("opponentCall", opponentCall);
             setOpponentCall(opponentCall);
-            setFlipped(true);
             const tossOutcome = handleTossOutcome();
             localStorage.setItem("tossOutcome", tossOutcome);
             setTossOutcome(tossOutcome);
-            if (tossOutcome == opponentCall) {
+            if (opponentCall == tossOutcome) {
                 const optionOutcome = handleOptionOutcome();
                 localStorage.setItem("optionOutcome", optionOutcome);
                 setOptionOutcome(optionOutcome);
-                let tossResult;
-                if (optionOutcome == "Bat") {
-                    tossResult = "Opponent opt to Bat";
-                }
-                else {
-                    tossResult = "Opponent opt to Ball";
-                }
-                localStorage.setItem("tossResult", tossResult);
-                setTossResult(tossResult);
             }
         }, 1000);
+    }
+    function handleTossCallSelect(e) {
+        const userCall = e.target.value;
+        setFlipped(true);
+        localStorage.setItem("userCall", userCall);
+        setUserCall(userCall);
+        const tossOutcome = handleTossOutcome();
+        localStorage.setItem("tossOutcome", tossOutcome);
+        setTossOutcome(tossOutcome);
+        if (userCall != tossOutcome) {
+            const optionOutcome = handleOptionOutcome();
+            localStorage.setItem("optionOutcome", optionOutcome);
+            setOptionOutcome(optionOutcome);
+        }
     }
     function handleOptionChange(e) {
         const optionOutcome = `${e.target.value}`;
         localStorage.setItem("optionOutcome", optionOutcome);
         setOptionOutcome(optionOutcome);
     }
-    function handleTossCallChange(e) {
-        const userCall = e.target.value;
-        localStorage.setItem("userCall", userCall);
-        setUserCall(userCall);
-        setFlipped(true);
-        const tossOutcome = handleTossOutcome();
-        localStorage.setItem("tossOutcome", tossOutcome);
-        setTossOutcome(tossOutcome);
-        if (tossOutcome != userCall) {
-            const optionOutcome = handleOptionOutcome();
-            localStorage.setItem("optionOutcome", optionOutcome);
-            setOptionOutcome(optionOutcome);
-            let tossResult;
-            if (optionOutcome == "Bat") {
-                tossResult = "Opponent opt to Bat";
+    function handleMatch() {
+        fixture[matchId - 1].tossStatus = "Completed";
+        if (userCall && (userCall == tossOutcome)) {
+            if ((optionOutcome == "Bat") && (userTeamId == homeTeamId)) {
+                fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].homeTeamId - 1].name} opt to ${optionOutcome}`;
+                handleMatchData(fixture[matchId - 1].homeTeamId, fixture[matchId - 1].awayTeamId, fixture[matchId - 1]);
             }
-            else {
-                tossResult = "Opponent opt to Ball";
+            else if ((optionOutcome == "Bat") && (userTeamId != homeTeamId)) {
+                fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].awayTeamId - 1].name} opt to ${optionOutcome}`;
+                handleMatchData(fixture[matchId - 1].awayTeamId, fixture[matchId - 1].homeTeamId, fixture[matchId - 1]);
             }
-            localStorage.setItem("tossResult", tossResult);
-            setTossResult(tossResult);
+            else if ((optionOutcome == "Bowl") && (userTeamId == homeTeamId)) {
+                fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].homeTeamId - 1].name} opt to ${optionOutcome}`;
+                handleMatchData(fixture[matchId - 1].awayTeamId, fixture[matchId - 1].homeTeamId, fixture[matchId - 1]);
+            }
+            else if ((optionOutcome == "Bowl") && (userTeamId != homeTeamId)) {
+                fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].awayTeamId - 1].name} opt to ${optionOutcome}`;
+                handleMatchData(fixture[matchId - 1].homeTeamId, fixture[matchId - 1].awayTeamId, fixture[matchId - 1]);
+            }
         }
+        else if (userCall && (userCall != tossOutcome)) {
+            if ((optionOutcome == "Bat") && (userTeamId == homeTeamId)) {
+                fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].awayTeamId - 1].name} opt to ${optionOutcome}`;
+                handleMatchData(fixture[matchId - 1].awayTeamId, fixture[matchId - 1].homeTeamId, fixture[matchId - 1]);
+            }
+            else if ((optionOutcome == "Bat") && (userTeamId != homeTeamId)) {
+                fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].homeTeamId - 1].name} opt to ${optionOutcome}`;
+                handleMatchData(fixture[matchId - 1].homeTeamId, fixture[matchId - 1].awayTeamId, fixture[matchId - 1]);
+            }
+            else if ((optionOutcome == "Bowl") && (userTeamId == homeTeamId)) {
+                fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].awayTeamId - 1].name} opt to ${optionOutcome}`;
+                handleMatchData(fixture[matchId - 1].homeTeamId, fixture[matchId - 1].awayTeamId, fixture[matchId - 1]);
+            }
+            else if ((optionOutcome == "Bowl") && (userTeamId != homeTeamId)) {
+                fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].homeTeamId - 1].name} opt to ${optionOutcome}`;
+                handleMatchData(fixture[matchId - 1].awayTeamId, fixture[matchId - 1].homeTeamId, fixture[matchId - 1]);
+            }
+        }
+        else if (opponentCall && (opponentCall == tossOutcome)) {
+            if ((optionOutcome == "Bat") && (userTeamId == homeTeamId)) {
+                fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].awayTeamId - 1].name} opt to ${optionOutcome}`;
+                handleMatchData(fixture[matchId - 1].awayTeamId, fixture[matchId - 1].homeTeamId, fixture[matchId - 1]);
+            }
+            else if ((optionOutcome == "Bat") && (userTeamId != homeTeamId)) {
+                fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].homeTeamId - 1].name} opt to ${optionOutcome}`;
+                handleMatchData(fixture[matchId - 1].homeTeamId, fixture[matchId - 1].awayTeamId, fixture[matchId - 1]);
+            }
+            else if ((optionOutcome == "Bowl") && (userTeamId == homeTeamId)) {
+                fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].awayTeamId - 1].name} opt to ${optionOutcome}`;
+                handleMatchData(fixture[matchId - 1].homeTeamId, fixture[matchId - 1].awayTeamId, fixture[matchId - 1]);
+            }
+            else if ((optionOutcome == "Bowl") && (userTeamId != homeTeamId)) {
+                fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].homeTeamId - 1].name} opt to ${optionOutcome}`;
+                handleMatchData(fixture[matchId - 1].awayTeamId, fixture[matchId - 1].homeTeamId, fixture[matchId - 1]);
+            }
+        }
+        else if (opponentCall && (opponentCall != tossOutcome)) {
+            if ((optionOutcome == "Bat") && (userTeamId == homeTeamId)) {
+                fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].homeTeamId - 1].name} opt to ${optionOutcome}`;
+                handleMatchData(fixture[matchId - 1].homeTeamId, fixture[matchId - 1].awayTeamId, fixture[matchId - 1]);
+            }
+            else if ((optionOutcome == "Bat") && (userTeamId != homeTeamId)) {
+                fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].awayTeamId - 1].name} opt to ${optionOutcome}`;
+                handleMatchData(fixture[matchId - 1].awayTeamId, fixture[matchId - 1].homeTeamId, fixture[matchId - 1]);
+            }
+            else if ((optionOutcome == "Bowl") && (userTeamId == homeTeamId)) {
+                fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].homeTeamId - 1].name} opt to ${optionOutcome}`;
+                handleMatchData(fixture[matchId - 1].awayTeamId, fixture[matchId - 1].homeTeamId, fixture[matchId - 1]);
+            }
+            else if ((optionOutcome == "Bowl") && (userTeamId != homeTeamId)) {
+                fixture[matchId - 1].tossResult = `${teams[fixture[matchId - 1].awayTeamId - 1].name} opt to ${optionOutcome}`;
+                handleMatchData(fixture[matchId - 1].homeTeamId, fixture[matchId - 1].awayTeamId, fixture[matchId - 1]);
+            }
+        }
+        localStorage.setItem("fixture", JSON.stringify(fixture));
+        const temporaryKeyData = ['opponentCall', 'optionOutcome', 'tossOutcome', 'userCall'];
+        temporaryKeyData.forEach((k) => (localStorage.removeItem(k)));
+        navigate(`/match/${matchId}`);
     }
     return (
         <>
             <div>
                 <p>{matchId == 71 ? "Qualifier 1" : matchId == 72 ? "Eliminator" : matchId == 73 ? "Qualifier 2" : matchId == 74 ? "Final" : "Match #" + matchId}: {teams && teams[fixture[matchId - 1].homeTeamId - 1].shortName} vs {teams && teams[fixture[matchId - 1].awayTeamId - 1].shortName}</p>
             </div>
-            {(userTeamId == homeTeamId) ?
-                <div>
-                    <button onClick={(!flipped) ? handleFlip : undefined}>{(!flipped) ? "Flip" : "Flipped"}</button>
-                    {flipped ? <p>{fixture && teams[fixture[matchId - 1].awayTeamId - 1].name} ask for {opponentCall}</p> : <p></p>}
-                    {flipped && <p>It's {tossOutcome}</p>}
-                    {flipped ? (tossResult) ? <p>Toss Result: {tossResult}</p> :
-                        <>
-                            <p>You won the toss</p>
-                            <button value="Bat" onClick={handleOptionChange}>Bat</button>
-                            <button value="Ball" onClick={handleOptionChange}>Ball</button>
-                        </> : <></>}
-                    {optionOutcome ? <button>Next</button> : <></>}
-                </div> :
-                <div>
-                    <p>{(!flipped) ? "Flipping..." : "Flipped"}</p>
-                    <>
-                        <button value="Heads" onClick={(!flipped) ? handleTossCallChange : undefined}>Heads</button>
-                        <button value="Tails" onClick={(!flipped) ? handleTossCallChange : undefined}>Tails</button>
-                    </>
-                    {flipped && <p>TO: {tossOutcome}</p>}
-                    {(flipped) ? (tossOutcome == userCall) ?
+            <div>
+                {(userTeamId == homeTeamId) ?
+                    <div>
+                        <button onClick={(!flipped) ? handleFlip : undefined}>{(!flipped) ? "Flip" : "Flipped"}</button>
+                        {(flipped) && <p>{teams && teams[fixture[matchId - 1].awayTeamId - 1].name} ask for {opponentCall}</p>}
+                        {(flipped) && <p>It's {tossOutcome}</p>}
+                        {(flipped) ? (opponentCall == tossOutcome) ? <p>{teams && teams[fixture[matchId - 1].awayTeamId - 1].name} opt to {optionOutcome}</p> :
+                            <div>
+                                <p>{teams && teams[fixture[matchId - 1].homeTeamId - 1].name} won the toss</p>
+                                <button value="Bat" onClick={handleOptionChange}>Bat</button>
+                                <button value="Bowl" onClick={handleOptionChange}>Bowl</button>
+                            </div> : <></>}
+                        {optionOutcome ? <button onClick={handleMatch}>Next</button> : <></>}
+                    </div> :
+                    <div>
+                        <p>{(!flipped) ? "Flipping..." : "Flipped"}</p>
                         <div>
-                            <p>You won the toss</p>
-                            <button value="Bat" onClick={handleOptionChange}>Bat</button>
-                            <button value="Ball" onClick={handleOptionChange}>Ball</button>
-                        </div> : <p>Opponent opt to {optionOutcome}</p> : <></>}
-                    {optionOutcome ? <button>Next</button> : <></>}
-                </div>}
+                            <button value="Heads" onClick={(!flipped) ? handleTossCallSelect : undefined}>Heads</button>
+                            <button value="Tails" onClick={(!flipped) ? handleTossCallSelect : undefined}>Tails</button>
+                        </div>
+                        {(flipped) && <p>It's {tossOutcome}</p>}
+                        {(flipped) ? (userCall != tossOutcome) ? <p>{teams && teams[fixture[matchId - 1].homeTeamId - 1].name} opt to {optionOutcome}</p> :
+                            <div>
+                                <p>{teams && teams[fixture[matchId - 1].awayTeamId - 1].name} won the toss</p>
+                                <button value="Bat" onClick={handleOptionChange}>Bat</button>
+                                <button value="Bowl" onClick={handleOptionChange}>Bowl</button>
+                            </div> : <></>}
+                        {(optionOutcome) && <button onClick={handleMatch}>Next</button>}
+                    </div>}
+            </div>
         </>
     );
 }
