@@ -1,112 +1,66 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import handleInning from "../utils/handleInning";
-
+import handleInning from "../utils/handleInning.js";
 function Match() {
     const { matchId } = useParams();
-    const [matchData, setMatchData] = useState(null);
+    const [fixture, setFixture] = useState();
+    const [matchData, setMatchData] = useState();
     const [matchStatus, setMatchStatus] = useState();
-    const [fixture, setFixture] = useState([]);
-    const [teams, setTeams] = useState([]);
-    const [squad, setSquad] = useState([]);
-    const [venues, setVenues] = useState([]);
+    const [squad, setSquad] = useState();
     const [tab, setTab] = useState("Commentary");
-    const timeoutRef = useRef(null);
-    const intervalRef = useRef(500);
-    const startTimeRef = useRef(0);
-    const mountedRef = useRef(true);
-
+    const [teams, setTeams] = useState();
+    const [venues, setVenues] = useState();
     useEffect(() => {
-        const loadData = () => {
-            const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
-            const teams = JSON.parse(localStorage.getItem("teams"));
-            const fixture = JSON.parse(localStorage.getItem("fixture"));
-            const squad = JSON.parse(localStorage.getItem("squad"));
-            const venues = JSON.parse(localStorage.getItem("venues"));
-            const matchStatus = fixture[matchId - 1].matchStatus;
-            setMatchStatus(matchStatus);
-            setVenues(venues);
-            setTeams(teams);
-            setMatchData(matchData);
-            setFixture(fixture);
-            setSquad(squad);
-            document.title = `Match ${matchId}`;
-            return matchData;
-        };
-
-        const matchData = loadData();
-        if (fixture[matchId - 1]?.matchStatus !== "Completed") {
-            startMatchSimulation(matchData);
-        }
-        return () => {
-            mountedRef.current = false;
-            if (timeoutRef.current) {
-                clearTimeout(timeoutRef.current);
-            }
-        };
-    }, [matchId]);
-
-    const startMatchSimulation = (matchData) => {
-        if (!mountedRef.current) return;
-
-        const now = Date.now();
-        let timeRemaining = intervalRef.current;
-        if (matchData?.lastBallTime) {
-            const elapsed = now - matchData.lastBallTime;
-            timeRemaining = Math.max(0, intervalRef.current - elapsed);
-        }
-        const currentInning = matchData?.currentInning || 1;
-
-        timeoutRef.current = setTimeout(() => {
-            if (!mountedRef.current) return;
-
-            if (currentInning === 1) {
-                simulateInning(1, matchId);
-            } else {
-                simulateInning(2, matchId);
-            }
-        }, timeRemaining);
-    };
-
-    const simulateInning = (inningNumber, matchId) => {
-        if (!mountedRef.current) return;
-
+        const fixture = JSON.parse(localStorage.getItem("fixture"));
         const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
-        const inning = matchData[`inning${inningNumber}`];
-        const isInningComplete = inning.balls >= 120 || inning.wickets >= 10 ||
-            (inningNumber === 2 && inning.runs > matchData.inning1.runs);
-
-        if (!isInningComplete) {
-            startTimeRef.current = Date.now();
-            handleInning(inningNumber, matchId);
-            const updatedMatchData = {
-                ...JSON.parse(localStorage.getItem(`match-${matchId}`)),
-                lastBallTime: startTimeRef.current,
-                currentInning: inningNumber
-            };
-            localStorage.setItem(`match-${matchId}`, JSON.stringify(updatedMatchData));
-            setMatchData(updatedMatchData);
-            const processingTime = Date.now() - startTimeRef.current;
-            const adjustedInterval = Math.max(0, intervalRef.current - processingTime);
-
-            timeoutRef.current = setTimeout(() => {
-                simulateInning(inningNumber, matchId);
-            }, adjustedInterval);
-        } else if (inningNumber === 1) {
-            const updatedMatchData = {
-                ...JSON.parse(localStorage.getItem(`match-${matchId}`)),
-                currentInning: 2
-            };
-            localStorage.setItem(`match-${matchId}`, JSON.stringify(updatedMatchData));
-            setMatchData(updatedMatchData);
-            simulateInning(2, matchId);
-        } else {
-            const updatedFixture = [...fixture];
-            updatedFixture[matchId - 1].matchStatus = "Completed";
-            localStorage.setItem("fixture", JSON.stringify(updatedFixture));
-            setFixture(updatedFixture);
+        const matchStatus = fixture[matchId - 1].matchStatus;
+        const squad = JSON.parse(localStorage.getItem("squad"));
+        const teams = JSON.parse(localStorage.getItem("teams"));
+        const venues = JSON.parse(localStorage.getItem("venues"));
+        setFixture(fixture);
+        setMatchData(matchData);
+        setMatchStatus(matchStatus);
+        setSquad(squad);
+        setTeams(teams);
+        setVenues(venues);
+        if (matchStatus != "Completed") {
+            handleFirstInning(matchId);
         }
-    };
+    }, []);
+    useEffect(() => {
+        document.title = `${matchData?.inning1?.runs}-${matchData?.inning1?.wickets} vs ${matchData?.inning2?.runs}-${matchData?.inning2?.runs}`;
+    }, [matchData]);
+    function handleFirstInning(matchId) {
+        const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
+        if ((matchData.inning1.balls < 120) && (matchData.inning1.wickets < 10)) {
+            handleInning(1, matchId);
+            setTimeout(() => {
+                setMatchData(matchData);
+                handleFirstInning(matchId);
+                console.log(matchData.inning1.runs);
+            }, 1000);
+        }
+        else {
+            setTimeout(() => {
+                handleSecondInning(matchId);
+            }, 5000);
+        }
+    }
+    function handleSecondInning(matchId) {
+        const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
+        if ((matchData.inning2.balls < 120) && (matchData.inning2.wickets < 10) && (matchData.inning1.runs >= matchData.inning2.runs)) {
+            handleInning(2, matchId);
+            setTimeout(() => {
+                setMatchData(matchData);
+                handleSecondInning(matchId);
+                console.log(matchData.inning2.runs);
+            }, 1000);
+        }
+        // else if (matchData.inning1.runs == matchData.inning2.runs) {
+        //     handleSuperOverFirstInning(matchId);
+        //     handleSuperOverSecondInning(matchId);
+        // }
+    }
     function handleTabChange(e) {
         setTab(e.target.value);
     }
@@ -154,19 +108,21 @@ function Match() {
                         {matchData.inning2.wickets != 10 && <p>-{matchData.inning2.wickets}</p>}
                         <p>{Math.floor(matchData.inning2.balls / 6)}</p>
                         {(matchData.inning2.balls % 6 != 0) && <p>.{(matchData.inning2.balls % 6)}</p>}
+                        <p>{fixture[matchId - 1].matchResult}</p>
                         <p>Player of the Match</p>
                         <img src={squad[fixture[matchId - 1].playerOfTheMatch - 1].profile} alt={squad[fixture[matchId - 1].playerOfTheMatch - 1].name} />
                         <p>{squad[fixture[matchId - 1].playerOfTheMatch - 1].name}</p>
                         <p>Commentary</p>
                         {matchData.commentary.slice().reverse().map((c) => (
-                            <div key={`${c.ball}+${c.bowler}+${c.batsman}+${c.outcome}`}>
+                            <div key={`${c.ball}+${c.bowler}+${c.batsman}+${c.outcome}+${c.comment}+${matchData.inning1.runs + matchData.inning2.runs}`}>
                                 <p>{Math.floor(c.ball / 6) + "." + (c.ball % 6)}</p>
                                 <p>{(c.outcome == "SIX") ? 6 : (c.outcome == "FOUR") ? 4 : (c.outcome == "OUT") && "W"}</p>
                                 <p>{c.bowler} to {c.batsman}, {c.outcome}, {c.comment}</p>
                             </div>))}
                     </div> : <p>Not Completed</p>)}
-                {tab == "Scorecard" && (matchStatus == "Completed" ?
+                {tab == "Scorecard" &&
                     <div>
+                        <p>{fixture[matchId - 1].matchResult}</p>
                         <p>{teams[matchData.inning1.teamId - 1].shortName}</p>
                         <p>{matchData.inning1.runs}</p>
                         <p>-{matchData.inning1.wickets}</p>
@@ -185,16 +141,16 @@ function Match() {
                             <tbody>
                                 {(matchData.inning1Batsman.filter((b) => (!b.didNotBat)).map((b) => (
                                     <>
-                                        <tr>
+                                        <tr key={b.playerId}>
                                             <td>{squad[b?.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}</td>
-                                            <td>{b.runs}</td>
+                                            <th>{b.runs}</th>
                                             <td>{b.balls}</td>
                                             <td>{b.fours}</td>
                                             <td>{b.sixes}</td>
                                             <td>{Math.floor(b.runs / b.balls * 100).toFixed(2)}</td>
                                         </tr>
-                                        <tr>
-                                            <td colSpan={6}>{(b.notOut == true) ? "not out" : (b.wicketTypeId == 1) ? "c " + (squad[b.caughtById - 1].name) + " b " + (squad[b.wicketById - 1].name) : (b.wicketTypeId == 2) ? "lbw " + (squad[b.wicketById - 1].name) : (b.wicketTypeId == 3) ? "b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 4) ? "st " + (squad[b.stumpedById - 1]?.name) + " b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 5) && "run out (" + (squad[b.runOutById - 1].name) + ")"}</td>
+                                        <tr key={b.playerId - 1}>
+                                            <td colSpan={6}>{(b.notOut == true) ? "not out" : (b.wicketTypeId == 1) ? ((b.caughtById == b.wicketById) ? "c & b " + (squad[b.wicketById - 1].name) : "c " + (squad[b.caughtById - 1].name) + " b " + (squad[b.wicketById - 1].name)) : (b.wicketTypeId == 2) ? "lbw " + (squad[b.wicketById - 1].name) : (b.wicketTypeId == 3) ? "b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 4) ? "st " + (squad[b.stumpedById - 1]?.name) + " b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 5) && "run out (" + (squad[b.runOutById - 1].name) + ")"}</td>
                                         </tr>
                                     </>)))}
                                 <tr>
@@ -212,10 +168,30 @@ function Match() {
                                         </tr>
                                         <tr>
                                             <td colSpan={6}>
-                                                {(matchData.inning1Batsman.filter((b) => (b.didNotBat)).map((b) => (<span>{squad[b.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}{(b.playerId % 11 != 0) && ", "}</span>)))}
+                                                {(matchData.inning1Batsman.filter((b) => (b.didNotBat)).map((b) => (<span key={b.playerId}>{squad[b.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}{(b.playerId % 11 != 0) && ", "}</span>)))}
                                             </td>
                                         </tr>
                                     </>}
+                                <tr>
+                                    <th>Bowler</th>
+                                    <th>O</th>
+                                    <th>M</th>
+                                    <th>R</th>
+                                    <th>W</th>
+                                    <th>ER</th>
+                                </tr>
+                                {(matchData.inning1Bowler.filter((b) => (b.runs > 0)).map((b) => (
+                                    <>
+                                        <tr>
+                                            <td>{squad[b.playerId - 1].name}</td>
+                                            <td>{Math.floor(b.balls / 6)}{(b.balls % 6 != 0) && "." + (b.balls % 6)}</td>
+                                            <td>0</td>
+                                            <td>{b.runs}</td>
+                                            <th>{b.wickets}</th>
+                                            <td>{(b.runs / (Math.floor(b.balls / 6) + ((b.balls % 6) / 6))).toFixed(1)}</td>
+                                        </tr>
+                                    </>
+                                )))}
                             </tbody>
                         </table>
                         <p>{teams[matchData.inning2.teamId - 1].shortName}</p>
@@ -236,16 +212,16 @@ function Match() {
                             <tbody>
                                 {(matchData.inning2Batsman.filter((b) => (!b.didNotBat)).map((b) => (
                                     <>
-                                        <tr>
+                                        <tr key={b.playerId}>
                                             <td>{squad[b?.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}</td>
-                                            <td>{b.runs}</td>
+                                            <th>{b.runs}</th>
                                             <td>{b.balls}</td>
                                             <td>{b.fours}</td>
                                             <td>{b.sixes}</td>
                                             <td>{Math.floor(b.runs / b.balls * 100).toFixed(2)}</td>
                                         </tr>
                                         <tr>
-                                            <td colSpan={6}>{(b.notOut == true) ? "not out" : (b.wicketTypeId == 1) ? "c " + (squad[b.caughtById - 1].name) + " b " + (squad[b.wicketById - 1].name) : (b.wicketTypeId == 2) ? "lbw " + (squad[b.wicketById - 1].name) : (b.wicketTypeId == 3) ? "b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 4) ? "st " + (squad[b.stumpedById - 1]?.name) + " b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 5) && "run out (" + (squad[b.runOutById - 1].name) + ")"}</td>
+                                            <td colSpan={6}>{(b.notOut == true) ? "not out" : (b.wicketTypeId == 1) ? ((b.caughtById == b.wicketById) ? "c & b " + (squad[b.wicketById - 1].name) : "c " + (squad[b.caughtById - 1].name) + " b " + (squad[b.wicketById - 1].name)) : (b.wicketTypeId == 2) ? "lbw " + (squad[b.wicketById - 1].name) : (b.wicketTypeId == 3) ? "b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 4) ? "st " + (squad[b.stumpedById - 1]?.name) + " b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 5) && "run out (" + (squad[b.runOutById - 1].name) + ")"}</td>
                                         </tr>
                                     </>)))}
                                 <tr>
@@ -263,13 +239,33 @@ function Match() {
                                         </tr>
                                         <tr>
                                             <td colSpan={6}>
-                                                {(matchData.inning2Batsman.filter((b) => (b.didNotBat)).map((b) => (<span>{squad[b.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}{(b.playerId % 11 != 0) && ", "}</span>)))}
+                                                {(matchData.inning2Batsman.filter((b) => (b.didNotBat)).map((b) => (<span key={b.playerId}>{squad[b.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}{(b.playerId % 11 != 0) && ", "}</span>)))}
                                             </td>
                                         </tr>
                                     </>}
+                                <tr>
+                                    <th>Bowler</th>
+                                    <th>O</th>
+                                    <th>M</th>
+                                    <th>R</th>
+                                    <th>W</th>
+                                    <th>ER</th>
+                                </tr>
+                                {(matchData.inning2Bowler.filter((b) => (b.runs > 0)).map((b) => (
+                                    <>
+                                        <tr>
+                                            <td>{squad[b.playerId - 1].name}</td>
+                                            <td>{Math.floor(b.balls / 6)}{(b.balls % 6 != 0) && "." + (b.balls % 6)}</td>
+                                            <td>0</td>
+                                            <td>{b.runs}</td>
+                                            <th>{b.wickets}</th>
+                                            <td>{(b.runs / (Math.floor(b.balls / 6) + ((b.balls % 6) / 6))).toFixed(1)}</td>
+                                        </tr>
+                                    </>
+                                )))}
                             </tbody>
                         </table>
-                    </div> : <div></div>)}
+                    </div>}
                 {tab == "Squad" && <div>
                     <p>{teams[fixture[matchId - 1].homeTeamId - 1].name}</p>
                     {squad && squad.filter((p) => (p.playerId >= ((fixture[matchId - 1].homeTeamId - 1) * 11 + 1) && p.playerId <= ((fixture[matchId - 1].homeTeamId - 1) * 11 + 11))).map((p) => (
