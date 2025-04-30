@@ -228,7 +228,7 @@ function Match() {
                             </div>
                             <div class="accordion-item">
                                 <h2 className="accordion-header">
-                                    <button className="accordion-button shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                                    <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
                                         <div className="d-flex justify-content-between w-100">
                                             <span className="fs-5 fw-bold">{teams[matchData.inning2.teamId - 1].shortName}</span>
                                             <span className="fs-5 fw-bold me-3">{matchData.inning2.runs}-{matchData.inning2.wickets} ({Math.floor(matchData.inning2.balls / 6) + "." + (matchData.inning2.balls % 6)})</span>
