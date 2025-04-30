@@ -66,20 +66,24 @@ function MainMenu() {
     }
     return (
         <>
-            <div>
-                <p>IPL - Main Menu</p>
+            <div className="row sticky-top shadow">
+                <p className="col-12 fs-5 fw-bold text-light text-center bg-green p-2 m-0">IPL - Main Menu</p>
             </div>
-            <div>
-                <div>
-                    <p>{winnerTeamId ? "Tournament Result" : "Next Match"}</p>
+            <div className="row">
+                <div className="col-sm-12 col-md-6 col-lg-6 p-2">
+                    <p className="col-12 fw-semibold text-light bg-green rounded-top p-2 m-0">{winnerTeamId ? "Tournament Result" : "Next Match"}</p>
                     {nextMatch ?
                         <>
-                            <p>{nextMatch.matchId == 71 ? "Qualifier 1" : nextMatch.matchId == 72 ? "Eliminator" : nextMatch.matchId == 73 ? "Qualifier 2" : nextMatch.matchId == 74 ? "Final" : "Match #" + nextMatch.matchId}</p>
-                            <p>Venue: {venues[nextMatch.venueId - 1].city}</p>
-                            <img src={teams[nextMatch.homeTeamId - 1].logo} alt={teams[nextMatch.homeTeamId - 1].name} title={teams[nextMatch.homeTeamId - 1].name} />
-                            <p>v/s</p>
-                            <img src={teams[nextMatch.awayTeamId - 1].logo} alt={teams[nextMatch.awayTeamId - 1].name} title={teams[nextMatch.awayTeamId - 1].name} />
-                            <button onClick={() => handlePlay(nextMatch.matchId)}>Play</button>
+                            <div className="col-12 p-2 d-flex justify-content-between bg-gray">
+                                <p className="m-0">{nextMatch.matchId == 71 ? "Qualifier 1" : nextMatch.matchId == 72 ? "Eliminator" : nextMatch.matchId == 73 ? "Qualifier 2" : nextMatch.matchId == 74 ? "Final" : "Match #" + nextMatch.matchId}</p>
+                                <p className="m-0">Venue: {venues[nextMatch.venueId - 1].city}</p>
+                            </div>
+                            <div className="col-12 p-2 d-flex bg-body-tertiary align-items-center">
+                                <img className="col-5" src={teams[nextMatch.homeTeamId - 1].logo} alt={teams[nextMatch.homeTeamId - 1].name} title={teams[nextMatch.homeTeamId - 1].name} />
+                                <p className="col-2 m-0 text-center fs-5 fw-semibold">v/s</p>
+                                <img className="col-5" src={teams[nextMatch.awayTeamId - 1].logo} alt={teams[nextMatch.awayTeamId - 1].name} title={teams[nextMatch.awayTeamId - 1].name} />
+                            </div>
+                            <button className="fs-5 fw-semibold text-light btn btn-green col-12 rounded-0 rounded-bottom" onClick={() => handlePlay(nextMatch.matchId)}>Play</button>
                         </> : winnerTeamId ?
                             <>
                                 <p>Winner: {teams[winnerTeamId - 1].shortName}</p>
@@ -88,23 +92,21 @@ function MainMenu() {
                                 <img src={teams[runnerUpTeamId - 1].logo} alt={teams[runnerUpTeamId - 1].name} title={teams[runnerUpTeamId - 1].name} />
                             </> : <p>No Data Available Currently!</p>}
                 </div>
-                <div>
-                    <button onClick={handleFixture}>Fixture</button>
+                <div className="col-sm-12 col-md-6 col-lg-6 p-2 d-flex flex-column gap-3">
+                    <button className="h-100 w-100 btn btn-green text-light fs-5 fw-semibold p-3" onClick={handleFixture}>Fixture</button>
+                    <button className="h-100 btn btn-green text-light fs-5 fw-semibold p-3" onClick={handlePointsTable}>Points Table</button>
                 </div>
-                <div>
-                    <button onClick={handleSquad}>Squad</button>
+                <div className="col-sm-12 col-md-6 col-lg-6 p-2">
+                    <button className="w-100 p-3 btn btn-green text-light fs-5 fw-semibold" onClick={handleBattingStatistics}>Batting Statistics</button>
                 </div>
-                <div>
-                    <button onClick={handleVenues}>Venues</button>
+                <div className="col-sm-12 col-md-6 col-lg-6 p-2">
+                    <button className="w-100 p-3 btn btn-green text-light fs-5 fw-semibold" onClick={handleBowlingStatistics}>Bowling Statistics</button>
                 </div>
-                <div>
-                    <button onClick={handlePointsTable}>Points Table</button>
+                <div className="col-sm-12 col-md-6 col-lg-6 p-2">
+                    <button className="w-100 p-3 btn btn-green text-light fs-5 fw-semibold" onClick={handleSquad}>Squad</button>
                 </div>
-                <div>
-                    <button onClick={handleBattingStatistics}>Batting Statistics</button>
-                </div>
-                <div>
-                    <button onClick={handleBowlingStatistics}>Bowling Statistics</button>
+                <div className="col-sm-12 col-md-6 col-lg-6 p-2">
+                    <button className="w-100 p-3 btn btn-green text-light fs-5 fw-semibold" onClick={handleVenues}>Venues</button>
                 </div>
             </div>
         </>

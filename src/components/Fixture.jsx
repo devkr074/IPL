@@ -41,21 +41,26 @@ function Fixture() {
     }
     return (
         <>
-            <div>
-                <p>IPL - Fixture</p>
+            <div className="row sticky-top shadow">
+                <p className="col-12 fs-5 fw-bold text-light text-center bg-green p-2 m-0">IPL - Fixture</p>
             </div>
-            <div>
+            <div className="row">
                 {fixture && fixture.map((m) => (
-                    <div key={m.matchId} onClick={() => handleMatch(m)}>
-                        <p>{(m.matchId == 71) ? "Qualifier 1" : (m.matchId == 72) ? "Eliminator" : (m.matchId == 73) ? "Qualifier 2" : (m.matchId == 74) ? "Final" : `Match ${m.matchId}`}</p>
-                        <p>{venues[m.venueId - 1].city}</p>
-                        <img src={(m.homeTeamId) ? teams[m.homeTeamId - 1].logo : "https://placehold.co/400x400?text=TBA"} alt={(m.homeTeamId) ? teams[m.homeTeamId - 1].name : "TBA"} />
-                        <p>{(m.homeTeamId) ? (m.matchStatus == "Completed") ? teams[m.homeTeamId - 1].shortName : teams[m.homeTeamId - 1].name : "TBA"}</p>
-                        {(m.matchStatus == "Completed") && <p>{handleMatchData(m.matchId, m.homeTeamId).runs}{(handleMatchData(m.matchId, m.homeTeamId).wickets != 10) && "-" + handleMatchData(m.matchId, m.homeTeamId).wickets} ({Math.floor(handleMatchData(m.matchId, m.homeTeamId).balls / 6) + "." + (handleMatchData(m.matchId, m.homeTeamId).balls % 6)})</p>}
-                        <img src={(m.awayTeamId) ? teams[m.awayTeamId - 1].logo : "https://placehold.co/400x400?text=TBA"} alt={(m.awayTeamId) ? teams[m.awayTeamId - 1].logo : "TBA"} />
-                        <p>{(m.awayTeamId) ? (m.matchStatus == "Completed") ? teams[m.awayTeamId - 1].shortName : teams[m.awayTeamId - 1].name : "TBA"}</p>
-                        {(m.matchStatus == "Completed") && <p>{handleMatchData(m.matchId, m.awayTeamId).runs}{(handleMatchData(m.matchId, m.awayTeamId).wickets != 10) && "-" + handleMatchData(m.matchId, m.awayTeamId).wickets} ({Math.floor(handleMatchData(m.matchId, m.awayTeamId).balls / 6) + "." + (handleMatchData(m.matchId, m.awayTeamId).balls % 6)})</p>}
-                        <p>{(m.matchStatus == "Completed") ? m.matchResult : (m.tossStatus == "Completed") ? m.tossResult : "Upcoming"}</p>
+                    <div className="col-12 p-3" key={m.matchId} onClick={() => handleMatch(m)}>
+                        <p className="col-12 fw-semibold text-light bg-green rounded-top p-2 m-0">{(m.matchId == 71) ? "Qualifier 1" : (m.matchId == 72) ? "Eliminator" : (m.matchId == 73) ? "Qualifier 2" : (m.matchId == 74) ? "Final" : `Match ${m.matchId}`} • {venues[m.venueId - 1].city}</p>
+                        <div className="col-12 bg-body-tertiary rounded-bottom">
+                            <div className="col-12 d-flex">
+                                <img className='col-1' src={(m.homeTeamId) ? teams[m.homeTeamId - 1].logo : "https://placehold.co/400x400?text=TBA"} alt={(m.homeTeamId) ? teams[m.homeTeamId - 1].name : "TBA"} />
+                                <p>{(m.homeTeamId) ? (m.matchStatus == "Completed") ? teams[m.homeTeamId - 1].shortName : teams[m.homeTeamId - 1].name : "TBA"}</p>
+                                {(m.matchStatus == "Completed") && <p>{handleMatchData(m.matchId, m.homeTeamId).runs}{(handleMatchData(m.matchId, m.homeTeamId).wickets != 10) && "-" + handleMatchData(m.matchId, m.homeTeamId).wickets} ({Math.floor(handleMatchData(m.matchId, m.homeTeamId).balls / 6) + "." + (handleMatchData(m.matchId, m.homeTeamId).balls % 6)})</p>}
+                            </div>
+                            <div className="col-12 d-flex">
+                                <img className='col-1' src={(m.awayTeamId) ? teams[m.awayTeamId - 1].logo : "https://placehold.co/400x400?text=TBA"} alt={(m.awayTeamId) ? teams[m.awayTeamId - 1].logo : "TBA"} />
+                                <p>{(m.awayTeamId) ? (m.matchStatus == "Completed") ? teams[m.awayTeamId - 1].shortName : teams[m.awayTeamId - 1].name : "TBA"}</p>
+                                {(m.matchStatus == "Completed") && <p>{handleMatchData(m.matchId, m.awayTeamId).runs}{(handleMatchData(m.matchId, m.awayTeamId).wickets != 10) && "-" + handleMatchData(m.matchId, m.awayTeamId).wickets} ({Math.floor(handleMatchData(m.matchId, m.awayTeamId).balls / 6) + "." + (handleMatchData(m.matchId, m.awayTeamId).balls % 6)})</p>}
+                            </div>
+                            <p className='text-truncate text-info fw-semibold px-2'>{(m.matchStatus == "Completed") ? m.matchResult : (m.tossStatus == "Completed") ? m.tossResult : "Upcoming"}</p>
+                        </div>
                     </div>))}
             </div>
         </>

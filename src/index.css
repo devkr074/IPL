@@ -1,8 +1,54 @@
-img {
-    height: 70px;
-}
-
 .accordion-button:not(.collapsed) {
     background-color: #009270;
     color: white;
+}
+
+.bg-green {
+    background-color: #009270;
+}
+
+.bg-gray {
+    background-color: #ecebeb;
+}
+
+.btn-green {
+    background-color: #009270 !important;
+
+    &:focus,
+    &:hover {
+        background-color: #008364 !important;
+    }
+}
+
+body {
+    overflow: hidden;
+}
+
+#root {
+    width: 50vw;
+    scrollbar-width: none;
+    border: 2px solid #ecebeb;
+    border-radius: 8px;
+}
+
+@media screen and (max-width: 700px) {
+    body {
+        overflow: visible;
+    }
+
+    #root {
+        width: 100vw;
+        border: none;
+        border-radius: 0px;
+    }
+}
+
+@media screen and (min-width: 701px) and (max-width: 900px) {
+    body {
+        overflow: visible;
+    }
+
+    #root {
+        width: 80vw;
+    }
 }
