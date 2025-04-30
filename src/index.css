@@ -1,3 +1,8 @@
 img {
     height: 70px;
 }
+
+.accordion-button:not(.collapsed) {
+    background-color: #009270;
+    color: white;
+}
