@@ -30,6 +30,9 @@ function Match() {
             setMatchStatus(tossResult);
             handleFirstInning(matchId);
         }
+        else if(matchStatus=="Second Inning"){
+            handleSecondInning(matchId);
+        }
     }, []);
     function handleFirstInning(matchId) {
         const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
