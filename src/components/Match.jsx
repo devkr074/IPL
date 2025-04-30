@@ -70,22 +70,26 @@ function Match() {
     }
     return (
         <>
-            <div className="row border-bottom border-2 border-dark">
-                <p className="col-12 fs-5 fw-bolder bg-body-secondary m-0 sticky-top p-2 text-center">{matchId == 71 ? "Qualifier 1" : matchId == 72 ? "Eliminator" : matchId == 73 ? "Qualifier 2" : matchId == 74 ? "Final" : "Match #" + matchId}: {teams && teams[fixture[matchId - 1]?.homeTeamId - 1]?.shortName} vs {teams && teams[fixture[matchId - 1]?.awayTeamId - 1]?.shortName}</p>
-            </div>
-            <div className="row border-bottom border-2 border-dark sticky-top bg-light p-2">
+            <div className="row sticky-top" style={{backgroundColor:"#009270"}}>
+                <p className="col-12 text-light fs-5 fw-bolder m-0 sticky-top p-2 text-center">{matchId == 71 ? "Qualifier 1" : matchId == 72 ? "Eliminator" : matchId == 73 ? "Qualifier 2" : matchId == 74 ? "Final" : "Match #" + matchId}: {teams && teams[fixture[matchId - 1]?.homeTeamId - 1]?.shortName} vs {teams && teams[fixture[matchId - 1]?.awayTeamId - 1]?.shortName}</p>
                 <div className="col-12 m-0">
-                    <button className="btn btn-danger fw-semibold me-2" value="Info" onClick={handleTabChange}>Info</button>
-                    <button className="btn btn-danger fw-semibold me-2" value="Commentary" onClick={handleTabChange}>Commentary</button>
-                    <button className="btn btn-danger fw-semibold me-2" value="Scorecard" onClick={handleTabChange}>Scorecard</button>
-                    <button className="btn btn-danger fw-semibold" value="Squad" onClick={handleTabChange}>Squad</button>
+                    <button className={`btn border-0 text-light fw-semibold rounded-0 ${tab === "Info" ? "border-bottom border-4 " : ""}`} value="Info" onClick={handleTabChange}>Info</button>
+                    <button className={`btn border-0 text-light fw-semibold rounded-0 ${tab === "Commentary" ? "border-bottom border-4" : ""}`} value="Commentary" onClick={handleTabChange}>Commentary</button>
+                    <button className={`btn border-0 text-light fw-semibold rounded-0  ${tab === "Scorecard" ? "border-bottom border-4" : ""}`} value="Scorecard" onClick={handleTabChange}>Scorecard</button>
+                    <button className={`btn border-0 text-light fw-semibold rounded-0 ${tab === "Squad" ? "border-bottom border-4" : ""}`} value="Squad" onClick={handleTabChange}>Squad</button>
                 </div>
             </div>
             <div>
                 {tab == "Info" && <div>
-                    <p>Info</p>
-                    <p>Match</p>
-                    <p>{matchId == 71 ? "Qualifier 1" : matchId == 72 ? "Eliminator" : matchId == 73 ? "Qualifier 2" : matchId == 74 ? "Final" : "Match #" + matchId}</p>
+                    <table>
+                        <tr>
+                            <td>Info</td>
+                        </tr>
+                        <tr>
+                            <td>Match</td>
+                            <td>{matchId == 71 ? "Qualifier 1" : matchId == 72 ? "Eliminator" : matchId == 73 ? "Qualifier 2" : matchId == 74 ? "Final" : "Match #" + matchId}</td>
+                        </tr>
+                    </table>
                     <p>Series</p>
                     <p>Indian Premier League 2025</p>
                     <p>Toss</p>
