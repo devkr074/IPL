@@ -178,15 +178,15 @@ function Toss() {
                     <div>
                         <p>{(!flipped) ? "Flipping..." : "Flipped"}</p>
                         <div>
-                            <button value="Heads" onClick={(!flipped) ? handleTossCallSelect : undefined}>Heads</button>
-                            <button value="Tails" onClick={(!flipped) ? handleTossCallSelect : undefined}>Tails</button>
+                            <button className={userCall=="Heads" ? 'border border-5 border-dark btn fw-semibold fs-5 btn-green' : 'btn fw-semibold fs-5 btn-green border border-5 border-light'} value="Heads" onClick={(!flipped) ? handleTossCallSelect : undefined}>Heads</button>
+                            <button className={userCall=="Tails" ? 'border border-5 border-dark btn fw-semibold fs-5 btn-green' : 'btn fw-semibold fs-5 btn-green border border-5 border-light'} value="Tails" onClick={(!flipped) ? handleTossCallSelect : undefined}>Tails</button>
                         </div>
                         {(flipped) && <p>It's {tossOutcome}</p>}
                         {(flipped) ? (userCall != tossOutcome) ? <p>{teams && teams[fixture[matchId - 1].homeTeamId - 1].name} opt to {optionOutcome}</p> :
                             <div>
                                 <p>{teams && teams[fixture[matchId - 1].awayTeamId - 1].name} won the toss</p>
-                                <button value="Bat" onClick={handleOptionChange}>Bat</button>
-                                <button value="Bowl" onClick={handleOptionChange}>Bowl</button>
+                                <button className={optionOutcome=="Bat" ? 'border border-5 border-dark btn fw-semibold fs-5 btn-green' : 'btn fw-semibold fs-5 btn-green border border-5 border-light'} value="Bat" onClick={handleOptionChange}>Bat</button>
+                                <button className={optionOutcome=="Bowl" ? 'border border-5 border-dark btn fw-semibold fs-5 btn-green' : 'btn fw-semibold fs-5 btn-green border border-5 border-light'} value="Bowl" onClick={handleOptionChange}>Bowl</button>
                             </div> : <></>}
                         {(optionOutcome) && <button onClick={handleMatch}>Next</button>}
                     </div>}

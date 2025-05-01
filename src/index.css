@@ -13,11 +13,16 @@
 
 .btn-green {
     background-color: #009270 !important;
+    color: #fff !important;
 
     &:focus,
     &:hover {
         background-color: #008364 !important;
     }
+}
+
+.mw-c{
+    min-width: max-content;
 }
 
 body {

@@ -16,28 +16,28 @@ function PointsTable() {
                 <p className="col-12 fs-5 fw-bold text-light text-center bg-green p-2 m-0">IPL - Points Table</p>
             </div>
             <div className='row'>
-                <table>
-                    <thead className='bg-gray'>
+                <table className='table'>
+                    <thead>
                         <tr className='bg-gray'>
-                            <th className='bg-gray py-2 px-2'>Team</th>
-                            <th>P</th>
-                            <th>W</th>
-                            <th>L</th>
-                            <th>T</th>
+                            <th className='col-6 px-2 py-2'>Team</th>
+                            <th className='col-1 px-1 py-2 text-center'>P</th>
+                            <th className='col-1 px-1 py-2 text-center'>W</th>
+                            <th className='col-1 px-1 py-2 text-center'>L</th>
+                            <th className='col-1 px-1 py-2 text-center'>T</th>
                             <th className='col-1 px-1 text-center'>PTS</th>
-                            <th className='col-1 px-1 text-center'>NRR</th>
+                            <th className='col-1 px-2 text-center'>NRR</th>
                         </tr>
                     </thead>
                     <tbody>
                         {pointsTable && pointsTable.map((t) => (
-                            <tr key={t.teamId}>
-                                <td className='col-6 px-1 py-2'><img className='col-2 me-1' src={teams[t.teamId - 1].logo} alt={teams[t.teamId - 1].name} />{teams[t.teamId - 1].shortName}</td>
-                                <td className='col-1 px-1 py-2'>{t.played}</td>
-                                <td className='col-1'>{t.won}</td>
-                                <td className='col-1'>{t.lost}</td>
-                                <td className='col-1'>{t.tied}</td>
-                                <th className='col-1 px-1 text-center'>{t.points}</th>
-                                <td className='col-1 px-1 text-center'>{(t.netRunRate > 0) ? ("+" + t.netRunRate.toFixed(3)) : (t.netRunRate.toFixed(3))}</td>
+                            <tr key={t.teamId} className='border-bottom'>
+                                <td className='col-6 px-1 py-2'><img style={{height:"2rem"}} src={teams[t.teamId - 1].logo} alt={teams[t.teamId - 1].name} />{teams[t.teamId - 1].shortName}</td>
+                                <td className='col-1 px-1 py-2 text-center'>{t.played}</td>
+                                <td className='col-1 px-1 py-2 text-center'>{t.won}</td>
+                                <td className='col-1 px-1 py-2 text-center'>{t.lost}</td>
+                                <td className='col-1 px-1 py-2 text-center'>{t.tied}</td>
+                                <th className='col-1 px-1 py-2 text-center'>{t.points}</th>
+                                <td className='col-1 px-2 py-2 text-center'>{(t.netRunRate > 0) ? ("+" + t.netRunRate.toFixed(3)) : (t.netRunRate.toFixed(3))}</td>
                             </tr>
                         ))}
                     </tbody>
