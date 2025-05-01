@@ -40,9 +40,9 @@ function BattingStatistics() {
     }
     return (
         <>
-            <div className="row sticky-top" style={{ backgroundColor: "#009270" }}>
+            <div className="row p-0 sticky-top" style={{ backgroundColor: "#009270" }}>
                 <p className="col-12 text-light fs-5 fw-bolder m-0 sticky-top p-2 text-center">Batting Statistics</p>
-                <div className='col-12 overflow-auto d-flex' style={{scrollbarWidth: "none"}}>
+                <div className='col-12 overflow-auto d-flex' style={{ scrollbarWidth: "none" }}>
                     <button className={`mw-c btn border-0 text-light fw-semibold rounded-0 ${tab === "Most Runs" ? "border-bottom border-4 " : ""}`} value="Most Runs" onClick={handleTabChange}>Most Runs</button>
                     <button className={`mw-c btn border-0 text-light fw-semibold rounded-0 ${tab === "Highest Score" ? "border-bottom border-4 " : ""}`} value="Highest Score" onClick={handleTabChange}>Highest Score</button>
                     <button className={`mw-c btn border-0 text-light fw-semibold rounded-0 ${tab === "Best Batting Average" ? "border-bottom border-4 " : ""}`} value="Best Batting Average" onClick={handleTabChange}>Best Batting Average</button>
@@ -53,31 +53,30 @@ function BattingStatistics() {
                     <button className={`mw-c btn border-0 text-light fw-semibold rounded-0 ${tab === "Most Sixes" ? "border-bottom border-4 " : ""}`} value="Most Sixes" onClick={handleTabChange}>Most Sixes</button>
                 </div>
             </div>
-            <div className='row'>
+            <div className='row p-0'>
                 {tab == "Most Runs" &&
-                    ((mostRuns && mostRuns.length != 0) ?
-                        <table>
-                            <thead className='bg-gray'>
-                                <tr>
-                                    <th className='col-8 px-2 py-2'>Batter</th>
-                                    <th className='col-1 px-1 py-2 text-center'>M</th>
-                                    <th className='col-1 px-1 py-2 text-center'>I</th>
-                                    <th className='col-1 px-1 py-2 text-center'>R</th>
-                                    <th className='col-1 px-2 py-2 text-center'>Avg</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {mostRuns.map((p) =>
-                                    <tr className='border-bottom' key={p.playerId}>
-                                        <td className='text-truncate col-8 px-2 py-2'>{squad[p.playerId - 1].name}</td>
-                                        <td className='col-1 px-1 py-2 text-center'>{p.matches}</td>
-                                        <td className='col-1 px-1 py-2 text-center'>{p.innings}</td>
-                                        <th className='col-1 px-1 py-2 text-center'>{p.runs}</th>
-                                        <td className='col-1 px-2 py-2 text-center'>{(p.dismissed == 0) ? "-" : (p.runs / p.dismissed).toFixed(2)}</td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table> : <p>No Data Available Currently!</p>)}
+                    ((mostRuns && mostRuns.length != 0) ? <>
+                        <div className="row m-0 p-0 py-2 px-2 fw-bold bg-gray">
+                            <p className='col-5 m-0 p-0'>Batter</p>
+                            <div className="col-7 m-0 p-0 d-flex">
+                                <p className='col-3 text-center m-0 p-0'>M</p>
+                                <p className='col-3 text-center m-0 p-0'>I</p>
+                                <p className='col-3 text-center m-0 p-0'>R</p>
+                                <p className='col-3 text-center m-0 p-0'>Avg</p>
+                            </div>
+                        </div>
+                        {mostRuns.map((p) =>
+                            <div className="row m-0 p-0 py-2 px-2 border-bottom border-2">
+                                <p className='col-5 fw-semibold text-info m-0 p-0 text-truncate'>{squad[p.playerId - 1].name}</p>
+                                <div className="col-7 m-0 p-0 d-flex">
+                                    <p className='col-3 p-0 text-center m-0'>{p.matches}</p>
+                                    <p className='col-3 p-0 text-center m-0'>{p.innings}</p>
+                                    <p className='col-3 text-center fw-bold p-0 m-0'>{p.runs}</p>
+                                    <p className='col-3 text-center p-0 m-0'>{(p.dismissed == 0) ? "-" : (p.runs / p.dismissed).toFixed(2)}</p>
+                                </div>
+                            </div>
+                        )}
+                    </> : <p>No Data Available Currently!</p>)}
                 {tab == "Highest Score" &&
                     ((highestScore && highestScore.length != 0) ?
                         <table>

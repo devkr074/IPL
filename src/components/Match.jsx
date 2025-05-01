@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import handleInning from "../utils/handleInning.js";
 import handleSuperOverInning from "../utils/handleSuperOverInning.js";
 import handlePointsTable from "../utils/handlePointsTable.js";
 import handleStatistics from "../utils/handleStatistics.js";
 function Match() {
+    const navigate = useNavigate();
     const { matchId } = useParams();
     const [fixture, setFixture] = useState([]);
     const [matchData, setMatchData] = useState();
@@ -290,64 +291,249 @@ function Match() {
                     <button className={`btn border-0 text-light fw-semibold rounded-0 ${tab === "Squad" ? "border-bottom border-4" : ""}`} value="Squad" onClick={handleTabChange}>Squad</button>
                 </div>
             </div>
-            <div>
-                {tab == "Info" && <div>
-                    <table>
-                        <tr>
-                            <td>Info</td>
-                        </tr>
-                        <tr>
-                            <td>Match</td>
-                            <td>{matchId == 71 ? "Qualifier 1" : matchId == 72 ? "Eliminator" : matchId == 73 ? "Qualifier 2" : matchId == 74 ? "Final" : "Match #" + matchId}</td>
-                        </tr>
+            <div className="row">
+                {tab == "Info" && <div className="col-12 p-0">
+                    <table className="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th colSpan={2}>Info</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Match</td>
+                                <td>{matchId == 71 ? "Qualifier 1" : matchId == 72 ? "Eliminator" : matchId == 73 ? "Qualifier 2" : matchId == 74 ? "Final" : "Match #" + matchId}</td>
+                            </tr>
+                            <tr>
+                                <td>Series</td>
+                                <td>Indian Premier League - 2025</td>
+                            </tr>
+                            <tr>
+                                <td>Toss</td>
+                                <td>{fixture[matchId - 1].tossResult}</td>
+                            </tr>
+                            <tr>
+                                <td>Venue</td>
+                                <td>{venues[fixture[matchId - 1].venueId - 1].name}, {venues[fixture[matchId - 1].venueId - 1].city}</td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr>
+                                <th colSpan={2}>Venue Guide</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Stadium</td>
+                                <td>{venues[fixture[matchId - 1].venueId - 1].name}</td>
+                            </tr>
+                            <tr>
+                                <td>City</td>
+                                <td>{venues[fixture[matchId - 1].venueId - 1].city}</td>
+                            </tr>
+                            <tr>
+                                <td>Capacity</td>
+                                <td>{venues[fixture[matchId - 1].venueId - 1].capacity}</td>
+                            </tr>
+                            <tr>
+                                <td>Hosts to</td>
+                                <td>{teams[venues[fixture[matchId - 1].venueId - 1].venueId - 1].name}</td>
+                            </tr>
+                        </tbody>
                     </table>
-                    <p>Series</p>
-                    <p>Indian Premier League 2025</p>
-                    <p>Toss</p>
-                    <p>{fixture[matchId - 1].tossResult}</p>
-                    <p>Venue</p>
-                    <p>{venues[fixture[matchId - 1].venueId - 1].name}, {venues[fixture[matchId - 1].venueId - 1].city}</p>
-                    <p>Venue Guide</p>
-                    <p>Stadium</p>
-                    <p>{venues[fixture[matchId - 1].venueId - 1].name}</p>
-                    <p>City</p>
-                    <p>{venues[fixture[matchId - 1].venueId - 1].city}</p>
-                    <p>Capacity</p>
-                    <p>{venues[fixture[matchId - 1].venueId - 1].capacity}</p>
-                    <p>Hosts to</p>
-                    <p>{teams[venues[fixture[matchId - 1].venueId - 1].venueId - 1].name}</p>
                 </div>}
                 {tab == "Commentary" && (matchStatus == "Completed" ?
-                    <div className="row">
-                        <table className="table">
-                            <tbody>
-                                <tr className="fs-5 fw-semibold">
-                                    <td className="ps-4 col-1 text-body-secondary">{teams[matchData.inning1.teamId - 1].shortName}</td>
-                                    <td className="text-body-secondary">{matchData.inning1.runs}{matchData.inning1.wickets != 10 && "-" + matchData.inning1.wickets} ({Math.floor(matchData.inning1.balls / 6)}{(matchData.inning1.balls % 6 != 0) && "." + (matchData.inning1.balls % 6)})</td>
-                                </tr>
-                                <tr className="fs-5 fw-semibold">
-                                    <td className="ps-4 text-body-secondary">{teams[matchData.inning2.teamId - 1].shortName}</td>
-                                    <td className="text-body-secondary">{matchData.inning2.runs}{matchData.inning2.wickets != 10 && "-" + matchData.inning2.wickets} ({Math.floor(matchData.inning2.balls / 6)}{(matchData.inning2.balls % 6 != 0) && "." + (matchData.inning2.balls % 6)})</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <p className="text-info fs-6 fw-semibold">{fixture[matchId - 1].matchResult}</p>
-                        <p className="fs-5 fw-bold">Player of the Match</p>
-                        <img className="col-1 img-fluid rounded-circle p-1 mx-2 border" src={squad[fixture[matchId - 1].playerOfTheMatch - 1]?.profile} alt={squad[fixture[matchId - 1].playerOfTheMatch - 1]?.name} />
-                        <p className="col-10 fs-5 fw-semibold d-flex align-items-center">{squad[fixture[matchId - 1].playerOfTheMatch - 1]?.name}</p>
-                        <p className="fs-3 fw-bold mt-3">Commentary</p>
-                        <table>
-                            <tbody>
-                                {matchData.commentary.slice().reverse().map((c) => (
-                                    <div key={`${c.ball}+${c.bowler}+${c.batsman}+${c.outcome}+${c.comment}+${matchData.inning1.runs + matchData.inning2.runs}`}>
-                                        <tr className="row fs-6 py-3 border-bottom  border-body-tertiary">
-                                            <td className="col-1 text-center d-flex align-items-center flex-column"><span>{Math.floor(c.ball / 6) + "." + (c.ball % 6)}</span>{(c.outcome == "SIX") ? <span className="bg-info fs-6 text-light fw-bold  px-2 rounded-circle mt-1" style={{ width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center" }}>6</span> : (c.outcome == "FOUR") ? <span className="bg-warning fs-6 text-light fw-bold  px-2 rounded-circle mt-1" style={{ width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center" }}>4</span> : (c.outcome == "OUT") && <span className="bg-danger fs-6 text-light fw-bold  px-2 rounded-circle mt-1" style={{ width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center" }}>W</span>}</td>
-                                            <td className="col-9">{c.bowler} to {c.batsman}, <span className="fw-bold">{c.outcome}</span>, {c.comment}</td>
+                    <div className="col-12 p-0">
+                        <div className="row fs-4 pb-0 fw-semibold pt-1 m-0  bg-body-tertiary">
+                            <p className="col-1 m-0">{teams[matchData.inning1.teamId - 1].shortName}</p>
+                            <p className="col-11 ps-5 m-0">{matchData.inning1.runs}{matchData.inning1.wickets != 10 && "-" + matchData.inning1.wickets} ({Math.floor(matchData.inning1.balls / 6)}{(matchData.inning1.balls % 6 != 0) && "." + (matchData.inning1.balls % 6)})</p>
+                        </div>
+                        <div className="row fs-4 pt-0 fw-semibold pb-1 m-0  bg-body-tertiary">
+                            <p className="col-1 m-0">{teams[matchData.inning2.teamId - 1].shortName}</p>
+                            <p className="col-11 ps-5 m-0">{matchData.inning2.runs}{matchData.inning2.wickets != 10 && "-" + matchData.inning2.wickets} ({Math.floor(matchData.inning2.balls / 6)}{(matchData.inning2.balls % 6 != 0) && "." + (matchData.inning2.balls % 6)})</p>
+                        </div>
+                        <div className="row pb-1 fw-semibold pt-0 m-0  bg-body-tertiary">
+                            <p className="col-12 text-info text-truncate m-0 pb-2">{fixture[matchId - 1].matchResult}</p>
+                        </div>
+                        <div className="row pt-0 fs-5 fw-bold pb-1 m-0 bg-gray">
+                            <p className="col-12 m-0">Player of the Match</p>
+                        </div>
+                        <div className="row pt-0 pb-1 m-0 bg-body-tertiary">
+                            <p className="col-2 p-0 m-0 px-1 py-2">
+                                <img className="img-fluid rounded-circle p-1 border" src={squad[fixture[matchId - 1].playerOfTheMatch - 1]?.profile} alt={squad[fixture[matchId - 1].playerOfTheMatch - 1]?.name} />
+                            </p>
+                            <p className="py-2 col-10 p-0 m-0 d-flex align-items-center ps-2 fs-5">{squad[fixture[matchId - 1].playerOfTheMatch - 1]?.name}</p>
+                        </div>
+                        <div className="row p-0 m-0 bg-gray">
+                            <p className="fs-4 fw-bold m-0">Commentary</p>
+                        </div>
+                        {matchData.commentary.slice().reverse().map((c) => (
+                            <div className="row bg-body-tertiary p-0 m-0 border-bottom border-2 py-2" key={`${c.ball}+${c.bowler}+${c.batsman}+${c.outcome}+${c.comment}+${matchData.inning1.runs + matchData.inning2.runs}`}>
+                                <p className="col-2 text-center d-flex align-items-center flex-column"><span>{Math.floor(c.ball / 6) + "." + (c.ball % 6)}</span>{(c.outcome == "SIX") ? <span className="bg-info fs-6 text-light fw-bold  px-2 rounded-circle mt-1" style={{ width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center" }}>6</span> : (c.outcome == "FOUR") ? <span className="bg-warning fs-6 text-light fw-bold  px-2 rounded-circle mt-1" style={{ width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center" }}>4</span> : (c.outcome == "OUT") && <span className="bg-danger fs-6 text-light fw-bold  px-2 rounded-circle mt-1" style={{ width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center" }}>W</span>}</p>
+                                <p className="col-10">{c.bowler} to {c.batsman}, <span className="fw-bold">{c.outcome}</span>, {c.comment}</p>
+                            </div>))}
+                    </div> : (((matchStatus == 'First Inning') || (matchStatus == "Innings Break")) ?
+                        <>
+                            <div>
+                                <table>
+                                    <tbody>
+                                        <tr className="fs-3 fw-semibold">
+                                            <td>{teams[matchData.inning1.teamId - 1].shortName}</td>
+                                            <td className="ps-5">{matchData.inning1.runs}{matchData.inning1.wickets != 10 && "-" + matchData.inning1.wickets} ({Math.floor(matchData.inning1.balls / 6)}{(matchData.inning1.balls % 6 != 0) && "." + (matchData.inning1.balls % 6)})</td>
                                         </tr>
-                                    </div>))}
-                            </tbody>
-                        </table>
-                    </div> : ((matchStatus == tossResult) || (matchStatus == "Innings Break")) ? <p>{matchStatus}</p> : <p>{teams[matchData.inning2.teamId - 1].name} need {matchData.inning1.runs - matchData.inning2.runs + 1} from {120 - matchData.inning2.balls}</p>)}
+                                    </tbody>
+                                </table>
+                                <p className="col-12 fw-semibold text-danger">{(matchStatus == 'First Inning') ? fixture[matchId - 1].tossResult : "Innings Break"}</p>
+                            </div>
+                            <div>
+                                <table className="table">
+                                    <tbody>
+                                        <tr>
+                                            <th>Batter</th>
+                                            <th>R</th>
+                                            <th>B</th>
+                                            <th>4s</th>
+                                            <th>6s</th>
+                                            <th>SR</th>
+                                        </tr>
+                                        {(matchData.inning1.strikerId != null) &&
+                                            <tr>
+                                                <td>{squad[matchData.inning1.strikerId - 1].name}*</td>
+                                                <td>{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.strikerId)].runs}</td>
+                                                <td>{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.strikerId)].balls}</td>
+                                                <td>{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.strikerId)].fours}</td>
+                                                <td>{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.strikerId)].sixes}</td>
+                                                <td>{(matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.strikerId)].runs / matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.strikerId)].balls * 100).toFixed(2) == "NaN" ?
+                                                    "-" : (matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.strikerId)].runs / matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.strikerId)].balls * 100).toFixed(2)}</td>
+                                            </tr>}
+                                        {(matchData.inning1.nonStrikerId != null) &&
+                                            <tr>
+                                                <td>{squad[matchData.inning1.nonStrikerId - 1].name}</td>
+                                                <td>{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.nonStrikerId)].runs}</td>
+                                                <td>{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.nonStrikerId)].balls}</td>
+                                                <td>{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.nonStrikerId)].fours}</td>
+                                                <td>{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.nonStrikerId)].sixes}</td>
+                                                <td>{(matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.nonStrikerId)].runs / matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.nonStrikerId)].balls * 100).toFixed(2) == "NaN" ?
+                                                    "-" : (matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.nonStrikerId)].runs / matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.nonStrikerId)].balls * 100).toFixed(2)}</td>
+                                            </tr>}
+                                        <tr>
+                                            <th>Bowler</th>
+                                            <th>O</th>
+                                            <th>M</th>
+                                            <th>R</th>
+                                            <th>W</th>
+                                            <th>ER</th>
+                                        </tr>
+                                        <tr>
+                                            <td>{squad[matchData.inning1.bowlerId - 1].name}</td>
+                                            <td>{Math.floor(matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].balls / 6)}{(matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].balls % 6 != 0) && "." + (matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].balls % 6)}</td>
+                                            <td>0</td>
+                                            <td>{matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].runs}</td>
+                                            <td>{matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].wickets}</td>
+                                            <td>{(matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].runs / (Math.floor(matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].balls / 6) + ((matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].balls % 6) / 6))).toFixed(1)}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div>
+                                <p className="fs-3 fw-bold mt-3">Commentary</p>
+                                <table>
+                                    <tbody>
+                                        {matchData.commentary.slice().reverse().map((c) => (
+                                            <div key={`${c.ball}+${c.bowler}+${c.batsman}+${c.outcome}+${c.comment}+${matchData.inning1.runs + matchData.inning2.runs}`}>
+                                                <tr className="row fs-6 py-3 border-bottom  border-body-tertiary">
+                                                    <td className="col-1 text-center d-flex align-items-center flex-column"><span>{Math.floor(c.ball / 6) + "." + (c.ball % 6)}</span>{(c.outcome == "SIX") ? <span className="bg-info fs-6 text-light fw-bold  px-2 rounded-circle mt-1" style={{ width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center" }}>6</span> : (c.outcome == "FOUR") ? <span className="bg-warning fs-6 text-light fw-bold  px-2 rounded-circle mt-1" style={{ width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center" }}>4</span> : (c.outcome == "OUT") && <span className="bg-danger fs-6 text-light fw-bold  px-2 rounded-circle mt-1" style={{ width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center" }}>W</span>}</td>
+                                                    <td className="col-9">{c.bowler} to {c.batsman}, <span className="fw-bold">{c.outcome}</span>, {c.comment}</td>
+                                                </tr>
+                                            </div>))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </> : (matchStatus == "Second Inning") && <>
+                            <div>
+                                <table>
+                                    <tbody>
+                                        <tr className="fs-4 fw-semibold">
+                                            <td className="text-body-secondary">{teams[matchData.inning1.teamId - 1].shortName}</td>
+                                            <td className="ps-5 text-body-secondary">{matchData.inning1.runs}{matchData.inning1.wickets != 10 && "-" + matchData.inning1.wickets} ({Math.floor(matchData.inning1.balls / 6)}{(matchData.inning1.balls % 6 != 0) && "." + (matchData.inning1.balls % 6)})</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table>
+                                    <tbody>
+                                        <tr className="fs-3 fw-semibold">
+                                            <td>{teams[matchData.inning2.teamId - 1].shortName}</td>
+                                            <td className="ps-5">{matchData.inning2.runs}{matchData.inning2.wickets != 10 && "-" + matchData.inning2.wickets} ({Math.floor(matchData.inning2.balls / 6)}{(matchData.inning2.balls % 6 != 0) && "." + (matchData.inning2.balls % 6)})</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p className="col-12 fw-semibold text-danger">{(matchStatus == 'Second Inning') ? `${teams[matchData.inning2.teamId - 1].name} need ${(matchData.inning1.runs - matchData.inning2.runs + 1)} runs from ${120 - matchData.inning2.balls}` : "Innings Break"}</p>
+                            </div>
+                            <div>
+                                <table className="table">
+                                    <tbody>
+                                        <tr>
+                                            <th>Batter</th>
+                                            <th>R</th>
+                                            <th>B</th>
+                                            <th>4s</th>
+                                            <th>6s</th>
+                                            <th>SR</th>
+                                        </tr>
+                                        {(matchData.inning2.strikerId != null) &&
+                                            <tr>
+                                                <td>{squad[matchData.inning2.strikerId - 1].name}*</td>
+                                                <td>{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.strikerId)].runs}</td>
+                                                <td>{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.strikerId)].balls}</td>
+                                                <td>{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.strikerId)].fours}</td>
+                                                <td>{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.strikerId)].sixes}</td>
+                                                <td>{(matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.strikerId)].runs / matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.strikerId)].balls * 100).toFixed(2) == "NaN" ?
+                                                    "-" : (matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.strikerId)].runs / matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.strikerId)].balls * 100).toFixed(2)}</td>
+                                            </tr>}
+                                        {(matchData.inning2.nonStrikerId != null) &&
+                                            <tr>
+                                                <td>{squad[matchData.inning2.nonStrikerId - 1].name}</td>
+                                                <td>{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.nonStrikerId)].runs}</td>
+                                                <td>{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.nonStrikerId)].balls}</td>
+                                                <td>{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.nonStrikerId)].fours}</td>
+                                                <td>{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.nonStrikerId)].sixes}</td>
+                                                <td>{(matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.nonStrikerId)].runs / matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.nonStrikerId)].balls * 100).toFixed(2) == "NaN" ?
+                                                    "-" : (matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.nonStrikerId)].runs / matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.nonStrikerId)].balls * 100).toFixed(2)}</td>
+                                            </tr>}
+                                        <tr>
+                                            <th>Bowler</th>
+                                            <th>O</th>
+                                            <th>M</th>
+                                            <th>R</th>
+                                            <th>W</th>
+                                            <th>ER</th>
+                                        </tr>
+                                        <tr>
+                                            <td>{squad[matchData.inning2.bowlerId - 1].name}</td>
+                                            <td>{Math.floor(matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].balls / 6)}{(matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].balls % 6 != 0) && "." + (matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].balls % 6)}</td>
+                                            <td>0</td>
+                                            <td>{matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].runs}</td>
+                                            <td>{matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].wickets}</td>
+                                            <td>{(matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].runs / (Math.floor(matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].balls / 6) + ((matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].balls % 6) / 6))).toFixed(1)}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div>
+                                <p className="fs-3 fw-bold mt-3">Commentary</p>
+                                <table>
+                                    <tbody>
+                                        {matchData.commentary.slice().reverse().map((c) => (
+                                            <div key={`${c.ball}+${c.bowler}+${c.batsman}+${c.outcome}+${c.comment}+${matchData.inning1.runs + matchData.inning2.runs}`}>
+                                                <tr className="row fs-6 py-3 border-bottom  border-body-tertiary">
+                                                    <td className="col-1 text-center d-flex align-items-center flex-column"><span>{Math.floor(c.ball / 6) + "." + (c.ball % 6)}</span>{(c.outcome == "SIX") ? <span className="bg-info fs-6 text-light fw-bold  px-2 rounded-circle mt-1" style={{ width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center" }}>6</span> : (c.outcome == "FOUR") ? <span className="bg-warning fs-6 text-light fw-bold  px-2 rounded-circle mt-1" style={{ width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center" }}>4</span> : (c.outcome == "OUT") && <span className="bg-danger fs-6 text-light fw-bold  px-2 rounded-circle mt-1" style={{ width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center" }}>W</span>}</td>
+                                                    <td className="col-9">{c.bowler} to {c.batsman}, <span className="fw-bold">{c.outcome}</span>, {c.comment}</td>
+                                                </tr>
+                                            </div>))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </>))}
                 {tab == "Scorecard" &&
                     ((matchStatus == "Completed") ? <div>
                         <p className="fs-6 fw-semibold text-info">{fixture[matchId - 1].matchResult}</p>
@@ -416,7 +602,7 @@ function Match() {
                                                     <th>W</th>
                                                     <th>ER</th>
                                                 </tr>
-                                                {(matchData.inning1Bowler.filter((b) => (b.runs > 0)).map((b) => (
+                                                {(matchData.inning1Bowler.filter((b) => (b.runs > 0) || (b.balls > 0)).map((b) => (
                                                     <>
                                                         <tr>
                                                             <td>{squad[b.playerId - 1].name}</td>
@@ -497,7 +683,7 @@ function Match() {
                                                     <th>W</th>
                                                     <th>ER</th>
                                                 </tr>
-                                                {(matchData.inning2Bowler.filter((b) => (b.runs > 0)).map((b) => (
+                                                {(matchData.inning2Bowler.filter((b) => (b.runs > 0) || (b.balls > 0)).map((b) => (
                                                     <>
                                                         <tr>
                                                             <td>{squad[b.playerId - 1].name}</td>

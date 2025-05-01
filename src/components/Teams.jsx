@@ -7,8 +7,10 @@ import teams from "../data/teams.json";
 import venues from "../data/venues.json";
 function Teams() {
   const [userTeamId, setUserTeamId] = useState(1);
+  const [gameStatus, setGameStatus] = useState();
   useEffect(() => {
     document.title = "IPL - Teams";
+    setGameStatus(localStorage.getItem("status"));
   }, []);
   const navigate = useNavigate();
   function handleNext() {
@@ -36,15 +38,16 @@ function Teams() {
     <>
       <div className="row sticky-top shadow">
         <p className="col-12 fs-5 fw-bold text-light text-center bg-green p-2 m-0">IPL - Teams</p>
-        <button onClick={handleNext}>Next</button>
+        {!gameStatus && <button onClick={handleNext}>Next</button>}
       </div>
-      <div className="row">
-        {teams.map((t) => (
-          <label key={t.teamId} title={t.name} className="col-sm-2 col-md-2 col-lg-2 rounded-2 p-2 border border-2">
-            <input type="radio" name="teams" value={t.teamId} checked={userTeamId == t.teamId} className="d-none" onChange={handleTeamChange} />
-            <img className="img-fluid" src={t.logo} alt={t.name} />
-          </label>))}
-      </div>
+      {!gameStatus ?
+        <div className="row">
+          {teams.map((t) => (
+            <label key={t.teamId} title={t.name} className="col-sm-2 col-md-2 col-lg-2 rounded-2 p-2 border border-2">
+              <input type="radio" name="teams" value={t.teamId} checked={userTeamId == t.teamId} className="d-none" onChange={handleTeamChange} />
+              <img className="img-fluid" src={t.logo} alt={t.name} />
+            </label>))}
+        </div> : <p>Tournament already in Progress you can't select team</p>}
     </>
   );
 }
