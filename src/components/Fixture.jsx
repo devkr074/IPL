@@ -49,11 +49,10 @@ function Fixture() {
                     <div className="col-lg-6 col-md-6 p-2 m-0" key={m.matchId} onClick={() => handleMatch(m)}>
                         <p className="col-12 fw-semibold text-light bg-green rounded-top p-2 m-0">{(m.matchId == 71) ? "Qualifier 1" : (m.matchId == 72) ? "Eliminator" : (m.matchId == 73) ? "Qualifier 2" : (m.matchId == 74) ? "Final" : `Match ${m.matchId}`} • {venues[m.venueId - 1].city}</p>
                         <div className="row py-1 m-0 bg-body-tertiary rounded-bottom">
-                            <div className="col-12 d-flex align-items-center">
+                            <div className="col-12 d-flex align-items-center pb-1">
                                 <img style={{ height: "2rem" }} src={(m.homeTeamId) ? teams[m.homeTeamId - 1].logo : "https://placehold.co/400x400?text=TBA"} alt={(m.homeTeamId) ? teams[m.homeTeamId - 1].name : "TBA"} />
                                 {(m.homeTeamId) ? (m.matchStatus == "Completed") ? <p className='ps-1 col-2 m-0 fw-semibold'>{teams[m.homeTeamId - 1].shortName}</p> : <p className='ps-1 col-12 m-0 fw-semibold'>{teams[m.homeTeamId - 1].name}</p> : <p className='ps-1 col-2 m-0 fw-semibold'>TBA</p>}
                                 {(m.matchStatus == "Completed") && <p className='col-10 fw-semibold m-0 ps-5 d-flex align-items-center'>{handleMatchData(m.matchId, m.homeTeamId).runs}{(handleMatchData(m.matchId, m.homeTeamId).wickets != 10) && "-" + handleMatchData(m.matchId, m.homeTeamId).wickets} ({Math.floor(handleMatchData(m.matchId, m.homeTeamId).balls / 6) + "." + (handleMatchData(m.matchId, m.homeTeamId).balls % 6)})</p>}
-
                             </div>
                             <div className="col-12 d-flex align-items-center pt-1">
                                 <img style={{ height: "2rem" }} src={(m.awayTeamId) ? teams[m.awayTeamId - 1].logo : "https://placehold.co/400x400?text=TBA"} alt={(m.awayTeamId) ? teams[m.awayTeamId - 1].logo : "TBA"} />

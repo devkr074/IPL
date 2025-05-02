@@ -38,15 +38,19 @@ function Teams() {
     <>
       <div className="row sticky-top shadow">
         <p className="col-12 fs-5 fw-bold text-light text-center bg-green p-2 m-0">IPL - Teams</p>
-        {!gameStatus && <button onClick={handleNext}>Next</button>}
       </div>
       {!gameStatus ?
-        <div className="row">
+        <div className="row position-relative">
           {teams.map((t) => (
-            <label key={t.teamId} title={t.name} className="col-sm-2 col-md-2 col-lg-2 rounded-2 p-2 border border-2">
-              <input type="radio" name="teams" value={t.teamId} checked={userTeamId == t.teamId} className="d-none" onChange={handleTeamChange} />
-              <img className="img-fluid" src={t.logo} alt={t.name} />
-            </label>))}
+            <div className="col-6 col-lg-3 col-md-3 p-2">
+              <label key={t.teamId} title={t.name} className="card overflow-hidden">
+                <input type="radio" name="teams" value={t.teamId} checked={userTeamId == t.teamId} className="d-none" onChange={handleTeamChange} />
+                <img className={`p-3 ${userTeamId == t.teamId ? 'bg-green' : ''}`} src={t.logo} alt={t.name} />
+              </label>
+            </div>))}
+          <div className="col-lg-3 p-2 col-12 col-md-3">
+            {!gameStatus && <button className="btn btn-green w-100" onClick={handleNext}>Next</button>}
+          </div>
         </div> : <p>Tournament already in Progress you can't select team</p>}
     </>
   );

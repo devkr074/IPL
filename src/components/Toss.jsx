@@ -158,8 +158,8 @@ function Toss() {
     }
     return (
         <>
-            <div>
-                <p>{matchId == 71 ? "Qualifier 1" : matchId == 72 ? "Eliminator" : matchId == 73 ? "Qualifier 2" : matchId == 74 ? "Final" : "Match #" + matchId}: {teams && teams[fixture[matchId - 1].homeTeamId - 1].shortName} vs {teams && teams[fixture[matchId - 1].awayTeamId - 1].shortName}</p>
+            <div className="row sticky-top shadow">
+                <p className="col-12 fs-5 fw-bold text-light text-center bg-green p-2 m-0">{matchId == 71 ? "Qualifier 1" : matchId == 72 ? "Eliminator" : matchId == 73 ? "Qualifier 2" : matchId == 74 ? "Final" : "Match #" + matchId}: {teams && teams[fixture[matchId - 1].homeTeamId - 1].shortName} vs {teams && teams[fixture[matchId - 1].awayTeamId - 1].shortName}</p>
             </div>
             <div>
                 {(userTeamId == homeTeamId) ?

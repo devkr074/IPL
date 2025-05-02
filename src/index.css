@@ -21,8 +21,12 @@
     }
 }
 
+.bg-purple{
+    background-color: rgb(151, 61, 151);
+}
+
 .fs-7{
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
 .mw-c{
