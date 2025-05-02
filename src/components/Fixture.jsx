@@ -44,22 +44,24 @@ function Fixture() {
             <div className="row sticky-top shadow">
                 <p className="col-12 fs-5 fw-bold text-light text-center bg-green p-2 m-0">IPL - Fixture</p>
             </div>
-            <div className="row">
+            <div className="row m-0">
                 {fixture && fixture.map((m) => (
-                    <div className="col-12 p-2" key={m.matchId} onClick={() => handleMatch(m)}>
+                    <div className="col-lg-6 col-md-6 p-2 m-0" key={m.matchId} onClick={() => handleMatch(m)}>
                         <p className="col-12 fw-semibold text-light bg-green rounded-top p-2 m-0">{(m.matchId == 71) ? "Qualifier 1" : (m.matchId == 72) ? "Eliminator" : (m.matchId == 73) ? "Qualifier 2" : (m.matchId == 74) ? "Final" : `Match ${m.matchId}`} • {venues[m.venueId - 1].city}</p>
-                        <div className="col-12 bg-body-tertiary rounded-bottom">
-                            <div className="col-12 py-1 px-2 d-flex align-items-center pt-2">
-                                <img className='col-1' src={(m.homeTeamId) ? teams[m.homeTeamId - 1].logo : "https://placehold.co/400x400?text=TBA"} alt={(m.homeTeamId) ? teams[m.homeTeamId - 1].name : "TBA"} />
-                                <p className='ps-2 m-0 fw-semibold'>{(m.homeTeamId) ? (m.matchStatus == "Completed") ? teams[m.homeTeamId - 1].shortName : teams[m.homeTeamId - 1].name : "TBA"}</p>
-                                {(m.matchStatus == "Completed") && <p className=' fw-semibold m-0 ps-5'>{handleMatchData(m.matchId, m.homeTeamId).runs}{(handleMatchData(m.matchId, m.homeTeamId).wickets != 10) && "-" + handleMatchData(m.matchId, m.homeTeamId).wickets} ({Math.floor(handleMatchData(m.matchId, m.homeTeamId).balls / 6) + "." + (handleMatchData(m.matchId, m.homeTeamId).balls % 6)})</p>}
+                        <div className="row py-1 m-0 bg-body-tertiary rounded-bottom">
+                            <div className="col-12 d-flex align-items-center">
+                                <img style={{ height: "2rem" }} src={(m.homeTeamId) ? teams[m.homeTeamId - 1].logo : "https://placehold.co/400x400?text=TBA"} alt={(m.homeTeamId) ? teams[m.homeTeamId - 1].name : "TBA"} />
+                                {(m.homeTeamId) ? (m.matchStatus == "Completed") ? <p className='ps-1 col-2 m-0 fw-semibold'>{teams[m.homeTeamId - 1].shortName}</p> : <p className='ps-1 col-12 m-0 fw-semibold'>{teams[m.homeTeamId - 1].name}</p> : <p className='ps-1 col-2 m-0 fw-semibold'>TBA</p>}
+                                {(m.matchStatus == "Completed") && <p className='col-10 fw-semibold m-0 ps-5 d-flex align-items-center'>{handleMatchData(m.matchId, m.homeTeamId).runs}{(handleMatchData(m.matchId, m.homeTeamId).wickets != 10) && "-" + handleMatchData(m.matchId, m.homeTeamId).wickets} ({Math.floor(handleMatchData(m.matchId, m.homeTeamId).balls / 6) + "." + (handleMatchData(m.matchId, m.homeTeamId).balls % 6)})</p>}
+
                             </div>
-                            <div className="col-12 py-1 px-2 d-flex align-items-center">
-                                <img className='col-1' src={(m.awayTeamId) ? teams[m.awayTeamId - 1].logo : "https://placehold.co/400x400?text=TBA"} alt={(m.awayTeamId) ? teams[m.awayTeamId - 1].logo : "TBA"} />
-                                <p className='ps-2 m-0 fw-semibold'>{(m.awayTeamId) ? (m.matchStatus == "Completed") ? teams[m.awayTeamId - 1].shortName : teams[m.awayTeamId - 1].name : "TBA"}</p>
-                                {(m.matchStatus == "Completed") && <p className=' fw-semibold m-0 ps-5'>{handleMatchData(m.matchId, m.awayTeamId).runs}{(handleMatchData(m.matchId, m.awayTeamId).wickets != 10) && "-" + handleMatchData(m.matchId, m.awayTeamId).wickets} ({Math.floor(handleMatchData(m.matchId, m.awayTeamId).balls / 6) + "." + (handleMatchData(m.matchId, m.awayTeamId).balls % 6)})</p>}
+                            <div className="col-12 d-flex align-items-center pt-1">
+                                <img style={{ height: "2rem" }} src={(m.awayTeamId) ? teams[m.awayTeamId - 1].logo : "https://placehold.co/400x400?text=TBA"} alt={(m.awayTeamId) ? teams[m.awayTeamId - 1].logo : "TBA"} />
+                                {(m.awayTeamId) ? (m.matchStatus == "Completed") ? <p className='ps-1 col-2 m-0 fw-semibold'>{teams[m.awayTeamId - 1].shortName}</p> : <p className='ps-1 col-12 m-0 fw-semibold'>{teams[m.awayTeamId - 1].name}</p> : <p className='ps-1 col-2 m-0 fw-semibold'>TBA</p>}
+                                {(m.matchStatus == "Completed") && <p className='col-10 fw-semibold m-0 ps-5 d-flex align-items-center'>{handleMatchData(m.matchId, m.awayTeamId).runs}{(handleMatchData(m.matchId, m.awayTeamId).wickets != 10) && "-" + handleMatchData(m.matchId, m.awayTeamId).wickets} ({Math.floor(handleMatchData(m.matchId, m.awayTeamId).balls / 6) + "." + (handleMatchData(m.matchId, m.awayTeamId).balls % 6)})</p>}
+
                             </div>
-                            <p className='text-truncate text-secondary fw-semibold p-2'>{(m.matchStatus == "Completed") ? <span className='text-info'>{m.matchResult}</span> : (m.tossStatus == "Completed") ? <span className='text-danger'>{m.tossResult}</span> : "Upcoming"}</p>
+                            <p className='col-12 text-truncate text-secondary fs-7 py-1 pt-2 fw-semibold m-0'>{(m.matchStatus == "Completed") ? <span className='text-info'>{m.matchResult}</span> : (m.tossStatus == "Completed") ? <span className='text-danger'>{m.tossResult}</span> : "Upcoming"}</p>
                         </div>
                     </div>))}
             </div>

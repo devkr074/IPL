@@ -92,10 +92,14 @@ function Home() {
                             </div>
                         </> : winnerTeamId ?
                             <>
-                                <p>Winner: {teams[winnerTeamId - 1].shortName}</p>
-                                <p>Runner Up: {teams[runnerUpTeamId - 1].shortName}</p>
-                                <img src={teams[winnerTeamId - 1].logo} alt={teams[winnerTeamId - 1].name} title={teams[winnerTeamId - 1].name} />
-                                <img src={teams[runnerUpTeamId - 1].logo} alt={teams[runnerUpTeamId - 1].name} title={teams[runnerUpTeamId - 1].name} />
+                                <div className="col-12 p-2 d-flex justify-content-between bg-gray">
+                                    <p className="m-0">Winner: {teams[winnerTeamId - 1].shortName}</p>
+                                    <p className="m-0">Runner Up: {teams[runnerUpTeamId - 1].shortName}</p>
+                                </div>
+                                <div className="col-12 p-2 d-flex bg-body-tertiary justify-content-between align-items-center">
+                                    <img className="col-4" src={teams[winnerTeamId - 1].logo} alt={teams[winnerTeamId - 1].name} title={teams[winnerTeamId - 1].name} />
+                                    <img className="col-4" src={teams[runnerUpTeamId - 1].logo} alt={teams[runnerUpTeamId - 1].name} title={teams[runnerUpTeamId - 1].name} />
+                                </div>
                             </> : <p className="bg-body-tertiary fw-semibold p-2 rounded-bottom">No Data Available Currently!</p>}
                 </div>
                 <div className="col-sm-12 col-md-6 col-lg-6 p-2">

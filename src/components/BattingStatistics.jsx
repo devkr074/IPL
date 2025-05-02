@@ -60,72 +60,74 @@ function BattingStatistics() {
                             <p className='col-5 m-0 p-0'>Batter</p>
                             <div className="col-7 m-0 p-0 d-flex">
                                 <p className='col-3 text-center m-0 p-0'>M</p>
-                                <p className='col-3 text-center m-0 p-0'>I</p>
+                                <p className='col-2 text-center m-0 p-0'>I</p>
                                 <p className='col-3 text-center m-0 p-0'>R</p>
-                                <p className='col-3 text-center m-0 p-0'>Avg</p>
+                                <p className='col-4 text-center m-0 p-0'>Avg</p>
                             </div>
                         </div>
                         {mostRuns.map((p) =>
                             <div className="row m-0 p-0 py-2 px-2 border-bottom border-2">
-                                <p className='col-5 fw-semibold text-info m-0 p-0 text-truncate'>{squad[p.playerId - 1].name}</p>
+                                <p className='col-5 fw-semibold m-0 p-0 text-truncate'>{squad[p.playerId - 1].name}</p>
                                 <div className="col-7 m-0 p-0 d-flex">
                                     <p className='col-3 p-0 text-center m-0'>{p.matches}</p>
-                                    <p className='col-3 p-0 text-center m-0'>{p.innings}</p>
+                                    <p className='col-2 p-0 text-center m-0'>{p.innings}</p>
                                     <p className='col-3 text-center fw-bold p-0 m-0'>{p.runs}</p>
-                                    <p className='col-3 text-center p-0 m-0'>{(p.dismissed == 0) ? "-" : (p.runs / p.dismissed).toFixed(2)}</p>
+                                    <p className='col-4 text-center p-0 m-0'>{(p.dismissed == 0) ? "-" : (p.runs / p.dismissed).toFixed(2)}</p>
                                 </div>
                             </div>
                         )}
                     </> : <p>No Data Available Currently!</p>)}
                 {tab == "Highest Score" &&
-                    ((highestScore && highestScore.length != 0) ?
-                        <table>
-                            <thead className='bg-gray'>
-                                <tr>
-                                    <th className='col-8 px-2 py-2'>Batter</th>
-                                    <th className='col-1 px-1 py-2 text-center'>HS</th>
-                                    <th className='col-1 px-1 py-2 text-center'>Balls</th>
-                                    <th className='col-1 px-2 py-2 text-center'>SR</th>
-                                    <th className='col-1 px-2 py-2 text-center'>Vs</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {highestScore.map((p) =>
-                                    <tr className='col-12 border-bottom' key={p.playerId}>
-                                        <td className='text-truncate col-8 px-2 py-2'>{squad[p.playerId - 1].name}</td>
-                                        <th className='col-1 px-1 py-2 text-center'>{p.highestScoreRuns}</th>
-                                        <td className='col-1 px-1 py-2 text-center'>{p.highestScoreBalls}</td>
-                                        <td className='col-1 px-1 py-2 text-center'>{((p.highestScoreRuns / p.highestScoreBalls) * 100).toFixed(2)}</td>
-                                        <td className='col-1 px-1 py-2 text-center'>{teams[p.highestScoreOpponentTeamId - 1].shortName}</td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table> : <p>No Data Available Currently!</p>)}
-                {tab == "Best Batting Average" &&
-                    ((bestBattingAverage && bestBattingAverage.length != 0) ?
-                        <table className='table'>
-                            <thead>
-                                <tr>
-                                    <th>Batter</th>
-                                    <th>M</th>
-                                    <th>I</th>
-                                    <th>R</th>
-                                    <th>Avg</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {bestBattingAverage.map((p) =>
-                                    <tr key={p.playerId}>
-                                        <td>{squad[p.playerId - 1].name}</td>
-                                        <td>{p.matches}</td>
-                                        <td>{p.innings}</td>
-                                        <td>{p.runs}</td>
-                                        <th>{(p.runs / p.dismissed).toFixed(2)}</th>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table> : <p>No Data Available Currently!</p>)}
-                {tab == "Best Batting Strike Rate" &&
+                    ((highestScore && highestScore.length != 0) ? <>
+                        <div className="row m-0 p-0 py-2 px-2 fw-bold bg-gray">
+                            <p className='col-5 m-0 p-0'>Batter</p>
+                            <div className="col-7 m-0 p-0 d-flex">
+                                <p className='col-3 text-center m-0 p-0'>R</p>
+                                <p className='col-2 text-center m-0 p-0'>B</p>
+                                <p className='col-4 text-center m-0 p-0'>SR</p>
+                                <p className='col-3 text-center m-0 p-0'>Vs</p>
+                            </div>
+                        </div>
+                        {highestScore.map((p) =>
+                            <div className="row m-0 p-0 py-2 px-2 border-bottom border-2">
+                                <p className='col-5 fw-semibold m-0 p-0 text-truncate'>{squad[p.playerId - 1].name}</p>
+                                <div className="col-7 m-0 p-0 d-flex">
+                                    <p className='col-3 p-0 text-center fw-bold m-0'>{p.highestScoreRuns}</p>
+                                    <p className='col-2 p-0 text-center m-0'>{p.highestScoreBalls}</p>
+                                    <p className='col-4 text-center p-0 m-0'>{((p.highestScoreRuns / p.highestScoreBalls) * 100).toFixed(2)}</p>
+                                    <p className='col-3 text-center p-0 m-0'>{teams[p.highestScoreOpponentTeamId - 1].shortName}</p>
+                                </div>
+                            </div>
+                        )}
+                    </> : <p>No Data Available Currently!</p>)
+                }
+                {
+                    tab == "Best Batting Average" &&
+                    ((bestBattingAverage && bestBattingAverage.length != 0) ? <>
+                        <div className="row m-0 p-0 py-2 px-2 fw-bold bg-gray">
+                            <p className='col-5 m-0 p-0'>Batter</p>
+                            <div className="col-7 m-0 p-0 d-flex">
+                                <p className='col-3 text-center m-0 p-0'>M</p>
+                                <p className='col-2 text-center m-0 p-0'>I</p>
+                                <p className='col-3 text-center m-0 p-0'>R</p>
+                                <p className='col-4 text-center m-0 p-0'>Avg</p>
+                            </div>
+                        </div>
+                        {bestBattingAverage.map((p) =>
+                            <div className="row m-0 p-0 py-2 px-2 border-bottom border-2">
+                                <p className='col-5 fw-semibold m-0 p-0 text-truncate'>{squad[p.playerId - 1].name}</p>
+                                <div className="col-7 m-0 p-0 d-flex">
+                                    <p className='col-3 p-0 text-center m-0'>{p.matches}</p>
+                                    <p className='col-2 p-0 text-center m-0'>{p.innings}</p>
+                                    <p className='col-3 text-center p-0 m-0'>{p.runs}</p>
+                                    <p className='col-4 fw-bold text-center p-0 m-0'>{(p.dismissed == 0) ? "-" : (p.runs / p.dismissed).toFixed(2)}</p>
+                                </div>
+                            </div>
+                        )}
+                    </> : <p>No Data Available Currently!</p>)
+                }
+                {
+                    tab == "Best Batting Strike Rate" &&
                     ((bestBattingStrikeRate && bestBattingStrikeRate.length != 0) ?
                         <table className='table'>
                             <thead>
@@ -148,8 +150,10 @@ function BattingStatistics() {
                                     </tr>
                                 )}
                             </tbody>
-                        </table> : <p>No Data Available Currently!</p>)}
-                {tab == "Most Hundreds" &&
+                        </table> : <p>No Data Available Currently!</p>)
+                }
+                {
+                    tab == "Most Hundreds" &&
                     ((mostHundreds && mostHundreds.length != 0) ?
                         <table className='table'>
                             <thead>
@@ -172,8 +176,10 @@ function BattingStatistics() {
                                     </tr>
                                 )}
                             </tbody>
-                        </table> : <p>No Data Available Currently!</p>)}
-                {tab == "Most Fifties" &&
+                        </table> : <p>No Data Available Currently!</p>)
+                }
+                {
+                    tab == "Most Fifties" &&
                     ((mostFifties && mostFifties.length != 0) ?
                         <table className='table'>
                             <thead>
@@ -196,8 +202,10 @@ function BattingStatistics() {
                                     </tr>
                                 )}
                             </tbody>
-                        </table> : <p>No Data Available Currently!</p>)}
-                {tab == "Most Fours" &&
+                        </table> : <p>No Data Available Currently!</p>)
+                }
+                {
+                    tab == "Most Fours" &&
                     ((mostFours && mostFours.length != 0) ?
                         <table className='table'>
                             <thead>
@@ -220,8 +228,10 @@ function BattingStatistics() {
                                     </tr>
                                 )}
                             </tbody>
-                        </table> : <p>No Data Available Currently!</p>)}
-                {tab == "Most Sixes" &&
+                        </table> : <p>No Data Available Currently!</p>)
+                }
+                {
+                    tab == "Most Sixes" &&
                     ((mostSixes && mostSixes.length != 0) ?
                         <table className='table'>
                             <thead>
@@ -244,8 +254,9 @@ function BattingStatistics() {
                                     </tr>
                                 )}
                             </tbody>
-                        </table> : <p>No Data Available Currently!</p>)}
-            </div>
+                        </table> : <p>No Data Available Currently!</p>)
+                }
+            </div >
         </>
     );
 }

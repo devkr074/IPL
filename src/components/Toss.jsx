@@ -15,43 +15,28 @@ function Toss() {
     const [flipped, setFlipped] = useState(false);
     const [opponentCall, setOpponentCall] = useState();
     const [userCall, setUserCall] = useState();
-    const [lastTossStatus, setLastTossStatus] = useState();
-    const [isUserMatch, setIsUserMatch] = useState();
-    const [thisTossStatus, setThisTossStatus] = useState();
-    const [gameStatus, setGameStatus] = useState();
     useEffect(() => {
         document.title = "IPL - Toss";
-        setGameStatus(localStorage.getItem("status"));
-        if (gameStatus) {
-            const fixture = JSON.parse(localStorage.getItem("fixture"));
-            const teams = JSON.parse(localStorage.getItem("teams"));
-            const tossOutcome = localStorage.getItem("tossOutcome");
-            const userTeamId = Number(localStorage.getItem("userTeamId"));
-            const optionOutcome = localStorage.getItem("optionOutcome");
-            setLastTossStatus(fixture[matchId - 2]?.tossStatus);
-            if (fixture[matchId - 1]?.homeTeamId == userTeamId || fixture[matchId - 1]?.awayTeamId == userTeamId) {
-                setIsUserMatch(true);
-            }
-            else {
-                setIsUserMatch(false);
-            }
-            setThisTossStatus(fixture[matchId - 1].tossStatus);
-            setFixture(fixture);
-            setHomeTeamId(fixture[matchId - 1].homeTeamId);
-            setTeams(teams);
-            setTossOutcome(tossOutcome);
-            setUserTeamId(userTeamId);
-            setOptionOutcome(optionOutcome);
-            const opponentCall = localStorage.getItem("opponentCall");
-            if (opponentCall) {
-                setFlipped(true);
-                setOpponentCall(opponentCall);
-            }
-            const userCall = localStorage.getItem("userCall");
-            if (userCall) {
-                setFlipped(true);
-                setUserCall(userCall);
-            }
+        const fixture = JSON.parse(localStorage.getItem("fixture"));
+        const teams = JSON.parse(localStorage.getItem("teams"));
+        const tossOutcome = localStorage.getItem("tossOutcome");
+        const userTeamId = Number(localStorage.getItem("userTeamId"));
+        const optionOutcome = localStorage.getItem("optionOutcome");
+        setFixture(fixture);
+        setHomeTeamId(fixture[matchId - 1].homeTeamId);
+        setTeams(teams);
+        setTossOutcome(tossOutcome);
+        setUserTeamId(userTeamId);
+        setOptionOutcome(optionOutcome);
+        const opponentCall = localStorage.getItem("opponentCall");
+        if (opponentCall) {
+            setFlipped(true);
+            setOpponentCall(opponentCall);
+        }
+        const userCall = localStorage.getItem("userCall");
+        if (userCall) {
+            setFlipped(true);
+            setUserCall(userCall);
         }
     }, []);
     const navigate = useNavigate();
@@ -173,43 +158,39 @@ function Toss() {
     }
     return (
         <>
-            {gameStatus ?
-            <>
-                <div>
-                    <p>{matchId == 71 ? "Qualifier 1" : matchId == 72 ? "Eliminator" : matchId == 73 ? "Qualifier 2" : matchId == 74 ? "Final" : "Match #" + matchId}: {teams && teams[fixture[matchId - 1].homeTeamId - 1].shortName} vs {teams && teams[fixture[matchId - 1].awayTeamId - 1].shortName}</p>
-                </div>
-                <div>
-            {(lastTossStatus == "Completed" && isUserMatch && thisTossStatus != "Completed") ?
-                <div>
-                    {(userTeamId == homeTeamId) ?
-                        <div>
-                            <button onClick={(!flipped) ? handleFlip : undefined}>{(!flipped) ? "Flip" : "Flipped"}</button>
-                            {(flipped) && <p>{teams && teams[fixture[matchId - 1].awayTeamId - 1].name} ask for {opponentCall}</p>}
-                            {(flipped) && <p>It's {tossOutcome}</p>}
-                            {(flipped) ? (opponentCall == tossOutcome) ? <p>{teams && teams[fixture[matchId - 1].awayTeamId - 1].name} opt to {optionOutcome}</p> :
-                                <div>
-                                    <p>{teams && teams[fixture[matchId - 1].homeTeamId - 1].name} won the toss</p>
-                                    <button value="Bat" onClick={handleOptionChange}>Bat</button>
-                                    <button value="Bowl" onClick={handleOptionChange}>Bowl</button>
-                                </div> : <></>}
-                            {optionOutcome ? <button onClick={handleMatch}>Next</button> : <></>}
-                        </div> :
-                        <div>
-                            <p>{(!flipped) ? "Flipping..." : "Flipped"}</p>
+            <div>
+                <p>{matchId == 71 ? "Qualifier 1" : matchId == 72 ? "Eliminator" : matchId == 73 ? "Qualifier 2" : matchId == 74 ? "Final" : "Match #" + matchId}: {teams && teams[fixture[matchId - 1].homeTeamId - 1].shortName} vs {teams && teams[fixture[matchId - 1].awayTeamId - 1].shortName}</p>
+            </div>
+            <div>
+                {(userTeamId == homeTeamId) ?
+                    <div>
+                        <button onClick={(!flipped) ? handleFlip : undefined}>{(!flipped) ? "Flip" : "Flipped"}</button>
+                        {(flipped) && <p>{teams && teams[fixture[matchId - 1].awayTeamId - 1].name} ask for {opponentCall}</p>}
+                        {(flipped) && <p>It's {tossOutcome}</p>}
+                        {(flipped) ? (opponentCall == tossOutcome) ? <p>{teams && teams[fixture[matchId - 1].awayTeamId - 1].name} opt to {optionOutcome}</p> :
                             <div>
-                                <button className={userCall == "Heads" ? 'border border-5 border-dark btn fw-semibold fs-5 btn-green' : 'btn fw-semibold fs-5 btn-green border border-5 border-light'} value="Heads" onClick={(!flipped) ? handleTossCallSelect : undefined}>Heads</button>
-                                <button className={userCall == "Tails" ? 'border border-5 border-dark btn fw-semibold fs-5 btn-green' : 'btn fw-semibold fs-5 btn-green border border-5 border-light'} value="Tails" onClick={(!flipped) ? handleTossCallSelect : undefined}>Tails</button>
-                            </div>
-                            {(flipped) && <p>It's {tossOutcome}</p>}
-                            {(flipped) ? (userCall != tossOutcome) ? <p>{teams && teams[fixture[matchId - 1].homeTeamId - 1].name} opt to {optionOutcome}</p> :
-                                <div>
-                                    <p>{teams && teams[fixture[matchId - 1].awayTeamId - 1].name} won the toss</p>
-                                    <button className={optionOutcome == "Bat" ? 'border border-5 border-dark btn fw-semibold fs-5 btn-green' : 'btn fw-semibold fs-5 btn-green border border-5 border-light'} value="Bat" onClick={handleOptionChange}>Bat</button>
-                                    <button className={optionOutcome == "Bowl" ? 'border border-5 border-dark btn fw-semibold fs-5 btn-green' : 'btn fw-semibold fs-5 btn-green border border-5 border-light'} value="Bowl" onClick={handleOptionChange}>Bowl</button>
-                                </div> : <></>}
-                            {(optionOutcome) && <button onClick={handleMatch}>Next</button>}
-                        </div>}
-                </div> : (!isUserMatch) ? <p>This is not your team match</p> : (lastTossStatus != "Completed") ? <p>Previous match not completed</p> : <p>Toss already Completed</p>}</div></> : <p>Select Team First</p>}
+                                <p>{teams && teams[fixture[matchId - 1].homeTeamId - 1].name} won the toss</p>
+                                <button value="Bat" onClick={handleOptionChange}>Bat</button>
+                                <button value="Bowl" onClick={handleOptionChange}>Bowl</button>
+                            </div> : <></>}
+                        {optionOutcome ? <button onClick={handleMatch}>Next</button> : <></>}
+                    </div> :
+                    <div>
+                        <p>{(!flipped) ? "Flipping..." : "Flipped"}</p>
+                        <div>
+                            <button className={userCall=="Heads" ? 'border border-5 border-dark btn fw-semibold fs-5 btn-green' : 'btn fw-semibold fs-5 btn-green border border-5 border-light'} value="Heads" onClick={(!flipped) ? handleTossCallSelect : undefined}>Heads</button>
+                            <button className={userCall=="Tails" ? 'border border-5 border-dark btn fw-semibold fs-5 btn-green' : 'btn fw-semibold fs-5 btn-green border border-5 border-light'} value="Tails" onClick={(!flipped) ? handleTossCallSelect : undefined}>Tails</button>
+                        </div>
+                        {(flipped) && <p>It's {tossOutcome}</p>}
+                        {(flipped) ? (userCall != tossOutcome) ? <p>{teams && teams[fixture[matchId - 1].homeTeamId - 1].name} opt to {optionOutcome}</p> :
+                            <div>
+                                <p>{teams && teams[fixture[matchId - 1].awayTeamId - 1].name} won the toss</p>
+                                <button className={optionOutcome=="Bat" ? 'border border-5 border-dark btn fw-semibold fs-5 btn-green' : 'btn fw-semibold fs-5 btn-green border border-5 border-light'} value="Bat" onClick={handleOptionChange}>Bat</button>
+                                <button className={optionOutcome=="Bowl" ? 'border border-5 border-dark btn fw-semibold fs-5 btn-green' : 'btn fw-semibold fs-5 btn-green border border-5 border-light'} value="Bowl" onClick={handleOptionChange}>Bowl</button>
+                            </div> : <></>}
+                        {(optionOutcome) && <button onClick={handleMatch}>Next</button>}
+                    </div>}
+            </div>
         </>
     );
 }
