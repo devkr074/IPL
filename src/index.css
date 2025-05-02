@@ -1,47 +1,65 @@
-.accordion-button:not(.collapsed) {
-    background-color: #009270;
-    color: white;
-}
-
-.bg-green {
-    background-color: #009270;
-}
-
-.bg-gray {
-    background-color: #ecebeb;
-}
-
-.btn-green {
-    background-color: #009270 !important;
-    color: #fff !important;
-
-    &:focus,
-    &:hover {
-        background-color: #008364 !important;
-    }
-}
-
-.bg-purple{
-    background-color: rgb(151, 61, 151);
-}
-
-.fs-7{
-    font-size: 0.85rem;
-}
-
-.mw-c{
-    min-width: max-content;
-}
-
 body {
     overflow: hidden;
 }
 
 #root {
     width: 50vw;
-    scrollbar-width: none;
     border: 2px solid #ecebeb;
     border-radius: 8px;
+    scrollbar-width: none;
+}
+
+.bg-green {
+    background-color: #009270;
+}
+
+.btn-green {
+    color: #fff;
+    background-color: #009270;
+    border: none;
+    border-radius: 0.375rem;
+    outline: none;
+
+    &:active {
+        background-color: #219a7a;
+    }
+
+    &:focus {
+        background-color: #219a7a;
+    }
+
+    &:hover {
+        background-color: #219a7a;
+    }
+}
+
+.fs-7 {
+    font-size: 1.1rem;
+}
+
+.bg-gray {
+    background-color: #ecebeb;
+}
+
+.cp {
+    cursor: pointer;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #009270;
+    color: white;
+}
+
+.bg-purple {
+    background-color: rgb(151, 61, 151);
+}
+
+.fs-8 {
+    font-size: 0.85rem;
+}
+
+.mw-c {
+    min-width: max-content;
 }
 
 @media screen and (max-width: 700px) {

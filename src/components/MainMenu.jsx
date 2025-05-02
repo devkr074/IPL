@@ -2,32 +2,29 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import handleMatch from "../utils/handleMatch.js";
 function MainMenu() {
-    const [fixture, setFixture] = useState();
-    const [nextMatch, setNextMatch] = useState();
-    const [runnerUpTeamId, setRunnerUpTeamId] = useState();
+    const [status, setStatus] = useState();
     const [teams, setTeams] = useState();
     const [venues, setVenues] = useState();
+    const [fixture, setFixture] = useState();
+    const [nextMatch, setNextMatch] = useState();
     const [winnerTeamId, setWinnerTeamId] = useState();
-    const [gameStatus, setGameStatus] = useState();
+    const [runnerUpTeamId, setRunnerUpTeamId] = useState();
     useEffect(() => {
         document.title = "IPL - Main Menu";
-        const fixture = JSON.parse(localStorage.getItem("fixture"));
-        const teams = JSON.parse(localStorage.getItem("teams"));
-        const venues = JSON.parse(localStorage.getItem("venues"));
-        setGameStatus(localStorage.getItem("status"));
-        setFixture(fixture);
-        setTeams(teams);
-        setVenues(venues);
+        setStatus(localStorage.getItem("status"));
+        setTeams(JSON.parse(localStorage.getItem("teams")));
+        setVenues(JSON.parse(localStorage.getItem("venues")));
+        setFixture(JSON.parse(localStorage.getItem("fixture")));
     }, []);
     useEffect(() => {
-        if (gameStatus) {
+        if (status) {
             handleMatch();
             const nextMatch = JSON.parse(localStorage.getItem("nextMatch"));
-            const runnerUpTeamId = Number(localStorage.getItem("runnerUpTeamId"));
             const winnerTeamId = Number(localStorage.getItem("winnerTeamId"));
+            const runnerUpTeamId = Number(localStorage.getItem("runnerUpTeamId"));
             setNextMatch(nextMatch);
-            setRunnerUpTeamId(runnerUpTeamId);
             setWinnerTeamId(winnerTeamId);
+            setRunnerUpTeamId(runnerUpTeamId);
         }
     }, [fixture]);
     const navigate = useNavigate();
@@ -42,12 +39,6 @@ function MainMenu() {
     function handleFixture() {
         navigate("/fixture");
     }
-    function handleSquad() {
-        navigate("/squad");
-    }
-    function handleVenues() {
-        navigate("/venues");
-    }
     function handlePointsTable() {
         navigate("/points-table");
     }
@@ -57,56 +48,62 @@ function MainMenu() {
     function handleBowlingStatistics() {
         navigate("/bowling-statistics");
     }
+    function handleSquad() {
+        navigate("/squad");
+    }
+    function handleVenues() {
+        navigate("/venues");
+    }
     return (
         <>
-            <div className="row sticky-top shadow">
+            <div className="row border-bottom border-2 sticky-top">
                 <p className="col-12 fs-5 fw-bold text-light text-center bg-green p-2 m-0">IPL - Main Menu</p>
             </div>
-            {gameStatus ?
+            {(status) ?
                 <div className="row">
                     <div className="col-sm-12 col-md-6 col-lg-6 p-2">
-                        <p className="col-12 fw-semibold text-light bg-green rounded-top p-2 m-0">{winnerTeamId ? "Tournament Result" : "Next Match"}</p>
-                        {nextMatch ?
+                        <p className="col-12 fw-semibold text-light bg-green p-2 rounded-top m-0">{(winnerTeamId) ? "Tournament Result" : "Next Match"}</p>
+                        {(nextMatch) ?
                             <>
-                                <div className="col-12 p-2 d-flex justify-content-between bg-gray">
-                                    <p className="m-0">{nextMatch.matchId == 71 ? "Qualifier 1" : nextMatch.matchId == 72 ? "Eliminator" : nextMatch.matchId == 73 ? "Qualifier 2" : nextMatch.matchId == 74 ? "Final" : "Match #" + nextMatch.matchId}</p>
+                                <div className="col-12 d-flex justify-content-between bg-gray p-2">
+                                    <p className="m-0">{(nextMatch.matchId == 71) ? "Qualifier 1" : (nextMatch.matchId == 72) ? "Eliminator" : (nextMatch.matchId == 73) ? "Qualifier 2" : (nextMatch.matchId == 74) ? "Final" : `Match #${nextMatch.matchId}`}</p>
                                     <p className="m-0">Venue: {venues[nextMatch.venueId - 1].city}</p>
                                 </div>
-                                <div className="col-12 p-2 d-flex bg-body-tertiary align-items-center">
-                                    <img className="col-5" src={teams[nextMatch.homeTeamId - 1].logo} alt={teams[nextMatch.homeTeamId - 1].name} title={teams[nextMatch.homeTeamId - 1].name} />
-                                    <p className="col-2 m-0 text-center fs-5 fw-semibold">v/s</p>
-                                    <img className="col-5" src={teams[nextMatch.awayTeamId - 1].logo} alt={teams[nextMatch.awayTeamId - 1].name} title={teams[nextMatch.awayTeamId - 1].name} />
+                                <div className="col-12 d-flex align-items-center bg-body-tertiary rounded-bottom p-2">
+                                    <img src={teams[nextMatch.homeTeamId - 1].logo} alt={teams[nextMatch.homeTeamId - 1].name} title={teams[nextMatch.homeTeamId - 1].name} className="col-5" />
+                                    <p className="col-2 fs-5 fw-semibold text-center m-0">v/s</p>
+                                    <img src={teams[nextMatch.awayTeamId - 1].logo} alt={teams[nextMatch.awayTeamId - 1].name} title={teams[nextMatch.awayTeamId - 1].name} className="col-5" />
                                 </div>
-                                <button className="fs-5 fw-semibold text-light btn btn-green col-12 rounded-0 rounded-bottom" onClick={() => handlePlay(nextMatch.matchId)}>Play</button>
-                            </> : winnerTeamId ?
+                                <button className="col-12 btn-green fs-5 fw-semibold py-1 rounded-0 rounded-bottom" onClick={() => handlePlay(nextMatch.matchId)}>Play</button>
+                            </> : (winnerTeamId) ?
                                 <>
-                                    <div className="col-12 p-2 d-flex justify-content-between bg-gray">
+                                    <div className="col-12 d-flex justify-content-between bg-gray p-2">
                                         <p className="m-0">Winner: {teams[winnerTeamId - 1].shortName}</p>
                                         <p className="m-0">Runner Up: {teams[runnerUpTeamId - 1].shortName}</p>
                                     </div>
-                                    <div className="col-12 p-2 d-flex bg-body-tertiary justify-content-between align-items-center">
-                                        <img className="col-4" src={teams[winnerTeamId - 1].logo} alt={teams[winnerTeamId - 1].name} title={teams[winnerTeamId - 1].name} />
-                                        <img className="col-4" src={teams[runnerUpTeamId - 1].logo} alt={teams[runnerUpTeamId - 1].name} title={teams[runnerUpTeamId - 1].name} />
+                                    <div className="col-12 d-flex align-items-center justify-content-between bg-body-tertiary p-2 rounded-bottom">
+                                        <img src={teams[winnerTeamId - 1].logo} alt={teams[winnerTeamId - 1].name} title={teams[winnerTeamId - 1].name} className="col-4" />
+                                        <img src={teams[runnerUpTeamId - 1].logo} alt={teams[runnerUpTeamId - 1].name} title={teams[runnerUpTeamId - 1].name} className="col-4" />
                                     </div>
-                                </> : <p className="bg-body-tertiary fw-semibold p-2 rounded-bottom">No Data Available Currently!</p>}
+                                </> : <p className="fw-semibold bg-body-tertiary p-2 rounded-bottom">No Data Available Currently!</p>}
                     </div>
-                    <div className="col-sm-12 col-md-6 col-lg-6 p-2 d-flex flex-column gap-3">
-                        <button className="h-100 w-100 btn btn-green text-light fs-5 fw-semibold p-3" onClick={handleFixture}>Fixture</button>
-                        <button className="h-100 btn btn-green text-light fs-5 fw-semibold p-3" onClick={handlePointsTable}>Points Table</button>
-                    </div>
-                    <div className="col-sm-12 col-md-6 col-lg-6 p-2">
-                        <button className="w-100 p-3 btn btn-green text-light fs-5 fw-semibold" onClick={handleBattingStatistics}>Batting Statistics</button>
+                    <div className="col-sm-12 col-md-6 col-lg-6 d-flex flex-column gap-3 p-2">
+                        <button className="btn-green h-100 fs-5 fw-semibold p-3" onClick={handleFixture}>Fixture</button>
+                        <button className="btn-green h-100 fs-5 fw-semibold p-3" onClick={handlePointsTable}>Points Table</button>
                     </div>
                     <div className="col-sm-12 col-md-6 col-lg-6 p-2">
-                        <button className="w-100 p-3 btn btn-green text-light fs-5 fw-semibold" onClick={handleBowlingStatistics}>Bowling Statistics</button>
+                        <button className="btn-green w-100 fs-5 fw-semibold p-3" onClick={handleBattingStatistics}>Batting Statistics</button>
                     </div>
                     <div className="col-sm-12 col-md-6 col-lg-6 p-2">
-                        <button className="w-100 p-3 btn btn-green text-light fs-5 fw-semibold" onClick={handleSquad}>Squad</button>
+                        <button className="btn-green w-100 fs-5 fw-semibold p-3" onClick={handleBowlingStatistics}>Bowling Statistics</button>
                     </div>
                     <div className="col-sm-12 col-md-6 col-lg-6 p-2">
-                        <button className="w-100 p-3 btn btn-green text-light fs-5 fw-semibold" onClick={handleVenues}>Venues</button>
+                        <button className="btn-green w-100 fs-5 fw-semibold p-3" onClick={handleSquad}>Squad</button>
                     </div>
-                </div> : <p>Tournament not started first select team</p>}
+                    <div className="col-sm-12 col-md-6 col-lg-6 p-2">
+                        <button className="btn-green w-100 fs-5 fw-semibold p-3" onClick={handleVenues}>Venues</button>
+                    </div>
+                </div> : <div role="alert" className="alert fs-7 fw-semibold text-light bg-danger my-2">No Team Selected! Please Select a Team.</div>}
         </>
     );
 }
