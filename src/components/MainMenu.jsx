@@ -3,28 +3,25 @@ import { useNavigate } from "react-router-dom";
 import handleMatch from "../utils/handleMatch.js";
 function MainMenu() {
     const [status, setStatus] = useState();
-    const [teams, setTeams] = useState();
-    const [venues, setVenues] = useState();
-    const [fixture, setFixture] = useState();
     const [nextMatch, setNextMatch] = useState();
     const [winnerTeamId, setWinnerTeamId] = useState();
     const [runnerUpTeamId, setRunnerUpTeamId] = useState();
+    const [fixture, setFixture] = useState();
+    const [venues, setVenues] = useState();
+    const [teams, setTeams] = useState();
     useEffect(() => {
         document.title = "IPL - Main Menu";
         setStatus(localStorage.getItem("status"));
-        setTeams(JSON.parse(localStorage.getItem("teams")));
-        setVenues(JSON.parse(localStorage.getItem("venues")));
         setFixture(JSON.parse(localStorage.getItem("fixture")));
+        setVenues(JSON.parse(localStorage.getItem("venues")));
+        setTeams(JSON.parse(localStorage.getItem("teams")));
     }, []);
     useEffect(() => {
         if (status) {
             handleMatch();
-            const nextMatch = JSON.parse(localStorage.getItem("nextMatch"));
-            const winnerTeamId = Number(localStorage.getItem("winnerTeamId"));
-            const runnerUpTeamId = Number(localStorage.getItem("runnerUpTeamId"));
-            setNextMatch(nextMatch);
-            setWinnerTeamId(winnerTeamId);
-            setRunnerUpTeamId(runnerUpTeamId);
+            setNextMatch(JSON.parse(localStorage.getItem("nextMatch")));
+            setWinnerTeamId(Number(localStorage.getItem("winnerTeamId")));
+            setRunnerUpTeamId(Number(localStorage.getItem("runnerUpTeamId")));
         }
     }, [fixture]);
     const navigate = useNavigate();

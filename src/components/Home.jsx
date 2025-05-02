@@ -1,9 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 function Home() {
-    const [teams, setTeams] = useState();
-    const [squad, setSquad] = useState();
-    const [venues, setVenues] = useState();
     const [status, setStatus] = useState();
     const [orangeCap, setOrangeCap] = useState();
     const [purpleCap, setPurpleCap] = useState();
@@ -11,28 +8,21 @@ function Home() {
     const [winnerTeamId, setWinnerTeamId] = useState();
     const [runnerUpTeamId, setRunnerUpTeamId] = useState();
     const [tableTopper, setTableTopper] = useState();
+    const [squad, setSquad] = useState();
+    const [teams, setTeams] = useState();
+    const [venues, setVenues] = useState();
     useEffect(() => {
         document.title = "IPL - Indian Premier League";
-        const teams = JSON.parse(localStorage.getItem("teams"));
-        const squad = JSON.parse(localStorage.getItem("squad"));
-        const venues = JSON.parse(localStorage.getItem("venues"));
-        const status = localStorage.getItem("status");
-        const orangeCap = JSON.parse(localStorage.getItem("orangeCap"));
-        const purpleCap = JSON.parse(localStorage.getItem("purpleCap"));
-        const nextMatch = JSON.parse(localStorage.getItem("nextMatch"));
-        const winnerTeamId = Number(localStorage.getItem("winnerTeamId"));
-        const runnerUpTeamId = Number(localStorage.getItem("runnerUpTeamId"));
-        const tableTopper = JSON.parse(localStorage.getItem("tableTopper"));
-        setTeams(teams);
-        setSquad(squad);
-        setVenues(venues);
-        setStatus(status);
-        setOrangeCap(orangeCap);
-        setPurpleCap(purpleCap);
-        setNextMatch(nextMatch);
-        setWinnerTeamId(winnerTeamId);
-        setRunnerUpTeamId(runnerUpTeamId);
-        setTableTopper(tableTopper);
+        setStatus(localStorage.getItem("status"));
+        setOrangeCap(JSON.parse(localStorage.getItem("orangeCap")));
+        setPurpleCap(JSON.parse(localStorage.getItem("purpleCap")));
+        setNextMatch(JSON.parse(localStorage.getItem("nextMatch")));
+        setWinnerTeamId(Number(localStorage.getItem("winnerTeamId")));
+        setRunnerUpTeamId(Number(localStorage.getItem("runnerUpTeamId")));
+        setTableTopper(JSON.parse(localStorage.getItem("tableTopper")));
+        setSquad(JSON.parse(localStorage.getItem("squad")));
+        setTeams(JSON.parse(localStorage.getItem("teams")));
+        setVenues(JSON.parse(localStorage.getItem("venues")));
     }, []);
     const navigate = useNavigate();
     function handleResumeTournament() {

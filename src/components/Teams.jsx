@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import teams from "../data/teams.json";
-import fixture from "../data/fixture.json";
-import pointsTable from "../data/pointsTable.json";
 import squad from "../data/squad.json";
 import venues from "../data/venues.json";
+import fixture from "../data/fixture.json";
+import pointsTable from "../data/pointsTable.json";
 function Teams() {
-  const [userTeamId, setUserTeamId] = useState(1);
   const [status, setStatus] = useState();
+  const [userTeamId, setUserTeamId] = useState(1);
   useEffect(() => {
     document.title = "IPL - Teams";
     setStatus(localStorage.getItem("status"));
@@ -17,21 +17,21 @@ function Teams() {
     setUserTeamId(e.target.value);
   }
   function handleNext() {
-    localStorage.setItem("teams", JSON.stringify(teams));
     localStorage.setItem("status", true);
+    localStorage.setItem("userTeamId", userTeamId);
     localStorage.setItem("orangeCap", null);
     localStorage.setItem("purpleCap", null);
     localStorage.setItem("nextMatch", null);
     localStorage.setItem("winnerTeamId", null);
     localStorage.setItem("runnerUpTeamId", null);
     localStorage.setItem("tableTopper", null);
-    localStorage.setItem("userTeamId", userTeamId);
+    localStorage.setItem("squad", JSON.stringify(squad));
+    localStorage.setItem("teams", JSON.stringify(teams));
+    localStorage.setItem("venues", JSON.stringify(venues));
     localStorage.setItem("fixture", JSON.stringify(fixture));
     localStorage.setItem("pointsTable", JSON.stringify(pointsTable));
     localStorage.setItem("battingStatistics", null);
     localStorage.setItem("bowlingStatistics", null);
-    localStorage.setItem("squad", JSON.stringify(squad));
-    localStorage.setItem("venues", JSON.stringify(venues));
     navigate("/main-menu");
   }
   return (

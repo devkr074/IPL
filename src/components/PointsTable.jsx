@@ -1,46 +1,46 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 function PointsTable() {
+    const [status, setStatus] = useState();
     const [pointsTable, setPointsTable] = useState();
     const [teams, setTeams] = useState();
     useEffect(() => {
         document.title = "IPL - Points Table";
-        const pointsTable = JSON.parse(localStorage.getItem("pointsTable"));
-        const teams = JSON.parse(localStorage.getItem("teams"));
-        pointsTable.sort((a, b) => ((a.points == b.points) ? (b.netRunRate - a.netRunRate) : (b.points - a.points)));
-        setPointsTable(pointsTable);
-        setTeams(teams);
+        setStatus(localStorage.getItem("status"));
+        setPointsTable(JSON.parse(localStorage.getItem("pointsTable")));
+        setTeams(JSON.parse(localStorage.getItem("teams")));
     }, []);
     return (
         <>
-            <div className="row sticky-top shadow">
+            <div className="row border-bottom border-2 sticky-top">
                 <p className="col-12 fs-5 fw-bold text-light text-center bg-green p-2 m-0">IPL - Points Table</p>
             </div>
-            <div className='row p-0'>
-                <div className="row m-0 p-0 py-2 px-2 fw-bold bg-gray">
-                    <p className='col-3 m-0 p-0 fs-7'>Team</p>
-                    <div className="col-9 m-0 p-0 d-flex fs-7">
-                        <p className='col-2 text-center m-0 p-0'>P</p>
-                        <p className='col-2 text-center m-0 p-0'>W</p>
-                        <p className='col-2 text-center m-0 p-0'>L</p>
-                        <p className='col-2 text-center m-0 p-0'>T</p>
-                        <p className='col-2 text-center m-0 p-0'>PTS</p>
-                        <p className='col-2 text-center m-0 p-0'>NRR</p>
-                    </div>
-                </div>
-                {pointsTable && pointsTable.map((t) => (
-                    <div className="row m-0 p-0 py-2 px-2 border-bottom border-2">
-                        <p className='col-3 fw-semibold m-0 p-0 text-truncate fs-7 d-flex align-items-center'><img className='me-1' style={{ height: "2rem" }} src={teams[t.teamId - 1].logo} alt={teams[t.teamId - 1].name} />{teams[t.teamId - 1].shortName}</p>
-                        <div className="col-9 m-0 p-0 d-flex align-items-center">
-                            <p className='col-2 p-0 text-center m-0'>{t.played}</p>
-                            <p className='col-2 p-0 text-center m-0'>{t.won}</p>
-                            <p className='col-2 p-0 text-center m-0'>{t.lost}</p>
-                            <p className='col-2 p-0 text-center m-0'>{t.tied}</p>
-                            <p className='col-2 p-0 text-center m-0 fw-bold'>{t.points}</p>
-                            <p className='col-2 p-0 text-center m-0'>{(t.netRunRate > 0) ? ("+" + t.netRunRate.toFixed(3)) : (t.netRunRate.toFixed(3))}</p>
+            {(status) ?
+                <div className="row">
+                    <div className="row fs-8 fw-bold bg-gray px-0 py-1 m-0">
+                        <p className="col-3 m-0">Teams</p>
+                        <div className="col-9 d-flex">
+                            <p className="col-2 text-center m-0">P</p>
+                            <p className="col-2 text-center m-0">W</p>
+                            <p className="col-2 text-center m-0">L</p>
+                            <p className="col-2 text-center m-0">T</p>
+                            <p className="col-2 text-center m-0">PTS</p>
+                            <p className="col-2 text-end m-0">NRR</p>
                         </div>
                     </div>
-                ))}
-            </div>
+                    {(pointsTable) && pointsTable.map((t) => (
+                        <div key={t.teamId} className="row fs-8 border-bottom px-0 py-1 m-0">
+                            <p className="col-3 d-flex align-items-center fw-semibold text-truncate m-0"><img src={teams[t.teamId - 1].logo} alt={teams[t.teamId - 1].name} className="img" />{teams[t.teamId - 1].shortName}</p>
+                            <div className="col-9 d-flex align-items-center">
+                                <p className="col-2 text-center m-0">{t.played}</p>
+                                <p className="col-2 text-center m-0">{t.won}</p>
+                                <p className="col-2 text-center m-0">{t.lost}</p>
+                                <p className="col-2 text-center m-0">{t.tied}</p>
+                                <p className="col-2 fw-bold text-center m-0">{t.points}</p>
+                                <p className="col-2 text-end m-0">{(t.netRunRate > 0) ? `+${t.netRunRate.toFixed(3)}` : `${t.netRunRate.toFixed(3)}`}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div> : <div role="alert" className="alert fs-7 fw-semibold text-light bg-danger my-2">No Team Selected! Please Select a Team.</div>}
         </>
     );
 }

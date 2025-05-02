@@ -1,5 +1,6 @@
 body {
     overflow: hidden;
+    user-select: none;
 }
 
 #root {
@@ -45,6 +46,10 @@ body {
     cursor: pointer;
 }
 
+.mw-c {
+    min-width: max-content;
+}
+
 .accordion-button:not(.collapsed) {
     background-color: #009270;
     color: white;
@@ -54,12 +59,12 @@ body {
     background-color: rgb(151, 61, 151);
 }
 
-.fs-8 {
-    font-size: 0.85rem;
+.img {
+    height: 2rem;
 }
 
-.mw-c {
-    min-width: max-content;
+.fs-8 {
+    font-size: 0.85rem;
 }
 
 @media screen and (max-width: 700px) {
