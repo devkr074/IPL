@@ -363,14 +363,14 @@ function Match() {
                                         <>
                                             <div className="row p-0 m-0">
                                                 <div className="col-8 d-flex flex-column fw-semibold">
-                                                    <p className="col-2 fs-5 m-0 text-truncate">{(matchStatus == "First Inning") ? teams[matchData.inning1.teamId - 1].shortName : "Innings Break"}</p>
+                                                    <p className="col-2 fs-5 m-0 text-truncate">{teams[matchData.inning1.teamId - 1].shortName}</p>
                                                     <p className="col-10 fs-4 fw-bold m-0">{matchData.inning1.runs}{matchData.inning1.wickets != 10 && "-" + matchData.inning1.wickets} <span className="fs-5 text-secondary">({Math.floor(matchData.inning1.balls / 6)}{(matchData.inning1.balls % 6 != 0) && "." + (matchData.inning1.balls % 6)})</span></p>
                                                 </div>
                                                 <div className="col-4 d-flex flex-column justify-content-center">
                                                     <p className="m-0 fw-semibold text-secondary">CRR</p>
                                                     <p className="m-0 fw-semibold">{((matchData.inning1.runs / matchData.inning1.balls) * 6).toFixed(2)}</p>
                                                 </div>
-                                                <p className="col-12 fs-8 fw-semibold text-danger text-truncate m-0 py-1">{fixture[matchId - 1].tossResult}</p>
+                                                <p className="col-12 fs-8 fw-semibold text-danger text-truncate m-0 py-1">{(matchStatus == "First Inning") ? fixture[matchId - 1].tossResult : "Innings Break"}</p>
                                                 <div className="row bg-gray m-0 py-1">
                                                     <p className="col-5 m-0 p-0 fs-8 fw-semibold">Batter</p>
                                                     <div className="col-7 d-flex">
@@ -383,7 +383,7 @@ function Match() {
                                                 </div>
                                                 {(matchData.inning1.strikerId != null) &&
                                                     <div className="row m-0 p-0">
-                                                        <p className="col-5 m-0 py-1 fs-8 fw-semibold text-truncate">{squad[matchData.inning1.strikerId - 1].name}*</p>
+                                                        <p className="col-5 m-0 py-1 fs-8 fw-semibold text-truncate">{squad[matchData.inning1.strikerId - 1].shortName}*</p>
                                                         <div className="col-7 d-flex">
                                                             <p className="col-2 m-0 py-1 fs-8 fw-bold">{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.strikerId)].runs}</p>
                                                             <p className="col-2 m-0 py-1 fs-8">{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.strikerId)].balls}</p>
@@ -395,7 +395,7 @@ function Match() {
                                                     </div>}
                                                 {(matchData.inning1.nonStrikerId != null) &&
                                                     <div className="row m-0 p-0">
-                                                        <p className="col-5 m-0 py-1 fs-8 fw-semibold text-truncate">{squad[matchData.inning1.nonStrikerId - 1].name}</p>
+                                                        <p className="col-5 m-0 py-1 fs-8 fw-semibold text-truncate">{squad[matchData.inning1.nonStrikerId - 1].shortName}</p>
                                                         <div className="col-7 d-flex">
                                                             <p className="col-2 m-0 py-1 fs-8 fw-bold">{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.nonStrikerId)].runs}</p>
                                                             <p className="col-2 m-0 py-1 fs-8">{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.nonStrikerId)].balls}</p>
@@ -416,7 +416,7 @@ function Match() {
                                                     </div>
                                                 </div>
                                                 <div className="row m-0 p-0 border-bottom">
-                                                    <p className="col-5 m-0 py-1 fs-8 fw-semibold text-truncate">{squad[matchData.inning1.bowlerId - 1].name}</p>
+                                                    <p className="col-5 m-0 py-1 fs-8 fw-semibold text-truncate">{squad[matchData.inning1.bowlerId - 1].shortName}</p>
                                                     <div className="col-7 d-flex">
                                                         <p className="col-2 m-0 py-1 fs-8">{Math.floor(matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].balls / 6)}{(matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].balls % 6 != 0) && "." + (matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].balls % 6)}</p>
                                                         <p className="col-2 m-0 py-1 fs-8">0</p>
@@ -478,7 +478,7 @@ function Match() {
                                                     </div>}
                                                 {(matchData.inning2.nonStrikerId != null) &&
                                                     <div className="row m-0 p-0">
-                                                        <p className="col-5 m-0 py-1 fs-8 fw-semibold text-truncate">{squad[matchData.inning2.nonStrikerId - 1].name}</p>
+                                                        <p className="col-5 m-0 py-1 fs-8 fw-semibold text-truncate">{squad[matchData.inning2.nonStrikerId - 1].shortName}</p>
                                                         <div className="col-7 d-flex">
                                                             <p className="col-2 m-0 py-1 fs-8 fw-bold">{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.nonStrikerId)].runs}</p>
                                                             <p className="col-2 m-0 py-1 fs-8">{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.nonStrikerId)].balls}</p>
@@ -499,7 +499,7 @@ function Match() {
                                                     </div>
                                                 </div>
                                                 <div className="row m-0 p-0 border-bottom">
-                                                    <p className="col-5 m-0 py-1 fs-8 fw-semibold text-truncate">{squad[matchData.inning2.bowlerId - 1].name}</p>
+                                                    <p className="col-5 m-0 py-1 fs-8 fw-semibold text-truncate">{squad[matchData.inning2.bowlerId - 1].shortName}</p>
                                                     <div className="col-7 d-flex">
                                                         <p className="col-2 m-0 py-1 fs-8">{Math.floor(matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].balls / 6)}{(matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].balls % 6 != 0) && "." + (matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].balls % 6)}</p>
                                                         <p className="col-2 m-0 py-1 fs-8">0</p>
