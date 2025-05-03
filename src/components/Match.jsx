@@ -518,426 +518,440 @@ function Match() {
                                             </div>
                                         </>))}
                                 {tab == "Scorecard" &&
-                                    ((matchStatus == "Completed") ? <div>
-                                        <p className="fs-6 fw-semibold text-info">{fixture[matchId - 1].matchResult}</p>
-                                        <div class="accordion" id="accordionExample">
-                                            <div class="accordion-item rounded-0">
-                                                <h2 class="accordion-header">
-                                                    <button class="accordion-button rounded-0 shadow-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                                        <div className="d-flex justify-content-between w-100">
-                                                            <span className="fs-5 fw-bold">{teams[matchData.inning1.teamId - 1].shortName}</span>
-                                                            <span className="fs-5 fw-bold me-3">{matchData.inning1.runs}-{matchData.inning1.wickets} ({Math.floor(matchData.inning1.balls / 6) + "." + (matchData.inning1.balls % 6)})</span>
-                                                        </div>
-                                                    </button>
-                                                </h2>
-                                                <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                                                    <div class="accordion-body">
-                                                        <table className="table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Batter</th>
-                                                                    <th>R</th>
-                                                                    <th>B</th>
-                                                                    <th>4s</th>
-                                                                    <th>6s</th>
-                                                                    <th>SR</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                {(matchData.inning1Batsman.filter((b) => (!b.didNotBat)).map((b) => (
-                                                                    <>
-                                                                        <tr key={b.playerId}>
-                                                                            <td>{squad[b?.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}</td>
-                                                                            <th>{b.runs}</th>
-                                                                            <td>{b.balls}</td>
-                                                                            <td>{b.fours}</td>
-                                                                            <td>{b.sixes}</td>
-                                                                            <td>{Math.floor(b.runs / b.balls * 100).toFixed(2)}</td>
-                                                                        </tr>
-                                                                        <tr key={b.playerId - 1}>
-                                                                            <td colSpan={6}>{(b.notOut == true) ? "not out" : (b.wicketTypeId == 1) ? ((b.caughtById == b.wicketById) ? "c & b " + (squad[b.wicketById - 1].name) : "c " + (squad[b.caughtById - 1].name) + " b " + (squad[b.wicketById - 1].name)) : (b.wicketTypeId == 2) ? "lbw " + (squad[b.wicketById - 1].name) : (b.wicketTypeId == 3) ? "b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 4) ? "st " + (squad[b.stumpedById - 1]?.name) + " b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 5) && "run out (" + (squad[b.runOutById - 1].name) + ")"}</td>
-                                                                        </tr>
-                                                                    </>)))}
-                                                                <tr>
-                                                                    <td>Extras</td>
-                                                                    <td className="text-end" colSpan={5}>{matchData.inning1.extras} w {matchData.inning1.wides}, nb {matchData.inning1.noBalls}, lb {matchData.inning1.legByes}, b {matchData.inning1.byes}</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Total</td>
-                                                                    <td className="text-end" colSpan={5}>{matchData.inning1.runs}-{matchData.inning1.wickets} ({Math.floor(matchData.inning1.balls / 6)}.{matchData.inning1.balls % 6})</td>
-                                                                </tr>
-                                                                {(matchData.inning1Batsman.filter((b) => (b.didNotBat)).length > 0) &&
-                                                                    <>
-                                                                        <tr>
-                                                                            <td colSpan={6}>Did not bat</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td colSpan={6}>
-                                                                                {(matchData.inning1Batsman.filter((b) => (b.didNotBat)).map((b) => (<span key={b.playerId}>{squad[b.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}{(b.playerId % 11 != 0) && ", "}</span>)))}
-                                                                            </td>
-                                                                        </tr>
-                                                                    </>}
-                                                                <tr>
-                                                                    <th>Bowler</th>
-                                                                    <th>O</th>
-                                                                    <th>M</th>
-                                                                    <th>R</th>
-                                                                    <th>W</th>
-                                                                    <th>ER</th>
-                                                                </tr>
-                                                                {(matchData.inning1Bowler.filter((b) => (b.runs > 0) || (b.balls > 0)).map((b) => (
-                                                                    <>
-                                                                        <tr>
-                                                                            <td>{squad[b.playerId - 1].name}</td>
-                                                                            <td>{Math.floor(b.balls / 6)}{(b.balls % 6 != 0) && "." + (b.balls % 6)}</td>
-                                                                            <td>0</td>
-                                                                            <td>{b.runs}</td>
-                                                                            <th>{b.wickets}</th>
-                                                                            <td>{(b.runs / (Math.floor(b.balls / 6) + ((b.balls % 6) / 6))).toFixed(1)}</td>
-                                                                        </tr>
-                                                                    </>
-                                                                )))}
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="accordion-item">
-                                                <h2 className="accordion-header">
-                                                    <button className="accordion-button shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                                                        <div className="d-flex justify-content-between w-100">
-                                                            <span className="fs-5 fw-bold">{teams[matchData.inning2.teamId - 1].shortName}</span>
-                                                            <span className="fs-5 fw-bold me-3">{matchData.inning2.runs}-{matchData.inning2.wickets} ({Math.floor(matchData.inning2.balls / 6) + "." + (matchData.inning2.balls % 6)})</span>
-                                                        </div>
-                                                    </button>
-                                                </h2>
-                                                <div id="collapseThree" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                                                    <div class="accordion-body">
-                                                        <table className="table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Batter</th>
-                                                                    <th>R</th>
-                                                                    <th>B</th>
-                                                                    <th>4s</th>
-                                                                    <th>6s</th>
-                                                                    <th>SR</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                {(matchData.inning2Batsman.filter((b) => (!b.didNotBat)).map((b) => (
-                                                                    <>
-                                                                        <tr key={b.playerId}>
-                                                                            <td>{squad[b?.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}</td>
-                                                                            <th>{b.runs}</th>
-                                                                            <td>{b.balls}</td>
-                                                                            <td>{b.fours}</td>
-                                                                            <td>{b.sixes}</td>
-                                                                            <td>{Math.floor(b.runs / b.balls * 100).toFixed(2)}</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td colSpan={6}>{(b.notOut == true) ? "not out" : (b.wicketTypeId == 1) ? ((b.caughtById == b.wicketById) ? "c & b " + (squad[b.wicketById - 1].name) : "c " + (squad[b.caughtById - 1].name) + " b " + (squad[b.wicketById - 1].name)) : (b.wicketTypeId == 2) ? "lbw " + (squad[b.wicketById - 1].name) : (b.wicketTypeId == 3) ? "b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 4) ? "st " + (squad[b.stumpedById - 1]?.name) + " b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 5) && "run out (" + (squad[b.runOutById - 1].name) + ")"}</td>
-                                                                        </tr>
-                                                                    </>)))}
-                                                                <tr>
-                                                                    <td>Extras</td>
-                                                                    <td className="text-end" colSpan={5}>{matchData.inning2.extras} w {matchData.inning2.wides}, nb {matchData.inning2.noBalls}, lb {matchData.inning2.legByes}, b {matchData.inning2.byes}</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Total</td>
-                                                                    <td className="text-end" colSpan={5}>{matchData.inning2.runs}-{matchData.inning2.wickets} ({Math.floor(matchData.inning2.balls / 6)}.{matchData.inning2.balls % 6})</td>
-                                                                </tr>
-                                                                {(matchData.inning2Batsman.filter((b) => (b.didNotBat)).length > 0) &&
-                                                                    <>
-                                                                        <tr>
-                                                                            <td colSpan={6}>Did not bat</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td colSpan={6}>
-                                                                                {(matchData.inning2Batsman.filter((b) => (b.didNotBat)).map((b) => (<span key={b.playerId}>{squad[b.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}{(b.playerId % 11 != 0) && ", "}</span>)))}
-                                                                            </td>
-                                                                        </tr>
-                                                                    </>}
-                                                                <tr>
-                                                                    <th>Bowler</th>
-                                                                    <th>O</th>
-                                                                    <th>M</th>
-                                                                    <th>R</th>
-                                                                    <th>W</th>
-                                                                    <th>ER</th>
-                                                                </tr>
-                                                                {(matchData.inning2Bowler.filter((b) => (b.runs > 0) || (b.balls > 0)).map((b) => (
-                                                                    <>
-                                                                        <tr>
-                                                                            <td>{squad[b.playerId - 1].name}</td>
-                                                                            <td>{Math.floor(b.balls / 6)}{(b.balls % 6 != 0) && "." + (b.balls % 6)}</td>
-                                                                            <td>0</td>
-                                                                            <td>{b.runs}</td>
-                                                                            <th>{b.wickets}</th>
-                                                                            <td>{(b.runs / (Math.floor(b.balls / 6) + ((b.balls % 6) / 6))).toFixed(1)}</td>
-                                                                        </tr>
-                                                                    </>
-                                                                )))}
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> : (matchStatus == "First Inning" || matchStatus == "Innings Break") ?
-                                        <div>
-                                            <p className="fs-6 fw-semibold text-danger">{fixture[matchId - 1].tossResult}</p>
-                                            <div class="accordion" id="accordionExample">
-                                                <div class="accordion-item">
+                                    ((matchStatus == "Completed") ?
+                                        <div className="row m-0 p-0">
+                                            <p className="col-12 fs-8 fw-semibold text-info m-0 p-2">{fixture[matchId - 1].matchResult}</p>
+                                            <div class="accordion p-0" id="accordionExample">
+                                                <div class="accordion-item border-0 border-top border-bottom border-2 rounded-0">
                                                     <h2 class="accordion-header">
-                                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                            <div className="d-flex justify-content-between w-100">
-                                                                <span className="fs-5 fw-bold">{teams[matchData.inning1.teamId - 1].shortName}</span>
-                                                                <span className="fs-5 fw-bold me-3">{matchData.inning1.runs}-{matchData.inning1.wickets} ({Math.floor(matchData.inning1.balls / 6) + "." + (matchData.inning1.balls % 6)})</span>
-                                                            </div>
-                                                        </button>
-                                                    </h2>
-                                                    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                                                        <div class="accordion-body">
-                                                            <table className="table">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Batter</th>
-                                                                        <th>R</th>
-                                                                        <th>B</th>
-                                                                        <th>4s</th>
-                                                                        <th>6s</th>
-                                                                        <th>SR</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    {(matchData.inning1Batsman.filter((b) => (!b.didNotBat)).map((b) => (
-                                                                        <>
-                                                                            <tr key={b.playerId}>
-                                                                                <td>{squad[b?.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}</td>
-                                                                                <th>{b.runs}</th>
-                                                                                <td>{b.balls}</td>
-                                                                                <td>{b.fours}</td>
-                                                                                <td>{b.sixes}</td>
-                                                                                <td>{Math.floor(b.runs / b.balls * 100).toFixed(2)}</td>
-                                                                            </tr>
-                                                                            <tr key={b.playerId - 1}>
-                                                                                <td colSpan={6}>{(b.notOut == true) ? "not out" : (b.wicketTypeId == 1) ? ((b.caughtById == b.wicketById) ? "c & b " + (squad[b.wicketById - 1].name) : "c " + (squad[b.caughtById - 1].name) + " b " + (squad[b.wicketById - 1].name)) : (b.wicketTypeId == 2) ? "lbw " + (squad[b.wicketById - 1].name) : (b.wicketTypeId == 3) ? "b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 4) ? "st " + (squad[b.stumpedById - 1]?.name) + " b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 5) && "run out (" + (squad[b.runOutById - 1].name) + ")"}</td>
-                                                                            </tr>
-                                                                        </>)))}
-                                                                    <tr>
-                                                                        <td>Extras</td>
-                                                                        <td className="text-end" colSpan={5}>{matchData.inning1.extras} w {matchData.inning1.wides}, nb {matchData.inning1.noBalls}, lb {matchData.inning1.legByes}, b {matchData.inning1.byes}</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Total</td>
-                                                                        <td className="text-end" colSpan={5}>{matchData.inning1.runs}-{matchData.inning1.wickets} ({Math.floor(matchData.inning1.balls / 6)}.{matchData.inning1.balls % 6})</td>
-                                                                    </tr>
-                                                                    {(matchData.inning1Batsman.filter((b) => (b.didNotBat)).length > 0) &&
-                                                                        <>
-                                                                            <tr>
-                                                                                <td colSpan={6}>Did not bat</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colSpan={6}>
-                                                                                    {(matchData.inning1Batsman.filter((b) => (b.didNotBat)).map((b) => (<span key={b.playerId}>{squad[b.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}{(b.playerId % 11 != 0) && ", "}</span>)))}
-                                                                                </td>
-                                                                            </tr>
-                                                                        </>}
-                                                                    <tr>
-                                                                        <th>Bowler</th>
-                                                                        <th>O</th>
-                                                                        <th>M</th>
-                                                                        <th>R</th>
-                                                                        <th>W</th>
-                                                                        <th>ER</th>
-                                                                    </tr>
-                                                                    {(matchData.inning1Bowler.filter((b) => (b.runs > 0)).map((b) => (
-                                                                        <>
-                                                                            <tr>
-                                                                                <td>{squad[b.playerId - 1].name}</td>
-                                                                                <td>{Math.floor(b.balls / 6)}{(b.balls % 6 != 0) && "." + (b.balls % 6)}</td>
-                                                                                <td>0</td>
-                                                                                <td>{b.runs}</td>
-                                                                                <th>{b.wickets}</th>
-                                                                                <td>{(b.runs / (Math.floor(b.balls / 6) + ((b.balls % 6) / 6))).toFixed(1)}</td>
-                                                                            </tr>
-                                                                        </>
-                                                                    )))}
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> :
-                                        <div>
-                                            <p className="fs-6 fw-semibold text-danger">{teams[matchData.inning2.teamId - 1].name} need {matchData.inning1.runs - matchData.inning2.runs + 1} from {120 - matchData.inning2.balls}</p>
-                                            <div class="accordion" id="accordionExample">
-                                                <div class="accordion-item">
-                                                    <h2 class="accordion-header">
-                                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                                            <div className="d-flex justify-content-between w-100">
-                                                                <span className="fs-5 fw-bold">{teams[matchData.inning1.teamId - 1].shortName}</span>
-                                                                <span className="fs-5 fw-bold me-3">{matchData.inning1.runs}-{matchData.inning1.wickets} ({Math.floor(matchData.inning1.balls / 6) + "." + (matchData.inning1.balls % 6)})</span>
+                                                        <button class="accordion-button shadow-none rounded-0 px-2 py-3 fw-semibold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                                            <div className="col-11 d-flex m-0">
+                                                                <p className="col-8 fs-8 m-0">{teams[matchData.inning1.teamId - 1].name}</p>
+                                                                <p className="col-4 fs-8 text-end p-0 m-0">{matchData.inning1.runs}-{matchData.inning1.wickets} ({Math.floor(matchData.inning1.balls / 6)}.{matchData.inning1.balls % 6})</p>
                                                             </div>
                                                         </button>
                                                     </h2>
                                                     <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                                                        <div class="accordion-body">
-                                                            <table className="table">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Batter</th>
-                                                                        <th>R</th>
-                                                                        <th>B</th>
-                                                                        <th>4s</th>
-                                                                        <th>6s</th>
-                                                                        <th>SR</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    {(matchData.inning1Batsman.filter((b) => (!b.didNotBat)).map((b) => (
-                                                                        <>
-                                                                            <tr key={b.playerId}>
-                                                                                <td>{squad[b?.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}</td>
-                                                                                <th>{b.runs}</th>
-                                                                                <td>{b.balls}</td>
-                                                                                <td>{b.fours}</td>
-                                                                                <td>{b.sixes}</td>
-                                                                                <td>{Math.floor(b.runs / b.balls * 100).toFixed(2)}</td>
-                                                                            </tr>
-                                                                            <tr key={b.playerId - 1}>
-                                                                                <td colSpan={6}>{(b.notOut == true) ? "not out" : (b.wicketTypeId == 1) ? ((b.caughtById == b.wicketById) ? "c & b " + (squad[b.wicketById - 1].name) : "c " + (squad[b.caughtById - 1].name) + " b " + (squad[b.wicketById - 1].name)) : (b.wicketTypeId == 2) ? "lbw " + (squad[b.wicketById - 1].name) : (b.wicketTypeId == 3) ? "b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 4) ? "st " + (squad[b.stumpedById - 1]?.name) + " b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 5) && "run out (" + (squad[b.runOutById - 1].name) + ")"}</td>
-                                                                            </tr>
-                                                                        </>)))}
-                                                                    <tr>
-                                                                        <td>Extras</td>
-                                                                        <td className="text-end" colSpan={5}>{matchData.inning1.extras} w {matchData.inning1.wides}, nb {matchData.inning1.noBalls}, lb {matchData.inning1.legByes}, b {matchData.inning1.byes}</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Total</td>
-                                                                        <td className="text-end" colSpan={5}>{matchData.inning1.runs}-{matchData.inning1.wickets} ({Math.floor(matchData.inning1.balls / 6)}.{matchData.inning1.balls % 6})</td>
-                                                                    </tr>
-                                                                    {(matchData.inning1Batsman.filter((b) => (b.didNotBat)).length > 0) &&
-                                                                        <>
-                                                                            <tr>
-                                                                                <td colSpan={6}>Did not bat</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colSpan={6}>
-                                                                                    {(matchData.inning1Batsman.filter((b) => (b.didNotBat)).map((b) => (<span key={b.playerId}>{squad[b.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}{(b.playerId % 11 != 0) && ", "}</span>)))}
-                                                                                </td>
-                                                                            </tr>
-                                                                        </>}
-                                                                    <tr>
-                                                                        <th>Bowler</th>
-                                                                        <th>O</th>
-                                                                        <th>M</th>
-                                                                        <th>R</th>
-                                                                        <th>W</th>
-                                                                        <th>ER</th>
-                                                                    </tr>
-                                                                    {(matchData.inning1Bowler.filter((b) => (b.runs > 0)).map((b) => (
-                                                                        <>
-                                                                            <tr>
-                                                                                <td>{squad[b.playerId - 1].name}</td>
-                                                                                <td>{Math.floor(b.balls / 6)}{(b.balls % 6 != 0) && "." + (b.balls % 6)}</td>
-                                                                                <td>0</td>
-                                                                                <td>{b.runs}</td>
-                                                                                <th>{b.wickets}</th>
-                                                                                <td>{(b.runs / (Math.floor(b.balls / 6) + ((b.balls % 6) / 6))).toFixed(1)}</td>
-                                                                            </tr>
-                                                                        </>
-                                                                    )))}
-                                                                </tbody>
-                                                            </table>
+                                                        <div class="accordion-body p-0">
+                                                            <div className="row m-0 py-1 bg-gray">
+                                                                <p className="col-5 fs-8 fw-semibold m-0">Batter</p>
+                                                                <div className="col-7 d-flex">
+                                                                    <p className="col-2 fs-8 fw-semibold text-center m-0">R</p>
+                                                                    <p className="col-2 fs-8 fw-semibold text-center m-0">B</p>
+                                                                    <p className="col-2 fs-8 fw-semibold text-center m-0">4s</p>
+                                                                    <p className="col-2 fs-8 fw-semibold text-center m-0">6s</p>
+                                                                    <p className="col-2 fs-8 fw-semibold text-center m-0">SR</p>
+                                                                </div>
+                                                            </div>
+                                                            {matchData.inning1Batsman.filter((b) => (!b.didNotBat)).map((b) => (
+                                                                <>
+                                                                    <div className="row m-0 pt-1">
+                                                                        <p className="col-5 fs-8 fw-semibold text-truncate m-0">{squad[b?.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}</p>
+                                                                        <div className="col-7 d-flex">
+                                                                            <p className="col-2 fs-8 fw-bold text-center m-0">{b.runs}</p>
+                                                                            <p className="col-2 fs-8 text-center m-0">{b.balls}</p>
+                                                                            <p className="col-2 fs-8 text-center m-0">{b.fours}</p>
+                                                                            <p className="col-2 fs-8 text-center m-0">{b.sixes}</p>
+                                                                            <p className="col-2 fs-8 text-center m-0">{(b.balls == 0) ? "-" : ((b.runs / b.balls) * 100).toFixed(2)}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="row m-0 py-0 pb-1 border-bottom">
+                                                                        <p className="col-12 m-0 py-0 pe-5 text-truncate fs-8 text-secondary">{(b.notOut == true) ? "not out" : (b.wicketTypeId == 1) ? ((b.caughtById == b.wicketById) ? "c & b " + (squad[b.wicketById - 1].name) : "c " + (squad[b.caughtById - 1].name) + " b " + (squad[b.wicketById - 1].name)) : (b.wicketTypeId == 2) ? "lbw " + (squad[b.wicketById - 1].name) : (b.wicketTypeId == 3) ? "b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 4) ? "st " + (squad[b.stumpedById - 1]?.name) + " b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 5) && "run out (" + (squad[b.runOutById - 1].name) + ")"}</p>
+                                                                    </div>
+                                                                </>))}
+                                                            <div className="row m-0 py-1">
+                                                                <p className="col-6 fs-8 m-0">Extras</p>
+                                                                <p className="text-end col-6 fs-8 m-0" colSpan={5}>{matchData.inning1.extras} w {matchData.inning1.wides}, nb {matchData.inning1.noBalls}, lb {matchData.inning1.legByes}, b {matchData.inning1.byes}</p>
+                                                            </div>
+                                                            <div className="row m-0 py-1">
+                                                                <p className="col-6 fs-8 fw-semibold m-0">Total</p>
+                                                                <p className="text-end col-6 fs-8 fw-semibold m-0" colSpan={5}>{matchData.inning1.runs}-{matchData.inning1.wickets} ({Math.floor(matchData.inning1.balls / 6)}.{matchData.inning1.balls % 6})</p>
+                                                            </div>
+                                                            {(matchData.inning1Batsman.filter((b) => (b.didNotBat)).length > 0) &&
+                                                                <>
+                                                                    <div className="row m-0 py-1 bg-gray">
+                                                                        <p className="col-12 fs-8 fw-semibold m-0">Did not bat</p>
+                                                                    </div>
+                                                                    <div className="row m-0 py-1">
+                                                                        <p className="col-12 fs-8 m-0">
+                                                                            {(matchData.inning1Batsman.filter((b) => (b.didNotBat)).map((b) => (<span key={b.playerId}>{squad[b.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}{(b.playerId % 11 != 0) && ", "}</span>)))}
+                                                                        </p>
+                                                                    </div>
+                                                                </>}
+                                                            <div className="row m-0 py-1 bg-gray">
+                                                                <p className="col-5 fs-8 fw-semibold m-0">Bowler</p>
+                                                                <div className="col-7 d-flex">
+                                                                    <p className="col-2 fs-8 fw-semibold text-center m-0">O</p>
+                                                                    <p className="col-2 fs-8 fw-semibold text-center m-0">M</p>
+                                                                    <p className="col-2 fs-8 fw-semibold text-center m-0">R</p>
+                                                                    <p className="col-2 fs-8 fw-semibold text-center m-0">W</p>
+                                                                    <p className="col-2 fs-8 fw-semibold text-center m-0">ER</p>
+                                                                </div>
+                                                            </div>
+                                                            {(matchData.inning1Bowler.filter((b) => (b.runs > 0) || (b.balls > 0)).map((b) => (
+                                                                <>
+                                                                    <div className="row m-0 py-1">
+                                                                        <p className="col-5 fs-8 fw-semibold text-truncate m-0">{squad[b.playerId - 1].name}</p>
+                                                                        <div className="col-7 d-flex">
+                                                                            <p className="col-2 fs-8 text-center m-0">{Math.floor(b.balls / 6)}{(b.balls % 6 != 0) && "." + (b.balls % 6)}</p>
+                                                                            <p className="col-2 fs-8 text-center m-0">0</p>
+                                                                            <p className="col-2 fs-8 text-center m-0">{b.runs}</p>
+                                                                            <p className="col-2 fs-8 fw-bold text-center m-0">{b.wickets}</p>
+                                                                            <p className="col-2 fs-8 text-center m-0">{(b.balls == 0) ? "-" : (b.runs / (Math.floor(b.balls / 6) + ((b.balls % 6) / 6))).toFixed(1)}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </>
+                                                            )))}
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="accordion-item">
-                                                    <h2 className="accordion-header">
-                                                        <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                                                            <div className="d-flex justify-content-between w-100">
-                                                                <span className="fs-5 fw-bold">{teams[matchData.inning2.teamId - 1].shortName}</span>
-                                                                <span className="fs-5 fw-bold me-3">{matchData.inning2.runs}-{matchData.inning2.wickets} ({Math.floor(matchData.inning2.balls / 6) + "." + (matchData.inning2.balls % 6)})</span>
+                                                <div class="accordion-item border-0 border-bottom border-2 rounded-0">
+                                                    <h2 class="accordion-header">
+                                                        <button class="accordion-button shadow-none rounded-0 px-2 py-3 fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                                            <div className="col-11 d-flex m-0">
+                                                                <p className="col-8 fs-8 m-0">{teams[matchData.inning2.teamId - 1].name}</p>
+                                                                <p className="col-4 fs-8 text-end p-0 m-0">{matchData.inning2.runs}-{matchData.inning2.wickets} ({Math.floor(matchData.inning2.balls / 6)}.{matchData.inning2.balls % 6})</p>
                                                             </div>
                                                         </button>
                                                     </h2>
-                                                    <div id="collapseThree" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                                                        <div class="accordion-body">
-                                                            <table className="table">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Batter</th>
-                                                                        <th>R</th>
-                                                                        <th>B</th>
-                                                                        <th>4s</th>
-                                                                        <th>6s</th>
-                                                                        <th>SR</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    {(matchData.inning2Batsman.filter((b) => (!b.didNotBat)).map((b) => (
-                                                                        <>
-                                                                            <tr key={b.playerId}>
-                                                                                <td>{squad[b?.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}</td>
-                                                                                <th>{b.runs}</th>
-                                                                                <td>{b.balls}</td>
-                                                                                <td>{b.fours}</td>
-                                                                                <td>{b.sixes}</td>
-                                                                                <td>{Math.floor(b.runs / b.balls * 100).toFixed(2)}</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colSpan={6}>{(b.notOut == true) ? "not out" : (b.wicketTypeId == 1) ? ((b.caughtById == b.wicketById) ? "c & b " + (squad[b.wicketById - 1].name) : "c " + (squad[b.caughtById - 1].name) + " b " + (squad[b.wicketById - 1].name)) : (b.wicketTypeId == 2) ? "lbw " + (squad[b.wicketById - 1].name) : (b.wicketTypeId == 3) ? "b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 4) ? "st " + (squad[b.stumpedById - 1]?.name) + " b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 5) && "run out (" + (squad[b.runOutById - 1].name) + ")"}</td>
-                                                                            </tr>
-                                                                        </>)))}
-                                                                    <tr>
-                                                                        <td>Extras</td>
-                                                                        <td className="text-end" colSpan={5}>{matchData.inning2.extras} w {matchData.inning2.wides}, nb {matchData.inning2.noBalls}, lb {matchData.inning2.legByes}, b {matchData.inning2.byes}</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Total</td>
-                                                                        <td className="text-end" colSpan={5}>{matchData.inning2.runs}-{matchData.inning2.wickets} ({Math.floor(matchData.inning2.balls / 6)}.{matchData.inning2.balls % 6})</td>
-                                                                    </tr>
-                                                                    {(matchData.inning2Batsman.filter((b) => (b.didNotBat)).length > 0) &&
-                                                                        <>
-                                                                            <tr>
-                                                                                <td colSpan={6}>Did not bat</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td colSpan={6}>
-                                                                                    {(matchData.inning2Batsman.filter((b) => (b.didNotBat)).map((b) => (<span key={b.playerId}>{squad[b.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}{(b.playerId % 11 != 0) && ", "}</span>)))}
-                                                                                </td>
-                                                                            </tr>
-                                                                        </>}
-                                                                    <tr>
-                                                                        <th>Bowler</th>
-                                                                        <th>O</th>
-                                                                        <th>M</th>
-                                                                        <th>R</th>
-                                                                        <th>W</th>
-                                                                        <th>ER</th>
-                                                                    </tr>
-                                                                    {(matchData.inning2Bowler.filter((b) => (b.runs > 0)).map((b) => (
-                                                                        <>
-                                                                            <tr>
-                                                                                <td>{squad[b.playerId - 1].name}</td>
-                                                                                <td>{Math.floor(b.balls / 6)}{(b.balls % 6 != 0) && "." + (b.balls % 6)}</td>
-                                                                                <td>0</td>
-                                                                                <td>{b.runs}</td>
-                                                                                <th>{b.wickets}</th>
-                                                                                <td>{(b.runs / (Math.floor(b.balls / 6) + ((b.balls % 6) / 6))).toFixed(1)}</td>
-                                                                            </tr>
-                                                                        </>
-                                                                    )))}
-                                                                </tbody>
-                                                            </table>
+                                                    <div id="collapseTwo" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                                                        <div class="accordion-body p-0">
+                                                            <div className="row m-0 py-1 bg-gray">
+                                                                <p className="col-5 fs-8 fw-semibold m-0">Batter</p>
+                                                                <div className="col-7 d-flex">
+                                                                    <p className="col-2 fs-8 fw-semibold text-center m-0">R</p>
+                                                                    <p className="col-2 fs-8 fw-semibold text-center m-0">B</p>
+                                                                    <p className="col-2 fs-8 fw-semibold text-center m-0">4s</p>
+                                                                    <p className="col-2 fs-8 fw-semibold text-center m-0">6s</p>
+                                                                    <p className="col-2 fs-8 fw-semibold text-center m-0">SR</p>
+                                                                </div>
+                                                            </div>
+                                                            {matchData.inning2Batsman.filter((b) => (!b.didNotBat)).map((b) => (
+                                                                <>
+                                                                    <div className="row m-0 pt-1">
+                                                                        <p className="col-5 fs-8 fw-semibold text-truncate m-0">{squad[b?.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}</p>
+                                                                        <div className="col-7 d-flex">
+                                                                            <p className="col-2 fs-8 fw-bold text-center m-0">{b.runs}</p>
+                                                                            <p className="col-2 fs-8 text-center m-0">{b.balls}</p>
+                                                                            <p className="col-2 fs-8 text-center m-0">{b.fours}</p>
+                                                                            <p className="col-2 fs-8 text-center m-0">{b.sixes}</p>
+                                                                            <p className="col-2 fs-8 text-center m-0">{(b.balls == 0) ? "-" : ((b.runs / b.balls) * 100).toFixed(2)}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="row m-0 py-0 pb-1 border-bottom">
+                                                                        <p className="col-12 m-0 py-0 pe-5 text-truncate fs-8 text-secondary">{(b.notOut == true) ? "not out" : (b.wicketTypeId == 1) ? ((b.caughtById == b.wicketById) ? "c & b " + (squad[b.wicketById - 1].name) : "c " + (squad[b.caughtById - 1].name) + " b " + (squad[b.wicketById - 1].name)) : (b.wicketTypeId == 2) ? "lbw " + (squad[b.wicketById - 1].name) : (b.wicketTypeId == 3) ? "b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 4) ? "st " + (squad[b.stumpedById - 1]?.name) + " b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 5) && "run out (" + (squad[b.runOutById - 1].name) + ")"}</p>
+                                                                    </div>
+                                                                </>))}
+                                                            <div className="row m-0 py-1">
+                                                                <p className="col-6 fs-8 fw-semibold m-0">Extras</p>
+                                                                <p className="text-end col-6 fs-8 m-0" colSpan={5}>{matchData.inning2.extras} w {matchData.inning2.wides}, nb {matchData.inning2.noBalls}, lb {matchData.inning2.legByes}, b {matchData.inning2.byes}</p>
+                                                            </div>
+                                                            <div className="row m-0 py-1">
+                                                                <p className="col-6 fs-8 fw-semibold m-0">Total</p>
+                                                                <p className="text-end col-6 fs-8 m-0" colSpan={5}>{matchData.inning2.runs}-{matchData.inning2.wickets} ({Math.floor(matchData.inning2.balls / 6)}.{matchData.inning2.balls % 6})</p>
+                                                            </div>
+                                                            {(matchData.inning2Batsman.filter((b) => (b.didNotBat)).length > 0) &&
+                                                                <>
+                                                                    <div className="row m-0 py-1 bg-gray">
+                                                                        <p className="col-12 fs-8 fw-semibold m-0">Did not bat</p>
+                                                                    </div>
+                                                                    <div className="row m-0 py-1">
+                                                                        <p className="col-12 fs-8 m-0">
+                                                                            {(matchData.inning2Batsman.filter((b) => (b.didNotBat)).map((b) => (<span key={b.playerId}>{squad[b.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}{(b.playerId % 11 != 0) && ", "}</span>)))}
+                                                                        </p>
+                                                                    </div>
+                                                                </>}
+                                                            <div className="row m-0 py-1 bg-gray">
+                                                                <p className="col-5 fs-8 fw-semibold m-0">Bowler</p>
+                                                                <div className="col-7 d-flex">
+                                                                    <p className="col-2 fs-8 fw-semibold text-center m-0">O</p>
+                                                                    <p className="col-2 fs-8 fw-semibold text-center m-0">M</p>
+                                                                    <p className="col-2 fs-8 fw-semibold text-center m-0">R</p>
+                                                                    <p className="col-2 fs-8 fw-semibold text-center m-0">W</p>
+                                                                    <p className="col-2 fs-8 fw-semibold text-center m-0">ER</p>
+                                                                </div>
+                                                            </div>
+                                                            {(matchData.inning2Bowler.filter((b) => (b.runs > 0) || (b.balls > 0)).map((b) => (
+                                                                <>
+                                                                    <div className="row m-0 py-1">
+                                                                        <p className="col-5 fs-8 fw-semibold text-truncate m-0">{squad[b.playerId - 1].name}</p>
+                                                                        <div className="col-7 d-flex">
+                                                                            <p className="col-2 fs-8 text-center m-0">{Math.floor(b.balls / 6)}{(b.balls % 6 != 0) && "." + (b.balls % 6)}</p>
+                                                                            <p className="col-2 fs-8 text-center m-0">0</p>
+                                                                            <p className="col-2 fs-8 text-center m-0">{b.runs}</p>
+                                                                            <p className="col-2 fs-8 fw-bold text-center m-0">{b.wickets}</p>
+                                                                            <p className="col-2 fs-8 text-center m-0">{(b.balls == 0) ? "-" : (b.runs / (Math.floor(b.balls / 6) + ((b.balls % 6) / 6))).toFixed(1)}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </>
+                                                            )))}
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>)}
+                                        </div> : (matchStatus == "First Inning" || matchStatus == "Innings Break") ?
+                                            <div className="row m-0 p-0">
+                                                <p className="col-12 fs-8 fw-semibold text-danger m-0 p-2">{(matchStatus == "First Inning") ? fixture[matchId - 1].tossResult : "Innings Break"}</p>
+                                                <div class="accordion p-0" id="accordionExample">
+                                                    <div class="accordion-item border-0 border-top border-bottom border-2 rounded-0">
+                                                        <h2 class="accordion-header">
+                                                            <button class="accordion-button shadow-none rounded-0 px-2 py-3 fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                                <div className="col-11 d-flex m-0">
+                                                                    <p className="col-8 fs-8 m-0">{teams[matchData.inning1.teamId - 1].name}</p>
+                                                                    <p className="col-4 fs-8 text-end p-0 m-0">{matchData.inning1.runs}-{matchData.inning1.wickets} ({Math.floor(matchData.inning1.balls / 6)}.{matchData.inning1.balls % 6})</p>
+                                                                </div>
+                                                            </button>
+                                                        </h2>
+                                                        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                                                            <div class="accordion-body p-0">
+                                                                <div className="row m-0 py-1 bg-gray">
+                                                                    <p className="col-5 fs-8 fw-semibold m-0">Batter</p>
+                                                                    <div className="col-7 d-flex">
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">R</p>
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">B</p>
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">4s</p>
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">6s</p>
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">SR</p>
+                                                                    </div>
+                                                                </div>
+                                                                {matchData.inning1Batsman.filter((b) => (!b.didNotBat)).map((b) => (
+                                                                    <>
+                                                                        <div className="row m-0 pt-1">
+                                                                            <p className="col-5 fs-8 fw-semibold text-truncate m-0">{squad[b?.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}</p>
+                                                                            <div className="col-7 d-flex">
+                                                                                <p className="col-2 fs-8 fw-bold text-center m-0">{b.runs}</p>
+                                                                                <p className="col-2 fs-8 text-center m-0">{b.balls}</p>
+                                                                                <p className="col-2 fs-8 text-center m-0">{b.fours}</p>
+                                                                                <p className="col-2 fs-8 text-center m-0">{b.sixes}</p>
+                                                                                <p className="col-2 fs-8 text-center m-0">{(b.balls == 0) ? "-" : ((b.runs / b.balls) * 100).toFixed(2)}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="row m-0 py-0 pb-1 border-bottom">
+                                                                            <p className="col-12 m-0 py-0 pe-5 text-truncate fs-8 text-secondary">{(b.notOut == true) ? "not out" : (b.wicketTypeId == 1) ? ((b.caughtById == b.wicketById) ? "c & b " + (squad[b.wicketById - 1].name) : "c " + (squad[b.caughtById - 1].name) + " b " + (squad[b.wicketById - 1].name)) : (b.wicketTypeId == 2) ? "lbw " + (squad[b.wicketById - 1].name) : (b.wicketTypeId == 3) ? "b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 4) ? "st " + (squad[b.stumpedById - 1]?.name) + " b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 5) && "run out (" + (squad[b.runOutById - 1].name) + ")"}</p>
+                                                                        </div>
+                                                                    </>))}
+                                                                <div className="row m-0 py-1">
+                                                                    <p className="col-6 fs-8 fw-semibold m-0">Extras</p>
+                                                                    <p className="text-end col-6 fs-8 m-0" colSpan={5}>{matchData.inning1.extras} w {matchData.inning1.wides}, nb {matchData.inning1.noBalls}, lb {matchData.inning1.legByes}, b {matchData.inning1.byes}</p>
+                                                                </div>
+                                                                <div className="row m-0 py-1">
+                                                                    <p className="col-6 fs-8 fw-semibold m-0">Total</p>
+                                                                    <p className="text-end col-6 fs-8 m-0" colSpan={5}>{matchData.inning1.runs}-{matchData.inning1.wickets} ({Math.floor(matchData.inning1.balls / 6)}.{matchData.inning1.balls % 6})</p>
+                                                                </div>
+                                                                {(matchData.inning1Batsman.filter((b) => (b.didNotBat)).length > 0) &&
+                                                                    <>
+                                                                        <div className="row m-0 py-1 bg-gray">
+                                                                            <p className="col-12 fs-8 fw-semibold m-0">Yet to bat</p>
+                                                                        </div>
+                                                                        <div className="row m-0 py-1">
+                                                                            <p className="col-12 fs-8 m-0">
+                                                                                {(matchData.inning1Batsman.filter((b) => (b.didNotBat)).map((b) => (<span key={b.playerId}>{squad[b.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}{(b.playerId % 11 != 0) && ", "}</span>)))}
+                                                                            </p>
+                                                                        </div>
+                                                                    </>}
+                                                                <div className="row m-0 py-1 bg-gray">
+                                                                    <p className="col-5 fs-8 fw-semibold m-0">Bowler</p>
+                                                                    <div className="col-7 d-flex">
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">O</p>
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">M</p>
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">R</p>
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">W</p>
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">ER</p>
+                                                                    </div>
+                                                                </div>
+                                                                {(matchData.inning1Bowler.filter((b) => (b.runs > 0) || (b.balls > 0)).map((b) => (
+                                                                    <>
+                                                                        <div className="row m-0 py-1">
+                                                                            <p className="col-5 fs-8 fw-semibold text-truncate m-0">{squad[b.playerId - 1].name}</p>
+                                                                            <div className="col-7 d-flex">
+                                                                                <p className="col-2 fs-8 text-center m-0">{Math.floor(b.balls / 6)}{(b.balls % 6 != 0) && "." + (b.balls % 6)}</p>
+                                                                                <p className="col-2 fs-8 text-center m-0">0</p>
+                                                                                <p className="col-2 fs-8 text-center m-0">{b.runs}</p>
+                                                                                <p className="col-2 fs-8 fw-bold text-center m-0">{b.wickets}</p>
+                                                                                <p className="col-2 fs-8 text-center m-0">{(b.balls == 0) ? "-" : (b.runs / (Math.floor(b.balls / 6) + ((b.balls % 6) / 6))).toFixed(1)}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </>
+                                                                )))}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> :
+                                            <div className="row m-0 p-0"><p className="col-12 fs-8 fw-semibold text-danger m-0 p-2">
+                                                {(matchStatus == "Second Inning") ? (
+                                                    `${teams[matchData.inning2.teamId - 1].name} need ${matchData.inning1.runs - matchData.inning2.runs + 1} run${(matchData.inning1.runs - matchData.inning2.runs + 1 === 1) ? '' : 's'} from ${120 - matchData.inning2.balls} ball${(120 - matchData.inning2.balls === 1) ? '' : 's'}`
+                                                ) : "Super Over"}
+                                            </p>
+                                                <div class="accordion p-0" id="accordionExample">
+                                                    <div class="accordion-item border-0 border-top border-bottom border-2 rounded-0">
+                                                        <h2 class="accordion-header">
+                                                            <button class="accordion-button shadow-none rounded-0 px-2 py-3 fw-semibold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                                                <div className="col-11 d-flex m-0">
+                                                                    <p className="col-8 fs-8 m-0">{teams[matchData.inning1.teamId - 1].name}</p>
+                                                                    <p className="col-4 fs-8 text-end p-0 m-0">{matchData.inning1.runs}-{matchData.inning1.wickets} ({Math.floor(matchData.inning1.balls / 6)}.{matchData.inning1.balls % 6})</p>
+                                                                </div>
+                                                            </button>
+                                                        </h2>
+                                                        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                                            <div class="accordion-body p-0">
+                                                                <div className="row m-0 py-1 bg-gray">
+                                                                    <p className="col-5 fs-8 fw-semibold m-0">Batter</p>
+                                                                    <div className="col-7 d-flex">
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">R</p>
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">B</p>
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">4s</p>
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">6s</p>
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">SR</p>
+                                                                    </div>
+                                                                </div>
+                                                                {matchData.inning1Batsman.filter((b) => (!b.didNotBat)).map((b) => (
+                                                                    <>
+                                                                        <div className="row m-0 pt-1">
+                                                                            <p className="col-5 fs-8 fw-semibold text-truncate m-0">{squad[b?.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}</p>
+                                                                            <div className="col-7 d-flex">
+                                                                                <p className="col-2 fs-8 fw-bold text-center m-0">{b.runs}</p>
+                                                                                <p className="col-2 fs-8 text-center m-0">{b.balls}</p>
+                                                                                <p className="col-2 fs-8 text-center m-0">{b.fours}</p>
+                                                                                <p className="col-2 fs-8 text-center m-0">{b.sixes}</p>
+                                                                                <p className="col-2 fs-8 text-center m-0">{(b.balls == 0) ? "-" : ((b.runs / b.balls) * 100).toFixed(2)}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="row m-0 py-0 pb-1 border-bottom">
+                                                                            <p className="col-12 m-0 py-0 pe-5 text-truncate fs-8 text-secondary">{(b.notOut == true) ? "not out" : (b.wicketTypeId == 1) ? ((b.caughtById == b.wicketById) ? "c & b " + (squad[b.wicketById - 1].name) : "c " + (squad[b.caughtById - 1].name) + " b " + (squad[b.wicketById - 1].name)) : (b.wicketTypeId == 2) ? "lbw " + (squad[b.wicketById - 1].name) : (b.wicketTypeId == 3) ? "b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 4) ? "st " + (squad[b.stumpedById - 1]?.name) + " b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 5) && "run out (" + (squad[b.runOutById - 1].name) + ")"}</p>
+                                                                        </div>
+                                                                    </>))}
+                                                                <div className="row m-0 py-1">
+                                                                    <p className="col-6 fs-8 fw-semibold m-0">Extras</p>
+                                                                    <p className="text-end col-6 fs-8 m-0" colSpan={5}>{matchData.inning1.extras} w {matchData.inning1.wides}, nb {matchData.inning1.noBalls}, lb {matchData.inning1.legByes}, b {matchData.inning1.byes}</p>
+                                                                </div>
+                                                                <div className="row m-0 py-1">
+                                                                    <p className="col-6 fs-8 fw-semibold m-0">Total</p>
+                                                                    <p className="text-end col-6 fs-8 m-0" colSpan={5}>{matchData.inning1.runs}-{matchData.inning1.wickets} ({Math.floor(matchData.inning1.balls / 6)}.{matchData.inning1.balls % 6})</p>
+                                                                </div>
+                                                                {(matchData.inning1Batsman.filter((b) => (b.didNotBat)).length > 0) &&
+                                                                    <>
+                                                                        <div className="row m-0 py-1 bg-gray">
+                                                                            <p className="col-12 fs-8 fw-semibold m-0">Did not bat</p>
+                                                                        </div>
+                                                                        <div className="row m-0 py-1">
+                                                                            <p className="col-12 fs-8 m-0">
+                                                                                {(matchData.inning1Batsman.filter((b) => (b.didNotBat)).map((b) => (<span key={b.playerId}>{squad[b.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}{(b.playerId % 11 != 0) && ", "}</span>)))}
+                                                                            </p>
+                                                                        </div>
+                                                                    </>}
+                                                                <div className="row m-0 py-1 bg-gray">
+                                                                    <p className="col-5 fs-8 fw-semibold m-0">Bowler</p>
+                                                                    <div className="col-7 d-flex">
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">O</p>
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">M</p>
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">R</p>
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">W</p>
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">ER</p>
+                                                                    </div>
+                                                                </div>
+                                                                {(matchData.inning1Bowler.filter((b) => (b.runs > 0) || (b.balls > 0)).map((b) => (
+                                                                    <>
+                                                                        <div className="row m-0 py-1">
+                                                                            <p className="col-5 fs-8 fw-semibold text-truncate m-0">{squad[b.playerId - 1].name}</p>
+                                                                            <div className="col-7 d-flex">
+                                                                                <p className="col-2 fs-8 text-center m-0">{Math.floor(b.balls / 6)}{(b.balls % 6 != 0) && "." + (b.balls % 6)}</p>
+                                                                                <p className="col-2 fs-8 text-center m-0">0</p>
+                                                                                <p className="col-2 fs-8 text-center m-0">{b.runs}</p>
+                                                                                <p className="col-2 fs-8 fw-bold text-center m-0">{b.wickets}</p>
+                                                                                <p className="col-2 fs-8 text-center m-0">{(b.balls == 0) ? "-" : (b.runs / (Math.floor(b.balls / 6) + ((b.balls % 6) / 6))).toFixed(1)}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </>
+                                                                )))}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="accordion-item border-0 border-bottom border-2 rounded-0">
+                                                        <h2 class="accordion-header">
+                                                            <button class="accordion-button shadow-none rounded-0 px-2 py-3 fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                                                <div className="col-11 d-flex m-0">
+                                                                    <p className="col-8 fs-8 m-0">{teams[matchData.inning2.teamId - 1].name}</p>
+                                                                    <p className="col-4 fs-8 text-end p-0 m-0">{matchData.inning2.runs}-{matchData.inning2.wickets} ({Math.floor(matchData.inning2.balls / 6)}.{matchData.inning2.balls % 6})</p>
+                                                                </div>
+                                                            </button>
+                                                        </h2>
+                                                        <div id="collapseTwo" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                                                            <div class="accordion-body p-0">
+                                                                <div className="row m-0 py-1 bg-gray">
+                                                                    <p className="col-5 fs-8 fw-semibold m-0">Batter</p>
+                                                                    <div className="col-7 d-flex">
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">R</p>
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">B</p>
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">4s</p>
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">6s</p>
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">SR</p>
+                                                                    </div>
+                                                                </div>
+                                                                {matchData.inning2Batsman.filter((b) => (!b.didNotBat)).map((b) => (
+                                                                    <>
+                                                                        <div className="row m-0 pt-1">
+                                                                            <p className="col-5 fs-8 fw-semibold text-truncate m-0">{squad[b?.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}</p>
+                                                                            <div className="col-7 d-flex">
+                                                                                <p className="col-2 fs-8 fw-bold text-center m-0">{b.runs}</p>
+                                                                                <p className="col-2 fs-8 text-center m-0">{b.balls}</p>
+                                                                                <p className="col-2 fs-8 text-center m-0">{b.fours}</p>
+                                                                                <p className="col-2 fs-8 text-center m-0">{b.sixes}</p>
+                                                                                <p className="col-2 fs-8 text-center m-0">{(b.balls == 0) ? "-" : ((b.runs / b.balls) * 100).toFixed(2)}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="row m-0 py-0 pb-1 border-bottom">
+                                                                            <p className="col-12 m-0 py-0 pe-5 text-truncate fs-8 text-secondary">{(b.notOut == true) ? "not out" : (b.wicketTypeId == 1) ? ((b.caughtById == b.wicketById) ? "c & b " + (squad[b.wicketById - 1].name) : "c " + (squad[b.caughtById - 1].name) + " b " + (squad[b.wicketById - 1].name)) : (b.wicketTypeId == 2) ? "lbw " + (squad[b.wicketById - 1].name) : (b.wicketTypeId == 3) ? "b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 4) ? "st " + (squad[b.stumpedById - 1]?.name) + " b " + (squad[b.wicketById - 1]?.name) : (b.wicketTypeId == 5) && "run out (" + (squad[b.runOutById - 1].name) + ")"}</p>
+                                                                        </div>
+                                                                    </>))}
+                                                                <div className="row m-0 py-1">
+                                                                    <p className="col-6 fs-8 fw-semibold m-0">Extras</p>
+                                                                    <p className="text-end col-6 fs-8 m-0" colSpan={5}>{matchData.inning2.extras} w {matchData.inning2.wides}, nb {matchData.inning2.noBalls}, lb {matchData.inning2.legByes}, b {matchData.inning2.byes}</p>
+                                                                </div>
+                                                                <div className="row m-0 py-1">
+                                                                    <p className="col-6 fs-8 fw-semibold m-0">Total</p>
+                                                                    <p className="text-end col-6 fs-8 m-0" colSpan={5}>{matchData.inning2.runs}-{matchData.inning2.wickets} ({Math.floor(matchData.inning2.balls / 6)}.{matchData.inning2.balls % 6})</p>
+                                                                </div>
+                                                                {(matchData.inning2Batsman.filter((b) => (b.didNotBat)).length > 0) &&
+                                                                    <>
+                                                                        <div className="row m-0 py-1 bg-gray">
+                                                                            <p className="col-12 fs-8 fw-semibold m-0">Yet to bat</p>
+                                                                        </div>
+                                                                        <div className="row m-0 py-1">
+                                                                            <p className="col-12 fs-8 m-0">
+                                                                                {(matchData.inning2Batsman.filter((b) => (b.didNotBat)).map((b) => (<span key={b.playerId}>{squad[b.playerId - 1].name}{(squad[b.playerId - 1].captain && squad[b.playerId - 1].wicketKeeper) ? " (c & wk)" : (squad[b.playerId - 1].captain) ? " (c)" : (squad[b.playerId - 1].wicketKeeper) && " (wk)"}{(b.playerId % 11 != 0) && ", "}</span>)))}
+                                                                            </p>
+                                                                        </div>
+                                                                    </>}
+                                                                <div className="row m-0 py-1 bg-gray">
+                                                                    <p className="col-5 fs-8 fw-semibold m-0">Bowler</p>
+                                                                    <div className="col-7 d-flex">
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">O</p>
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">M</p>
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">R</p>
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">W</p>
+                                                                        <p className="col-2 fs-8 fw-semibold text-center m-0">ER</p>
+                                                                    </div>
+                                                                </div>
+                                                                {(matchData.inning2Bowler.filter((b) => (b.runs > 0) || (b.balls > 0)).map((b) => (
+                                                                    <>
+                                                                        <div className="row m-0 py-1">
+                                                                            <p className="col-5 fs-8 fw-semibold text-truncate m-0">{squad[b.playerId - 1].name}</p>
+                                                                            <div className="col-7 d-flex">
+                                                                                <p className="col-2 fs-8 text-center m-0">{Math.floor(b.balls / 6)}{(b.balls % 6 != 0) && "." + (b.balls % 6)}</p>
+                                                                                <p className="col-2 fs-8 text-center m-0">0</p>
+                                                                                <p className="col-2 fs-8 text-center m-0">{b.runs}</p>
+                                                                                <p className="col-2 fs-8 fw-bold text-center m-0">{b.wickets}</p>
+                                                                                <p className="col-2 fs-8 text-center m-0">{(b.balls == 0) ? "-" : (b.runs / (Math.floor(b.balls / 6) + ((b.balls % 6) / 6))).toFixed(1)}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </>
+                                                                )))}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>)}
                                 {tab == "Squad" && <div>
                                     <div className="row bg-gray fw-bold py-1 fs-8">
                                         <div className="col-6 d-flex align-items-center">
@@ -953,7 +967,7 @@ function Match() {
                                         <div className="col-6 d-flex align-items-center">
                                             <img src={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].profile} alt={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].name} className="img-2 rounded-circle border" />
                                             <p className="fs-8 text-truncate m-0 px-1">{squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].name}</p>
-                                            {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].wicketKeeper && squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].captain) ? <p className="fs-8 m-0">(c&wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].wicketKeeper) ? <p className="m-0">(wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].captain) && <p className="m-0">(c)</p> }
+                                            {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].wicketKeeper && squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].captain) ? <p className="fs-8 m-0">(c&wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].wicketKeeper) ? <p className="m-0">(wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].captain) && <p className="m-0">(c)</p>}
                                         </div>
                                         <div className="col-6 text-end d-flex align-items-center justify-content-end">
                                             <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 0].name}</p>
@@ -964,7 +978,7 @@ function Match() {
                                         <div className="col-6 d-flex align-items-center">
                                             <img src={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 1].profile} alt={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 1].name} className="img rounded-circle border" />
                                             <p className="fs-8 text-truncate m-0 px-1">{squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 1].name}</p>
-                                            
+
                                         </div>
                                         <div className="col-6 text-end d-flex align-items-center justify-content-end">
                                             <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 1].name}</p>
