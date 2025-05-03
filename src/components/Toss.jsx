@@ -169,7 +169,7 @@ function Toss() {
                 </div>
                 {(!status) ? <div role="alert" className="alert fs-7 fw-semibold text-light bg-danger my-2">No Team Selected! Please Select a team.</div> :
                     (fixture && fixture[matchId - 1].tossStatus == "Completed") ? <div role="alert" className="alert fs-7 fw-semibold text-light bg-green my-2">Toss Completed</div> :
-                        (fixture && fixture[matchId - 2].matchStatus != "Completed") ? <div role="alert" className="alert fs-7 fw-semibold text-light bg-danger my-2">Previous Match not Completed</div> :
+                        (fixture && ((matchId >= 2) && (fixture[matchId - 2]?.matchStatus != "Completed"))) ? <div role="alert" className="alert fs-7 fw-semibold text-light bg-danger my-2">Previous Match not Completed</div> :
                             <div>
                                 {(userTeamId == homeTeamId) ?
                                     <div>

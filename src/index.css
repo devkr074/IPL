@@ -54,6 +54,10 @@ body {
     min-width: max-content;
 }
 
+.fs-8 {
+    font-size: 0.85rem;
+}
+
 .accordion-button:not(.collapsed) {
     background-color: #009270;
     color: white;
@@ -64,23 +68,11 @@ body {
 }
 
 .img {
-    height: 2rem;
-}
-
-.fs-8 {
-    font-size: 0.85rem;
+    height: 1.85rem;
 }
 
 .img-8 {
     height: 8rem;
-}
-
-.img-2 {
-    height: 1.85rem;
-}
-
-.bg-lightgreen {
-    background-color: hsla(154, 71%, 42%, 0.734);
 }
 
 @media screen and (max-width: 700px) {

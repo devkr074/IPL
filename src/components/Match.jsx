@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import handleInning from "../utils/handleInning.js";
 import handleSuperOverInning from "../utils/handleSuperOverInning.js";
 import handlePointsTable from "../utils/handlePointsTable.js";
 import handleStatistics from "../utils/handleStatistics.js";
 function Match() {
-    const navigate = useNavigate();
     const { matchId } = useParams();
-    const [fixture, setFixture] = useState([]);
+    const [status, setStatus] = useState();
+    const [fixture, setFixture] = useState();
     const [matchData, setMatchData] = useState();
     const [tossResult, setTossResult] = useState();
     const [matchStatus, setMatchStatus] = useState();
@@ -15,7 +15,6 @@ function Match() {
     const [tab, setTab] = useState("Commentary");
     const [teams, setTeams] = useState();
     const [venues, setVenues] = useState();
-    const [status, setStatus] = useState();
     const firstInningTimeout = useRef(null);
     const secondInningTimeout = useRef(null);
     const superOverFirstInningTimeout = useRef(null);
@@ -29,7 +28,7 @@ function Match() {
         const venues = JSON.parse(localStorage.getItem("venues"));
         setFixture(fixture);
         setStatus(localStorage.getItem("status"));
-        if (matchId >= 1 && matchId <= 74 && fixture[matchId - 1].tossStatus == "Completed") {
+        if (matchId >= 1 && matchId <= 74 && fixture[matchId - 1]?.tossStatus == "Completed") {
             const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
             const tossResult = fixture[matchId - 1].tossResult;
             const matchStatus = fixture[matchId - 1].matchStatus;
@@ -61,6 +60,18 @@ function Match() {
             };
         }
     }, [matchId, matchStatus]);
+    useEffect(() => {
+        if (matchStatus === "Completed") {
+            const matchTitlePart = (matchId === 71) ? "Qualifier 1" : (matchId === 72) ? "Eliminator" : (matchId === 73) ? "Qualifier 2" : (matchId === 74) ? "Final" : `Match #${matchId}`;
+            document.title = `${matchTitlePart}: ${teams?.[fixture?.[matchId - 1]?.homeTeamId - 1]?.shortName} vs ${teams?.[fixture?.[matchId - 1]?.awayTeamId - 1]?.shortName}`;
+        }
+        else if (matchStatus == "First Inning" || matchStatus == "Innings Break") {
+            document.title = `${teams[matchData.inning1.teamId - 1].shortName}: ${matchData.inning1.runs}-${matchData.inning1.wickets} (${Math.floor(matchData.inning1.balls / 6)}.${matchData.inning1.balls % 6})`;
+        }
+        else if (matchStatus == "Second Inning") {
+            document.title = `${teams[matchData.inning2.teamId - 1].shortName}: ${matchData.inning2.runs}-${matchData.inning2.wickets} (${Math.floor(matchData.inning2.balls / 6)}.${matchData.inning2.balls % 6}) vs ${teams[matchData.inning1.teamId - 1].shortName}: ${matchData.inning1.runs}-${matchData.inning1.wickets} (${Math.floor(matchData.inning1.balls / 6)}.${matchData.inning1.balls % 6})`;
+        }
+    }, [matchData]);
     function handleFirstInningWithDelay(matchId, currentStatus) {
         const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
         const fixture = JSON.parse(localStorage.getItem("fixture"));
@@ -359,16 +370,16 @@ function Match() {
                                                 </p>
                                                 <p className="col-10 py-2 m-0">{c.bowler} to {c.batsman}, <span className="fw-semibold">{c.outcome}</span>, {c.comment}</p>
                                             </div>))}
-                                    </div> : (((matchStatus == 'First Inning') || (matchStatus == "Innings Break")) ?
+                                    </div> : (((matchStatus == "First Inning") || (matchStatus == "Innings Break")) ?
                                         <>
                                             <div className="row p-0 m-0">
                                                 <div className="col-8 d-flex flex-column fw-semibold">
-                                                    <p className="col-2 fs-5 m-0 text-truncate">{teams[matchData.inning1.teamId - 1].shortName}</p>
+                                                    <p className="col-2 fs-5 m-0">{teams[matchData.inning1.teamId - 1].shortName}</p>
                                                     <p className="col-10 fs-4 fw-bold m-0">{matchData.inning1.runs}{matchData.inning1.wickets != 10 && "-" + matchData.inning1.wickets} <span className="fs-5 text-secondary">({Math.floor(matchData.inning1.balls / 6)}{(matchData.inning1.balls % 6 != 0) && "." + (matchData.inning1.balls % 6)})</span></p>
                                                 </div>
                                                 <div className="col-4 d-flex flex-column justify-content-center">
                                                     <p className="m-0 fw-semibold text-secondary">CRR</p>
-                                                    <p className="m-0 fw-semibold">{((matchData.inning1.runs / matchData.inning1.balls) * 6).toFixed(2)}</p>
+                                                    <p className="m-0 fw-semibold">{(matchData.inning1.balls == 0) ? "-" : ((matchData.inning1.runs / matchData.inning1.balls) * 6).toFixed(2)}</p>
                                                 </div>
                                                 <p className="col-12 fs-8 fw-semibold text-danger text-truncate m-0 py-1">{(matchStatus == "First Inning") ? fixture[matchId - 1].tossResult : "Innings Break"}</p>
                                                 <div className="row bg-gray m-0 py-1">
@@ -443,15 +454,15 @@ function Match() {
                                                 </div>
                                                 <div className="col-2 d-flex flex-column justify-content-center">
                                                     <p className="m-0 fw-semibold text-secondary">CRR</p>
-                                                    <p className="m-0 fw-semibold">{((matchData.inning2.runs / matchData.inning2.balls) * 6).toFixed(2)}</p>
+                                                    <p className="m-0 fw-semibold">{(matchData.inning2.balls == 0) ? "-" : ((matchData.inning2.runs / matchData.inning2.balls) * 6).toFixed(2)}</p>
                                                 </div>
                                                 <div className="col-2 d-flex flex-column justify-content-center">
                                                     <p className="m-0 fw-semibold text-secondary">REQ</p>
-                                                    <p className="m-0 fw-semibold">{(((matchData.inning1.runs - matchData.inning2.runs + 1) / (120 - matchData.inning2.balls)) * 6).toFixed(2)}</p>
+                                                    <p className="m-0 fw-semibold">{((120 - matchData.inning2.balls) == 0) ? "-" : (((matchData.inning1.runs - matchData.inning2.runs + 1) / (120 - matchData.inning2.balls)) * 6).toFixed(2)}</p>
                                                 </div>
                                                 <p className="col-12 fs-8 fw-semibold text-danger text-truncate m-0 p-2">
                                                     {(matchStatus == "Second Inning") ? (
-                                                        `${teams[matchData.inning2.teamId - 1].name} need ${matchData.inning1.runs - matchData.inning2.runs + 1} run${(matchData.inning1.runs - matchData.inning2.runs + 1 === 1) ? '' : 's'} from ${120 - matchData.inning2.balls} ball${(120 - matchData.inning2.balls === 1) ? '' : 's'}`
+                                                        `${teams[matchData.inning2.teamId - 1].shortName} need ${matchData.inning1.runs - matchData.inning2.runs + 1} run${(matchData.inning1.runs - matchData.inning2.runs + 1 === 1) ? "" : "s"} from ${120 - matchData.inning2.balls} ball${(120 - matchData.inning2.balls === 1) ? "" : "s"}`
                                                     ) : "Super Over"}
                                                 </p>
                                                 <div className="row bg-gray m-0 py-1">
@@ -782,7 +793,7 @@ function Match() {
                                             </div> :
                                             <div className="row m-0 p-0"><p className="col-12 fs-8 fw-semibold text-truncate text-danger m-0 p-2">
                                                 {(matchStatus == "Second Inning") ? (
-                                                    `${teams[matchData.inning2.teamId - 1].name} need ${matchData.inning1.runs - matchData.inning2.runs + 1} run${(matchData.inning1.runs - matchData.inning2.runs + 1 === 1) ? '' : 's'} from ${120 - matchData.inning2.balls} ball${(120 - matchData.inning2.balls === 1) ? '' : 's'}`
+                                                    `${teams[matchData.inning2.teamId - 1].shortName} need ${matchData.inning1.runs - matchData.inning2.runs + 1} run${(matchData.inning1.runs - matchData.inning2.runs + 1 === 1) ? "" : "s"} from ${120 - matchData.inning2.balls} ball${(120 - matchData.inning2.balls === 1) ? "" : "s"}`
                                                 ) : "Super Over"}
                                             </p>
                                                 <div class="accordion p-0" id="accordionExample">
