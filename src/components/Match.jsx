@@ -305,7 +305,7 @@ function Match() {
                                         <p className="col-12 fs-8 fw-semibold bg-gray py-1 m-0">Info</p>
                                         <div className="col-12 d-flex">
                                             <p className="col-3 fs-8 py-1 m-0">Match</p>
-                                            <p className="col-9 fs-8 py-1 m-0">Match #2</p>
+                                            <p className="col-9 fs-8 py-1 m-0">{(matchId == 71) ? "Qualifier 1" : (matchId == 72) ? "Eliminator" : (matchId == 73) ? "Qualifier 2" : (matchId == 74) ? "Final" : `Match ${matchId}`}</p>
                                         </div>
                                         <div className="col-12 d-flex">
                                             <p className="col-3 fs-8 py-1 m-0">Series</p>
@@ -361,166 +361,168 @@ function Match() {
                                             </div>))}
                                     </div> : (((matchStatus == 'First Inning') || (matchStatus == "Innings Break")) ?
                                         <>
-                                            <div className="row">
-                                                <div className="col-8 d-flex flex-column justify-content-center">
-                                                    <p className="p-0 px-2 py-1 fw-semibold fs-5 m-0">{teams[matchData.inning1.teamId - 1].shortName}</p>
-                                                    <p className="col-12 fs-4 fw-bold p-0 px-2 py-1 m-0">{matchData.inning1.runs}{matchData.inning1.wickets != 10 && "-" + matchData.inning1.wickets} <span className="fs-5 text-secondary">({Math.floor(matchData.inning1.balls / 6)}{(matchData.inning1.balls % 6 != 0) && "." + (matchData.inning1.balls % 6)})</span></p>
+                                            <div className="row p-0 m-0">
+                                                <div className="col-8 d-flex flex-column fw-semibold">
+                                                    <p className="col-2 fs-5 m-0 text-truncate">{(matchStatus == "First Inning") ? teams[matchData.inning1.teamId - 1].shortName : "Innings Break"}</p>
+                                                    <p className="col-10 fs-4 fw-bold m-0">{matchData.inning1.runs}{matchData.inning1.wickets != 10 && "-" + matchData.inning1.wickets} <span className="fs-5 text-secondary">({Math.floor(matchData.inning1.balls / 6)}{(matchData.inning1.balls % 6 != 0) && "." + (matchData.inning1.balls % 6)})</span></p>
                                                 </div>
                                                 <div className="col-4 d-flex flex-column justify-content-center">
-                                                    <p className="m-0 text-secondary">CRR</p>
-                                                    <p className="m-0 fw-semibold">{(matchData.inning1.runs / ((matchData.inning1.balls / 6) + ((matchData.inning1.balls % 6) / 6))).toFixed(2)}</p>
+                                                    <p className="m-0 fw-semibold text-secondary">CRR</p>
+                                                    <p className="m-0 fw-semibold">{((matchData.inning1.runs / matchData.inning1.balls) * 6).toFixed(2)}</p>
                                                 </div>
-                                                <div className="col-12">
-                                                    <p className="col-12 p-0 px-2 py-1 mb-1 fw-semibold text-danger">{(matchStatus == 'First Inning') ? fixture[matchId - 1].tossResult : "Innings Break"}</p>
-                                                </div>
-                                            </div>
-                                            <div className="row border-bottom border-top m-0 py-1">
-                                                <p className="col-5 m-0 p-0 fs-7 fw-semibold">Batter</p>
-                                                <div className="col-7 d-flex">
-                                                    <p className="col-2 m-0 fs-7 fw-semibold">R</p>
-                                                    <p className="col-2 m-0 fs-7 fw-semibold">B</p>
-                                                    <p className="col-2 m-0 fs-7 fw-semibold">4s</p>
-                                                    <p className="col-2 m-0 fs-7 fw-semibold">6s</p>
-                                                    <p className="col-3 m-0 fs-7 ps-2 fw-semibold">SR</p>
-                                                </div>
-                                            </div>
-                                            {(matchData.inning1.strikerId != null) &&
-                                                <div className="row m-0 p-0">
-                                                    <p className="col-5 m-0 py-1 fs-7 text-truncate">{squad[matchData.inning1.strikerId - 1].name}*</p>
+                                                <p className="col-12 fs-8 fw-semibold text-danger text-truncate m-0 py-1">{fixture[matchId - 1].tossResult}</p>
+                                                <div className="row bg-gray m-0 py-1">
+                                                    <p className="col-5 m-0 p-0 fs-8 fw-semibold">Batter</p>
                                                     <div className="col-7 d-flex">
-                                                        <p className="col-2 m-0 py-1 fs-7 fw-semibold">{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.strikerId)].runs}</p>
-                                                        <p className="col-2 m-0 py-1 fs-7">{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.strikerId)].balls}</p>
-                                                        <p className="col-2 m-0 py-1 fs-7">{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.strikerId)].fours}</p>
-                                                        <p className="col-2 m-0 py-1 fs-7">{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.strikerId)].sixes}</p>
-                                                        <p className="col-3 m-0 py-1 fs-7">{(matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.strikerId)].runs / matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.strikerId)].balls * 100).toFixed(2) == "NaN" ?
-                                                            "-" : (matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.strikerId)].runs / matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.strikerId)].balls * 100).toFixed(2)}</p>
+                                                        <p className="col-2 m-0 fs-8 fw-semibold">R</p>
+                                                        <p className="col-2 m-0 fs-8 fw-semibold">B</p>
+                                                        <p className="col-2 m-0 fs-8 fw-semibold">4s</p>
+                                                        <p className="col-2 m-0 fs-8 fw-semibold">6s</p>
+                                                        <p className="col-3 m-0 fs-8 ps-2 fw-semibold">SR</p>
                                                     </div>
-                                                </div>}
-                                            {(matchData.inning1.nonStrikerId != null) &&
-                                                <div className="row m-0 p-0">
-                                                    <p className="col-5 m-0 py-1 fs-7">{squad[matchData.inning1.nonStrikerId - 1].name}</p>
+                                                </div>
+                                                {(matchData.inning1.strikerId != null) &&
+                                                    <div className="row m-0 p-0">
+                                                        <p className="col-5 m-0 py-1 fs-8 fw-semibold text-truncate">{squad[matchData.inning1.strikerId - 1].name}*</p>
+                                                        <div className="col-7 d-flex">
+                                                            <p className="col-2 m-0 py-1 fs-8 fw-bold">{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.strikerId)].runs}</p>
+                                                            <p className="col-2 m-0 py-1 fs-8">{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.strikerId)].balls}</p>
+                                                            <p className="col-2 m-0 py-1 fs-8">{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.strikerId)].fours}</p>
+                                                            <p className="col-2 m-0 py-1 fs-8">{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.strikerId)].sixes}</p>
+                                                            <p className="col-3 m-0 py-1 fs-8">{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.strikerId)].balls == 0 ?
+                                                                "-" : (matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.strikerId)].runs / matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.strikerId)].balls * 100).toFixed(2)}</p>
+                                                        </div>
+                                                    </div>}
+                                                {(matchData.inning1.nonStrikerId != null) &&
+                                                    <div className="row m-0 p-0">
+                                                        <p className="col-5 m-0 py-1 fs-8 fw-semibold text-truncate">{squad[matchData.inning1.nonStrikerId - 1].name}</p>
+                                                        <div className="col-7 d-flex">
+                                                            <p className="col-2 m-0 py-1 fs-8 fw-bold">{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.nonStrikerId)].runs}</p>
+                                                            <p className="col-2 m-0 py-1 fs-8">{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.nonStrikerId)].balls}</p>
+                                                            <p className="col-2 m-0 py-1 fs-8">{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.nonStrikerId)].fours}</p>
+                                                            <p className="col-2 m-0 py-1 fs-8">{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.nonStrikerId)].sixes}</p>
+                                                            <p className="col-3 m-0 py-1 fs-8">{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.nonStrikerId)].balls == 0 ?
+                                                                "-" : (matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.nonStrikerId)].runs / matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.nonStrikerId)].balls * 100).toFixed(2)}</p>
+                                                        </div>
+                                                    </div>}
+                                                <div className="row bg-gray m-0 py-1">
+                                                    <p className="col-5 m-0 p-0 fs-8 fw-semibold">Bowler</p>
                                                     <div className="col-7 d-flex">
-                                                        <p className="col-2 m-0 py-1 fs-7 fw-semibold">{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.nonStrikerId)].runs}</p>
-                                                        <p className="col-2 m-0 py-1 fs-7">{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.nonStrikerId)].balls}</p>
-                                                        <p className="col-2 m-0 py-1 fs-7">{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.nonStrikerId)].fours}</p>
-                                                        <p className="col-2 m-0 py-1 fs-7">{matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.nonStrikerId)].sixes}</p>
-                                                        <p className="col-3 m-0 py-1 fs-7">{(matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.nonStrikerId)].runs / matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.nonStrikerId)].balls * 100).toFixed(2) == "NaN" ?
-                                                            "-" : (matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.nonStrikerId)].runs / matchData.inning1Batsman[matchData.inning1Batsman.findIndex(p => p.playerId == matchData.inning1.nonStrikerId)].balls * 100).toFixed(2)}</p>
+                                                        <p className="col-2 m-0 fs-8 fw-semibold">O</p>
+                                                        <p className="col-2 m-0 fs-8 fw-semibold">M</p>
+                                                        <p className="col-2 m-0 fs-8 fw-semibold">R</p>
+                                                        <p className="col-2 m-0 fs-8 fw-semibold">W</p>
+                                                        <p className="col-3 m-0 fs-8 ps-2 fw-semibold">ER</p>
                                                     </div>
-                                                </div>}
-                                            <div className="row border-bottom border-top m-0 py-1">
-                                                <p className="col-5 m-0 p-0 fs-7 fw-semibold">Bowler</p>
-                                                <div className="col-7 d-flex">
-                                                    <p className="col-2 m-0 fs-7 fw-semibold">O</p>
-                                                    <p className="col-2 m-0 fs-7 fw-semibold">M</p>
-                                                    <p className="col-2 m-0 fs-7 fw-semibold">R</p>
-                                                    <p className="col-2 m-0 fs-7 fw-semibold">W</p>
-                                                    <p className="col-3 m-0 fs-7 ps-2 fw-semibold">ER</p>
                                                 </div>
-                                            </div>
-                                            <div className="row m-0 p-0 border-bottom">
-                                                <p className="col-5 m-0 py-1 fs-7 text-truncate">{squad[matchData.inning1.bowlerId - 1].name}</p>
-                                                <div className="col-7 d-flex">
-                                                    <p className="col-2 m-0 py-1 fs-7">{Math.floor(matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].balls / 6)}{(matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].balls % 6 != 0) && "." + (matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].balls % 6)}</p>
-                                                    <p className="col-2 m-0 py-1 fs-7">0</p>
-                                                    <p className="col-2 m-0 py-1 fs-7">{matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].runs}</p>
-                                                    <p className="col-2 m-0 py-1 fs-7 fw-semibold">{matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].wickets}</p>
-                                                    <p className="col-3 m-0 py-1 fs-7">{(matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].runs / (Math.floor(matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].balls / 6) + ((matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].balls % 6) / 6))).toFixed(1)}</p>
+                                                <div className="row m-0 p-0 border-bottom">
+                                                    <p className="col-5 m-0 py-1 fs-8 fw-semibold text-truncate">{squad[matchData.inning1.bowlerId - 1].name}</p>
+                                                    <div className="col-7 d-flex">
+                                                        <p className="col-2 m-0 py-1 fs-8">{Math.floor(matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].balls / 6)}{(matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].balls % 6 != 0) && "." + (matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].balls % 6)}</p>
+                                                        <p className="col-2 m-0 py-1 fs-8">0</p>
+                                                        <p className="col-2 m-0 py-1 fs-8">{matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].runs}</p>
+                                                        <p className="col-2 m-0 py-1 fs-8 fw-bold">{matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].wickets}</p>
+                                                        <p className="col-3 m-0 py-1 fs-8">{matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].balls == 0 ? "-" : (matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].runs / (Math.floor(matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].balls / 6) + ((matchData.inning1Bowler[matchData.inning1Bowler.findIndex(p => p.playerId == matchData.inning1.bowlerId)].balls % 6) / 6))).toFixed(1)}</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="row m-0 p-0">
-                                                <p className="fs-4 fw-bold mt-2 col-12">Commentary</p>
+                                                <p className="col-12 fw-semibold bg-gray py-1 m-0">Commentary</p>
                                                 {matchData.commentary.slice().reverse().map((c) => (
-                                                    <div className="row m-0 border-bottom p-0" key={`${c.ball}+${c.bowler}+${c.batsman}+${c.outcome}+${c.comment}+${matchData.inning1.runs + matchData.inning2.runs}`}>
-                                                        <p className="fw-bold col-lg-1 col-md-1 col-2 py-1 text-center d-flex align-items-center flex-column"><span>{Math.floor(c.ball / 6) + "." + (c.ball % 6)}</span>{(c.outcome == "SIX") ? <span className="bg-info fs-6 text-light fw-bold  px-2 rounded-circle mt-1" style={{ width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center" }}>6</span> : (c.outcome == "FOUR") ? <span className="fs-6 text-light fw-bold  px-2 rounded-circle mt-1 bg-purple" style={{ width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center" }}>4</span> : (c.outcome == "OUT") && <span className="bg-danger fs-6 text-light fw-bold  px-2 rounded-circle mt-1" style={{ width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center" }}>W</span>}</p>
-                                                        <p className="col-10 col-lg-11 col-md-11 py-1">{c.bowler} to {c.batsman}, <span className="fw-bold">{c.outcome}</span>, {c.comment}</p>
+                                                    <div className="col-12 d-flex border-bottom px-0 pe-2" key={`${c.ball}+${c.bowler}+${c.batsman}+${c.outcome}+${c.comment}+${matchData.inning1.runs + matchData.inning2.runs}`}>
+                                                        <p className="col-2 d-flex text-center flex-column align-items-center fw-semibold py-2 m-0">
+                                                            <span>{Math.floor(c.ball / 6) + "." + (c.ball % 6)}</span>
+                                                            {(c.outcome == "SIX") ? <span className="bg-info fs-8 text-light fw-bold px-2 rounded-circle mt-1" style={{ width: "25px", height: "25px", display: "flex", alignItems: "center", justifyContent: "center" }}>6</span> : (c.outcome == "FOUR") ? <span className="bg-purple fs-8 text-light fw-bold  px-2 rounded-circle mt-1" style={{ width: "25px", height: "25px", display: "flex", alignItems: "center", justifyContent: "center" }}>4</span> : (c.outcome == "OUT") && <span className="bg-danger fs-8 text-light fw-bold  px-2 rounded-circle mt-1" style={{ width: "25px", height: "25px", display: "flex", alignItems: "center", justifyContent: "center" }}>W</span>}
+                                                        </p>
+                                                        <p className="col-10 py-2 m-0">{c.bowler} to {c.batsman}, <span className="fw-semibold">{c.outcome}</span>, {c.comment}</p>
                                                     </div>))}
                                             </div>
-                                        </> : (matchStatus == "Second Inning") && <>
-                                            <div className="row">
-                                                <div className="col-8 d-flex flex-column justify-content-center">
-                                                    <p className="p-0 px-2 py-1 fw-semibold fs-5 m-0">{teams[matchData.inning2.teamId - 1].shortName}</p>
-                                                    <p className="col-12 fs-4 fw-bold p-0 px-2 py-1 m-0">{matchData.inning2.runs}{matchData.inning2.wickets != 10 && "-" + matchData.inning2.wickets} ({Math.floor(matchData.inning2.balls / 6)}{(matchData.inning2.balls % 6 != 0) && "." + (matchData.inning2.balls % 6)})</p>
+                                        </> : <>
+                                            <div className="row p-0 m-0">
+                                                <div className="col-8 d-flex flex-column fw-semibold">
+                                                    <p className="col-2 fs-5 m-0">{teams[matchData.inning2.teamId - 1].shortName}</p>
+                                                    <p className="col-10 fs-4 fw-bold m-0">{matchData.inning2.runs}{matchData.inning2.wickets != 10 && "-" + matchData.inning2.wickets} <span className="fs-5 text-secondary">({Math.floor(matchData.inning2.balls / 6)}{(matchData.inning2.balls % 6 != 0) && "." + (matchData.inning2.balls % 6)})</span></p>
                                                 </div>
                                                 <div className="col-2 d-flex flex-column justify-content-center">
-                                                    <p className="m-0 text-secondary">CRR</p>
-                                                    <p className="m-0 fw-semibold">{(matchData.inning2.runs / ((matchData.inning2.balls / 6) + ((matchData.inning2.balls % 6) / 6))).toFixed(2)}</p>
+                                                    <p className="m-0 fw-semibold text-secondary">CRR</p>
+                                                    <p className="m-0 fw-semibold">{((matchData.inning2.runs / matchData.inning2.balls) * 6).toFixed(2)}</p>
                                                 </div>
                                                 <div className="col-2 d-flex flex-column justify-content-center">
-                                                    <p className="m-0 text-secondary">REQ</p>
-                                                    <p className="m-0 fw-semibold">{((matchData.inning1.runs - matchData.inning2.runs + 1) / (((120 - matchData.inning2.balls) / 6) + (((120 - matchData.inning2.balls) % 6) / 6))).toFixed(2)}</p>
+                                                    <p className="m-0 fw-semibold text-secondary">REQ</p>
+                                                    <p className="m-0 fw-semibold">{(((matchData.inning1.runs - matchData.inning2.runs + 1) / (120 - matchData.inning2.balls)) * 6).toFixed(2)}</p>
                                                 </div>
-                                                <div className="col-12">
-                                                    <p className="col-12 p-0 px-2 py-1 mb-1 fw-semibold text-danger">{(matchStatus == 'Second Inning') ? `${teams[matchData.inning2.teamId - 1].name} need ${(matchData.inning1.runs - matchData.inning2.runs + 1)} runs from ${120 - matchData.inning2.balls}` : "Innings Break"}</p>
-                                                </div>
-                                            </div>
-                                            <div className="row border-bottom border-top m-0 py-1">
-                                                <p className="col-5 m-0 p-0 fs-7 fw-semibold">Batter</p>
-                                                <div className="col-7 d-flex">
-                                                    <p className="col-2 m-0 fs-7 fw-semibold">R</p>
-                                                    <p className="col-2 m-0 fs-7 fw-semibold">B</p>
-                                                    <p className="col-2 m-0 fs-7 fw-semibold">4s</p>
-                                                    <p className="col-2 m-0 fs-7 fw-semibold">6s</p>
-                                                    <p className="col-3 m-0 fs-7 ps-2 fw-semibold">SR</p>
-                                                </div>
-                                            </div>
-                                            {(matchData.inning2.strikerId != null) &&
-                                                <div className="row m-0 p-0">
-                                                    <p className="col-5 m-0 py-1 fs-7 text-truncate">{squad[matchData.inning2.strikerId - 1].name}*</p>
+                                                <p className="col-12 fs-8 fw-semibold text-danger text-truncate m-0 p-2">
+                                                    {(matchStatus == "Second Inning") ? (
+                                                        `${teams[matchData.inning2.teamId - 1].name} need ${matchData.inning1.runs - matchData.inning2.runs + 1} run${(matchData.inning1.runs - matchData.inning2.runs + 1 === 1) ? '' : 's'} from ${120 - matchData.inning2.balls} ball${(120 - matchData.inning2.balls === 1) ? '' : 's'}`
+                                                    ) : "Super Over"}
+                                                </p>
+                                                <div className="row bg-gray m-0 py-1">
+                                                    <p className="col-5 m-0 p-0 fs-8 fw-semibold">Batter</p>
                                                     <div className="col-7 d-flex">
-                                                        <p className="col-2 m-0 py-1 fs-7 fw-semibold">{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.strikerId)].runs}</p>
-                                                        <p className="col-2 m-0 py-1 fs-7">{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.strikerId)].balls}</p>
-                                                        <p className="col-2 m-0 py-1 fs-7">{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.strikerId)].fours}</p>
-                                                        <p className="col-2 m-0 py-1 fs-7">{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.strikerId)].sixes}</p>
-                                                        <p className="col-3 m-0 py-1 fs-7">{(matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.strikerId)].runs / matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.strikerId)].balls * 100).toFixed(2) == "NaN" ?
-                                                            "-" : (matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.strikerId)].runs / matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.strikerId)].balls * 100).toFixed(2)}</p>
+                                                        <p className="col-2 m-0 fs-8 fw-semibold">R</p>
+                                                        <p className="col-2 m-0 fs-8 fw-semibold">B</p>
+                                                        <p className="col-2 m-0 fs-8 fw-semibold">4s</p>
+                                                        <p className="col-2 m-0 fs-8 fw-semibold">6s</p>
+                                                        <p className="col-3 m-0 fs-8 ps-2 fw-semibold">SR</p>
                                                     </div>
-                                                </div>}
-                                            {(matchData.inning2.nonStrikerId != null) &&
-                                                <div className="row m-0 p-0">
-                                                    <p className="col-5 m-0 py-1 fs-7">{squad[matchData.inning2.nonStrikerId - 1].name}</p>
+                                                </div>
+                                                {(matchData.inning2.strikerId != null) &&
+                                                    <div className="row m-0 p-0">
+                                                        <p className="col-5 m-0 py-1 fs-8 fw-semibold text-truncate">{squad[matchData.inning2.strikerId - 1].shortName}*</p>
+                                                        <div className="col-7 d-flex">
+                                                            <p className="col-2 m-0 py-1 fs-8 fw-bold">{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.strikerId)].runs}</p>
+                                                            <p className="col-2 m-0 py-1 fs-8">{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.strikerId)].balls}</p>
+                                                            <p className="col-2 m-0 py-1 fs-8">{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.strikerId)].fours}</p>
+                                                            <p className="col-2 m-0 py-1 fs-8">{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.strikerId)].sixes}</p>
+                                                            <p className="col-3 m-0 py-1 fs-8">{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.strikerId)].balls == 0 ?
+                                                                "-" : (matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.strikerId)].runs / matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.strikerId)].balls * 100).toFixed(2)}</p>
+                                                        </div>
+                                                    </div>}
+                                                {(matchData.inning2.nonStrikerId != null) &&
+                                                    <div className="row m-0 p-0">
+                                                        <p className="col-5 m-0 py-1 fs-8 fw-semibold text-truncate">{squad[matchData.inning2.nonStrikerId - 1].name}</p>
+                                                        <div className="col-7 d-flex">
+                                                            <p className="col-2 m-0 py-1 fs-8 fw-bold">{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.nonStrikerId)].runs}</p>
+                                                            <p className="col-2 m-0 py-1 fs-8">{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.nonStrikerId)].balls}</p>
+                                                            <p className="col-2 m-0 py-1 fs-8">{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.nonStrikerId)].fours}</p>
+                                                            <p className="col-2 m-0 py-1 fs-8">{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.nonStrikerId)].sixes}</p>
+                                                            <p className="col-3 m-0 py-1 fs-8">{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.nonStrikerId)].balls == 0 ?
+                                                                "-" : (matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.nonStrikerId)].runs / matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.nonStrikerId)].balls * 100).toFixed(2)}</p>
+                                                        </div>
+                                                    </div>}
+                                                <div className="row bg-gray m-0 py-1">
+                                                    <p className="col-5 m-0 p-0 fs-8 fw-semibold">Bowler</p>
                                                     <div className="col-7 d-flex">
-                                                        <p className="col-2 m-0 py-1 fs-7 fw-semibold">{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.nonStrikerId)].runs}</p>
-                                                        <p className="col-2 m-0 py-1 fs-7">{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.nonStrikerId)].balls}</p>
-                                                        <p className="col-2 m-0 py-1 fs-7">{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.nonStrikerId)].fours}</p>
-                                                        <p className="col-2 m-0 py-1 fs-7">{matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.nonStrikerId)].sixes}</p>
-                                                        <p className="col-3 m-0 py-1 fs-7">{(matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.nonStrikerId)].runs / matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.nonStrikerId)].balls * 100).toFixed(2) == "NaN" ?
-                                                            "-" : (matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.nonStrikerId)].runs / matchData.inning2Batsman[matchData.inning2Batsman.findIndex(p => p.playerId == matchData.inning2.nonStrikerId)].balls * 100).toFixed(2)}</p>
+                                                        <p className="col-2 m-0 fs-8 fw-semibold">O</p>
+                                                        <p className="col-2 m-0 fs-8 fw-semibold">M</p>
+                                                        <p className="col-2 m-0 fs-8 fw-semibold">R</p>
+                                                        <p className="col-2 m-0 fs-8 fw-semibold">W</p>
+                                                        <p className="col-3 m-0 fs-8 ps-2 fw-semibold">ER</p>
                                                     </div>
-                                                </div>}
-                                            <div className="row border-bottom border-top m-0 py-1">
-                                                <p className="col-5 m-0 p-0 fs-7 fw-semibold">Bowler</p>
-                                                <div className="col-7 d-flex">
-                                                    <p className="col-2 m-0 fs-7 fw-semibold">O</p>
-                                                    <p className="col-2 m-0 fs-7 fw-semibold">M</p>
-                                                    <p className="col-2 m-0 fs-7 fw-semibold">R</p>
-                                                    <p className="col-2 m-0 fs-7 fw-semibold">W</p>
-                                                    <p className="col-3 m-0 fs-7 ps-2 fw-semibold">ER</p>
                                                 </div>
-                                            </div>
-                                            <div className="row m-0 p-0 border-bottom">
-                                                <p className="col-5 m-0 py-1 fs-7 text-truncate">{squad[matchData.inning2.bowlerId - 1].name}</p>
-                                                <div className="col-7 d-flex">
-                                                    <p className="col-2 m-0 py-1 fs-7">{Math.floor(matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].balls / 6)}{(matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].balls % 6 != 0) && "." + (matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].balls % 6)}</p>
-                                                    <p className="col-2 m-0 py-1 fs-7">0</p>
-                                                    <p className="col-2 m-0 py-1 fs-7">{matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].runs}</p>
-                                                    <p className="col-2 m-0 py-1 fs-7 fw-semibold">{matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].wickets}</p>
-                                                    <p className="col-3 m-0 py-1 fs-7">{(matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].runs / (Math.floor(matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].balls / 6) + ((matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].balls % 6) / 6))).toFixed(1)}</p>
+                                                <div className="row m-0 p-0 border-bottom">
+                                                    <p className="col-5 m-0 py-1 fs-8 fw-semibold text-truncate">{squad[matchData.inning2.bowlerId - 1].name}</p>
+                                                    <div className="col-7 d-flex">
+                                                        <p className="col-2 m-0 py-1 fs-8">{Math.floor(matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].balls / 6)}{(matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].balls % 6 != 0) && "." + (matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].balls % 6)}</p>
+                                                        <p className="col-2 m-0 py-1 fs-8">0</p>
+                                                        <p className="col-2 m-0 py-1 fs-8">{matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].runs}</p>
+                                                        <p className="col-2 m-0 py-1 fs-8 fw-bold">{matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].wickets}</p>
+                                                        <p className="col-3 m-0 py-1 fs-8">{matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].balls == 0 ? "-" : (matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].runs / (Math.floor(matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].balls / 6) + ((matchData.inning2Bowler[matchData.inning2Bowler.findIndex(p => p.playerId == matchData.inning2.bowlerId)].balls % 6) / 6))).toFixed(1)}</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="row m-0 p-0">
-                                                <p className="fs-4 fw-bold mt-2 col-12">Commentary</p>
+                                                <p className="col-12 fw-semibold bg-gray py-1 m-0">Commentary</p>
                                                 {matchData.commentary.slice().reverse().map((c) => (
-                                                    <div className="row m-0 border-bottom p-0" key={`${c.ball}+${c.bowler}+${c.batsman}+${c.outcome}+${c.comment}+${matchData.inning1.runs + matchData.inning2.runs}`}>
-                                                        <p className="fw-bold col-lg-1 col-md-1 col-2 py-1 text-center d-flex align-items-center flex-column"><span>{Math.floor(c.ball / 6) + "." + (c.ball % 6)}</span>{(c.outcome == "SIX") ? <span className="bg-info fs-6 text-light fw-bold  px-2 rounded-circle mt-1" style={{ width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center" }}>6</span> : (c.outcome == "FOUR") ? <span className="fs-6 text-light fw-bold  px-2 rounded-circle mt-1 bg-purple" style={{ width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center" }}>4</span> : (c.outcome == "OUT") && <span className="bg-danger fs-6 text-light fw-bold  px-2 rounded-circle mt-1" style={{ width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center" }}>W</span>}</p>
-                                                        <p className="col-10 col-lg-11 col-md-11 py-1">{c.bowler} to {c.batsman}, <span className="fw-bold">{c.outcome}</span>, {c.comment}</p>
+                                                    <div className="col-12 d-flex border-bottom px-0 pe-2" key={`${c.ball}+${c.bowler}+${c.batsman}+${c.outcome}+${c.comment}+${matchData.inning1.runs + matchData.inning2.runs}`}>
+                                                        <p className="col-2 d-flex text-center flex-column align-items-center fw-semibold py-2 m-0">
+                                                            <span>{Math.floor(c.ball / 6) + "." + (c.ball % 6)}</span>
+                                                            {(c.outcome == "SIX") ? <span className="bg-info fs-8 text-light fw-bold px-2 rounded-circle mt-1" style={{ width: "25px", height: "25px", display: "flex", alignItems: "center", justifyContent: "center" }}>6</span> : (c.outcome == "FOUR") ? <span className="bg-purple fs-8 text-light fw-bold  px-2 rounded-circle mt-1" style={{ width: "25px", height: "25px", display: "flex", alignItems: "center", justifyContent: "center" }}>4</span> : (c.outcome == "OUT") && <span className="bg-danger fs-8 text-light fw-bold  px-2 rounded-circle mt-1" style={{ width: "25px", height: "25px", display: "flex", alignItems: "center", justifyContent: "center" }}>W</span>}
+                                                        </p>
+                                                        <p className="col-10 py-2 m-0">{c.bowler} to {c.batsman}, <span className="fw-semibold">{c.outcome}</span>, {c.comment}</p>
                                                     </div>))}
                                             </div>
                                         </>))}
                                 {tab == "Scorecard" &&
                                     ((matchStatus == "Completed") ?
                                         <div className="row m-0 p-0">
-                                            <p className="col-12 fs-8 fw-semibold text-info m-0 p-2">{fixture[matchId - 1].matchResult}</p>
+                                            <p className="col-12 fs-8 fw-semibold text-info text-truncate m-0 p-2">{fixture[matchId - 1].matchResult}</p>
                                             <div class="accordion p-0" id="accordionExample">
                                                 <div class="accordion-item border-0 border-top border-bottom border-2 rounded-0">
                                                     <h2 class="accordion-header">
@@ -560,12 +562,12 @@ function Match() {
                                                                     </div>
                                                                 </>))}
                                                             <div className="row m-0 py-1">
-                                                                <p className="col-6 fs-8 m-0">Extras</p>
+                                                                <p className="col-6 fs-8 fw-semibold m-0">Extras</p>
                                                                 <p className="text-end col-6 fs-8 m-0" colSpan={5}>{matchData.inning1.extras} w {matchData.inning1.wides}, nb {matchData.inning1.noBalls}, lb {matchData.inning1.legByes}, b {matchData.inning1.byes}</p>
                                                             </div>
                                                             <div className="row m-0 py-1">
                                                                 <p className="col-6 fs-8 fw-semibold m-0">Total</p>
-                                                                <p className="text-end col-6 fs-8 fw-semibold m-0" colSpan={5}>{matchData.inning1.runs}-{matchData.inning1.wickets} ({Math.floor(matchData.inning1.balls / 6)}.{matchData.inning1.balls % 6})</p>
+                                                                <p className="text-end col-6 fs-8 m-0" colSpan={5}>{matchData.inning1.runs}-{matchData.inning1.wickets} ({Math.floor(matchData.inning1.balls / 6)}.{matchData.inning1.balls % 6})</p>
                                                             </div>
                                                             {(matchData.inning1Batsman.filter((b) => (b.didNotBat)).length > 0) &&
                                                                 <>
@@ -691,7 +693,7 @@ function Match() {
                                             </div>
                                         </div> : (matchStatus == "First Inning" || matchStatus == "Innings Break") ?
                                             <div className="row m-0 p-0">
-                                                <p className="col-12 fs-8 fw-semibold text-danger m-0 p-2">{(matchStatus == "First Inning") ? fixture[matchId - 1].tossResult : "Innings Break"}</p>
+                                                <p className="col-12 fs-8 fw-semibold text-danger text-truncate m-0 p-2">{(matchStatus == "First Inning") ? fixture[matchId - 1].tossResult : "Innings Break"}</p>
                                                 <div class="accordion p-0" id="accordionExample">
                                                     <div class="accordion-item border-0 border-top border-bottom border-2 rounded-0">
                                                         <h2 class="accordion-header">
@@ -778,7 +780,7 @@ function Match() {
                                                     </div>
                                                 </div>
                                             </div> :
-                                            <div className="row m-0 p-0"><p className="col-12 fs-8 fw-semibold text-danger m-0 p-2">
+                                            <div className="row m-0 p-0"><p className="col-12 fs-8 fw-semibold text-truncate text-danger m-0 p-2">
                                                 {(matchStatus == "Second Inning") ? (
                                                     `${teams[matchData.inning2.teamId - 1].name} need ${matchData.inning1.runs - matchData.inning2.runs + 1} run${(matchData.inning1.runs - matchData.inning2.runs + 1 === 1) ? '' : 's'} from ${120 - matchData.inning2.balls} ball${(120 - matchData.inning2.balls === 1) ? '' : 's'}`
                                                 ) : "Super Over"}
