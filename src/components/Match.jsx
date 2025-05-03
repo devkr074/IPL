@@ -29,7 +29,7 @@ function Match() {
         const venues = JSON.parse(localStorage.getItem("venues"));
         setFixture(fixture);
         setStatus(localStorage.getItem("status"));
-        if (matchId >= 1 && matchId <= 74 && fixture[matchId-1].tossStatus=="Completed") {
+        if (matchId >= 1 && matchId <= 74 && fixture[matchId - 1].tossStatus == "Completed") {
             const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
             const tossResult = fixture[matchId - 1].tossResult;
             const matchStatus = fixture[matchId - 1].matchStatus;
@@ -290,97 +290,74 @@ function Match() {
                 <>
                     {(!status) ? <div role="alert" className="alert fs-7 fw-semibold text-light bg-danger my-2">No Team Selected! Please Select a team.</div> :
                         (fixture && fixture[matchId - 1].tossStatus != "Completed") ? <div role="alert" className="alert fs-7 fw-semibold text-light bg-danger my-2">Toss not Completed</div> : <>
-                    <div className="row sticky-top" style={{ backgroundColor: "#009270" }}>
-                        <p className="col-12 text-light fs-5 fw-bolder m-0 sticky-top p-2 text-center">{matchId == 71 ? "Qualifier 1" : matchId == 72 ? "Eliminator" : matchId == 73 ? "Qualifier 2" : matchId == 74 ? "Final" : "Match #" + matchId}: {teams && teams[fixture[matchId - 1]?.homeTeamId - 1]?.shortName} vs {teams && teams[fixture[matchId - 1]?.awayTeamId - 1]?.shortName}</p>
-                        <div className="col-12 m-0">
-                            <button className={`btn border-0 text-light fw-semibold rounded-0 ${tab === "Info" ? "border-bottom border-4 " : ""}`} value="Info" onClick={handleTabChange}>Info</button>
-                            <button className={`btn border-0 text-light fw-semibold rounded-0 ${tab === "Commentary" ? "border-bottom border-4" : ""}`} value="Commentary" onClick={handleTabChange}>Commentary</button>
-                            <button className={`btn border-0 text-light fw-semibold rounded-0  ${tab === "Scorecard" ? "border-bottom border-4" : ""}`} value="Scorecard" onClick={handleTabChange}>Scorecard</button>
-                            <button className={`btn border-0 text-light fw-semibold rounded-0 ${tab === "Squad" ? "border-bottom border-4" : ""}`} value="Squad" onClick={handleTabChange}>Squad</button>
-                        </div>
-                    </div>
-
-
+                            <div className="row bg-green border-bottom border-2 sticky-top">
+                                <p className="col-12 fs-5 fw-bold text-light text-center p-2 m-0">{(matchId == 71) ? "Qualifier 1" : (matchId == 72) ? "Eliminator" : (matchId == 73) ? "Qualifier 2" : (matchId == 74) ? "Final" : `Match #${matchId}`}: {(teams) && teams[fixture[matchId - 1].homeTeamId - 1].shortName} vs {(teams) && teams[fixture[matchId - 1].awayTeamId - 1].shortName}</p>
+                                <div className="col-12 d-flex overflow-auto sw-none">
+                                    <button value="Info" className={`btn mw-c fw-semibold text-light border-0 rounded-0 ${(tab == "Info") && "border-bottom border-4"}`} onClick={handleTabChange}>Info</button>
+                                    <button value="Commentary" className={`btn mw-c fw-semibold text-light border-0 rounded-0 ${(tab == "Commentary") && "border-bottom border-4"}`} onClick={handleTabChange}>Commentary</button>
+                                    <button value="Scorecard" className={`btn mw-c fw-semibold text-light border-0 rounded-0 ${(tab == "Scorecard") && "border-bottom border-4"}`} onClick={handleTabChange}>Scorecard</button>
+                                    <button value="Squad" className={`btn mw-c fw-semibold text-light border-0 rounded-0 ${(tab == "Squad") && "border-bottom border-4"}`} onClick={handleTabChange}>Squad</button>
+                                </div>
+                            </div>
                             <div className="row">
-                                {tab == "Info" && <div className="col-12 p-0">
-                                    <table className="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th colSpan={2}>Info</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Match</td>
-                                                <td>{matchId == 71 ? "Qualifier 1" : matchId == 72 ? "Eliminator" : matchId == 73 ? "Qualifier 2" : matchId == 74 ? "Final" : "Match #" + matchId}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Series</td>
-                                                <td>Indian Premier League - 2025</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Toss</td>
-                                                <td>{fixture[matchId - 1].tossResult}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Venue</td>
-                                                <td>{venues[fixture[matchId - 1].venueId - 1].name}, {venues[fixture[matchId - 1].venueId - 1].city}</td>
-                                            </tr>
-                                        </tbody>
-                                        <thead>
-                                            <tr>
-                                                <th colSpan={2}>Venue Guide</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Stadium</td>
-                                                <td>{venues[fixture[matchId - 1].venueId - 1].name}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>City</td>
-                                                <td>{venues[fixture[matchId - 1].venueId - 1].city}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Capacity</td>
-                                                <td>{venues[fixture[matchId - 1].venueId - 1].capacity}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Hosts to</td>
-                                                <td>{teams[venues[fixture[matchId - 1].venueId - 1].venueId - 1].name}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>}
-                                {tab == "Commentary" && (matchStatus == "Completed" ?
-                                    <div className="col-12 p-0">
-                                        <div className="row fs-4 pb-0 fw-semibold pt-1 m-0  bg-body-tertiary">
-                                            <p className="col-1 m-0">{teams[matchData.inning1.teamId - 1].shortName}</p>
-                                            <p className="col-11 ps-5 m-0">{matchData.inning1.runs}{matchData.inning1.wickets != 10 && "-" + matchData.inning1.wickets} ({Math.floor(matchData.inning1.balls / 6)}{(matchData.inning1.balls % 6 != 0) && "." + (matchData.inning1.balls % 6)})</p>
+                                {(tab == "Info") &&
+                                    <div className="row p-0 m-0">
+                                        <p className="col-12 fs-8 fw-semibold bg-gray py-1 m-0">Info</p>
+                                        <div className="col-12 d-flex">
+                                            <p className="col-3 fs-8 py-1 m-0">Match</p>
+                                            <p className="col-9 fs-8 py-1 m-0">Match #2</p>
                                         </div>
-                                        <div className="row fs-4 pt-0 fw-semibold pb-1 m-0  bg-body-tertiary">
-                                            <p className="col-1 m-0">{teams[matchData.inning2.teamId - 1].shortName}</p>
-                                            <p className="col-11 ps-5 m-0">{matchData.inning2.runs}{matchData.inning2.wickets != 10 && "-" + matchData.inning2.wickets} ({Math.floor(matchData.inning2.balls / 6)}{(matchData.inning2.balls % 6 != 0) && "." + (matchData.inning2.balls % 6)})</p>
+                                        <div className="col-12 d-flex">
+                                            <p className="col-3 fs-8 py-1 m-0">Series</p>
+                                            <p className="col-9 fs-8 py-1 m-0">Indian Premier League - 2025</p>
                                         </div>
-                                        <div className="row pb-1 fw-semibold pt-0 m-0  bg-body-tertiary">
-                                            <p className="col-12 text-info text-truncate m-0 pb-2">{fixture[matchId - 1].matchResult}</p>
+                                        <div className="col-12 d-flex">
+                                            <p className="col-3 fs-8 py-1 m-0">Toss</p>
+                                            <p className="col-9 fs-8 py-1 m-0">{fixture[matchId - 1].tossResult}</p>
                                         </div>
-                                        <div className="row pt-0 fs-5 fw-bold pb-1 m-0 bg-gray">
-                                            <p className="col-12 m-0">Player of the Match</p>
+                                        <div className="col-12 d-flex">
+                                            <p className="col-3 fs-8 py-1 m-0">Venue</p>
+                                            <p className="col-9 fs-8 py-1 m-0">{venues[fixture[matchId - 1].venueId - 1].name}, {venues[fixture[matchId - 1].venueId - 1].city}</p>
                                         </div>
-                                        <div className="row pt-0 pb-1 m-0 bg-body-tertiary">
-                                            <p className="col-2 p-0 m-0 px-1 py-2">
-                                                <img className="img-fluid rounded-circle p-1 border" src={squad[fixture[matchId - 1].playerOfTheMatch - 1]?.profile} alt={squad[fixture[matchId - 1].playerOfTheMatch - 1]?.name} />
-                                            </p>
-                                            <p className="py-2 col-10 p-0 m-0 d-flex align-items-center ps-2 fs-5">{squad[fixture[matchId - 1].playerOfTheMatch - 1]?.name}</p>
+                                        <p className="col-12 fs-8 fw-semibold bg-gray py-1 m-0">Venue Guide</p>
+                                        <div className="col-12 d-flex">
+                                            <p className="col-3 fs-8 py-1 m-0">Stadium</p>
+                                            <p className="col-9 fs-8 py-1 m-0">{venues[fixture[matchId - 1].venueId - 1].name}</p>
                                         </div>
-                                        <div className="row p-0 m-0 bg-gray">
-                                            <p className="fs-4 fw-bold m-0">Commentary</p>
+                                        <div className="col-12 d-flex">
+                                            <p className="col-3 fs-8 py-1 m-0">City</p>
+                                            <p className="col-9 fs-8 py-1 m-0">{venues[fixture[matchId - 1].venueId - 1].city}</p>
                                         </div>
+                                        <div className="col-12 d-flex">
+                                            <p className="col-3 fs-8 py-1 m-0">Capacity</p>
+                                            <p className="col-9 fs-8 py-1 m-0">{venues[fixture[matchId - 1].venueId - 1].capacity}</p>
+                                        </div>
+                                        <div className="col-12 d-flex">
+                                            <p className="col-3 fs-8 py-1 m-0">Hosts to</p>
+                                            <p className="col-9 fs-8 py-1 m-0">{teams[venues[fixture[matchId - 1].venueId - 1].venueId - 1].name}</p>
+                                        </div>
+                                    </div>}
+                                {(tab == "Commentary") && ((matchStatus == "Completed") ?
+                                    <div className="row p-0 m-0">
+                                        <div className={`col-12 d-flex fs-5 fw-semibold ${(matchData.inning1.runs < matchData.inning2.runs) && "text-secondary"}`}>
+                                            <p className="col-2 m-0">{teams[matchData.inning1.teamId - 1].shortName}</p>
+                                            <p className="col-10 m-0">{matchData.inning1.runs}{matchData.inning1.wickets != 10 && "-" + matchData.inning1.wickets} ({Math.floor(matchData.inning1.balls / 6)}{(matchData.inning1.balls % 6 != 0) && "." + (matchData.inning1.balls % 6)})</p>
+                                        </div>
+                                        <div className={`col-12 d-flex fs-5 fw-semibold ${(matchData.inning2.runs < matchData.inning1.runs) && "text-secondary"}`}>
+                                            <p className="col-2 m-0">{teams[matchData.inning2.teamId - 1].shortName}</p>
+                                            <p className="col-10 m-0">{matchData.inning2.runs}{matchData.inning2.wickets != 10 && "-" + matchData.inning2.wickets} ({Math.floor(matchData.inning2.balls / 6)}{(matchData.inning2.balls % 6 != 0) && "." + (matchData.inning2.balls % 6)})</p>
+                                        </div>
+                                        <p className="col-12 fs-8 fw-semibold text-info text-truncate m-0 py-1">{fixture[matchId - 1].matchResult}</p>
+                                        <p className="col-12 fw-semibold bg-gray py-1 m-0">Player of the Match</p>
+                                        <p className="col-12 py-1 m-0">{squad[fixture[matchId - 1].playerOfTheMatch - 1]?.name}</p>
+                                        <p className="col-12 fw-semibold bg-gray py-1 m-0">Commentary</p>
                                         {matchData.commentary.slice().reverse().map((c) => (
-                                            <div className="row bg-body-tertiary p-0 m-0 border-bottom border-2 py-2" key={`${c.ball}+${c.bowler}+${c.batsman}+${c.outcome}+${c.comment}+${matchData.inning1.runs + matchData.inning2.runs}`}>
-                                                <p className="col-2 text-center d-flex align-items-center flex-column"><span>{Math.floor(c.ball / 6) + "." + (c.ball % 6)}</span>{(c.outcome == "SIX") ? <span className="bg-info fs-6 text-light fw-bold  px-2 rounded-circle mt-1" style={{ width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center" }}>6</span> : (c.outcome == "FOUR") ? <span className="bg-warning fs-6 text-light fw-bold  px-2 rounded-circle mt-1" style={{ width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center" }}>4</span> : (c.outcome == "OUT") && <span className="bg-danger fs-6 text-light fw-bold  px-2 rounded-circle mt-1" style={{ width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center" }}>W</span>}</p>
-                                                <p className="col-10">{c.bowler} to {c.batsman}, <span className="fw-bold">{c.outcome}</span>, {c.comment}</p>
+                                            <div className="col-12 d-flex border-bottom px-0 pe-2" key={`${c.ball}+${c.bowler}+${c.batsman}+${c.outcome}+${c.comment}+${matchData.inning1.runs + matchData.inning2.runs}`}>
+                                                <p className="col-2 d-flex text-center flex-column align-items-center fw-semibold py-2 m-0">
+                                                    <span>{Math.floor(c.ball / 6) + "." + (c.ball % 6)}</span>
+                                                    {(c.outcome == "SIX") ? <span className="bg-info fs-8 text-light fw-bold px-2 rounded-circle mt-1" style={{ width: "25px", height: "25px", display: "flex", alignItems: "center", justifyContent: "center" }}>6</span> : (c.outcome == "FOUR") ? <span className="bg-purple fs-8 text-light fw-bold  px-2 rounded-circle mt-1" style={{ width: "25px", height: "25px", display: "flex", alignItems: "center", justifyContent: "center" }}>4</span> : (c.outcome == "OUT") && <span className="bg-danger fs-8 text-light fw-bold  px-2 rounded-circle mt-1" style={{ width: "25px", height: "25px", display: "flex", alignItems: "center", justifyContent: "center" }}>W</span>}
+                                                </p>
+                                                <p className="col-10 py-2 m-0">{c.bowler} to {c.batsman}, <span className="fw-semibold">{c.outcome}</span>, {c.comment}</p>
                                             </div>))}
                                     </div> : (((matchStatus == 'First Inning') || (matchStatus == "Innings Break")) ?
                                         <>
@@ -962,22 +939,88 @@ function Match() {
                                             </div>
                                         </div>)}
                                 {tab == "Squad" && <div>
-                                    <p>{teams[fixture[matchId - 1].homeTeamId - 1].name}</p>
-                                    {squad && squad.filter((p) => (p.playerId >= ((fixture[matchId - 1].homeTeamId - 1) * 11 + 1) && p.playerId <= ((fixture[matchId - 1].homeTeamId - 1) * 11 + 11))).map((p) => (
-                                        <div key={p.playerId}>
-                                            <img src={p.profile} alt={p.name} />
-                                            <p>{p.name}</p>
-                                            {(p.captain && p.wicketKeeper) ? <p>C & WK</p> : (p.captain) ? <p>C</p> : (p.wicketKeeper) && <p>WK</p>}
-                                            {(p.foreigner) && <p>F</p>}
-                                        </div>))}
-                                    <p>{teams[fixture[matchId - 1].awayTeamId - 1].name}</p>
-                                    {squad && squad.filter((p) => (p.playerId >= ((fixture[matchId - 1].awayTeamId - 1) * 11 + 1) && p.playerId <= ((fixture[matchId - 1].awayTeamId - 1) * 11 + 11))).map((p) => (
-                                        <div key={p.playerId}>
-                                            <img src={p.profile} alt={p.name} />
-                                            <p>{p.name}</p>
-                                            {(p.captain && p.wicketKeeper) ? <p>C & WK</p> : (p.captain) ? <p>C</p> : (p.wicketKeeper) && <p>WK</p>}
-                                            {(p.foreigner) && <p>F</p>}
-                                        </div>))}
+                                    <div className="row bg-gray fw-bold py-1 fs-8">
+                                        <div className="col-6 d-flex align-items-center">
+                                            <img src={teams[fixture[matchId - 1].homeTeamId - 1].logo} alt="" className="img-2" />
+                                            <p className="m-0">{teams[fixture[matchId - 1].homeTeamId - 1].shortName}</p>
+                                        </div>
+                                        <div className="col-6 d-flex align-items-center justify-content-end">
+                                            <p className="m-0">{teams[fixture[matchId - 1].awayTeamId - 1].shortName}</p>
+                                            <img src={teams[fixture[matchId - 1].awayTeamId - 1].logo} alt="" className="img-2" />
+                                        </div>
+                                    </div>
+                                    <div className="row border-bottom py-1">
+                                        <div className="col-6 d-flex align-items-center">
+                                            <img src={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].profile} alt={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].name} className="img-2 rounded-circle border" />
+                                            <p className="fs-8 text-truncate m-0 px-1">{squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].name}</p>
+                                            {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].wicketKeeper && squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].captain) ? <p className="fs-8 m-0">(c&wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].wicketKeeper) ? <p className="m-0">(wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].captain) && <p className="m-0">(c)</p> }
+                                        </div>
+                                        <div className="col-6 text-end d-flex align-items-center justify-content-end">
+                                            <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 0].name}</p>
+                                            <img src={squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 0].profile} alt={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].name} className="img-2 rounded-circle border" />
+                                        </div>
+                                    </div>
+                                    <div className="row border-bottom py-1">
+                                        <div className="col-6 d-flex align-items-center">
+                                            <img src={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 1].profile} alt={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 1].name} className="img rounded-circle border" />
+                                            <p className="fs-8 text-truncate m-0 px-1">{squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 1].name}</p>
+                                            
+                                        </div>
+                                        <div className="col-6 text-end d-flex align-items-center justify-content-end">
+                                            <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 1].name}</p>
+                                            <img src={squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 1].profile} alt={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 1].name} className="img rounded-circle border" />
+                                        </div>
+                                    </div>
+                                    <div className="row border-bottom py-1">
+                                        <div className="col-6 d-flex align-items-center">
+                                            <img src={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 2].profile} alt={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 2].name} className="img rounded-circle border" />
+                                            <p className="fs-8 text-truncate m-0 px-1">{squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 2].name}</p>
+                                        </div>
+                                        <div className="col-6 text-end d-flex align-items-center justify-content-end">
+                                            <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 2].name}</p>
+                                            <img src={squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 2].profile} alt={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 2].name} className="img rounded-circle border" />
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-6">{squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 1].name}</div>
+                                        <div className="col-6 text-end">{squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 1].name}</div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-6">{squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 2].name}</div>
+                                        <div className="col-6 text-end">{squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 2].name}</div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-6">{squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 3].name}</div>
+                                        <div className="col-6 text-end">{squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 3].name}</div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-6">{squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 4].name}</div>
+                                        <div className="col-6 text-end">{squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 4].name}</div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-6">{squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 5].name}</div>
+                                        <div className="col-6 text-end">{squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 5].name}</div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-6">{squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 6].name}</div>
+                                        <div className="col-6 text-end">{squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 6].name}</div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-6">{squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 7].name}</div>
+                                        <div className="col-6 text-end">{squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 7].name}</div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-6">{squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 8].name}</div>
+                                        <div className="col-6 text-end">{squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 8].name}</div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-6">{squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 9].name}</div>
+                                        <div className="col-6 text-end">{squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 9].name}</div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-6">{squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 10].name}</div>
+                                        <div className="col-6 text-end">{squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 10].name}</div>
+                                    </div>
                                 </div>}
                             </div ></>}</> : <div role="alert" className="alert fs-7 fw-semibold text-light bg-danger my-2">Error 404 - Page not Found!</div>}
         </>
