@@ -58,13 +58,18 @@ body {
     font-size: 0.85rem;
 }
 
-.accordion-button:not(.collapsed) {
-    background-color: #009270;
-    color: white;
+.s-25 {
+    height: 25px;
+    width: 25px;
 }
 
 .bg-purple {
-    background-color: rgb(151, 61, 151);
+    background-color: #af47af;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #009270;
+    color: #ffffff;
 }
 
 .img {
