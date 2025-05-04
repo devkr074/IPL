@@ -158,13 +158,13 @@ function Toss() {
     }
     return (
         <>
-            <div>
-                <p>{matchId == 71 ? "Qualifier 1" : matchId == 72 ? "Eliminator" : matchId == 73 ? "Qualifier 2" : matchId == 74 ? "Final" : "Match #" + matchId}: {teams && teams[fixture[matchId - 1].homeTeamId - 1].shortName} vs {teams && teams[fixture[matchId - 1].awayTeamId - 1].shortName}</p>
+            <div className="row bg-green border-bottom sticky-top">
+                <p className="col-12 fs-5 fw-bold text-light text-center p-2 m-0">{matchId == 71 ? "Qualifier 1" : matchId == 72 ? "Eliminator" : matchId == 73 ? "Qualifier 2" : matchId == 74 ? "Final" : "Match #" + matchId}: Toss</p>
             </div>
-            <div>
+            <div className="row">
                 {(userTeamId == homeTeamId) ?
                     <div>
-                        <button onClick={(!flipped) ? handleFlip : undefined}>{(!flipped) ? "Flip" : "Flipped"}</button>
+                        <button className="btn-green" onClick={(!flipped) ? handleFlip : undefined}>{(!flipped) ? "Flip" : "Flipped"}</button>
                         {(flipped) && <p>{teams && teams[fixture[matchId - 1].awayTeamId - 1].name} ask for {opponentCall}</p>}
                         {(flipped) && <p>It's {tossOutcome}</p>}
                         {(flipped) ? (opponentCall == tossOutcome) ? <p>{teams && teams[fixture[matchId - 1].awayTeamId - 1].name} opt to {optionOutcome}</p> :
@@ -175,18 +175,20 @@ function Toss() {
                             </div> : <></>}
                         {optionOutcome ? <button onClick={handleMatch}>Next</button> : <></>}
                     </div> :
-                    <div>
-                        <p>{(!flipped) ? "Flipping..." : "Flipped"}</p>
-                        <div>
-                            <button value="Heads" onClick={(!flipped) ? handleTossCallSelect : undefined}>Heads</button>
-                            <button value="Tails" onClick={(!flipped) ? handleTossCallSelect : undefined}>Tails</button>
+                    <div className="col-12">
+                        <p className="col-12 fs-5 fw-semibold text-center py-1 m-0">{(!flipped) ? "Coin Flipping..." : "Flipped"}</p>
+                        <div className="col-12 text-center py-3">
+                            <button value="Heads" className="btn-green fs-5 fw-semibold px-2 py-1 me-3" onClick={(!flipped) ? handleTossCallSelect : undefined}>H</button>
+                            <button value="Tails" className="btn px-2 fs fw-semibold hover rounded-circle" onClick={(!flipped) ? handleTossCallSelect : undefined}>T</button>
                         </div>
-                        {(flipped) && <p>It's {tossOutcome}</p>}
-                        {(flipped) ? (userCall != tossOutcome) ? <p>{teams && teams[fixture[matchId - 1].homeTeamId - 1].name} opt to {optionOutcome}</p> :
+                        {(flipped) && <p className="col-12 fs-5 fw-semibold text-center py-1 m-0">It's {tossOutcome}</p>}
+                        {(flipped) ? (userCall != tossOutcome) ? <p className="col-12 fs-5 fw-semibold text-center py-1 m-0">{teams && teams[fixture[matchId - 1].homeTeamId - 1].name} opt to {optionOutcome}</p> :
                             <div>
-                                <p>{teams && teams[fixture[matchId - 1].awayTeamId - 1].name} won the toss</p>
-                                <button value="Bat" onClick={handleOptionChange}>Bat</button>
-                                <button value="Bowl" onClick={handleOptionChange}>Bowl</button>
+                                <p className="col-12 fw-semibold text-center py-1 m-0">{teams && teams[fixture[matchId - 1].awayTeamId - 1].name} won the toss</p>
+                                <div className="col-12 text-center py-3">
+                                    <button value="Bat" className="btn-green s-25 fs-5 fw-semibold px-2 py-1 me-3" onClick={handleOptionChange}><img src="https://www.iplt20.com/assets/images/teams-batsman-icon.svg" height={40} alt="" /></button>
+                                    <button value="Bowl" className="btn-green fs-5 fw-semibold px-2 py-1" onClick={handleOptionChange}>Bowl</button>
+                                </div>
                             </div> : <></>}
                         {(optionOutcome) && <button onClick={handleMatch}>Next</button>}
                     </div>}
