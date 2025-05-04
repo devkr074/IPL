@@ -5,6 +5,7 @@ import handleInning from "../utils/handleInning.js";
 import handleSuperOverInning from "../utils/handleSuperOverInning.js";
 import handlePointsTable from "../utils/handlePointsTable.js";
 import handleStatistics from "../utils/handleStatistics.js";
+import handleMatch from "../utils/handleMatch.js";
 function Match() {
     const { matchId } = useParams();
     const [status, setStatus] = useState();
@@ -27,7 +28,7 @@ function Match() {
         const squad = JSON.parse(localStorage.getItem("squad"));
         const teams = JSON.parse(localStorage.getItem("teams"));
         const venues = JSON.parse(localStorage.getItem("venues"));
-        setFixture(fixture);
+        setFixture(JSON.parse(localStorage.getItem("fixture")));
         setStatus(localStorage.getItem("status"));
         if (matchId >= 1 && matchId <= 74 && fixture[matchId - 1]?.tossStatus == "Completed") {
             const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
@@ -292,6 +293,7 @@ function Match() {
         const playerOfTheMatch = handleStatistics(matchId);
         fixture[matchId - 1].playerOfTheMatch = playerOfTheMatch;
         localStorage.setItem("fixture", JSON.stringify(fixture));
+        handleMatch();
     }
     function handleTabChange(e) {
         setTab(e.target.value);
