@@ -47,8 +47,8 @@ function Fixture() {
                 <div className="row overflow-hidden">
                     {(fixture) && fixture.map((m) => (
                         <div key={m.matchId} className="col-12 col-md-6 col-lg-6 py-2 px-1" onClick={() => handleMatch(m)}>
-                            <p className="col-12 fw-semibold text-light bg-green p-2 rounded-top m-0">{(m.matchId == 71) ? "Qualifier 1" : (m.matchId == 72) ? "Eliminator" : (m.matchId == 73) ? "Qualifier 2" : (m.matchId == 74) ? "Final" : `Match ${m.matchId}`} • {venues[m.venueId - 1].city}</p>
-                            <div className="row bg-body-tertiary py-1 rounded-bottom m-0">
+                            <p className="col-12 fw-semibold text-light bg-green p-2 rounded-top m-0 cp">{(m.matchId == 71) ? "Qualifier 1" : (m.matchId == 72) ? "Eliminator" : (m.matchId == 73) ? "Qualifier 2" : (m.matchId == 74) ? "Final" : `Match ${m.matchId}`} • {venues[m.venueId - 1].city}</p>
+                            <div className="row bg-body-tertiary py-1 rounded-bottom m-0 cp">
                                 <div className="col-12 d-flex align-items-center pb-1">
                                     <img src={(m.homeTeamId) ? teams[m.homeTeamId - 1].logo : "https://placehold.co/400x400?text=TBA"} alt={(m.homeTeamId) ? teams[m.homeTeamId - 1].name : "TBA"} className="img" />
                                     {(m.homeTeamId) ? ((m.matchStatus == "Completed") ? <p className="col-2 fw-semibold ps-1 m-0">{teams[m.homeTeamId - 1].shortName}</p> : <p className="col-12 fw-semibold ps-1 m-0">{teams[m.homeTeamId - 1].name}</p>) : <p className="col-2 fw-semibold ps-1 m-0">TBA</p>}

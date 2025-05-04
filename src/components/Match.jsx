@@ -602,7 +602,7 @@ function Match() {
                                                                 </div>
                                                                 {(matchData.inning1Bowler.filter((b) => (b.runs > 0) || (b.balls > 0)).map((b) => (
                                                                     <>
-                                                                        <div key={b.playerId} className="row py-1 m-0">
+                                                                        <div key={b.playerId} className="row border-bottom py-1 m-0">
                                                                             <p className="col-5 fs-8 fw-semibold text-truncate m-0">{squad[b.playerId - 1].name}</p>
                                                                             <div className="col-7 d-flex">
                                                                                 <p className="col-2 fs-8 text-end m-0">{Math.floor(b.balls / 6)}{(b.balls % 6 != 0) && "." + (b.balls % 6)}</p>
@@ -685,7 +685,7 @@ function Match() {
                                                                 </div>
                                                                 {(matchData.inning2Bowler.filter((b) => (b.runs > 0) || (b.balls > 0)).map((b) => (
                                                                     <>
-                                                                        <div key={b.playerId} className="row py-1 m-0">
+                                                                        <div key={b.playerId} className="row border-bottom py-1 m-0">
                                                                             <p className="col-5 fs-8 fw-semibold text-truncate m-0">{squad[b.playerId - 1].name}</p>
                                                                             <div className="col-7 d-flex">
                                                                                 <p className="col-2 fs-8 text-end m-0">{Math.floor(b.balls / 6)}{(b.balls % 6 != 0) && "." + (b.balls % 6)}</p>
@@ -754,7 +754,7 @@ function Match() {
                                                                     {(matchData.inning1Batsman.filter((b) => (b.didNotBat)).length > 0) &&
                                                                         <>
                                                                             <div className="row bg-gray py-1 m-0">
-                                                                                <p className="col-12 fs-8 fw-semibold m-0">Did not bat</p>
+                                                                                <p className="col-12 fs-8 fw-semibold m-0">Yet to bat</p>
                                                                             </div>
                                                                             <div className="row py-1 m-0">
                                                                                 <p className="col-12 fs-8 m-0">
@@ -774,7 +774,7 @@ function Match() {
                                                                     </div>
                                                                     {(matchData.inning1Bowler.filter((b) => (b.runs > 0) || (b.balls > 0)).map((b) => (
                                                                         <>
-                                                                            <div key={b.playerId} className="row py-1 m-0">
+                                                                            <div key={b.playerId} className="row border-bottom py-1 m-0">
                                                                                 <p className="col-5 fs-8 fw-semibold text-truncate m-0">{squad[b.playerId - 1].name}</p>
                                                                                 <div className="col-7 d-flex">
                                                                                     <p className="col-2 fs-8 text-end m-0">{Math.floor(b.balls / 6)}{(b.balls % 6 != 0) && "." + (b.balls % 6)}</p>
@@ -862,7 +862,7 @@ function Match() {
                                                                     </div>
                                                                     {(matchData.inning1Bowler.filter((b) => (b.runs > 0) || (b.balls > 0)).map((b) => (
                                                                         <>
-                                                                            <div key={b.playerId} className="row py-1 m-0">
+                                                                            <div key={b.playerId} className="row border-bottom py-1 m-0">
                                                                                 <p className="col-5 fs-8 fw-semibold text-truncate m-0">{squad[b.playerId - 1].name}</p>
                                                                                 <div className="col-7 d-flex">
                                                                                     <p className="col-2 fs-8 text-end m-0">{Math.floor(b.balls / 6)}{(b.balls % 6 != 0) && "." + (b.balls % 6)}</p>
@@ -925,7 +925,7 @@ function Match() {
                                                                     {(matchData.inning2Batsman.filter((b) => (b.didNotBat)).length > 0) &&
                                                                         <>
                                                                             <div className="row bg-gray py-1 m-0">
-                                                                                <p className="col-12 fs-8 fw-semibold m-0">Did not bat</p>
+                                                                                <p className="col-12 fs-8 fw-semibold m-0">Yet to bat</p>
                                                                             </div>
                                                                             <div className="row py-1 m-0">
                                                                                 <p className="col-12 fs-8 m-0">
@@ -945,7 +945,7 @@ function Match() {
                                                                     </div>
                                                                     {(matchData.inning2Bowler.filter((b) => (b.runs > 0) || (b.balls > 0)).map((b) => (
                                                                         <>
-                                                                            <div key={b.playerId} className="row py-1 m-0">
+                                                                            <div key={b.playerId} className="row border-bottom py-1 m-0">
                                                                                 <p className="col-5 fs-8 fw-semibold text-truncate m-0">{squad[b.playerId - 1].name}</p>
                                                                                 <div className="col-7 d-flex">
                                                                                     <p className="col-2 fs-8 text-end m-0">{Math.floor(b.balls / 6)}{(b.balls % 6 != 0) && "." + (b.balls % 6)}</p>
@@ -974,21 +974,245 @@ function Match() {
                                                     <img src={teams[fixture[matchId - 1].awayTeamId - 1].logo} alt={teams[fixture[matchId - 1].awayTeamId - 1].shortName} className="img" />
                                                 </div>
                                             </div>
-                                            <div className="row p-0 border-bottom">
-                                                <div className="col-6 mx-0 py-1 d-flex align-items-center justify-content-between border-end">
-                                                    <div className="col-10 d-flex align-items-center">
+                                            <div className="row border-bottom">
+                                                <div className="col-6 d-flex align-items-center p-1 border-end">
+                                                    <div className={`d-flex align-items-center ${squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].foreigner ? "col-10" : "col-12"}`}>
                                                         <img src={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].profile} alt={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].name} className="img rounded-circle border" />
                                                         <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].name}</p>
-                                                        {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].wicketKeeper && squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].captain) ? <p className="fs-8 m-0">(c&wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].wicketKeeper) ? <p className="m-0">(wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].captain) && <p className="m-0">(c)</p>}
+                                                        {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].wicketKeeper && squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].captain) ? <p className="fs-8 m-0">(c&wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].wicketKeeper) ? <p className="fs-8 m-0">(wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].captain) && <p className="fs-8 m-0">(c)</p>}
                                                     </div>
-                                                    {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].foreigner) && <img src="https://www.iplt20.com/assets/images/teams-foreign-player-icon.svg" alt="Foreign Player Icon" className="d-flex justify-content-end" />}
+                                                    <div className={`d-flex align-items-center justify-content-end ${squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].foreigner && "col-2"}`}>
+                                                        {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].foreigner) && <img src="https://www.iplt20.com/assets/images/teams-foreign-player-icon.svg" alt="Foreign Player Icon" />}
+                                                    </div>
                                                 </div>
-                                                <div className="col-6 py-1 d-flex align-items-center justify-content-between border-start">
-                                                    {(squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 0].foreigner) && <img src="https://www.iplt20.com/assets/images/teams-foreign-player-icon.svg" alt="Foreign Player Icon" className="d-flex justify-content-end" />}
-                                                    <div style={{float:"right"}} className="border col-10 d-flex align-items-center justify-content-end">
-                                                        <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].name}</p>
-                                                        {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].wicketKeeper && squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].captain) ? <p className="fs-8 m-0">(c&wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].wicketKeeper) ? <p className="m-0">(wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].captain) && <p className="m-0">(c)</p>}
-                                                        <img src={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].profile} alt={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 0].name} className="ms-1 img rounded-circle border" />
+                                                <div className="col-6 d-flex align-items-center p-1 border-start">
+                                                    <div className={`d-flex align-items-center ${squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 0].foreigner && "col-2"}`}>
+                                                        {(squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 0].foreigner) && <img src="https://www.iplt20.com/assets/images/teams-foreign-player-icon.svg" alt="Foreign Player Icon" />}
+                                                    </div>
+                                                    <div className={`d-flex align-items-center justify-content-end ${squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 0].foreigner ? "col-10" : "col-12"}`}>
+                                                        <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 0].name}</p>
+                                                        {(squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 0].wicketKeeper && squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 0].captain) ? <p className="fs-8 m-0">(c&wk)</p> : (squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 0].wicketKeeper) ? <p className="fs-8 m-0">(wk)</p> : (squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 0].captain) && <p className="fs-8 m-0">(c)</p>}
+                                                        <img src={squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 0].profile} alt={squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 0].name} className="img rounded-circle border" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="row border-bottom">
+                                                <div className="col-6 d-flex align-items-center p-1 border-end">
+                                                    <div className={`d-flex align-items-center ${squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 1].foreigner ? "col-10" : "col-12"}`}>
+                                                        <img src={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 1].profile} alt={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 1].name} className="img rounded-circle border" />
+                                                        <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 1].name}</p>
+                                                        {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 1].wicketKeeper && squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 1].captain) ? <p className="fs-8 m-0">(c&wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 1].wicketKeeper) ? <p className="fs-8 m-0">(wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 1].captain) && <p className="fs-8 m-0">(c)</p>}
+                                                    </div>
+                                                    <div className={`d-flex align-items-center justify-content-end ${squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 1].foreigner && "col-2"}`}>
+                                                        {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 1].foreigner) && <img src="https://www.iplt20.com/assets/images/teams-foreign-player-icon.svg" alt="Foreign Player Icon" />}
+                                                    </div>
+                                                </div>
+                                                <div className="col-6 d-flex align-items-center p-1 border-start">
+                                                    <div className={`d-flex align-items-center ${squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 1].foreigner && "col-2"}`}>
+                                                        {(squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 1].foreigner) && <img src="https://www.iplt20.com/assets/images/teams-foreign-player-icon.svg" alt="Foreign Player Icon" />}
+                                                    </div>
+                                                    <div className={`d-flex align-items-center justify-content-end ${squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 1].foreigner ? "col-10" : "col-12"}`}>
+                                                        <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 1].name}</p>
+                                                        {(squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 1].wicketKeeper && squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 1].captain) ? <p className="fs-8 m-0">(c&wk)</p> : (squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 1].wicketKeeper) ? <p className="fs-8 m-0">(wk)</p> : (squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 1].captain) && <p className="fs-8 m-0">(c)</p>}
+                                                        <img src={squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 1].profile} alt={squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 1].name} className="img rounded-circle border" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="row border-bottom">
+                                                <div className="col-6 d-flex align-items-center p-1 border-end">
+                                                    <div className={`d-flex align-items-center ${squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 2].foreigner ? "col-10" : "col-12"}`}>
+                                                        <img src={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 2].profile} alt={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 2].name} className="img rounded-circle border" />
+                                                        <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 2].name}</p>
+                                                        {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 2].wicketKeeper && squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 2].captain) ? <p className="fs-8 m-0">(c&wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 2].wicketKeeper) ? <p className="fs-8 m-0">(wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 2].captain) && <p className="fs-8 m-0">(c)</p>}
+                                                    </div>
+                                                    <div className={`d-flex align-items-center justify-content-end ${squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 2].foreigner && "col-2"}`}>
+                                                        {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 2].foreigner) && <img src="https://www.iplt20.com/assets/images/teams-foreign-player-icon.svg" alt="Foreign Player Icon" />}
+                                                    </div>
+                                                </div>
+                                                <div className="col-6 d-flex align-items-center p-1 border-start">
+                                                    <div className={`d-flex align-items-center ${squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 2].foreigner && "col-2"}`}>
+                                                        {(squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 2].foreigner) && <img src="https://www.iplt20.com/assets/images/teams-foreign-player-icon.svg" alt="Foreign Player Icon" />}
+                                                    </div>
+                                                    <div className={`d-flex align-items-center justify-content-end ${squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 2].foreigner ? "col-10" : "col-12"}`}>
+                                                        <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 2].name}</p>
+                                                        {(squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 2].wicketKeeper && squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 2].captain) ? <p className="fs-8 m-0">(c&wk)</p> : (squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 2].wicketKeeper) ? <p className="fs-8 m-0">(wk)</p> : (squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 2].captain) && <p className="fs-8 m-0">(c)</p>}
+                                                        <img src={squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 2].profile} alt={squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 2].name} className="img rounded-circle border" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="row border-bottom">
+                                                <div className="col-6 d-flex align-items-center p-1 border-end">
+                                                    <div className={`d-flex align-items-center ${squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 3].foreigner ? "col-10" : "col-12"}`}>
+                                                        <img src={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 3].profile} alt={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 3].name} className="img rounded-circle border" />
+                                                        <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 3].name}</p>
+                                                        {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 3].wicketKeeper && squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 3].captain) ? <p className="fs-8 m-0">(c&wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 3].wicketKeeper) ? <p className="fs-8 m-0">(wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 3].captain) && <p className="fs-8 m-0">(c)</p>}
+                                                    </div>
+                                                    <div className={`d-flex align-items-center justify-content-end ${squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 3].foreigner && "col-2"}`}>
+                                                        {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 3].foreigner) && <img src="https://www.iplt20.com/assets/images/teams-foreign-player-icon.svg" alt="Foreign Player Icon" />}
+                                                    </div>
+                                                </div>
+                                                <div className="col-6 d-flex align-items-center p-1 border-start">
+                                                    <div className={`d-flex align-items-center ${squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 3].foreigner && "col-2"}`}>
+                                                        {(squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 3].foreigner) && <img src="https://www.iplt20.com/assets/images/teams-foreign-player-icon.svg" alt="Foreign Player Icon" />}
+                                                    </div>
+                                                    <div className={`d-flex align-items-center justify-content-end ${squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 3].foreigner ? "col-10" : "col-12"}`}>
+                                                        <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 3].name}</p>
+                                                        {(squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 3].wicketKeeper && squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 3].captain) ? <p className="fs-8 m-0">(c&wk)</p> : (squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 3].wicketKeeper) ? <p className="fs-8 m-0">(wk)</p> : (squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 3].captain) && <p className="fs-8 m-0">(c)</p>}
+                                                        <img src={squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 3].profile} alt={squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 3].name} className="img rounded-circle border" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="row border-bottom">
+                                                <div className="col-6 d-flex align-items-center p-1 border-end">
+                                                    <div className={`d-flex align-items-center ${squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 4].foreigner ? "col-10" : "col-12"}`}>
+                                                        <img src={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 4].profile} alt={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 4].name} className="img rounded-circle border" />
+                                                        <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 4].name}</p>
+                                                        {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 4].wicketKeeper && squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 4].captain) ? <p className="fs-8 m-0">(c&wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 4].wicketKeeper) ? <p className="fs-8 m-0">(wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 4].captain) && <p className="fs-8 m-0">(c)</p>}
+                                                    </div>
+                                                    <div className={`d-flex align-items-center justify-content-end ${squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 4].foreigner && "col-2"}`}>
+                                                        {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 4].foreigner) && <img src="https://www.iplt20.com/assets/images/teams-foreign-player-icon.svg" alt="Foreign Player Icon" />}
+                                                    </div>
+                                                </div>
+                                                <div className="col-6 d-flex align-items-center p-1 border-start">
+                                                    <div className={`d-flex align-items-center ${squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 4].foreigner && "col-2"}`}>
+                                                        {(squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 4].foreigner) && <img src="https://www.iplt20.com/assets/images/teams-foreign-player-icon.svg" alt="Foreign Player Icon" />}
+                                                    </div>
+                                                    <div className={`d-flex align-items-center justify-content-end ${squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 4].foreigner ? "col-10" : "col-12"}`}>
+                                                        <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 4].name}</p>
+                                                        {(squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 4].wicketKeeper && squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 4].captain) ? <p className="fs-8 m-0">(c&wk)</p> : (squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 4].wicketKeeper) ? <p className="fs-8 m-0">(wk)</p> : (squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 4].captain) && <p className="fs-8 m-0">(c)</p>}
+                                                        <img src={squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 4].profile} alt={squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 4].name} className="img rounded-circle border" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="row border-bottom">
+                                                <div className="col-6 d-flex align-items-center p-1 border-end">
+                                                    <div className={`d-flex align-items-center ${squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 5].foreigner ? "col-10" : "col-12"}`}>
+                                                        <img src={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 5].profile} alt={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 5].name} className="img rounded-circle border" />
+                                                        <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 5].name}</p>
+                                                        {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 5].wicketKeeper && squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 5].captain) ? <p className="fs-8 m-0">(c&wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 5].wicketKeeper) ? <p className="fs-8 m-0">(wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 5].captain) && <p className="fs-8 m-0">(c)</p>}
+                                                    </div>
+                                                    <div className={`d-flex align-items-center justify-content-end ${squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 5].foreigner && "col-2"}`}>
+                                                        {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 5].foreigner) && <img src="https://www.iplt20.com/assets/images/teams-foreign-player-icon.svg" alt="Foreign Player Icon" />}
+                                                    </div>
+                                                </div>
+                                                <div className="col-6 d-flex align-items-center p-1 border-start">
+                                                    <div className={`d-flex align-items-center ${squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 5].foreigner && "col-2"}`}>
+                                                        {(squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 5].foreigner) && <img src="https://www.iplt20.com/assets/images/teams-foreign-player-icon.svg" alt="Foreign Player Icon" />}
+                                                    </div>
+                                                    <div className={`d-flex align-items-center justify-content-end ${squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 5].foreigner ? "col-10" : "col-12"}`}>
+                                                        <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 5].name}</p>
+                                                        {(squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 5].wicketKeeper && squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 5].captain) ? <p className="fs-8 m-0">(c&wk)</p> : (squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 5].wicketKeeper) ? <p className="fs-8 m-0">(wk)</p> : (squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 5].captain) && <p className="fs-8 m-0">(c)</p>}
+                                                        <img src={squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 5].profile} alt={squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 5].name} className="img rounded-circle border" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="row border-bottom">
+                                                <div className="col-6 d-flex align-items-center p-1 border-end">
+                                                    <div className={`d-flex align-items-center ${squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 6].foreigner ? "col-10" : "col-12"}`}>
+                                                        <img src={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 6].profile} alt={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 6].name} className="img rounded-circle border" />
+                                                        <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 6].name}</p>
+                                                        {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 6].wicketKeeper && squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 6].captain) ? <p className="fs-8 m-0">(c&wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 6].wicketKeeper) ? <p className="fs-8 m-0">(wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 6].captain) && <p className="fs-8 m-0">(c)</p>}
+                                                    </div>
+                                                    <div className={`d-flex align-items-center justify-content-end ${squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 6].foreigner && "col-2"}`}>
+                                                        {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 6].foreigner) && <img src="https://www.iplt20.com/assets/images/teams-foreign-player-icon.svg" alt="Foreign Player Icon" />}
+                                                    </div>
+                                                </div>
+                                                <div className="col-6 d-flex align-items-center p-1 border-start">
+                                                    <div className={`d-flex align-items-center ${squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 6].foreigner && "col-2"}`}>
+                                                        {(squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 6].foreigner) && <img src="https://www.iplt20.com/assets/images/teams-foreign-player-icon.svg" alt="Foreign Player Icon" />}
+                                                    </div>
+                                                    <div className={`d-flex align-items-center justify-content-end ${squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 6].foreigner ? "col-10" : "col-12"}`}>
+                                                        <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 6].name}</p>
+                                                        {(squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 6].wicketKeeper && squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 6].captain) ? <p className="fs-8 m-0">(c&wk)</p> : (squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 6].wicketKeeper) ? <p className="fs-8 m-0">(wk)</p> : (squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 6].captain) && <p className="fs-8 m-0">(c)</p>}
+                                                        <img src={squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 6].profile} alt={squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 6].name} className="img rounded-circle border" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="row border-bottom">
+                                                <div className="col-6 d-flex align-items-center p-1 border-end">
+                                                    <div className={`d-flex align-items-center ${squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 7].foreigner ? "col-10" : "col-12"}`}>
+                                                        <img src={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 7].profile} alt={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 7].name} className="img rounded-circle border" />
+                                                        <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 7].name}</p>
+                                                        {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 7].wicketKeeper && squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 7].captain) ? <p className="fs-8 m-0">(c&wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 7].wicketKeeper) ? <p className="fs-8 m-0">(wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 7].captain) && <p className="fs-8 m-0">(c)</p>}
+                                                    </div>
+                                                    <div className={`d-flex align-items-center justify-content-end ${squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 7].foreigner && "col-2"}`}>
+                                                        {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 7].foreigner) && <img src="https://www.iplt20.com/assets/images/teams-foreign-player-icon.svg" alt="Foreign Player Icon" />}
+                                                    </div>
+                                                </div>
+                                                <div className="col-6 d-flex align-items-center p-1 border-start">
+                                                    <div className={`d-flex align-items-center ${squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 7].foreigner && "col-2"}`}>
+                                                        {(squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 7].foreigner) && <img src="https://www.iplt20.com/assets/images/teams-foreign-player-icon.svg" alt="Foreign Player Icon" />}
+                                                    </div>
+                                                    <div className={`d-flex align-items-center justify-content-end ${squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 7].foreigner ? "col-10" : "col-12"}`}>
+                                                        <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 7].name}</p>
+                                                        {(squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 7].wicketKeeper && squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 7].captain) ? <p className="fs-8 m-0">(c&wk)</p> : (squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 7].wicketKeeper) ? <p className="fs-8 m-0">(wk)</p> : (squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 7].captain) && <p className="fs-8 m-0">(c)</p>}
+                                                        <img src={squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 7].profile} alt={squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 7].name} className="img rounded-circle border" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="row border-bottom">
+                                                <div className="col-6 d-flex align-items-center p-1 border-end">
+                                                    <div className={`d-flex align-items-center ${squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 8].foreigner ? "col-10" : "col-12"}`}>
+                                                        <img src={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 8].profile} alt={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 8].name} className="img rounded-circle border" />
+                                                        <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 8].name}</p>
+                                                        {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 8].wicketKeeper && squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 8].captain) ? <p className="fs-8 m-0">(c&wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 8].wicketKeeper) ? <p className="fs-8 m-0">(wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 8].captain) && <p className="fs-8 m-0">(c)</p>}
+                                                    </div>
+                                                    <div className={`d-flex align-items-center justify-content-end ${squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 8].foreigner && "col-2"}`}>
+                                                        {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 8].foreigner) && <img src="https://www.iplt20.com/assets/images/teams-foreign-player-icon.svg" alt="Foreign Player Icon" />}
+                                                    </div>
+                                                </div>
+                                                <div className="col-6 d-flex align-items-center p-1 border-start">
+                                                    <div className={`d-flex align-items-center ${squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 8].foreigner && "col-2"}`}>
+                                                        {(squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 8].foreigner) && <img src="https://www.iplt20.com/assets/images/teams-foreign-player-icon.svg" alt="Foreign Player Icon" />}
+                                                    </div>
+                                                    <div className={`d-flex align-items-center justify-content-end ${squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 8].foreigner ? "col-10" : "col-12"}`}>
+                                                        <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 8].name}</p>
+                                                        {(squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 8].wicketKeeper && squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 8].captain) ? <p className="fs-8 m-0">(c&wk)</p> : (squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 8].wicketKeeper) ? <p className="fs-8 m-0">(wk)</p> : (squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 8].captain) && <p className="fs-8 m-0">(c)</p>}
+                                                        <img src={squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 8].profile} alt={squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 8].name} className="img rounded-circle border" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="row border-bottom">
+                                                <div className="col-6 d-flex align-items-center p-1 border-end">
+                                                    <div className={`d-flex align-items-center ${squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 9].foreigner ? "col-10" : "col-12"}`}>
+                                                        <img src={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 9].profile} alt={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 9].name} className="img rounded-circle border" />
+                                                        <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 9].name}</p>
+                                                        {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 9].wicketKeeper && squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 9].captain) ? <p className="fs-8 m-0">(c&wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 9].wicketKeeper) ? <p className="fs-8 m-0">(wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 9].captain) && <p className="fs-8 m-0">(c)</p>}
+                                                    </div>
+                                                    <div className={`d-flex align-items-center justify-content-end ${squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 9].foreigner && "col-2"}`}>
+                                                        {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 9].foreigner) && <img src="https://www.iplt20.com/assets/images/teams-foreign-player-icon.svg" alt="Foreign Player Icon" />}
+                                                    </div>
+                                                </div>
+                                                <div className="col-6 d-flex align-items-center p-1 border-start">
+                                                    <div className={`d-flex align-items-center ${squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 9].foreigner && "col-2"}`}>
+                                                        {(squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 9].foreigner) && <img src="https://www.iplt20.com/assets/images/teams-foreign-player-icon.svg" alt="Foreign Player Icon" />}
+                                                    </div>
+                                                    <div className={`d-flex align-items-center justify-content-end ${squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 9].foreigner ? "col-10" : "col-12"}`}>
+                                                        <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 9].name}</p>
+                                                        {(squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 9].wicketKeeper && squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 9].captain) ? <p className="fs-8 m-0">(c&wk)</p> : (squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 9].wicketKeeper) ? <p className="fs-8 m-0">(wk)</p> : (squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 9].captain) && <p className="fs-8 m-0">(c)</p>}
+                                                        <img src={squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 9].profile} alt={squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 9].name} className="img rounded-circle border" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="row border-bottom">
+                                                <div className="col-6 d-flex align-items-center p-1 border-end">
+                                                    <div className={`d-flex align-items-center ${squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 10].foreigner ? "col-10" : "col-12"}`}>
+                                                        <img src={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 10].profile} alt={squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 10].name} className="img rounded-circle border" />
+                                                        <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 10].name}</p>
+                                                        {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 10].wicketKeeper && squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 10].captain) ? <p className="fs-8 m-0">(c&wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 10].wicketKeeper) ? <p className="fs-8 m-0">(wk)</p> : (squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 10].captain) && <p className="fs-8 m-0">(c)</p>}
+                                                    </div>
+                                                    <div className={`d-flex align-items-center justify-content-end ${squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 10].foreigner && "col-2"}`}>
+                                                        {(squad[11 * (fixture[matchId - 1].homeTeamId - 1) + 10].foreigner) && <img src="https://www.iplt20.com/assets/images/teams-foreign-player-icon.svg" alt="Foreign Player Icon" />}
+                                                    </div>
+                                                </div>
+                                                <div className="col-6 d-flex align-items-center p-1 border-start">
+                                                    <div className={`d-flex align-items-center ${squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 10].foreigner && "col-2"}`}>
+                                                        {(squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 10].foreigner) && <img src="https://www.iplt20.com/assets/images/teams-foreign-player-icon.svg" alt="Foreign Player Icon" />}
+                                                    </div>
+                                                    <div className={`d-flex align-items-center justify-content-end ${squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 10].foreigner ? "col-10" : "col-12"}`}>
+                                                        <p className="fs-8 text-truncate px-1 m-0">{squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 10].name}</p>
+                                                        {(squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 10].wicketKeeper && squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 10].captain) ? <p className="fs-8 m-0">(c&wk)</p> : (squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 10].wicketKeeper) ? <p className="fs-8 m-0">(wk)</p> : (squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 10].captain) && <p className="fs-8 m-0">(c)</p>}
+                                                        <img src={squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 10].profile} alt={squad[11 * (fixture[matchId - 1].awayTeamId - 1) + 10].name} className="img rounded-circle border" />
                                                     </div>
                                                 </div>
                                             </div>
