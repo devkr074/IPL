@@ -15,7 +15,6 @@ function Toss() {
     const [flipped, setFlipped] = useState(false);
     const [opponentCall, setOpponentCall] = useState();
     const [userCall, setUserCall] = useState();
-    const [status, setStatus] = useState();
     useEffect(() => {
         document.title = "IPL - Toss";
         const fixture = JSON.parse(localStorage.getItem("fixture"));
@@ -23,16 +22,12 @@ function Toss() {
         const tossOutcome = localStorage.getItem("tossOutcome");
         const userTeamId = Number(localStorage.getItem("userTeamId"));
         const optionOutcome = localStorage.getItem("optionOutcome");
-        setStatus(localStorage.getItem("status"));
-
         setFixture(fixture);
+        setHomeTeamId(fixture[matchId - 1].homeTeamId);
         setTeams(teams);
         setTossOutcome(tossOutcome);
         setUserTeamId(userTeamId);
         setOptionOutcome(optionOutcome);
-        if (matchId >= 1 && matchId <= 74 && status) {
-            setHomeTeamId(fixture[matchId - 1].homeTeamId);
-        }
         const opponentCall = localStorage.getItem("opponentCall");
         if (opponentCall) {
             setFlipped(true);
@@ -163,43 +158,39 @@ function Toss() {
     }
     return (
         <>
-            {(matchId >= 1 && matchId <= 74) ? <>
-                <div className="row sticky-top shadow">
-                    <p className="col-12 fs-5 fw-bold text-light text-center bg-green p-2 m-0">Toss - {(matchId == 71) ? "Qualifier 1" : (matchId == 72) ? "Eliminator" : (matchId == 73) ? "Qualifier 2" : (matchId == 74) ? "Final" : `Match #${matchId}`}</p>
-                </div>
-                {(!status) ? <div role="alert" className="alert fs-7 fw-semibold text-light bg-danger my-2">No Team Selected! Please Select a team.</div> :
-                    (fixture && fixture[matchId - 1].tossStatus == "Completed") ? <div role="alert" className="alert fs-7 fw-semibold text-light bg-green my-2">Toss Completed</div> :
-                        (fixture && ((matchId >= 2) && (fixture[matchId - 2]?.matchStatus != "Completed"))) ? <div role="alert" className="alert fs-7 fw-semibold text-light bg-danger my-2">Previous Match not Completed</div> :
+            <div>
+                <p>{matchId == 71 ? "Qualifier 1" : matchId == 72 ? "Eliminator" : matchId == 73 ? "Qualifier 2" : matchId == 74 ? "Final" : "Match #" + matchId}: {teams && teams[fixture[matchId - 1].homeTeamId - 1].shortName} vs {teams && teams[fixture[matchId - 1].awayTeamId - 1].shortName}</p>
+            </div>
+            <div>
+                {(userTeamId == homeTeamId) ?
+                    <div>
+                        <button onClick={(!flipped) ? handleFlip : undefined}>{(!flipped) ? "Flip" : "Flipped"}</button>
+                        {(flipped) && <p>{teams && teams[fixture[matchId - 1].awayTeamId - 1].name} ask for {opponentCall}</p>}
+                        {(flipped) && <p>It's {tossOutcome}</p>}
+                        {(flipped) ? (opponentCall == tossOutcome) ? <p>{teams && teams[fixture[matchId - 1].awayTeamId - 1].name} opt to {optionOutcome}</p> :
                             <div>
-                                {(userTeamId == homeTeamId) ?
-                                    <div>
-                                        <button onClick={(!flipped) ? handleFlip : undefined}>{(!flipped) ? "Flip" : "Flipped"}</button>
-                                        {(flipped) && <p>{teams && teams[fixture[matchId - 1].awayTeamId - 1].name} ask for {opponentCall}</p>}
-                                        {(flipped) && <p>It's {tossOutcome}</p>}
-                                        {(flipped) ? (opponentCall == tossOutcome) ? <p>{teams && teams[fixture[matchId - 1].awayTeamId - 1].name} opt to {optionOutcome}</p> :
-                                            <div>
-                                                <p>{teams && teams[fixture[matchId - 1].homeTeamId - 1].name} won the toss</p>
-                                                <button value="Bat" onClick={handleOptionChange}>Bat</button>
-                                                <button value="Bowl" onClick={handleOptionChange}>Bowl</button>
-                                            </div> : <></>}
-                                        {optionOutcome ? <button onClick={handleMatch}>Next</button> : <></>}
-                                    </div> :
-                                    <div>
-                                        <p>{(!flipped) ? "Flipping..." : "Flipped"}</p>
-                                        <div>
-                                            <button className={userCall == "Heads" ? 'border border-5 border-dark btn fw-semibold fs-5 btn-green' : 'btn fw-semibold fs-5 btn-green border border-5 border-light'} value="Heads" onClick={(!flipped) ? handleTossCallSelect : undefined}>Heads</button>
-                                            <button className={userCall == "Tails" ? 'border border-5 border-dark btn fw-semibold fs-5 btn-green' : 'btn fw-semibold fs-5 btn-green border border-5 border-light'} value="Tails" onClick={(!flipped) ? handleTossCallSelect : undefined}>Tails</button>
-                                        </div>
-                                        {(flipped) && <p>It's {tossOutcome}</p>}
-                                        {(flipped) ? (userCall != tossOutcome) ? <p>{teams && teams[fixture[matchId - 1].homeTeamId - 1].name} opt to {optionOutcome}</p> :
-                                            <div>
-                                                <p>{teams && teams[fixture[matchId - 1].awayTeamId - 1].name} won the toss</p>
-                                                <button className={optionOutcome == "Bat" ? 'border border-5 border-dark btn fw-semibold fs-5 btn-green' : 'btn fw-semibold fs-5 btn-green border border-5 border-light'} value="Bat" onClick={handleOptionChange}>Bat</button>
-                                                <button className={optionOutcome == "Bowl" ? 'border border-5 border-dark btn fw-semibold fs-5 btn-green' : 'btn fw-semibold fs-5 btn-green border border-5 border-light'} value="Bowl" onClick={handleOptionChange}>Bowl</button>
-                                            </div> : <></>}
-                                        {(optionOutcome) && <button onClick={handleMatch}>Next</button>}
-                                    </div>}
-                            </div>}</> : <div role="alert" className="alert fs-7 fw-semibold text-light bg-danger my-2">Error 404 - Page not Found!</div>}
+                                <p>{teams && teams[fixture[matchId - 1].homeTeamId - 1].name} won the toss</p>
+                                <button value="Bat" onClick={handleOptionChange}>Bat</button>
+                                <button value="Bowl" onClick={handleOptionChange}>Bowl</button>
+                            </div> : <></>}
+                        {optionOutcome ? <button onClick={handleMatch}>Next</button> : <></>}
+                    </div> :
+                    <div>
+                        <p>{(!flipped) ? "Flipping..." : "Flipped"}</p>
+                        <div>
+                            <button value="Heads" onClick={(!flipped) ? handleTossCallSelect : undefined}>Heads</button>
+                            <button value="Tails" onClick={(!flipped) ? handleTossCallSelect : undefined}>Tails</button>
+                        </div>
+                        {(flipped) && <p>It's {tossOutcome}</p>}
+                        {(flipped) ? (userCall != tossOutcome) ? <p>{teams && teams[fixture[matchId - 1].homeTeamId - 1].name} opt to {optionOutcome}</p> :
+                            <div>
+                                <p>{teams && teams[fixture[matchId - 1].awayTeamId - 1].name} won the toss</p>
+                                <button value="Bat" onClick={handleOptionChange}>Bat</button>
+                                <button value="Bowl" onClick={handleOptionChange}>Bowl</button>
+                            </div> : <></>}
+                        {(optionOutcome) && <button onClick={handleMatch}>Next</button>}
+                    </div>}
+            </div>
         </>
     );
 }
