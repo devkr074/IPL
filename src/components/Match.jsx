@@ -388,6 +388,7 @@ function Match() {
                                                             <p className="m-0 fw-semibold">{(matchData.inning1.balls == 0) ? "-" : ((matchData.inning1.runs / matchData.inning1.balls) * 6).toFixed(1)}</p>
                                                         </div>
                                                         <p className="col-12 fs-8 fw-semibold text-danger text-truncate py-1 m-0">{(matchStatus == "First Inning") ? fixture[matchId - 1].tossResult : "Innings Break"}</p>
+                                                        <p className="col-12 fs-8 fw-semibold text-secondary text-truncate bg-body-tertiary py-1 m-0">P'SHIP: {matchData.inning1.partnershipRuns} ({matchData.inning1.partnershipBalls})</p>
                                                         <div className="row bg-gray py-1 m-0">
                                                             <p className="col-4 fs-8 fw-semibold p-0 m-0">Batter</p>
                                                             <div className="col-8 d-flex">
@@ -468,6 +469,7 @@ function Match() {
                                                             </div>
                                                         </div>
                                                         <p className="col-12 fs-8 fw-semibold text-danger text-truncate py-1 m-0">{(matchStatus == "Second Inning") ? (`${teams[matchData.inning2.teamId - 1].shortName} need ${matchData.inning1.runs - matchData.inning2.runs + 1} run${(matchData.inning1.runs - matchData.inning2.runs + 1 == 1) ? "" : "s"} from ${120 - matchData.inning2.balls} ball${(120 - matchData.inning2.balls == 1) ? "" : "s"}`) : "Super Over"}</p>
+                                                        <p className="col-12 fs-8 fw-semibold text-secondary text-truncate bg-body-tertiary py-1 m-0"><span className="me-3">TAR: {matchData.inning1.runs + 1}</span> P'SHIP: {matchData.inning2.partnershipRuns} ({matchData.inning2.partnershipBalls})</p>
                                                         <div className="row bg-gray py-1 m-0">
                                                             <p className="col-4 fs-8 fw-semibold p-0 m-0">Batter</p>
                                                             <div className="col-8 d-flex">

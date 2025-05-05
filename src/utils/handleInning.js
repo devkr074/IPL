@@ -19,6 +19,7 @@ function handleInning(inning, matchId) {
     switch (ballOutcome) {
         case 0:
             matchData[`inning${inning}`].balls++;
+            matchData[`inning${inning}`].partnershipBalls++;
             matchData[`inning${inning}`].lastBallExtra = false;
             matchData[`inning${inning}Batsman`][strikerIndexMatchData].balls++;
             battingStatistics[strikerIndexStatistics].balls++;
@@ -37,6 +38,8 @@ function handleInning(inning, matchId) {
         case 1:
             matchData[`inning${inning}`].runs++;
             matchData[`inning${inning}`].balls++;
+            matchData[`inning${inning}`].partnershipRuns++;
+            matchData[`inning${inning}`].partnershipBalls++;
             matchData[`inning${inning}`].lastBallExtra = false;
             matchData[`inning${inning}Batsman`][strikerIndexMatchData].runs++;
             matchData[`inning${inning}Batsman`][strikerIndexMatchData].balls++;
@@ -60,6 +63,8 @@ function handleInning(inning, matchId) {
         case 2:
             matchData[`inning${inning}`].runs += 2;
             matchData[`inning${inning}`].balls++;
+            matchData[`inning${inning}`].partnershipRuns += 2;
+            matchData[`inning${inning}`].partnershipBalls++;
             matchData[`inning${inning}`].lastBallExtra = false;
             matchData[`inning${inning}Batsman`][strikerIndexMatchData].runs += 2;
             matchData[`inning${inning}Batsman`][strikerIndexMatchData].balls++;
@@ -82,6 +87,8 @@ function handleInning(inning, matchId) {
         case 3:
             matchData[`inning${inning}`].runs += 3;
             matchData[`inning${inning}`].balls++;
+            matchData[`inning${inning}`].partnershipRuns += 3;
+            matchData[`inning${inning}`].partnershipBalls++;
             matchData[`inning${inning}`].lastBallExtra = false;
             matchData[`inning${inning}Batsman`][strikerIndexMatchData].runs += 3;
             matchData[`inning${inning}Batsman`][strikerIndexMatchData].balls++;
@@ -105,6 +112,8 @@ function handleInning(inning, matchId) {
         case 4:
             matchData[`inning${inning}`].runs += 4;
             matchData[`inning${inning}`].balls++;
+            matchData[`inning${inning}`].partnershipRuns += 4;
+            matchData[`inning${inning}`].partnershipBalls++;
             matchData[`inning${inning}`].lastBallExtra = false;
             matchData[`inning${inning}Batsman`][strikerIndexMatchData].runs += 4;
             matchData[`inning${inning}Batsman`][strikerIndexMatchData].balls++;
@@ -128,6 +137,8 @@ function handleInning(inning, matchId) {
             break;
         case 5:
             matchData[`inning${inning}`].balls++;
+            matchData[`inning${inning}`].partnershipRuns = 0;
+            matchData[`inning${inning}`].partnershipBalls = 0;
             if (matchData[`inning${inning}`].lastBallFreeHit == false) {
                 matchData[`inning${inning}`].wickets++;
                 matchData[`inning${inning}Batsman`][strikerIndexMatchData].wicketById = bowler.playerId;
@@ -159,6 +170,8 @@ function handleInning(inning, matchId) {
         case 6:
             matchData[`inning${inning}`].runs += 6;
             matchData[`inning${inning}`].balls++;
+            matchData[`inning${inning}`].partnershipRuns += 6;
+            matchData[`inning${inning}`].partnershipBalls++;
             matchData[`inning${inning}`].lastBallExtra = false;
             matchData[`inning${inning}Batsman`][strikerIndexMatchData].runs += 6;
             matchData[`inning${inning}Batsman`][strikerIndexMatchData].balls++;
@@ -182,6 +195,8 @@ function handleInning(inning, matchId) {
             break;
         case 7:
             matchData[`inning${inning}`].balls++;
+            matchData[`inning${inning}`].partnershipRuns = 0;
+            matchData[`inning${inning}`].partnershipBalls = 0;
             if (matchData[`inning${inning}`].lastBallFreeHit == false) {
                 matchData[`inning${inning}`].wickets++;
                 matchData[`inning${inning}Batsman`][strikerIndexMatchData].wicketById = bowler.playerId;
@@ -209,6 +224,8 @@ function handleInning(inning, matchId) {
             break;
         case 8:
             matchData[`inning${inning}`].balls++;
+            matchData[`inning${inning}`].partnershipRuns = 0;
+            matchData[`inning${inning}`].partnershipBalls = 0;
             if (matchData[`inning${inning}`].lastBallFreeHit == false) {
                 matchData[`inning${inning}`].wickets++;
                 matchData[`inning${inning}Batsman`][strikerIndexMatchData].wicketById = bowler.playerId;
@@ -236,6 +253,8 @@ function handleInning(inning, matchId) {
             break;
         case 9:
             matchData[`inning${inning}`].balls++;
+            matchData[`inning${inning}`].partnershipRuns = 0;
+            matchData[`inning${inning}`].partnershipBalls = 0;
             if (matchData[`inning${inning}`].lastBallFreeHit == false) {
                 matchData[`inning${inning}`].wickets++;
                 matchData[`inning${inning}Batsman`][strikerIndexMatchData].wicketById = bowler.playerId;
@@ -267,6 +286,8 @@ function handleInning(inning, matchId) {
         case 10:
             matchData[`inning${inning}`].balls++;
             matchData[`inning${inning}`].wickets++;
+            matchData[`inning${inning}`].partnershipRuns = 0;
+            matchData[`inning${inning}`].partnershipBalls = 0;
             matchData[`inning${inning}`].lastBallExtra = false;
             matchData[`inning${inning}Batsman`][strikerIndexMatchData].balls++;
             matchData[`inning${inning}Batsman`][strikerIndexMatchData].wicketTypeId = 5;
@@ -289,6 +310,8 @@ function handleInning(inning, matchId) {
         case 11:
             matchData[`inning${inning}`].runs++;
             matchData[`inning${inning}`].balls++;
+            matchData[`inning${inning}`].partnershipRuns += 1;
+            matchData[`inning${inning}`].partnershipBalls++;
             matchData[`inning${inning}`].extras++;
             matchData[`inning${inning}`].wides++;
             matchData[`inning${inning}`].lastBallExtra = true;
@@ -309,6 +332,8 @@ function handleInning(inning, matchId) {
         case 12:
             matchData[`inning${inning}`].runs++;
             matchData[`inning${inning}`].balls++;
+            matchData[`inning${inning}`].partnershipRuns += 1;
+            matchData[`inning${inning}`].partnershipBalls++;
             matchData[`inning${inning}`].extras++;
             matchData[`inning${inning}`].noBalls++;
             matchData[`inning${inning}`].lastBallExtra = true;
@@ -329,6 +354,8 @@ function handleInning(inning, matchId) {
         case 13:
             matchData[`inning${inning}`].balls++;
             matchData[`inning${inning}`].runs++;
+            matchData[`inning${inning}`].partnershipRuns += 1;
+            matchData[`inning${inning}`].partnershipBalls++;
             matchData[`inning${inning}`].extras++;
             matchData[`inning${inning}`].legByes++;
             matchData[`inning${inning}`].lastBallExtra = false;
@@ -351,6 +378,8 @@ function handleInning(inning, matchId) {
         case 14:
             matchData[`inning${inning}`].balls++;
             matchData[`inning${inning}`].runs++;
+            matchData[`inning${inning}`].partnershipRuns += 1;
+            matchData[`inning${inning}`].partnershipBalls++;
             matchData[`inning${inning}`].extras++;
             matchData[`inning${inning}`].byes++;
             matchData[`inning${inning}`].lastBallExtra = false;
