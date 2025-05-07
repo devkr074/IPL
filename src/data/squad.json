@@ -193,26 +193,27 @@
         "rating": 9,
         "name": "Virat Kohli",
         "shortName": "V. Kohli",
-        "profile": "https://documents.iplt20.com/ipl/IPLHeadshot2025/2.png"
+        "profile": "https://documents.iplt20.com/ipl/IPLHeadshot2025/2.png",
+        "captain": true
     },
     {
         "playerId": 24,
-        "roleId": 1,
+        "roleId": 2,
         "rating": 8,
-        "name": "Phil Salt",
-        "shortName": "P. Salt",
-        "profile": "https://documents.iplt20.com/ipl/IPLHeadshot2025/1220.png",
-        "wicketKeeper": true,
+        "name": "Chris Gayle",
+        "shortName": "C. Gayle",
+        "profile": "https://documents.iplt20.com/playerheadshot/ipl/210/236.png",
         "foreigner": true
     },
     {
         "playerId": 25,
         "roleId": 1,
         "rating": 7,
-        "name": "Rajat Patidar",
-        "shortName": "R. Patidar",
-        "profile": "https://documents.iplt20.com/ipl/IPLHeadshot2025/597.png",
-        "captain": true
+        "name": "AB De Villiers",
+        "shortName": "ABD",
+        "profile": "https://documents.iplt20.com/playerheadshot/ipl/210/233.png",
+        "wicketKeeper": true,
+        "foreigner": true
     },
     {
         "playerId": 26,
