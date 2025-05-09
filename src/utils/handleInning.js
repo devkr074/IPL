@@ -15,7 +15,7 @@ function handleInning(inning, matchId) {
     const striker = squad[matchData[`inning${inning}`].strikerId - 1];
     const strikerIndexMatchData = matchData[`inning${inning}Batsman`].findIndex((p) => p.playerId == matchData[`inning${inning}`].strikerId);
     const strikerIndexStatistics = battingStatistics.findIndex((p) => p.playerId == matchData[`inning${inning}`].strikerId);
-    const ballOutcome = handleBallOutcome(striker.roleId);
+    const ballOutcome = handleBallOutcome(matchData[`inning${inning}Batsman`][strikerIndexMatchData].balls, matchData[`inning${inning}`].balls, matchData[`inning${inning}`].wickets, striker.roleId);
     switch (ballOutcome) {
         case 0:
             matchData[`inning${inning}`].balls++;
