@@ -55,10 +55,7 @@ function Match() {
             return () => {
                 clearTimeout(firstInningTimeout.current);
                 clearTimeout(secondInningTimeout.current);
-                clearTimeout(superOverFirstInningTimeout.current);
-                clearTimeout(superOverSecondInningTimeout.current);
                 clearTimeout(inningsBreakTimeout.current);
-                clearTimeout(superOverInningsBreakTimeout.current);
             };
         }
     }, [matchId, matchStatus]);
@@ -177,7 +174,7 @@ function Match() {
             setMatchData(matchData);
             setTimeout(() => {
                 handleSuperOverSecondInning(matchId);
-            }, 20000);
+            }, 5000);
         }
     }
     function handleSuperOverSecondInning(matchId) {
