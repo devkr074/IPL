@@ -19,7 +19,10 @@ function Match() {
     const [venues, setVenues] = useState();
     const firstInningTimeout = useRef(null);
     const secondInningTimeout = useRef(null);
+    const superOverFirstInningTimeout = useRef(null);
+    const superOverSecondInningTimeout = useRef(null);
     const inningsBreakTimeout = useRef(null);
+    const superOverInningsBreakTimeout = useRef(null);
     useEffect(() => {
         const fixture = JSON.parse(localStorage.getItem("fixture")) || [];
         const squad = JSON.parse(localStorage.getItem("squad"));
@@ -38,10 +41,10 @@ function Match() {
             setTeams(teams);
             setVenues(venues);
             if (matchStatus == null || matchStatus == "First Inning" || matchStatus == "Innings Break") {
-                handleFirstInningWithDelay(matchId, matchStatus);
+                handleFirstInning(matchId);
             }
             else if (matchStatus == "Second Inning" || matchStatus == "Second Innings Break") {
-                handleSecondInningWithDelay(matchId, matchStatus);
+                handleSecondInning(matchId);
             }
             else if (matchStatus == "Super Over First Inning" || matchStatus == "Super Over Innings Break") {
                 handleSuperOverFirstInning(matchId);
@@ -52,7 +55,10 @@ function Match() {
             return () => {
                 clearTimeout(firstInningTimeout.current);
                 clearTimeout(secondInningTimeout.current);
+                clearTimeout(superOverFirstInningTimeout.current);
+                clearTimeout(superOverSecondInningTimeout.current);
                 clearTimeout(inningsBreakTimeout.current);
+                clearTimeout(superOverInningsBreakTimeout.current);
             };
         }
     }, [matchId, matchStatus]);
@@ -68,7 +74,7 @@ function Match() {
             document.title = `${teams[matchData.inning2.teamId - 1].shortName}: ${matchData.inning2.runs}-${matchData.inning2.wickets} (${Math.floor(matchData.inning2.balls / 6)}.${matchData.inning2.balls % 6}) vs ${teams[matchData.inning1.teamId - 1].shortName}: ${matchData.inning1.runs}-${matchData.inning1.wickets} (${Math.floor(matchData.inning1.balls / 6)}.${matchData.inning1.balls % 6})`;
         }
     }, [matchData]);
-    function handleFirstInningWithDelay(matchId, currentStatus) {
+    function handleFirstInning(matchId) {
         const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
         const fixture = JSON.parse(localStorage.getItem("fixture"));
         fixture[matchId - 1].matchStatus = "First Inning";
@@ -87,7 +93,7 @@ function Match() {
             firstInningTimeout.current = setTimeout(() => {
                 handleInning(1, matchId);
                 setMatchData(JSON.parse(localStorage.getItem(`match-${matchId}`)));
-                handleFirstInningWithDelay(matchId, "First Inning");
+                handleFirstInning(matchId);
             }, delay);
         }
         else {
@@ -106,11 +112,11 @@ function Match() {
             const remainingBreakDelay = Math.max(0, 20000 - elapsedBreakTime);
             inningsBreakTimeout.current = setTimeout(() => {
                 localStorage.removeItem(breakStartTimeKey);
-                handleSecondInningWithDelay(matchId, "Innings Break");
+                handleSecondInning(matchId);
             }, remainingBreakDelay);
         }
     }
-    function handleSecondInningWithDelay(matchId, currentStatus) {
+    function handleSecondInning(matchId) {
         const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
         const fixture = JSON.parse(localStorage.getItem("fixture"));
         fixture[matchId - 1].matchStatus = "Second Inning";
@@ -129,7 +135,7 @@ function Match() {
             secondInningTimeout.current = setTimeout(() => {
                 handleInning(2, matchId);
                 setMatchData(JSON.parse(localStorage.getItem(`match-${matchId}`)));
-                handleSecondInningWithDelay(matchId, "Second Inning");
+                handleSecondInning(matchId);
             }, delay);
         }
         else if (matchData.inning1.runs == matchData.inning2.runs) {
@@ -138,9 +144,18 @@ function Match() {
             localStorage.setItem("fixture", JSON.stringify(fixture));
             setMatchStatus("Second Innings Break");
             setMatchData(matchData);
-            setTimeout(() => {
+            const breakStartTimeKey = `secondInningsBreakStartTime-${matchId}`;
+            let breakStartTime = localStorage.getItem(breakStartTimeKey);
+            if (!breakStartTime) {
+                breakStartTime = Date.now().toString();
+                localStorage.setItem(breakStartTimeKey, breakStartTime);
+            }
+            const elapsedBreakTime = Date.now() - parseInt(breakStartTime, 10);
+            const remainingBreakDelay = Math.max(0, 20000 - elapsedBreakTime);
+            inningsBreakTimeout.current = setTimeout(() => {
+                localStorage.removeItem(breakStartTimeKey);
                 handleSuperOverFirstInning(matchId);
-            }, 20000);
+            }, remainingBreakDelay);
         }
         else {
             localStorage.removeItem(startTimeKey);
@@ -157,21 +172,40 @@ function Match() {
         fixture[matchId - 1].matchStatus = "Super Over First Inning";
         localStorage.setItem("fixture", JSON.stringify(fixture));
         setMatchStatus("Super Over First Inning");
+        const startTimeKey = `superOverFirstInningStartTime-${matchId}`;
+        let startTime = localStorage.getItem(startTimeKey);
+        if (!startTime) {
+            startTime = Date.now().toString();
+            localStorage.setItem(startTimeKey, startTime);
+        }
+        const elapsed = Date.now() - parseInt(startTime, 10);
+        const timeSinceLastBall = elapsed % 5000;
+        const delay = Math.max(0, 5000 - timeSinceLastBall);
         if ((matchData.superOverInning1.balls < 6) && (matchData.superOverInning1.wickets < 2)) {
-            setTimeout(() => {
-                handleSuperOverInning(1, matchId);
+            secondInningTimeout.current = setTimeout(() => {
+                handleSuperOverInning(2, matchId);
                 setMatchData(JSON.parse(localStorage.getItem(`match-${matchId}`)));
                 handleSuperOverFirstInning(matchId);
-            }, 5000);
+            }, delay);
         }
         else {
+            localStorage.removeItem(startTimeKey);
             fixture[matchId - 1].matchStatus = "Super Over Innings Break";
             localStorage.setItem("fixture", JSON.stringify(fixture));
             setMatchStatus("Super Over Innings Break");
             setMatchData(matchData);
-            setTimeout(() => {
+            const breakStartTimeKey = `superOverInningsBreakStartTime-${matchId}`;
+            let breakStartTime = localStorage.getItem(breakStartTimeKey);
+            if (!breakStartTime) {
+                breakStartTime = Date.now().toString();
+                localStorage.setItem(breakStartTimeKey, breakStartTime);
+            }
+            const elapsedBreakTime = Date.now() - parseInt(breakStartTime, 10);
+            const remainingBreakDelay = Math.max(0, 20000 - elapsedBreakTime);
+            inningsBreakTimeout.current = setTimeout(() => {
+                localStorage.removeItem(breakStartTimeKey);
                 handleSuperOverSecondInning(matchId);
-            }, 5000);
+            }, remainingBreakDelay);
         }
     }
     function handleSuperOverSecondInning(matchId) {
@@ -180,16 +214,27 @@ function Match() {
         fixture[matchId - 1].matchStatus = "Super Over Second Inning";
         localStorage.setItem("fixture", JSON.stringify(fixture));
         setMatchStatus("Super Over Second Inning");
+        const startTimeKey = `superOverSecondInningStartTime-${matchId}`;
+        let startTime = localStorage.getItem(startTimeKey);
+        if (!startTime) {
+            startTime = Date.now().toString();
+            localStorage.setItem(startTimeKey, startTime);
+        }
+        const elapsed = Date.now() - parseInt(startTime, 10);
+        const timeSinceLastBall = elapsed % 5000;
+        const delay = Math.max(0, 5000 - timeSinceLastBall);
         if ((matchData.superOverInning2.balls < 6) && (matchData.superOverInning2.wickets < 2) && (matchData.superOverInning1.runs >= matchData.superOverInning2.runs)) {
-            setTimeout(() => {
+            secondInningTimeout.current = setTimeout(() => {
                 handleSuperOverInning(2, matchId);
                 setMatchData(JSON.parse(localStorage.getItem(`match-${matchId}`)));
                 handleSuperOverSecondInning(matchId);
-            }, 5000);
+            }, delay);
         }
         else {
+            localStorage.removeItem(startTimeKey);
+            setMatchData(matchData);
             fixture[matchId - 1].matchStatus = "Completed";
-            localStorage.setItem(fixture, JSON.stringify(fixture));
+            localStorage.setItem("fixture", JSON.stringify(fixture));
             setMatchStatus("Completed");
             handleResult(matchId);
         }
