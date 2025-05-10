@@ -47,10 +47,10 @@ function Match() {
                 handleSecondInningWithDelay(matchId, matchStatus);
             }
             else if (matchStatus == "Super Over First Inning" || matchStatus == "Super Over Innings Break") {
-                handleSuperOverFirstInningWithDelay(matchId, matchStatus);
+                handleSuperOverFirstInning(matchId);
             }
             else if (matchStatus == "Super Over Second Inning") {
-                handleSuperOverSecondInningWithDelay(matchId, matchStatus);
+                handleSuperOverSecondInning(matchId);
             }
             return () => {
                 clearTimeout(firstInningTimeout.current);
