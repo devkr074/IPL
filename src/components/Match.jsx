@@ -19,10 +19,7 @@ function Match() {
     const [venues, setVenues] = useState();
     const firstInningTimeout = useRef(null);
     const secondInningTimeout = useRef(null);
-    const superOverFirstInningTimeout = useRef(null);
-    const superOverSecondInningTimeout = useRef(null);
     const inningsBreakTimeout = useRef(null);
-    const superOverInningsBreakTimeout = useRef(null);
     useEffect(() => {
         const fixture = JSON.parse(localStorage.getItem("fixture")) || [];
         const squad = JSON.parse(localStorage.getItem("squad"));
@@ -161,9 +158,9 @@ function Match() {
         localStorage.setItem("fixture", JSON.stringify(fixture));
         setMatchStatus("Super Over First Inning");
         if ((matchData.superOverInning1.balls < 6) && (matchData.superOverInning1.wickets < 2)) {
-            handleSuperOverInning(1, matchId);
             setTimeout(() => {
-                setMatchData(matchData);
+                handleSuperOverInning(1, matchId);
+                setMatchData(JSON.parse(localStorage.getItem(`match-${matchId}`)));
                 handleSuperOverFirstInning(matchId);
             }, 5000);
         }
@@ -184,9 +181,9 @@ function Match() {
         localStorage.setItem("fixture", JSON.stringify(fixture));
         setMatchStatus("Super Over Second Inning");
         if ((matchData.superOverInning2.balls < 6) && (matchData.superOverInning2.wickets < 2) && (matchData.superOverInning1.runs >= matchData.superOverInning2.runs)) {
-            handleSuperOverInning(2, matchId);
             setTimeout(() => {
-                setMatchData(matchData);
+                handleSuperOverInning(2, matchId);
+                setMatchData(JSON.parse(localStorage.getItem(`match-${matchId}`)));
                 handleSuperOverSecondInning(matchId);
             }, 5000);
         }
