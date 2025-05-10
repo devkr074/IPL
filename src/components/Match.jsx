@@ -154,7 +154,7 @@ function Match() {
             const remainingBreakDelay = Math.max(0, 20000 - elapsedBreakTime);
             superOverInningsBreakTimeout.current = setTimeout(() => {
                 localStorage.removeItem(breakStartTimeKey);
-                handleSuperOverFirstInningWithDelay(matchId, "Second Innings Break");
+                handleSuperOverFirstInning(matchId);
             }, remainingBreakDelay);
         }
         else {
@@ -166,31 +166,25 @@ function Match() {
             handleResult(matchId);
         }
     }
-    function handleSuperOverFirstInningWithDelay(matchId, currentStatus) {
+    function handleSuperOverFirstInning(matchId) {
         const matchData = JSON.parse(localStorage.getItem(`match-${matchId}`));
         const fixture = JSON.parse(localStorage.getItem("fixture"));
         fixture[matchId - 1].matchStatus = "Super Over First Inning";
         localStorage.setItem("fixture", JSON.stringify(fixture));
         setMatchStatus("Super Over First Inning");
-        if (!superOverFirstInningStartTime.current) {
-            superOverFirstInningStartTime.current = Date.now();
-        }
-        const elapsed = Date.now() - superOverFirstInningStartTime.current;
-        const remainingDelay = Math.max(0, 5000 - (elapsed % 5000));
         if ((matchData.superOverInning1.balls < 6) && (matchData.superOverInning1.wickets < 2)) {
-            superOverFirstInningTimeout.current = setTimeout(() => {
-                handleSuperOverInning(1, matchId);
-                setMatchData(JSON.parse(localStorage.getItem(`match-${matchId}`)));
-                handleSuperOverFirstInningWithDelay(matchId, "Super Over First Inning");
-            }, remainingDelay > 0 && currentStatus === "Super Over First Inning" ? remainingDelay : 5000);
+            handleSuperOverInning(1, matchId);
+            setTimeout(() => {
+                setMatchData(matchData);
+                handleSuperOverFirstInning(matchId);
+            }, 100);
         }
         else {
             fixture[matchId - 1].matchStatus = "Super Over Innings Break";
             localStorage.setItem("fixture", JSON.stringify(fixture));
             setMatchStatus("Super Over Innings Break");
             setMatchData(matchData);
-            superOverInningsBreakStartTime.current = Date.now();
-            superOverInningsBreakTimeout.current = setTimeout(() => {
+            setTimeout(() => {
                 handleSuperOverSecondInning(matchId);
             }, 5000);
         }
