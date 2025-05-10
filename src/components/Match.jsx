@@ -182,7 +182,7 @@ function Match() {
         const timeSinceLastBall = elapsed % 5000;
         const delay = Math.max(0, 5000 - timeSinceLastBall);
         if ((matchData.superOverInning1.balls < 6) && (matchData.superOverInning1.wickets < 2)) {
-            secondInningTimeout.current = setTimeout(() => {
+            superOverFirstInningTimeout.current = setTimeout(() => {
                 handleSuperOverInning(2, matchId);
                 setMatchData(JSON.parse(localStorage.getItem(`match-${matchId}`)));
                 handleSuperOverFirstInning(matchId);
@@ -202,7 +202,7 @@ function Match() {
             }
             const elapsedBreakTime = Date.now() - parseInt(breakStartTime, 10);
             const remainingBreakDelay = Math.max(0, 20000 - elapsedBreakTime);
-            inningsBreakTimeout.current = setTimeout(() => {
+            superOverInningsBreakTimeout.current = setTimeout(() => {
                 localStorage.removeItem(breakStartTimeKey);
                 handleSuperOverSecondInning(matchId);
             }, remainingBreakDelay);
@@ -224,7 +224,7 @@ function Match() {
         const timeSinceLastBall = elapsed % 5000;
         const delay = Math.max(0, 5000 - timeSinceLastBall);
         if ((matchData.superOverInning2.balls < 6) && (matchData.superOverInning2.wickets < 2) && (matchData.superOverInning1.runs >= matchData.superOverInning2.runs)) {
-            secondInningTimeout.current = setTimeout(() => {
+            superOverSecondInningTimeout.current = setTimeout(() => {
                 handleSuperOverInning(2, matchId);
                 setMatchData(JSON.parse(localStorage.getItem(`match-${matchId}`)));
                 handleSuperOverSecondInning(matchId);
