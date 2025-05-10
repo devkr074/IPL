@@ -144,18 +144,9 @@ function Match() {
             localStorage.setItem("fixture", JSON.stringify(fixture));
             setMatchStatus("Second Innings Break");
             setMatchData(matchData);
-            const breakStartTimeKey = `superOverInningsBreakStartTime-${matchId}`;
-            let breakStartTime = localStorage.getItem(breakStartTimeKey);
-            if (!breakStartTime) {
-                breakStartTime = Date.now().toString();
-                localStorage.setItem(breakStartTimeKey, breakStartTime);
-            }
-            const elapsedBreakTime = Date.now() - parseInt(breakStartTime, 10);
-            const remainingBreakDelay = Math.max(0, 20000 - elapsedBreakTime);
-            superOverInningsBreakTimeout.current = setTimeout(() => {
-                localStorage.removeItem(breakStartTimeKey);
+            setTimeout(() => {
                 handleSuperOverFirstInning(matchId);
-            }, remainingBreakDelay);
+            }, 20000);
         }
         else {
             localStorage.removeItem(startTimeKey);
@@ -177,7 +168,7 @@ function Match() {
             setTimeout(() => {
                 setMatchData(matchData);
                 handleSuperOverFirstInning(matchId);
-            }, 100);
+            }, 5000);
         }
         else {
             fixture[matchId - 1].matchStatus = "Super Over Innings Break";
@@ -186,7 +177,7 @@ function Match() {
             setMatchData(matchData);
             setTimeout(() => {
                 handleSuperOverSecondInning(matchId);
-            }, 5000);
+            }, 20000);
         }
     }
     function handleSuperOverSecondInning(matchId) {
@@ -200,7 +191,7 @@ function Match() {
             setTimeout(() => {
                 setMatchData(matchData);
                 handleSuperOverSecondInning(matchId);
-            }, 100);
+            }, 5000);
         }
         else {
             fixture[matchId - 1].matchStatus = "Completed";
