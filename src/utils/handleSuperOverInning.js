@@ -7,7 +7,7 @@ function handleSuperOverInning(inning, matchId) {
     const squad = JSON.parse(localStorage.getItem("squad")) || [];
     const bowler = squad[matchData[`superOverInning${inning}`].bowlerId - 1];
     const striker = squad[matchData[`superOverInning${inning}`].strikerId - 1];
-    const ballOutcome = handleBallOutcome(striker.roleId);
+    const ballOutcome = handleBallOutcome(100, 100, striker.roleId);
     switch (ballOutcome) {
         case 0:
             matchData[`superOverInning${inning}`].balls++;
