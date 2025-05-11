@@ -183,7 +183,7 @@ function Match() {
         const delay = Math.max(0, 5000 - timeSinceLastBall);
         if ((matchData.superOverInning1.balls < 6) && (matchData.superOverInning1.wickets < 2)) {
             superOverFirstInningTimeout.current = setTimeout(() => {
-                handleSuperOverInning(2, matchId);
+                handleSuperOverInning(1, matchId);
                 setMatchData(JSON.parse(localStorage.getItem(`match-${matchId}`)));
                 handleSuperOverFirstInning(matchId);
             }, delay);
