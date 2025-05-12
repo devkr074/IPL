@@ -87,8 +87,8 @@ function Match() {
             localStorage.setItem(startTimeKey, startTime);
         }
         const elapsed = Date.now() - parseInt(startTime, 10);
-        const timeSinceLastBall = elapsed % 5000;
-        const delay = Math.max(0, 5000 - timeSinceLastBall);
+        const timeSinceLastBall = elapsed % 1000;
+        const delay = Math.max(0, 1000 - timeSinceLastBall);
         if ((matchData.inning1.balls < 120) && (matchData.inning1.wickets < 10)) {
             firstInningTimeout.current = setTimeout(() => {
                 handleInning(1, matchId);
@@ -109,7 +109,7 @@ function Match() {
                 localStorage.setItem(breakStartTimeKey, breakStartTime);
             }
             const elapsedBreakTime = Date.now() - parseInt(breakStartTime, 10);
-            const remainingBreakDelay = Math.max(0, 20000 - elapsedBreakTime);
+            const remainingBreakDelay = Math.max(0, 1000 - elapsedBreakTime);
             inningsBreakTimeout.current = setTimeout(() => {
                 localStorage.removeItem(breakStartTimeKey);
                 handleSecondInning(matchId);
@@ -129,8 +129,8 @@ function Match() {
             localStorage.setItem(startTimeKey, startTime);
         }
         const elapsed = Date.now() - parseInt(startTime, 10);
-        const timeSinceLastBall = elapsed % 5000;
-        const delay = Math.max(0, 5000 - timeSinceLastBall);
+        const timeSinceLastBall = elapsed % 1000;
+        const delay = Math.max(0, 1000 - timeSinceLastBall);
         if ((matchData.inning2.balls < 120) && (matchData.inning2.wickets < 10) && (matchData.inning1.runs >= matchData.inning2.runs)) {
             secondInningTimeout.current = setTimeout(() => {
                 handleInning(2, matchId);
@@ -151,7 +151,7 @@ function Match() {
                 localStorage.setItem(breakStartTimeKey, breakStartTime);
             }
             const elapsedBreakTime = Date.now() - parseInt(breakStartTime, 10);
-            const remainingBreakDelay = Math.max(0, 20000 - elapsedBreakTime);
+            const remainingBreakDelay = Math.max(0, 1000 - elapsedBreakTime);
             inningsBreakTimeout.current = setTimeout(() => {
                 localStorage.removeItem(breakStartTimeKey);
                 handleSuperOverFirstInning(matchId);
@@ -179,8 +179,8 @@ function Match() {
             localStorage.setItem(startTimeKey, startTime);
         }
         const elapsed = Date.now() - parseInt(startTime, 10);
-        const timeSinceLastBall = elapsed % 5000;
-        const delay = Math.max(0, 5000 - timeSinceLastBall);
+        const timeSinceLastBall = elapsed % 1000;
+        const delay = Math.max(0, 1000 - timeSinceLastBall);
         if ((matchData.superOverInning1.balls < 6) && (matchData.superOverInning1.wickets < 2)) {
             superOverFirstInningTimeout.current = setTimeout(() => {
                 handleSuperOverInning(1, matchId);
@@ -201,7 +201,7 @@ function Match() {
                 localStorage.setItem(breakStartTimeKey, breakStartTime);
             }
             const elapsedBreakTime = Date.now() - parseInt(breakStartTime, 10);
-            const remainingBreakDelay = Math.max(0, 20000 - elapsedBreakTime);
+            const remainingBreakDelay = Math.max(0, 1000 - elapsedBreakTime);
             superOverInningsBreakTimeout.current = setTimeout(() => {
                 localStorage.removeItem(breakStartTimeKey);
                 handleSuperOverSecondInning(matchId);
@@ -221,8 +221,8 @@ function Match() {
             localStorage.setItem(startTimeKey, startTime);
         }
         const elapsed = Date.now() - parseInt(startTime, 10);
-        const timeSinceLastBall = elapsed % 5000;
-        const delay = Math.max(0, 5000 - timeSinceLastBall);
+        const timeSinceLastBall = elapsed % 1000;
+        const delay = Math.max(0, 1000 - timeSinceLastBall);
         if ((matchData.superOverInning2.balls < 6) && (matchData.superOverInning2.wickets < 2) && (matchData.superOverInning1.runs >= matchData.superOverInning2.runs)) {
             superOverSecondInningTimeout.current = setTimeout(() => {
                 handleSuperOverInning(2, matchId);
