@@ -1,7 +1,7 @@
 function handleBallOutcome(balls, inningBalls, roleId) {
     const outcomes = [];
     if (roleId == 1) {
-        if (inningBalls <= 96) {
+        if (inningBalls <= 90) {
             if (balls <= 10) {
                 outcomes.push(...Array(30).fill(0));
                 outcomes.push(...Array(30).fill(1));
@@ -9,10 +9,10 @@ function handleBallOutcome(balls, inningBalls, roleId) {
                 outcomes.push(...Array(3).fill(3));
                 outcomes.push(...Array(8).fill(4));
                 outcomes.push(...Array(1).fill(5));
-                outcomes.push(...Array(4).fill(6));
+                outcomes.push(...Array(6).fill(6));
                 outcomes.push(...Array(1).fill(7));
                 outcomes.push(...Array(1).fill(8));
-                outcomes.push(...Array(1).fill(9));
+                outcomes.push(...Array(0).fill(9));
                 outcomes.push(...Array(0).fill(10));
                 outcomes.push(...Array(2).fill(11));
                 outcomes.push(...Array(1).fill(12));
@@ -26,10 +26,10 @@ function handleBallOutcome(balls, inningBalls, roleId) {
                 outcomes.push(...Array(3).fill(3));
                 outcomes.push(...Array(12).fill(4));
                 outcomes.push(...Array(1).fill(5));
-                outcomes.push(...Array(6).fill(6));
+                outcomes.push(...Array(8).fill(6));
                 outcomes.push(...Array(1).fill(7));
                 outcomes.push(...Array(1).fill(8));
-                outcomes.push(...Array(1).fill(9));
+                outcomes.push(...Array(0).fill(9));
                 outcomes.push(...Array(0).fill(10));
                 outcomes.push(...Array(1).fill(11));
                 outcomes.push(...Array(1).fill(12));
@@ -44,7 +44,7 @@ function handleBallOutcome(balls, inningBalls, roleId) {
             outcomes.push(...Array(2).fill(3));
             outcomes.push(...Array(11).fill(4));
             outcomes.push(...Array(1).fill(5));
-            outcomes.push(...Array(7).fill(6));
+            outcomes.push(...Array(13).fill(6));
             outcomes.push(...Array(1).fill(7));
             outcomes.push(...Array(1).fill(8));
             outcomes.push(...Array(1).fill(9));
@@ -56,7 +56,7 @@ function handleBallOutcome(balls, inningBalls, roleId) {
         }
     }
     else if (roleId == 2) {
-        if (inningBalls <= 96) {
+        if (inningBalls <= 90) {
             if (balls <= 10) {
                 outcomes.push(...Array(28).fill(0));
                 outcomes.push(...Array(27).fill(1));
@@ -64,10 +64,10 @@ function handleBallOutcome(balls, inningBalls, roleId) {
                 outcomes.push(...Array(3).fill(3));
                 outcomes.push(...Array(8).fill(4));
                 outcomes.push(...Array(1).fill(5));
-                outcomes.push(...Array(5).fill(6));
+                outcomes.push(...Array(7).fill(6));
                 outcomes.push(...Array(1).fill(7));
                 outcomes.push(...Array(1).fill(8));
-                outcomes.push(...Array(1).fill(9));
+                outcomes.push(...Array(0).fill(9));
                 outcomes.push(...Array(0).fill(10));
                 outcomes.push(...Array(2).fill(11));
                 outcomes.push(...Array(1).fill(12));
@@ -81,10 +81,10 @@ function handleBallOutcome(balls, inningBalls, roleId) {
                 outcomes.push(...Array(4).fill(3));
                 outcomes.push(...Array(11).fill(4));
                 outcomes.push(...Array(1).fill(5));
-                outcomes.push(...Array(7).fill(6));
+                outcomes.push(...Array(10).fill(6));
                 outcomes.push(...Array(1).fill(7));
                 outcomes.push(...Array(1).fill(8));
-                outcomes.push(...Array(1).fill(9));
+                outcomes.push(...Array(0).fill(9));
                 outcomes.push(...Array(0).fill(10));
                 outcomes.push(...Array(2).fill(11));
                 outcomes.push(...Array(1).fill(12));
@@ -99,7 +99,7 @@ function handleBallOutcome(balls, inningBalls, roleId) {
             outcomes.push(...Array(4).fill(3));
             outcomes.push(...Array(11).fill(4));
             outcomes.push(...Array(1).fill(5));
-            outcomes.push(...Array(7).fill(6));
+            outcomes.push(...Array(15).fill(6));
             outcomes.push(...Array(1).fill(7));
             outcomes.push(...Array(1).fill(8));
             outcomes.push(...Array(1).fill(9));
@@ -111,7 +111,7 @@ function handleBallOutcome(balls, inningBalls, roleId) {
         }
     }
     else if (roleId == 3) {
-        if (inningBalls <= 96) {
+        if (inningBalls <= 90) {
             if (balls <= 10) {
                 outcomes.push(...Array(35).fill(0));
                 outcomes.push(...Array(12).fill(1));
