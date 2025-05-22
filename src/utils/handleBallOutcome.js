@@ -25,7 +25,7 @@ function handleBallOutcome(balls, inningBalls, roleId) {
                 outcomes.push(...Array(10).fill(2));
                 outcomes.push(...Array(3).fill(3));
                 outcomes.push(...Array(12).fill(4));
-                outcomes.push(...Array(1).fill(5));
+                outcomes.push(...Array(2).fill(5));
                 outcomes.push(...Array(8).fill(6));
                 outcomes.push(...Array(1).fill(7));
                 outcomes.push(...Array(1).fill(8));
@@ -43,7 +43,7 @@ function handleBallOutcome(balls, inningBalls, roleId) {
             outcomes.push(...Array(7).fill(2));
             outcomes.push(...Array(2).fill(3));
             outcomes.push(...Array(11).fill(4));
-            outcomes.push(...Array(1).fill(5));
+            outcomes.push(...Array(2).fill(5));
             outcomes.push(...Array(13).fill(6));
             outcomes.push(...Array(1).fill(7));
             outcomes.push(...Array(1).fill(8));
@@ -63,7 +63,7 @@ function handleBallOutcome(balls, inningBalls, roleId) {
                 outcomes.push(...Array(9).fill(2));
                 outcomes.push(...Array(3).fill(3));
                 outcomes.push(...Array(8).fill(4));
-                outcomes.push(...Array(1).fill(5));
+                outcomes.push(...Array(2).fill(5));
                 outcomes.push(...Array(7).fill(6));
                 outcomes.push(...Array(1).fill(7));
                 outcomes.push(...Array(1).fill(8));
@@ -80,7 +80,7 @@ function handleBallOutcome(balls, inningBalls, roleId) {
                 outcomes.push(...Array(10).fill(2));
                 outcomes.push(...Array(4).fill(3));
                 outcomes.push(...Array(11).fill(4));
-                outcomes.push(...Array(1).fill(5));
+                outcomes.push(...Array(2).fill(5));
                 outcomes.push(...Array(10).fill(6));
                 outcomes.push(...Array(1).fill(7));
                 outcomes.push(...Array(1).fill(8));
@@ -98,7 +98,7 @@ function handleBallOutcome(balls, inningBalls, roleId) {
             outcomes.push(...Array(10).fill(2));
             outcomes.push(...Array(4).fill(3));
             outcomes.push(...Array(11).fill(4));
-            outcomes.push(...Array(2).fill(5));
+            outcomes.push(...Array(3).fill(5));
             outcomes.push(...Array(15).fill(6));
             outcomes.push(...Array(1).fill(7));
             outcomes.push(...Array(1).fill(8));
@@ -118,7 +118,7 @@ function handleBallOutcome(balls, inningBalls, roleId) {
                 outcomes.push(...Array(4).fill(2));
                 outcomes.push(...Array(2).fill(3));
                 outcomes.push(...Array(1).fill(4));
-                outcomes.push(...Array(3).fill(5));
+                outcomes.push(...Array(5).fill(5));
                 outcomes.push(...Array(1).fill(6));
                 outcomes.push(...Array(1).fill(7));
                 outcomes.push(...Array(1).fill(8));
@@ -135,7 +135,7 @@ function handleBallOutcome(balls, inningBalls, roleId) {
                 outcomes.push(...Array(4).fill(2));
                 outcomes.push(...Array(2).fill(3));
                 outcomes.push(...Array(2).fill(4));
-                outcomes.push(...Array(3).fill(5));
+                outcomes.push(...Array(5).fill(5));
                 outcomes.push(...Array(1).fill(6));
                 outcomes.push(...Array(1).fill(7));
                 outcomes.push(...Array(1).fill(8));
@@ -153,7 +153,7 @@ function handleBallOutcome(balls, inningBalls, roleId) {
             outcomes.push(...Array(4).fill(2));
             outcomes.push(...Array(2).fill(3));
             outcomes.push(...Array(2).fill(4));
-            outcomes.push(...Array(3).fill(5));
+            outcomes.push(...Array(5).fill(5));
             outcomes.push(...Array(1).fill(6));
             outcomes.push(...Array(1).fill(7));
             outcomes.push(...Array(1).fill(8));
